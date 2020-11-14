@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporApoderado" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="24b7b16a-5472-4d5a-98f0-3da4c2c211ff">
+	<property name="ireport.zoom" value="2.143588810000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nombreApod" class="java.lang.String"/>
+	<field name="documentoIdentificacionApod" class="java.lang.String"/>
+	<field name="datosDeContacto" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="cantidadApoderados" class="java.lang.Integer"/>
+	<field name="numeroPoderApod" class="java.lang.String"/>
+	<field name="fechaExpiracionApod" class="java.lang.String"/>
+	<field name="tipoDocumentoApod" class="java.lang.String"/>
+	<field name="ciudadApod" class="java.lang.String"/>
+	<field name="generoApod" class="java.lang.String"/>
+	<title>
+		<band height="13" splitType="Stretch">
+			<rectangle>
+				<reportElement x="11" y="1" width="279" height="11" backcolor="#C0C0C0" uuid="0d120eb6-af4f-4aad-93cd-634f2052f9e0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="24" y="2" width="52" height="11" uuid="63f843f3-c512-4727-864b-06b3d0871038"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apoderados]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="2" width="27" height="9" uuid="c318f8a8-e275-4c3b-bb89-fc9c832b4502">
+					<printWhenExpression><![CDATA[new Boolean( $F{cantidadApoderados} > 0)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidadApoderados}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="89" y="2" width="29" height="9" uuid="f32fc681-7dd8-4118-884c-5253653b15cc">
+					<printWhenExpression><![CDATA[new Boolean( $F{cantidadApoderados} > 0)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="2" width="100" height="9" uuid="74327d4a-903e-459c-a668-20ed0c412bef">
+					<printWhenExpression><![CDATA[new Boolean( $F{cantidadApoderados} == 0)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tramite Unipersonal]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="146" splitType="Stretch">
+			<rectangle radius="5">
+				<reportElement x="161" y="101" width="132" height="14" uuid="a0dfb5e6-e6a7-43a2-bc96-fdf08512652d"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="22" y="101" width="132" height="14" uuid="3d64a73d-b8de-4ba7-9cf0-55c75b715240"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="22" y="73" width="132" height="14" uuid="2ce052da-63b0-4abe-bf4e-2e433e30db54"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="160" y="45" width="132" height="14" uuid="77f684a5-8f9e-427c-8d92-694b03f4d3e7"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="22" y="44" width="132" height="14" uuid="c464ec53-4347-4f16-9729-d30afafad57e"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="23" y="19" width="267" height="14" uuid="4df1535f-f0f7-4133-b006-28261f7fa573"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="28" y="21" width="260" height="11" uuid="88c73ef0-c7db-464a-a134-6240395f9253"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreApod}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="5">
+				<reportElement x="161" y="73" width="132" height="14" uuid="0156acab-10bc-45c9-a6dd-acd1bd95d07e"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="165" y="75" width="126" height="12" uuid="51f752f3-df02-4b46-b697-2d18dde75e86"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documentoIdentificacionApod}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="24" y="10" width="89" height="9" uuid="e05108a9-ca5e-486e-b45a-6acd2e4886e7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre del Apoderado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="63" width="116" height="10" uuid="0e9e4851-48e3-4c6a-8e56-aa90cae5a897"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Numero Identificacion]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="22" y="119" width="271" height="27" uuid="b9352569-6283-450d-b34b-718ecd24639e"/>
+				<dataSourceExpression><![CDATA[$F{datosDeContacto}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporDatosSolicitante.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="12" y="5" width="106" height="1" uuid="7ed8f213-fde7-4109-ba2b-eccf89957281"/>
+			</line>
+			<line>
+				<reportElement x="179" y="5" width="111" height="1" uuid="ddd91184-1ff3-4b33-bd09-0131326e150a"/>
+			</line>
+			<staticText>
+				<reportElement x="125" y="1" width="54" height="10" uuid="6806420d-3a67-4a7f-a151-db5c6c90d434"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apoderado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="63" width="89" height="9" uuid="3b10a793-a347-4ac0-bab7-9bc7ae4dd6fe"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tipo de Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="35" width="89" height="9" uuid="06267417-8f58-46be-81ca-ca344a64308f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Numero de Poder]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="35" width="89" height="9" uuid="389cb2d2-4155-47a3-aa47-0f0f97e0a4ad"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fecha Expiracion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="90" width="89" height="9" uuid="9f6287c8-cebb-46ab-ab14-d17023e0cb18"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Ciudad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="91" width="89" height="9" uuid="c3878be9-7d63-4704-9563-2e79ba53f2b4"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Genero]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="28" y="46" width="126" height="12" uuid="1fbd1580-d15a-4b0b-bc05-5ed0a0af4e28"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroPoderApod}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="166" y="46" width="123" height="13" uuid="6df56814-d5c4-4952-98de-d519a90b5ead"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaExpiracionApod}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="28" y="74" width="122" height="13" uuid="9958ab0b-cbc3-4b7c-ad5e-afa4ad226860"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoDocumentoApod}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="28" y="102" width="126" height="13" uuid="0755c61e-ba3c-4fa9-b10a-d932a11b2264"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ciudadApod}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="166" y="102" width="127" height="13" uuid="cc053637-0a5d-4b42-a8e0-2538c80c2458"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generoApod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

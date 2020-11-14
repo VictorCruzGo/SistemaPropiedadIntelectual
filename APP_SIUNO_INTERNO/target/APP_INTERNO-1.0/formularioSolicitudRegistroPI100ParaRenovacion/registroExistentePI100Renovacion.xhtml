@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+
+        <div id="componenteNavegacional">
+            <si.componentes:menuBotonesWizardSolicitudParaRenovacion numeroDeBotonActivado="6"/>
+        </div>
+
+        <div id="contenidoSolicitud">
+            <h:form id="form">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center">
+                    <p:panel id="panelCuatro" style="border-style: hidden">
+                        <p:panel style="width: 100%">
+                            <h:panelGrid columns="2" id="renovacionTramite">
+
+                                <p:outputLabel value="Registro:"/>
+                                <p:inputText value="#{registroExistentePI100Bean.registro.registro }" style="#{registroExistentePI100Bean.cambiaColorRegistro == true?'border-color: #C00':''}; width: 90%"/>
+
+                                <p:outputLabel value="Fecha Registro:"/>
+                                <p:calendar id="fechaRegistro" value="#{registroExistentePI100Bean.registro.fechaRegistro}" size="7" autocomplete="off" style="#{registroExistentePI100Bean.cambiaColorFechaRegistro == true?'border-color: #C00':''}; width: 90%" >
+                                </p:calendar>
+
+                                <p:outputLabel value="Numero Titulo:"/>
+                                <p:inputText value="#{registroExistentePI100Bean.registro.nroTitulo}" style="#{registroExistentePI100Bean.cambiaColorNroTitulo == true?'border-color: #C00':''}; width: 90%"/>
+
+                                <p:outputLabel value="Fecha Publicacion:"/>
+                                <p:calendar id="fechaPublicacion" value="#{registroExistentePI100Bean.publicacion.fechaPublicacionGaceta}" size="7" autocomplete="off" style="#{registroExistentePI100Bean.cambiaColorFechaPublicacion == true?'border-color: #C00':''}; width: 90%" >
+                                </p:calendar>
+                            </h:panelGrid>
+                                
+                            <div align="center" style="padding:0.5em 0em;">
+                                <p:toolbar style="width: 99%;">
+                                    <p:toolbarGroup align="left">  
+                                        <p:commandButton id="botonPanelCuatroAnterior"
+                                                         value="#{msgs.mensajeAnterior}"
+                                                         update="mensajeGeneral"
+                                                         image="ui-icon ui-icon-disk"
+                                                         action="#{registroExistentePI100Bean.volverAtras()}">
+                                        </p:commandButton>
+                                    </p:toolbarGroup>
+                                    <p:toolbarGroup align="right">  
+                                        <p:commandButton id="botonSolicitudPrioridadVerificaGuarda"
+                                                         value="Finalizar Renovacion"
+                                                         action="#{registroExistentePI100Bean.finalizarRegistroSolicitudPI100ParaRenovacion()}"
+                                                         update="mensajeGeneral,renovacionTramite"
+                                                         ajax="false">
+                                        </p:commandButton>
+                                    </p:toolbarGroup>  
+                                </p:toolbar>  
+                            </div>
+                        </p:panel>
+                    </p:panel>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>            

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporVentanillaSolicitantes" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="35a99b4f-a64d-4a18-994f-1b79c4025e68">
+	<property name="ireport.zoom" value="2.357947691000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nombreSolicitante" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="11">
+			<rectangle radius="0">
+				<reportElement x="1" y="0" width="532" height="7" backcolor="#C0C0C0" uuid="cd405a68-3637-445f-bc96-79c0d490aa67"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="0" width="219" height="9" uuid="aa7c6215-25a1-4d7e-9e75-db4fb6be493e"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[SOLICITANTE (S)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="10" y="2" width="523" height="14" uuid="6d7d4478-280e-434b-b56f-93eb14fc46a8"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="16" y="4" width="517" height="12" uuid="de92add2-410a-452e-b83b-9e84f509d574"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreSolicitante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

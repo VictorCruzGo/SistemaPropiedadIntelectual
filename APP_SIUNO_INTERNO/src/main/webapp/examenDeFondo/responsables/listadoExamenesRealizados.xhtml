@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="Listado Examenes Realizados"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <div align="center" style="padding:5.5em 5.5em">
+                    <div align="center" style="padding:5.5em 5.5em;box-shadow: 0 2px 2px #666666;border-radius: 8px 8px 8px 8px;width: 50%">   
+                        <h:outputText value="Tramite #{examenRealizadoExamenFondoTramiteBean.tramite.tramite}" style="font-size:12px;color:#045491 "/>
+                        <p:separator id="separador2" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                        <p:dataTable var="item" value="#{examenRealizadoExamenFondoTramiteBean.listaExamenes}">
+                            <p:column headerText="Nro" style="width: 5%">
+                                <p:outputLabel value="#{item.idRuta}" />
+
+
+                            </p:column>
+                            <p:column headerText="Examen Realizado" style="width: 25%">
+                                <p:outputLabel value="#{item.nombreRuta}" />    
+
+                            </p:column>
+
+                            <p:column headerText="Imprimir Examen" style="width: 25%">
+                                <p:commandButton 
+                                    id="idMenuExamenesRealizados"
+                                    icon="ui-icon-circle-check"
+                                    ajax="false"
+                                    action="#{examenRealizadoExamenFondoTramiteBean.imprimirExamen(item.imprimirTarea)}"
+                                    rendered="#{item.esTridimensional}"
+                                    />
+                            </p:column>
+                        </p:dataTable>
+                        <p:separator id="separador3" style="width: 0px ; border: 0px; height: 10px"></p:separator>   
+                       <div align="center">
+                        <p:commandButton 
+                            id="idBotonRetornar"
+                            icon="ui-icon-circle-check"
+                            value="Retornar bandeja"
+                            ajax="false"
+                            action="#{examenRealizadoExamenFondoTramiteBean.retornarBandejaResponsables()}"
+                            disabled=""
+                            />
+                    </div>
+                    </div>
+                   
+                </div>    
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

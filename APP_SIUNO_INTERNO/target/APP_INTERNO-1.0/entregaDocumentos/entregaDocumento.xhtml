@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <p:panel header="#{msgs.entregaDocumentosTitulo}" 
+                 style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelEntregaDocumentos">
+            <div align="center" >
+                <h:form id="formPick"><br></br><br></br>
+                    <h:panelGrid columns="2" id="panelEntre">
+                        <h:column>
+                            <p:fieldset legend="#{msgs.entregaDocumentosDocsAEntregar}" id="fieldPickList"
+                                        style="width: 50%"><br></br>
+                                <h:outputLabel value="#{msgs.entregaDocumentosDescripcion}" 
+                                               for="pickdoc" style="text-decoration-color: #666666;color: #666666"/>
+                                <br></br><br></br>
+                                <p:pickList 
+                                    id="pickdoc" 
+                                    var="pickdoc"
+                                    value="#{entregaDocumentosBean.documentos}" 
+                                    widgetVar="documentosPickList"
+                                    itemLabel="#{pickdoc.nombreArchivo}"
+                                    itemValue="#{pickdoc}" 
+                                    filterMatchMode="contains"
+                                    showSourceFilter="true"
+                                    showTargetFilter="true"
+                                    converter="documentoPickListConverter"
+                                    style="#{entregaDocumentosBean.cambiaBordePickList==true?'border-color: #C00':''}">
+                                    <f:facet  name="sourceCaption">
+                                        <h:outputText value="#{msgs.entregaDocumentosPickListSource}"/>
+                                    </f:facet>
+                                    <f:facet name="targetCaption">
+                                        <h:outputText value="#{msgs.entregaDocumentosPickListTarget}"/>
+                                    </f:facet>
+                                    <p:ajax event="transfer" listener="#{entregaDocumentosBean.onTransfer}"/>
+                                </p:pickList><br></br>
+                            </p:fieldset>
+                            <br></br><br></br>
+                        </h:column>
+                        <h:column>
+                            <p:growl id="msgs2" showDetail="true"></p:growl>
+                            <p:fieldset legend="#{msgs.entregaDocumentosInformacionContacto}"
+                                        style="width: 50%">
+                                <h:panelGrid columns="1"  id="display" style="text-align: left">
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="#{msgs.entregaDocumentosHoraFecha}" id="labelHoraFechaEntrega"/>  
+                                        <p:clock pattern="dd.MM.yyyy HH:mm:ss" mode="server" id="horaFechaEntrega"/>
+                                    </h:panelGrid><br></br>
+                                    <h:panelGrid columns="3">
+                                        <h:outputLabel value="#{msgs.entregaDocumentosEntregadoA}"/>  
+                                        <p:inputText id="entregadoA" size="40" value="#{entregaDocumentosBean.entregadoA}"
+                                                     style="#{entregaDocumentosBean.cambiaBordeCampoEntregadoA==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                    </h:panelGrid><br></br>
+                                    <h:panelGrid columns="5" id="combos">
+                                        <h:outputLabel value="#{msgs.entregaDocumentosTipoDocumento}"/>
+                                        <p:selectOneMenu id="selectTipoDocumento" 
+                                                         value="#{entregaDocumentosBean.selectTipoDocumento}"
+                                                         style="#{entregaDocumentosBean.cambiaBordeCampoTipoDocumento==true?'border-color: #C00':''}">
+                                            <f:selectItem itemLabel="#{msgs.entregaDocumentosTipoDocumento}" itemValue="#{null}" 
+                                                          noSelectionOption="true"></f:selectItem>
+                                            <f:selectItems value="#{entregaDocumentosBean.listadoTipoDocumento}" var="td" 
+                                                           itemLabel="#{td.nombre}" itemValue="#{td.codigo}" id="listaTipoDocumentos"></f:selectItems>
+                                            <f:ajax event="change" render="combos" 
+                                                    listener="#{entregaDocumentosBean.activaComboLugarExpedicion(e)}" />
+                                        </p:selectOneMenu>
+                                        <p:selectOneMenu id="lugarExp" 
+                                                         value="#{entregaDocumentosBean.lugarExpedicion}" rendered="#{entregaDocumentosBean.activaProcedencia}"
+                                                         style="#{entregaDocumentosBean.cambiaBordeCampoProcedencia==true?'border-color: #C00':''}">
+                                            <f:selectItem itemLabel="#{msgs.entregaDocumentosProcedencia}" itemValue="#{null}" 
+                                                          noSelectionOption="true"></f:selectItem>
+                                            <f:selectItems value="#{entregaDocumentosBean.clasificadorList}" var="exp" 
+                                                           itemLabel="#{exp.nombre}" itemValue="#{exp.codigo}" id="lugarExpedicion"></f:selectItems>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid><br></br>
+                                    <h:panelGrid columns="3">
+                                        <h:outputLabel for="numeroDocumento" value="#{msgs.entregaDocumentosNumeroDocumento}"/>  
+                                        <p:inputText id="numeroDocumento" size="30" value="#{entregaDocumentosBean.numeroDocumento}" 
+                                                     style="#{entregaDocumentosBean.cambiaBordeCampoNumeroDocumento==true?'border-color: #C00':''}"
+                                                     maxlength="15">
+                                        </p:inputText>
+                                    </h:panelGrid><br></br>
+                                    <h:panelGrid columns="2">   
+                                        <h:outputLabel value="#{msgs.entregaDocumentosObservaciones}"/>  
+                                        <p:inputTextarea rows="5" cols="30" maxlength="249" autoResize="true" 
+                                                         id="obervaciones" value="#{entregaDocumentosBean.obervaciones}"/>
+                                    </h:panelGrid><br></br>
+
+                                    <h:panelGrid columns="3" style="text-align: center" width="100%" id="panel" >   
+                                        <p:commandButton value="Guardar" id="guard" icon="ui-icon-disk" 
+                                                         action="#{entregaDocumentosBean.guardarEntrega()}" ajax="false"/>
+                                        
+                                        <p:commandLink actionListener="#{entregaDocumentosBean.imprimeReporteEntrega()}" target="_blank" ajax="false">
+                                              <p:commandButton value="Imprimir" icon="ui-icon-print" id="imprim"  disabled="#{entregaDocumentosBean.activaImprimir}" 
+                                                          
+                                                         />
+                                              <p:ajax event="click" listener="#{entregaDocumentosBean.cambiaValor()}" update=":formPick:panel"/>
+                                        </p:commandLink>
+                                        
+                                        <p:commandButton value="Finalizar" id="finaliz" icon="ui-icon-circle-triangle-e" 
+                                                         action="#{entregaDocumentosBean.finalizarEntrega()}" 
+                                                         disabled="#{entregaDocumentosBean.activaFinalizar}"
+                                                         />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:fieldset>
+                        </h:column>
+                    </h:panelGrid>
+                    <p:fieldset legend="Documentos entregados" style="width: 60%; padding-bottom: 20px;padding-top: 20px"
+                                rendered="false">
+                        <p:dataTable value="#{entregaDocumentosBean.entregaList}" var="dent" liveScroll="true" scrollRows="20">
+                            <p:column headerText="Documento" style="width: 10%;" filterBy="#{dent.documento.nombreArchivo}">
+                                <p:outputLabel value="#{dent.documento.nombreArchivo}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Tipo Documento" style="width: 6%" filterBy="#{dent.documento.tipoDocumentacion.nombre}">
+                                <p:outputLabel value="#{dent.documento.tipoDocumentacion.nombre}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Entregado a" style="width: 10%" filterBy="#{dent.recibidoPor}"> 
+                                <p:outputLabel value="#{dent.recibidoPor}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Fecha entrega" style="width: 13%" filterBy="#{dent.fechaEntrega}">
+                                <p:outputLabel value="#{dent.fechaEntrega}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Observaciones" style="width: 10%">
+                                <p:outputLabel value="#{dent.observacion}"></p:outputLabel>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset><br></br>
+                    <div align="center" style="padding:0.5em 0em;">
+                        <p:toolbar style="width: 99%;">
+                            <p:toolbarGroup align="left">
+                                <p:commandButton value="Volver a Bandeja" icon="ui-icon-arrowreturnthick-1-w"
+                                                 action="#{entregaDocumentosBean.irBandeja}" ajax="false">
+                                </p:commandButton>                            
+                            </p:toolbarGroup>  
+                        </p:toolbar>  
+                    </div>
+                </h:form>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+                </p:dialog>
+            </div>                
+        </p:panel>
+    </ui:define>
+</ui:composition>

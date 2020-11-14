@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporMensualResumen" language="groovy" pageWidth="612" pageHeight="792" columnWidth="542" leftMargin="50" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9fbfa02c-e5f4-4f2f-add7-d7d6b80e33b6">
+	<property name="ireport.zoom" value="2.8531167061100082"/>
+	<property name="ireport.x" value="881"/>
+	<property name="ireport.y" value="78"/>
+	<parameter name="imageSenapi" class="java.lang.Object"/>
+	<parameter name="totalTotales" class="java.lang.String"/>
+	<parameter name="UsuarioReporte" class="java.lang.String"/>
+	<parameter name="mesReporte" class="java.lang.String"/>
+	<field name="concepto" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.String"/>
+	<field name="total" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch">
+			<image>
+				<reportElement x="5" y="2" width="275" height="37" uuid="6e82f6f8-a8d2-4c9a-b9c5-5b91ce0f237c"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="42" width="203" height="10" forecolor="#000080" uuid="30a96e0e-fc24-4784-9700-e69d9fdcc6aa"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[SISTEMA DE PROPIEDAD INTELECTUAL (SIPI)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="401" y="9" width="154" height="9" uuid="aa6b4992-fc54-4b4d-8bee-873183dd2dc0"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE UNIDAD RECAUDADORA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="21" width="103" height="9" uuid="137208a0-749b-4ff8-a984-ccb4905d1f2d"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[RESUMEN POR CONCEPTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="82" width="146" height="13" uuid="56b79966-cdb6-4015-b6e8-bccbe216e6b9"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[RECAUDACIONES POR MES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="68" width="57" height="14" uuid="d15682e4-3f57-46ba-8777-fbc52304c36a"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[RESUMEN]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="403" y="32" width="136" height="26" uuid="feca55f9-e22f-42ed-9bf3-90ec8a39762d"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mesReporte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="10" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="0" width="540" height="10" backcolor="#C0C0C0" uuid="17e47cf3-1d19-486f-a575-bc18d21a11e6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="120" y="0" width="52" height="10" uuid="bcb83668-f852-49c3-ad46-57d744fd37af"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONCEPTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="0" width="53" height="10" uuid="8aca7d53-ebf4-4221-8f9f-d7a52c0049e3"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="507" y="0" width="32" height="10" uuid="a17b161c-1008-4e1d-a6da-98096f5c725e"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="120" y="0" width="228" height="11" uuid="395baeb1-f1fa-4354-9583-5e7be02ceae8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{concepto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="391" y="0" width="53" height="11" uuid="dbc9c391-c5f5-4c2e-b385-e80239ecee60"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="494" y="0" width="36" height="11" uuid="79097c0e-e5b5-4acf-9445-ecab5f8fc61e"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="445" y="1" width="43" height="20" forecolor="#000000" uuid="d1a15ada-2fa8-4945-a2d3-44d42f589d00"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{UsuarioReporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="495" y="0" width="26" height="20" forecolor="#000000" uuid="da0480a4-1c31-4d37-867b-c3fe12443e4e"/>
+				<textElement textAlignment="Right">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="416" y="1" width="29" height="20" forecolor="#000000" uuid="e20f2653-15a2-42b0-af3c-2d9f33ec51b6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="521" y="0" width="18" height="20" forecolor="#000000" uuid="64feac23-a804-4219-ad57-1b7466d0715d"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="376" y="5" width="84" height="11" uuid="43006390-cbec-43c0-a347-3d330bb40bcb"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL RECAUDADO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="480" y="1" width="17" height="1" uuid="6782760a-9f5c-469b-a129-23665e257adb"/>
+			</line>
+			<line>
+				<reportElement x="501" y="1" width="17" height="1" uuid="647eea4f-edf2-4cf3-86d8-ac75cfecf048"/>
+			</line>
+			<line>
+				<reportElement x="522" y="1" width="17" height="1" uuid="5bc02b1c-ed90-41dd-8c61-e67feb0cb1fa"/>
+			</line>
+			<line>
+				<reportElement x="458" y="1" width="17" height="1" uuid="5086cc63-40a5-4a89-86e3-374edda2ce39"/>
+			</line>
+			<line>
+				<reportElement x="434" y="1" width="17" height="1" uuid="81fc53fd-13d1-4724-8829-2ed2b7f66bac"/>
+			</line>
+			<line>
+				<reportElement x="406" y="1" width="17" height="1" uuid="5b9a3aae-8d64-4777-9785-54e3cb0dafc7"/>
+			</line>
+			<line>
+				<reportElement x="381" y="1" width="17" height="1" uuid="fc4df453-6344-44ae-a7a1-a698acde6fb5"/>
+			</line>
+			<textField>
+				<reportElement x="460" y="5" width="70" height="11" uuid="ab9e0bb4-ee43-450c-969b-bbd7e39b8816"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTotales}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

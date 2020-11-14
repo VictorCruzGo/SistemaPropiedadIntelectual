@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form>  
+            <p:panel header="Dosificacion" style="text-align: center;width: 99.5%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:dataTable id="listaDosificacionTasa" liveScroll="true" scrollRows="20"
+                                 var="dosificacionTasa" 
+                                 value="#{dosificacionBean.dosificacionTasasList}" 
+                                 scrollable="true" scrollHeight="100" resizableColumns="true"
+                                 style="margin-bottom:0;width: 70%">
+
+                        <f:facet name="header">
+                            Lista Dosificacion Por Tasa 
+                        </f:facet>
+                        <p:column headerText="Regional" width="30%" style="text-align:right">
+                            <h:outputText value="#{dosificacionTasa.regional.nombre}" />
+
+                        </p:column>
+                        <p:column headerText="Serie" width="30%" style="text-align:right">
+                            <h:outputText value="#{dosificacionTasa.serie}" />
+
+                        </p:column>
+                        <p:column headerText="" width="30%" style="text-align:right">
+                            <h:outputText value="#{dosificacionTasa.tasa.descripcion}" />
+
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:spacer height="20"/>
+                        </f:facet>
+
+                    </p:dataTable>   
+                </div>  
+
+                <div align="center" style="padding:1em 2.2em;">     
+                    <h:panelGrid columns="4" id="formularioDosificacion">
+                        <h:outputLabel value="Rango Inicio:"/>  
+                        <p:inputText id="rango_inicio" value="#{dosificacionBean.dosificacion.valorInicial}" style="#{dosificacionBean.cambiaColorCampoValorInicio ==true?'border-color: #C00':''}; width: 90%" onkeyup="return ValNumero(this);">
+                        </p:inputText>
+                        <h:outputLabel value="Rango Fin:"/>  
+                        <p:inputText id="rango_fin" value="#{dosificacionBean.dosificacion.valorFinal}" style="#{dosificacionBean.cambiaColorCampoValorFin ==true?'border-color: #C00':''}; width: 90%" onkeyup="return ValNumero(this);">
+                        </p:inputText>
+
+                    </h:panelGrid>
+                    <p:commandButton
+                        value="Generar"
+                        update="formularioDosificacion"
+                        action="#{dosificacionBean.guardaDosificacion()}"
+                        ajax="false"
+                        image="ui-icon ui-icon-disk"/>
+
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

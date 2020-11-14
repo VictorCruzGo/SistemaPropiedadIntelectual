@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporCaratulaPrePublicacion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c10afe23-7443-48e5-a13a-499b329b7473">
+	<property name="ireport.zoom" value="0.6209213230591555"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<title>
+		<band height="733" splitType="Stretch">
+			<staticText>
+				<reportElement x="132" y="264" width="362" height="36" uuid="398b04e5-31c5-462a-bcf9-aa7d6dd5a5dd"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOLETIN DE PUBLICACIONES]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="53" y="335" width="501" height="81" backcolor="#DEDEDE" uuid="f4e6bd21-f93f-434b-ae4e-55c84ace2207"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="69" y="346" width="471" height="54" uuid="2e9f580c-a731-4db2-819a-04bca09b34f1"/>
+				<textElement>
+					<font size="44"/>
+				</textElement>
+				<text><![CDATA[SIGNOS DISTINTIVOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="459" width="195" height="20" uuid="81341ee0-abe6-4c70-8dfc-b8cc58cc041d"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CORRESPONDIENTE A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="701" width="149" height="20" uuid="25f113e5-3a1a-4abf-9a99-4a03e3538745"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[LA PAZ - BOLIVIA]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi103_Signo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4b8802c2-2059-425a-b469-8e4935b66a51">
+	<property name="ireport.zoom" value="2.853116706110014"/>
+	<property name="ireport.x" value="622"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nombreSigno" class="java.lang.String"/>
+	<field name="tipoSigno" class="java.lang.String"/>
+	<field name="claseNiza" class="java.lang.String"/>
+	<field name="titular" class="java.lang.String"/>
+	<field name="domicilio" class="java.lang.String"/>
+	<field name="nroRegistro" class="java.lang.String"/>
+	<field name="sm" class="java.lang.String"/>
+	<field name="nroPublicacion" class="java.lang.String"/>
+	<field name="nroUltRenova" class="java.lang.String"/>
+	<title>
+		<band height="132" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="1" width="540" height="10" backcolor="#C0C0C0" uuid="b936ce46-6ef8-45ce-aa6f-a54511ce0c87"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="2" width="202" height="9" uuid="80eda516-1893-454a-b0e5-50c0faf84b5b"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[2. DATOS DEL SIGNO  REGISTRADO]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="11" y="67" width="530" height="11" uuid="a5dd068e-2354-4a57-ad40-707cdfaf86b8"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="11" y="57" width="137" height="7" uuid="0c791e01-299d-4313-aff9-574f9c1c1970"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.3 Signo Distintivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="82" width="137" height="7" uuid="a9ac1558-fdd1-4d9e-8722-387e2041e587"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.4 Tipo de Signo]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="11" y="91" width="170" height="11" uuid="41b65245-9dbc-4877-bade-a617a678f5b7"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="192" y="81" width="145" height="7" uuid="bde298c0-19c4-42bc-b7ce-ab4f1b9b6c07"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.5 Clasificación Internacional de Niza]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="192" y="91" width="170" height="11" uuid="4eed65c4-c1a7-491c-ad27-ab14b81b0b7e"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="376" y="82" width="170" height="7" uuid="08dbd9b3-e5d4-4eed-ae5e-90bc97c44daa"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.6 N° Número de Registro]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="373" y="91" width="170" height="11" uuid="56409354-471a-4d53-8f23-815be0e1b975"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="13" y="68" width="528" height="10" uuid="cec15c4e-2dc6-4bf3-97ec-a87e3f33bd5a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreSigno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="92" width="161" height="10" uuid="a5fdb92c-e780-45e5-a588-f070855270ba"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoSigno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="196" y="92" width="166" height="10" uuid="39df0b88-0940-47dc-b05b-dee54491b7f0"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{claseNiza}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="14" width="39" height="7" uuid="3d9d2b72-2d18-4de5-a1ed-21f41ce093de"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.1 Titular]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="10" y="22" width="531" height="11" uuid="0e5a8c0a-87f8-403b-bfdd-578891205bf0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="11" y="36" width="56" height="7" uuid="ead5871f-69ac-4212-94e4-a0f0accbbd8a"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.2 Domicilio]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="11" y="43" width="530" height="11" uuid="a11524d1-44aa-4860-a0b2-0ba2bfcc1324"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="11" y="104" width="170" height="7" uuid="03db8580-5783-4484-acf3-ed26b3439d38"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.7 SM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="105" width="170" height="7" uuid="8a56f076-716e-420f-b1a8-59444c7454e5"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.8 Número de Publicación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="106" width="170" height="7" uuid="f58ad1f5-255f-48d6-86f5-03716c3e085a"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2.9 Número Última Renovación]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="11" y="113" width="170" height="11" uuid="20e914f0-afd8-49c8-8600-4321310217a5"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="193" y="113" width="170" height="11" uuid="36499654-8e76-49ef-8a5c-72773a199d68"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="374" y="113" width="170" height="11" uuid="da89dd0d-3ad5-4038-91cd-b4567d9697ae"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="24" width="528" height="10" uuid="d7dc8bc3-b88c-40ad-ad1b-fd1d8aeef462"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titular}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="44" width="528" height="10" uuid="8433702a-b33a-4ce7-9060-2b8d9feb4e46"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{domicilio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="378" y="92" width="165" height="11" uuid="23c95e4f-abfb-454a-ae32-1e3288202287"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroRegistro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="14" y="113" width="168" height="14" uuid="f5452ce2-8d86-4e69-a7cc-40bda0119c3c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="198" y="115" width="164" height="10" uuid="4c6506d6-8094-4f43-ad51-0c537200055c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroPublicacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="377" y="114" width="166" height="11" uuid="5cdd16a9-a6b7-4837-be8e-6f112fb71a88"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroUltRenova}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

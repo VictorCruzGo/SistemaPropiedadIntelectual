@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporResolucion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="462" leftMargin="64" rightMargin="86" topMargin="62" bottomMargin="62" uuid="0c59e09e-552e-4769-a001-2bc6cd1a6fce">
+	<property name="ireport.zoom" value="1.2100000000000102"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="370"/>
+	<parameter name="fechaPresentacion" class="java.lang.String"/>
+	<parameter name="horaPresentacion" class="java.lang.String"/>
+	<parameter name="numeroPublicacion" class="java.lang.String"/>
+	<parameter name="numeroGaceta" class="java.lang.String"/>
+	<parameter name="fechaPublicacion" class="java.lang.String"/>
+	<parameter name="resolucion" class="java.lang.String"/>
+	<parameter name="fechaRegistro" class="java.lang.String"/>
+	<parameter name="registro" class="java.lang.String"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="tramite" class="java.lang.String"/>
+	<parameter name="generoSigno" class="java.lang.String"/>
+	<parameter name="cadenaExamen" class="java.lang.String"/>
+	<parameter name="nombreTipoGenero" class="java.lang.String"/>
+	<title>
+		<band height="626" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="4" y="0" width="457" height="626" uuid="8147a325-90d2-4dfa-bca1-fe50dc09ed82"/>
+			</rectangle>
+			<line>
+				<reportElement x="4" y="83" width="457" height="1" uuid="cf66e2d2-8a21-44b5-8db0-fc79c2a7b2fa"/>
+			</line>
+			<image>
+				<reportElement x="13" y="14" width="193" height="50" uuid="1057e840-41b3-4168-8d19-287d17a617f6"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="294" y="14" width="147" height="20" uuid="3d17f12b-b702-42c3-808c-45e07d997de9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="293" y="37" width="87" height="10" uuid="d3956d1f-4c2c-4f8a-887b-dd3d50bb2fb9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha de Presentación :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="46" width="86" height="10" uuid="9e8d55ff-4441-4971-9a9d-7138247f1cbb"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Hora de Presentación   :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="293" y="56" width="158" height="1" uuid="f2f3ae52-1675-4b3b-9d66-605410d8204c"/>
+			</line>
+			<staticText>
+				<reportElement x="306" y="57" width="75" height="8" uuid="49166ffc-30e7-47f1-9cce-e7b439cac2db"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[NRO DE PUBLICACION :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="65" width="57" height="8" uuid="ade8444b-d304-4983-91b0-8d92b1e26d28"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[NRO DE GACETA :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="75" width="84" height="10" uuid="ef4202c9-04a8-47cf-a93d-34b101894fac"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[FECHA DE PUBLICACION :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="146" y="99" width="184" height="18" uuid="dc426604-b47a-4fb7-83be-a74377c11e66"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[RESOLUCIÓN DE CONCESIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="134" width="64" height="12" uuid="b59a5b55-6f10-4f21-9767-ebe3b512d423"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Resolución N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="148" width="24" height="12" uuid="420809a6-cf05-4d50-a790-40368ef66d2d"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[LPZ_]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="185" width="169" height="12" uuid="321d2a2e-c204-4aaa-92e5-34f77b11a473"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1. EXAMEN DE REGISTRABILIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="264" width="169" height="12" uuid="27ffe378-bce4-4fdd-ad77-b51ed36959ee"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2. RESOLUCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="340" width="213" height="12" uuid="93768eea-3de1-44cf-8b94-1ad88f7180a9"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[OTÓRGUESE EL CERTIFICADO DE REGISTRO N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="370" width="241" height="12" uuid="8cd638c0-439f-4426-8c9d-72ec73ebe19f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Regístrese, comuníquese y archívese.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="394" width="241" height="12" uuid="1c44e789-427f-41f9-bfae-40f00cb09edc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Sea para fines consiguientes.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="422" width="241" height="12" uuid="c4761be1-f34a-49ba-92b8-5cb660e58e21"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Atentamente,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="165" y="503" width="147" height="14" uuid="d5dd7897-f8c2-4ac0-9935-e407ec3a8417"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Dr. Jorge Andrés Daza Guzman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="517" width="198" height="14" uuid="03446666-ff71-46da-b2f3-7e566f2539f9"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DIRECTOR DE PROPIEDAD INDUSTRIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="209" y="531" width="37" height="14" uuid="671c68b7-0f9f-4dee-a176-18327a4be409"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[SENAPI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="601" width="22" height="12" uuid="42ea32a8-d946-4a49-9bf9-6f304378507e"/>
+				<textElement>
+					<font size="6" pdfFontName="Helvetica-BoldOblique"/>
+				</textElement>
+				<text><![CDATA[/AT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="382" y="37" width="70" height="9" uuid="e01e8641-9926-436d-8276-ce508438a3ca"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaPresentacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="47" width="70" height="9" uuid="314ee49b-8fcb-4d4d-ab30-3de3c6be2695"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{horaPresentacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="57" width="69" height="8" uuid="07938bdb-0259-43ca-82bf-0fa97c2f981d"/>
+				<textElement>
+					<font size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroPublicacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="66" width="69" height="9" uuid="05c5a9de-e0bf-4067-b34a-129514084b91"/>
+				<textElement>
+					<font size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroGaceta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="76" width="69" height="7" uuid="d3fd9b8b-cff3-40c5-ac91-66998bb9dc6a"/>
+				<textElement>
+					<font size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaPublicacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="134" width="166" height="12" uuid="c437e7e1-e09f-44e6-8453-41c428aefe29"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{resolucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="148" width="196" height="12" uuid="726daec1-c027-44ae-a741-aaa410a6ce77"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaRegistro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="232" y="340" width="181" height="12" uuid="58259ed4-d642-4651-868f-aca0a6b27edc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{registro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="299" y="17" width="137" height="14" uuid="967582a8-4f47-4982-9a77-3aa3bee14f64"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tramite}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="13" y="287" width="438" height="25" uuid="e3ea1b52-5c46-4edb-9983-a68488302bcc"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{generoSigno}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="208" width="438" height="20" uuid="8f41173f-885d-4d21-9d25-8f73c411ab0b"/>
+				<textFieldExpression><![CDATA[$P{cadenaExamen}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="293" y="6" width="148" height="8" uuid="8a574ccb-a4a8-42e6-9727-16d001017e77"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreTipoGenero}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="#{msgs.mensajeFormularioTituloPanel}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <div align="center" style="padding:5.5em 5.5em">
+                    <div align="center" style="padding:5.5em 5.5em;box-shadow: 0 2px 8px #666666;border-radius: 8px 8px 8px 8px;width: 50%">   
+                        <h:outputText value="#{solicitudGeneralBean.tituloMenu}" style="font-size:16px;color:#045491 "/>
+                        <p:separator id="separador2" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                        <si.componentes:informacion dimension="100%" mensaje="#{solicitudGeneralBean.informacionMenu}"/>
+                        <p:separator style="width: 2px; border: 0px;height: 10px"></p:separator>
+                        <p:dataTable var="menu" value="#{solicitudGeneralBean.listaSubMenus}" >
+                            <p:column headerText="">                                
+                                <h:panelGrid id="mensajeImagenInfPadre" columns="2" style="width: 100%; border: hidden">
+                                    <p:link href="#{menu.rutaNavegacion}" 
+                                            value="#{menu.nombre}"
+                                            disabled="#{solicitudGeneralBean.desahabilitaLink(menu)}"/>                        
+                                    <h:outputText id="mensajeInf" value="#{msgs.mensajeFormularioCompleto}" style="font-size:9px;color:#04B404; border: hidden" rendered="#{solicitudGeneralBean.habilitaImagen(menu)}"/>
+                                </h:panelGrid>
+                            </p:column>   
+
+                        </p:dataTable>
+                        <div align="center" style="padding:2.1em 2.1em">
+                            <p:commandButton value="#{msgs.mensajeFormularioFinalizar}"
+                                             action="#{solicitudGeneralBean.siguienteVentanilla()}"
+                                             update="mensajeGeneral"
+                                             ajax="false"
+                                             rendered="#{solicitudGeneralBean.habilitaBotonFinalizar}"
+                                             image="ui-icon-disk">                     
+                            </p:commandButton>
+                            <p:commandButton
+                                value="#{msgs.mensajeFormularioRegresarBandeja}"
+                                ajax="false"
+                                rendered="#{!solicitudGeneralBean.habilitaBotonFinalizar}"
+                                action="#{solicitudGeneralBean.volverBandeja()}"
+                                icon="ui-icon-arrowreturnthick-1-w"
+                                />
+                            
+<!--                            <p:commandButton
+                                value="VER FUSION"
+                                ajax="false"
+                                
+                                action="formularioModificacionFusion"
+                                icon="ui-icon-arrowreturnthick-1-w"
+                                />-->
+                        </div>
+
+                    </div>
+                </div>    
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

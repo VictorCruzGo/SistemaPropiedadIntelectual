@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="Buscar Tramite"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+
+
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:0.5em 0.5em;">     
+
+                    <p:panel style="width: 100%" id="formularioBusquedaRegistro">
+                        <p:separator id="separador0" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                        <si.componentes:informacion id="mensa" dimension="30%"  mensaje="Escriba el Codigo SM que desea buscar"/>
+
+                        <h:panelGrid columns="4" >
+                            <p:panel id="panel" style="border-style: solid;width: 100%">
+                                <h:panelGrid columns="2" >
+                                    <h:outputLabel  value="SM" /> 
+                                    <p:inputText id="sm" value="#{buscarTramiteHistorialResponsableBean.codigoSM}" style="#{buscarTramiteHistorialResponsableBean.cambiaColorCampoSMTramite ==true?'border-color: #C00':''}; width: 90%" />
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:separator id="separador1" style="width: 50px ; border: 0px; height: 0px"></p:separator>
+                            <p:commandButton
+                                value="Buscar"
+                                action="#{buscarTramiteHistorialResponsableBean.buscarTramiteSM()}"
+                                ajax="false"
+                                icon="ui-icon-search"/>
+                            <p:commandButton
+                                value="Limpiar Formulario"
+                                icon="ui-icon-arrowrefresh-1-e">
+                                <p:ajax event="click" 
+                                        update=":form:formularioBusquedaRegistro :form:panelTramiteLista" 
+                                        listener="#{buscarTramiteHistorialResponsableBean.limpiaVariables()}" />
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                    </p:panel>
+
+                </div>
+
+                <div align="center" style="padding:0.5em 0.5em;">
+                    <p:panel id="panelTramiteLista" style="width: 100%" rendered="#{buscarTramiteHistorialResponsableBean.activaPanelesSiExisteTramite}">
+                        <h:panelGrid columns="2"  style="width: 40%">
+                            <p:graphicImage value="/resources/images/SiEncontrado2X2.png"/>
+                            <h:panelGrid columns="2" id="datosTramite" style="width: 80%">
+                                <p:outputLabel value="Tramite:" style="width: 10%"/>
+                                <p:inputText value="#{buscarTramiteHistorialResponsableBean.tramite.tramite}" style="width:100%"/>
+                                <p:outputLabel value="Codigo:" style="width: 10%"/>
+                                <p:inputText value="#{buscarTramiteHistorialResponsableBean.tramite.codigoDia}" style="width:100%"/>
+                                <p:outputLabel value="Tipo Tramite:" style="width: 10%"/>
+                                <p:inputText value="#{buscarTramiteHistorialResponsableBean.tramite.tipoTramite.descripcion}" style="width:100%"/>
+                                <p:outputLabel value="Expediente:" style="width: 10%"/>
+                                <p:inputText value="#{buscarTramiteHistorialResponsableBean.tramite.expediente.idExpediente}" style="width:100%"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <p:commandButton
+                            value="Historial tramite"
+                            action="#{buscarTramiteHistorialResponsableBean.verHistorialTramite()}"
+                            ajax="false"
+                            image="ui-icon-circle-arrow-e"/>
+                    </p:panel>
+
+                </div>
+
+
+
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

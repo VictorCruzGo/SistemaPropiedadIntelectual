@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes" >                
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="#{msgs.headerBuscador}" style="text-align: center;width: 100%; height: 100% ;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:0em 0em;">     
+
+                    <p:panel style="width: 100%">
+                        <p:separator id="separador0" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+                        <si.componentes:informacion id="mensa" dimension="70%"  mensaje="#{msgs.mensajeBusqueda}"/>
+                        <p:separator id="separador" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+                        <h:panelGrid columns="3" id="formularioBusquedaRegistro">
+
+
+                            <h:panelGrid columns="4" id="panelIzquierdp" style="border-style: ridge; border-color: #AED0EA; width: 105%;padding:0.5em 0.5em;">
+
+                                <p:panel id="panelDatos" style="border-style: solid;width: 95%">
+                                    <h:panelGrid columns="3" >
+                                        <h:outputLabel value="#{msgs.labelRegistro}" />  
+                                        <h:inputText size="10" id="nRegistro" value="#{modificacionBean.nroRegistro}" onkeyup="return ValNumero(this);" maxlength="10"
+                                                     style="#{modificacionBean.cambiaColorCampoNumeroRegistro ==true?'border-color: #C00':''}; " title ="Número de Registro"/>
+                                        <h:inputText size="4" id="serieRegistro" value="#{modificacionBean.serieRegistro}" maxlength="2" title ="Serie de Registro" onkeyup="return onlytext(this);"
+                                                     style="#{modificacionBean.cambiaColorCampoSerieRegistro ==true?'border-color: #C00':''}; text-transform: uppercase "/>
+                                    </h:panelGrid>   
+                                    <h:panelGrid columns="4" >
+                                        <h:outputLabel value="#{msgs.formModificacionNroResolucion}" />
+                                        <h:inputText size="10" id="nResolucion" value="#{modificacionBean.resolucion}" onkeyup="return ValNumero(this);" maxlength="10"
+                                                     style="#{modificacionBean.cambiaColorCampoResolucion ==true?'border-color: #C00':''};" title ="Número de Resulución"/>
+                                        <h:outputLabel value="#{msgs.formModificacionAnio}" />                                                       
+                                        <h:inputText size="6"  id="idAnio" value="#{modificacionBean.gestionResolucion}" onkeyup="return ValNumero(this);" maxlength="4"
+                                                     style="#{modificacionBean.cambiaColorCampoGestion ==true?'border-color: #C00':''}; " title ="Año de Resulución"/>
+                                        <!--                                    <p:calendar  id="fechaResolucion" value="# {modificacionBean.fechaResolucion}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="# {modificacionBean.cambiaColorCampoFechaRegistro ==true?'border-color: #C00':''}; width: 90%" />-->
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:separator id="separador1" style="width: 1px ; border: 0px; height: 0px"></p:separator>
+                                <p:panel id="panel" style="border-style: solid;width: 100%">
+                                    <h:outputLabel  value="#{msgs.formModificacionMensjOjoTramiteQueNoEstanEnCurso1}" style="font-weight: bold;color: #{modificacionBean.colorLabel}"/> 
+                                    <br />
+                                    <h:outputLabel  value="#{msgs.formModificacionMensjOjoTramiteQueNoEstanEnCurso2}" style="font-weight: bold;color: #{modificacionBean.colorLabel}"/> 
+                                    <div align="center">
+                                        <h:panelGrid columns="2" style="text-align: center; padding: 0.5em 0.5em 0.5em">
+                                            <h:outputLabel  value="SM" /> 
+
+                                            <h:inputText id="sm" value="#{modificacionBean.sm}"  style="#{modificacionBean.cambiaColorCampoSMTramite ==true?'border-color: #C00':''}; width: 80%; text-align: center;text-transform: uppercase" 
+                                                         title="SM. Ejem. SM-123456-2015 ó SM-000001-2015 ó SM-002816-2002-A" maxlength="20"/>
+                                            <!--                                            <p:inputMask id="sm" value="# {modificacionBean.sm}"  mask="a*-999999-9999"
+                                                                                                      style="# {modificacionBean.cambiaColorCampoSMTramite ==true?'border-color: #C00':''};width: 100%; border-radius: 0px 0px 0px"
+                                                                                                      maxlength="20"  title="SM. Ejem. SM-123456-2015 ó SM-000001-2015"/>  -->
+                                            <h:outputLabel value="  Ejem. SM-123456-2015"></h:outputLabel>                                           
+                                        </h:panelGrid>                                        
+                                    </div>
+                                    <h:outputLabel  value="Signo Distintivo:  " /> 
+                                    <br />
+                                    <h:inputText id="nombreSigno" value="#{modificacionBean.nombreSigno}"  style="#{modificacionBean.cambiaBordeCampoNombreSigno ==true?'border-color: #C00':''}; width: 98%; text-align: center;" 
+                                                 title="Nombre de la Marca o Signo Distintivo. Ejem: COCACOLA " maxlength="300"/>
+                                </p:panel>
+                                <p:separator id="separador2" style="width: 1px ; border: 0px; height: 0px"></p:separator>
+
+
+
+                                <h:panelGrid  style="text-align: center;border-style: hidden;width: 213%">
+                                    <p:separator id="separador9" style="width: 0px ; border: 0px; height: 0px"></p:separator>
+                                    <p:commandButton
+                                        value="#{msgs.labelBuscar}"
+                                        update="formularioBusquedaRegistro"
+                                        actionListener="#{modificacionBean.irBusqueda()}"
+                                        ajax="false"
+                                        icon="ui-icon-search"/>
+                                    <p:separator id="separador8" style="width: 0px ; border: 0px; height: 0px"></p:separator>
+                                    <p:commandButton
+                                        value="#{msgs.labelLimpiar}"
+                                        update="formularioBusquedaRegistro"
+                                        actionListener="#{modificacionBean.reset()}"
+                                        ajax="false"
+                                        icon="ui-icon-arrowrefresh-1-e"/>
+
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+
+                            <p:separator id="separador6" style="width: 45px ; border: 0px; height: 0px"></p:separator>
+
+                            <p:panel id="panelBoton" style="border-style: solid;width: 100%">
+                                <h:outputLabel value="#{msgs.formModificacionUtiliceElBuscador1}" style="font-weight: bold;color: #{modificacionBean.colorLabel}"/>
+                                <br />
+                                <h:outputLabel value="#{msgs.formModificacionUtiliceElBuscador2}" style="font-weight: bold;color: #{modificacionBean.colorLabel}"/>
+                                <br />
+                                <br />
+                                <div align="center">
+                                    <p:commandButton
+                                        value="#{msgs.formModificacionIngresarFormulario}"
+                                        action="#{modificacionBean.irModificacionTramiteNOEncontrado()}"
+                                        ajax="false"
+                                        icon="ui-icon-circle-arrow-e">
+                                    </p:commandButton> 
+                                </div>
+                            </p:panel>
+
+                        </h:panelGrid>
+
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:0em 0em;">
+                    <p:panel id="panelTramiteLista" style="width: 100%" rendered="#{modificacionBean.activaPanelesSiExisteTramite}">
+                        <h:panelGrid id="resultado" columns="2"  style="width: 50%">
+                            <p:graphicImage value="/resources/images/SiEncontrado2X2.png"/>
+                            <h:panelGrid columns="2" id="datosTramite" style="width: 80%">
+                                <p:outputLabel value="#{msgs.labelTramite}" style="width: 10%"/>
+                                <h:inputText value="#{modificacionBean.tramite.tramite}" style="width:100%; text-align: center" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelCodigo}" style="width: 10%"/>
+                                <h:inputText value="#{modificacionBean.tramite.codigoDia}" style="width:100%; text-align: center" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelTipo}" style="width: 10%"/>
+                                <h:inputText value="#{modificacionBean.tramite.tipoTramite.descripcion}" style="width:140%; text-align: center" disabled="true"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <!--                        <p:selectOneRadio id="tipoModificacionRadio" value="# {modificacionBean.tipoModificacion}"  layout="grid" columns="2">
+                        <f:selectItems value="# {modificacionBean.listaTipoModificacion}" var="h" itemLabel="# {h.descripcion}" itemValue="# {h.codigo}"/>
+                        </p:selectOneRadio>-->
+
+                        <!--                        <p:commandButton
+                                                    value="Ingresar VISTA GUS"
+                                                    action="# {modificacionBean.irModificaciones()}"
+                                                    ajax="false"
+                                                    icon="ui-icon-circle-arrow-e"/>-->
+                        <p:commandButton
+                            value="Ingresar"
+                            action="#{modificacionBean.irModificacionTramiteEncontrado()}"
+                            ajax="false"
+                            icon="ui-icon-circle-arrow-e"/>
+                    </p:panel>
+
+                    <p:panel id="panelMensaje" style="width: 100%" rendered="#{modificacionBean.activaPanelesNoExisteTramite}">
+                        <h:panelGrid id="mensaje" columns="2" >
+                            <p:graphicImage value="/resources/images/NoEncontrado2X2.png"/>
+                            <h:outputText value="#{msgs.labelNoEncontrado}" style="font-size:14px;" />
+                        </h:panelGrid>
+                        <div align="center" style="padding:0.5em 0.5em;">
+                            <!--                            <p:commandButton
+                                                            value="# {msgs.botonRegistrar}"
+                                                            
+                                                            ajax="false"
+                                                            icon="ui-icon-circle-arrow-e"/>-->
+                            <h:outputLabel value="Utilice esta opcion solo si, el buscador no encuentra su marca" style="color: #{modificacionBean.colorLabel}"/>
+                            <br />
+                            <br />
+                            <p:commandButton
+                                value="Ingresar Formulario"
+                                action="#{modificacionBean.irModificacionTramiteNOEncontrado()}"
+                                ajax="false"
+                                icon="ui-icon-circle-arrow-e">
+                            </p:commandButton>
+                            <!--                            <p:confirm header="Confirmacion de Ingreso" message="Utilice esta opcion solo si, el buscador no encuentra su marca. Confirma el ingreso" icon="ui-icon-alert"/>-->
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                <div align="center" >
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" ajax="true"/>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" ajax="true"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <div id="componenteNavegacional">
+         <si.componentes:menuBotonesWizardSolicitudParaRenovacion numeroDeBotonActivado="4"/>
+        </div>
+        <div id="contenidoSolicitud">
+            <h:form id="form">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center">
+                    <p:panel id="panelCuatro" style="border-style: hidden">
+                        <p:panel style="width: 100%">
+                            <div align="center" style="padding:1em 2.2em">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="#{msgs.prioridadEtiquetaPrioridad}"/>
+                                    <p:selectOneRadio id="tienePrioridad" value="#{prioridadesRegistroPI100RenovacionBean.activaPrioridad}">
+                                        <f:selectItem itemLabel="#{msgs.prioridaditemLabelSi}" itemValue="true" />
+                                        <f:selectItem itemLabel="#{msgs.prioridaditemLabelNo}" itemValue="false" />
+                                        <p:ajax update="panelCuatro, panelPrimeraPrioridad, botonSolicitudPrioridadVerificaGuarda , botonSolicitudPrioridadVerificaGuardaRadioButton" listener="#{prioridadesRegistroPI100RenovacionBean.limpiaDatosPrioridad(e)}"/>
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                            </div>    
+                            <h:panelGrid columns="1" id="panelPrimeraPrioridad">
+                                <p:panel id="panelPrioridad" rendered="#{prioridadesRegistroPI100RenovacionBean.activaPrioridad}">
+                                    <h:panelGrid columns="2" id="panelPrioridadCampos">
+                                        <h:outputLabel value="* #{msgs.prioridadtipoPrioridad}"/>
+                                        <p:selectOneMenu value="#{prioridadesRegistroPI100RenovacionBean.datosPrimerComboPrioridad}"  style="width:200px; #{prioridadesRegistroPI100RenovacionBean.tipoPrioridad==true?'border-color: #C00':''}">
+                                            <f:selectItem itemLabel="#{msgs.prioridadOneMenuSeleccionePrioridad} Prioridad" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{prioridadesRegistroPI100RenovacionBean.listaTipoProteccionPrioridad()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>
+                                        <p:outputLabel value="* #{msgs.prioridadNumeroCodigoPrioridad}"/>
+                                        <p:inputText value="#{prioridadesRegistroPI100RenovacionBean.smsolicitadoprioridad.numeroPrioridad}" size="20" maxlength="20" style="#{prioridadesRegistroPI100RenovacionBean.numeroCodigo==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:outputLabel value="* #{msgs.prioridadEntidadOficinaPrioridad}"/>
+                                        <p:inputText  value="#{prioridadesRegistroPI100RenovacionBean.smsolicitadoprioridad.oficinaPrioridad}" size="100" maxlength="100" style="#{prioridadesRegistroPI100RenovacionBean.entidadOtorga==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:outputLabel id="fecha" value="* #{msgs.prioridadFechaEmisionPrioridad}" />
+                                        <p:calendar id="mask" value="#{prioridadesRegistroPI100RenovacionBean.smsolicitadoprioridad.fechaEmision}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="#{prioridadesRegistroPI100RenovacionBean.fechaEmision==true?'border-color: #C00':''}"/>
+                                        <h:outputLabel value="* #{msgs.prioridadLugarPrioridad}"/>
+                                        <p:inputText value="#{prioridadesRegistroPI100RenovacionBean.smsolicitadoprioridad.lugar}" size="100" maxlength="90" style="#{prioridadesRegistroPI100RenovacionBean.lugarPrioridad==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.prioridadObservacionPrioridad}"/>
+                                        <p:inputTextarea value="#{prioridadesRegistroPI100RenovacionBean.smsolicitadoprioridad.observacion}" style="width: 400px" rows="3" cols="50" maxlength="250" />
+                                    </h:panelGrid>
+                                    <p:commandButton
+                                        value="#{prioridadesRegistroPI100RenovacionBean.nombreAccion}"
+                                        id="btnAdicinoPrioridad"
+                                        update="listadoSolicitadoPrioridad,panelPrioridad,panelPrioridadCampos,botonSolicitudPrioridadVerificaGuarda,mensajeGeneral"
+                                        action="#{prioridadesRegistroPI100RenovacionBean.adicionaDatosPrioridad()}"
+                                        image="ui-icon ui-icon-disk"/>
+                                    <p:dataTable id="listadoSolicitadoPrioridad"
+                                                 var="itemPrioridad" 
+                                                 value="#{prioridadesRegistroPI100RenovacionBean.listadoSolicitadoPrioridad}"
+                                                 rowKey="#{itemPrioridad.tipoProteccionPrioridad}"
+                                                 selectionMode="single"
+                                                 selection="#{prioridadesRegistroPI100RenovacionBean.seleccionadoPrioridad}"
+                                                 widgetVar="listaDatosDeContactoRepresentante"
+                                                 scrollable="true" scrollHeight="90" 
+                                                 resizableColumns="true"
+                                                 editable="true" 
+                                                 style="margin-bottom:20px"
+                                                 emptyMessage="#{msgs.prioridadListaDePrioridadesAdicionalesEstaVacia}.">
+                                        <f:facet name="header">
+                                            #{msgs.prioridadListaPrioridadesPrioridad}
+                                        </f:facet>
+
+                                        <p:ajax event="rowEdit" listener="#{prioridadesRegistroPI100RenovacionBean.onRowEdit}" />
+                                        <p:ajax event="rowEditCancel" listener="#{prioridadesRegistroPI100RenovacionBean.onRowCancel}" />
+                                        <p:column headerText="#{msgs.prioridadListaTipoPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.tipoProteccionPrioridad.descripcion}" style="width:8%" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <h:selectOneMenu value="#{prioridadesRegistroPI100RenovacionBean.datoSegundoCombo}" style="width:8%">
+                                                        <f:selectItems value="#{prioridadesRegistroPI100RenovacionBean.listaTipoProteccionPrioridad()}" var="pri" itemLabel="#{pri.descripcion}" itemValue="#{pri.codigo}" />
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaNumeroPrioridad}" style="width:8%">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.numeroPrioridad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="numeroPrioridad" value="#{itemPrioridad.numeroPrioridad}" style="width:8%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaEntidadOficinaPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.oficinaPrioridad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="oficinaPrioridad" value="#{itemPrioridad.oficinaPrioridad}" style="width:30%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaFechadeEmisionPrioridad}" style="width:10%">
+                                            <h:outputText value="#{itemPrioridad.fechaEmision}" >
+                                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaLugarPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.lugar}"  style="width:30%"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="lugarPrioridad" value="#{itemPrioridad.lugar}" style="width:30%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaObservacionesPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.observacion}"   style="width:60%"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="obsPrioridad" value="#{itemPrioridad.observacion}" style="width:60%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column  headerText="#{msgs.prioridadListadoModificarPrioridad}" style="text-align: center" width="5%">
+                                            <p:commandButton update=":form:panelPrimeraPrioridad" icon="ui-icon-pencil" title="Editar" action="#{prioridadesRegistroPI100RenovacionBean.modificaPrioridadAdicional()}" disabled="#{prioridadesRegistroPI100RenovacionBean.desactivaBotonModificarYEliminar}">
+                                                <f:setPropertyActionListener value="#{itemPrioridad}" target="#{prioridadesRegistroPI100RenovacionBean.seleccionadoPrioridad}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListadoEliminarPrioridad}" style="text-align: center" width="5%">
+                                            <p:commandButton update=":form:listadoSolicitadoPrioridad" icon="ui-icon-trash" action="#{prioridadesRegistroPI100RenovacionBean.eliminaSeleccionadoPrioridad()}" disabled="#{prioridadesRegistroPI100RenovacionBean.desactivaBotonModificarYEliminar}">
+                                                <f:setPropertyActionListener value="#{itemPrioridad}" target="#{prioridadesRegistroPI100RenovacionBean.seleccionadoPrioridad}" />
+                                                <p:confirm header="#{msgs.prioridadConfirmacionEliminarPrioridad}" message="#{msgs.prioridadmensajeConfirmarEliminarRegistro}" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode">
+                                        <p:commandButton value="#{msgs.prioridadListadoSiPrioridad}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{msgs.prioridadListadoNoPrioridad}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:panel>
+                            </h:panelGrid>
+                            <div align="center" style="padding:0.5em 0em;">
+                                <p:toolbar style="width: 99%;">
+                                    <p:toolbarGroup align="left">  
+                                        <p:commandButton id="botonPanelCuatroAnterior"
+                                                         value="#{msgs.mensajeAnterior}"
+                                                         update="mensajeGeneral"
+                                                         image="ui-icon ui-icon-disk"
+                                                         action="#{prioridadesRegistroPI100RenovacionBean.volverSolicitudSignoDistintivo()}">
+                                        </p:commandButton>
+                                    </p:toolbarGroup>
+
+                                    <p:toolbarGroup align="right">  
+                                        <p:commandButton id="botonSolicitudPrioridadVerificaGuarda"
+                                                         value="#{msgs.solicitanteGuardarYSiguiente}"
+                                                         action="#{prioridadesRegistroPI100RenovacionBean.guardaCuartaParteRenovacion()}"
+                                                         update="mensajeGeneral"
+                                                         rendered="#{prioridadesRegistroPI100RenovacionBean.activaPrioridad}"
+                                                         disabled="#{prioridadesRegistroPI100RenovacionBean.desactivaBotonModificarYEliminar}"
+                                                         ajax="false">
+                                        </p:commandButton>
+                                        <p:commandButton id="botonSolicitudPrioridadVerificaGuardaRadioButton"
+                                                         value="#{msgs.solicitanteGuardarYSiguiente}"
+                                                         action="#{prioridadesRegistroPI100RenovacionBean.guardaCuartaParteRadioButtonRenovacion()}"
+                                                         update="mensajeGeneral"
+                                                         rendered="#{!prioridadesRegistroPI100RenovacionBean.activaPrioridad}"
+                                                         ajax="false"
+                                                         image="ui-icon ui-icon-disk">
+                                        </p:commandButton>
+                                    </p:toolbarGroup>  
+                                </p:toolbar>  
+                            </div>
+                        </p:panel>
+                    </p:panel>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>            

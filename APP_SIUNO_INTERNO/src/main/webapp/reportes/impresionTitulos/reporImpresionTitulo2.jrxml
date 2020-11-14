@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporImpresionTitulo2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="491" leftMargin="121" rightMargin="0" topMargin="240" bottomMargin="0" uuid="9979b37c-c1ac-4583-bb44-b0535d9e4d91">
+	<property name="ireport.zoom" value="2.1435888100000087"/>
+	<property name="ireport.x" value="132"/>
+	<property name="ireport.y" value="607"/>
+	<parameter name="signo" class="java.lang.String"/>
+	<parameter name="tipoSigno" class="java.lang.String"/>
+	<parameter name="generoSigno" class="java.lang.String"/>
+	<parameter name="clasesNiza" class="java.lang.String"/>
+	<parameter name="registro" class="java.lang.String"/>
+	<parameter name="resolucion" class="java.lang.String"/>
+	<parameter name="titular" class="java.lang.String"/>
+	<parameter name="fechaRegistro" class="java.lang.String"/>
+	<parameter name="foto" class="java.lang.Object"/>
+	<title>
+		<band height="281" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="204" width="23" height="10" uuid="c8106123-91c8-44ed-9c04-0a2045302ebd"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TIPO                    ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="216" width="35" height="10" uuid="e8272f7d-f80a-44b4-9ef1-283a21dc0ff5"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLASE                 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="228" width="58" height="10" uuid="d4893344-947c-4fb1-a6d6-b9449d18be30"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REGISTRO N°      ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="240" width="68" height="10" uuid="5ba01dc6-3f92-47bd-a048-a6ebc6cff360"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[RESOLUCION N° ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="263" width="35" height="10" uuid="d4064761-3825-40fe-bfdc-857be41e41c1"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FECHA                ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="113" y="1" width="133" height="133" uuid="eafec39d-682f-46ea-b7a1-50e3a8af82c9"/>
+				<imageExpression><![CDATA[$P{foto}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="67" y="240" width="5" height="10" uuid="3d858cf1-fbb0-46f4-82f7-639fc3976941"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="67" y="262" width="5" height="10" uuid="cace728a-1c88-4283-83c6-081996ec7020"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="228" width="5" height="10" uuid="4c88be95-c7a6-4d8d-8077-7818f9494064"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="215" width="5" height="10" uuid="b33691f3-c69b-4651-81ea-2a5235874c4d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="203" width="5" height="10" uuid="4b29118d-d6ee-44af-8f27-b3a58ecd7dbe"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="75" y="203" width="388" height="11" uuid="f50f9b6c-27e0-43f7-8602-adc71a13d703"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{generoSigno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="216" width="388" height="10" uuid="190b41bf-a589-46f2-9339-c3a3f03aee0b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{clasesNiza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="228" width="388" height="10" uuid="1bddb9ec-820c-45ff-8eeb-48aa1ecb69af"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{registro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="241" width="388" height="10" uuid="46ccad38-609d-4c80-a06c-8a901c64ef5d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{resolucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="75" y="263" width="386" height="10" uuid="94e0abfc-a178-498d-8f46-d93ba96ed2c1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaRegistro}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="0" y="251" width="463" height="12" uuid="8e6d6bb8-5009-4cd2-86ab-3c8c4d8a36c6"/>
+				<staticText>
+					<reportElement x="1" y="1" width="58" height="10" uuid="40bff7fa-e67d-4b8f-914c-322a243e91e0"/>
+					<textElement>
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[TITULAR (ES)             ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="67" y="1" width="5" height="10" uuid="359eb0b9-d777-4dfb-9f2e-bfe4d609e781"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="76" y="1" width="387" height="11" uuid="79325798-9ed7-4275-acaa-7c16b40cfcfc"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{titular}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="0" y="146" width="367" height="11" uuid="9bcd2dd5-1805-409a-89d3-d941628f1639"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tipoSigno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="135" width="365" height="11" uuid="4c4fbd05-4681-4b4a-a7d5-d722209b9e45"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{signo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

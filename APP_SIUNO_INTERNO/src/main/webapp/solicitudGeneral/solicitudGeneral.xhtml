@@ -1,0 +1,2035 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel  id="panelGeneral" style="width: 98%; text-align: center; size: 100px; font-size: 100px " header="#{msgs.tituloformularioPI100}" />
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:fieldset id="panelToggleable" legend="#{msgs.solicitanteFieldSet}" 
+                        toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <h:panelGrid  columns="10" cellpadding="5" style="border-style: hidden" id="tipoSolicitanteVista">
+                    <div align="left">
+                        <h:outputLabel value="#{msgs.solicitanteTipoSolicitante}"/>
+                        <h:selectOneMenu id="comboTipoSolicitante" value="#{registroGeneralBean.tipoSolicitante}" style="text-align:left" 
+                                         title="OBLIGATORIO. Escoja un tipo de Solicitante o Titular" disabled="#{registroGeneralBean.desabilitaTipoSolicitanteCarga}">
+                            <f:selectItems value="#{registroGeneralBean.listadoTipoSolicitantedPersonaSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                            <p:ajax event="change" 
+                                    update="btnBuscaPersonaEmpresa :form:panelGridDocumentos panelGridJuridico" 
+                                    listener="#{registroGeneralBean.activaCamposNaturalJuridicoAction(e)}" />        
+                        </h:selectOneMenu> 
+                    </div>
+                    <p:separator id="separador" style="width: #{registroGeneralBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                    <h:panelGrid  id="btnBuscaPersonaEmpresa" columns="5" cellpadding="5">
+                        <p:commandButton id="buscaEmpresaConMismoCi" type="button" value="Lista de Personas con mismo CI" 
+                                         update=":form2:listaPeronasCi" onclick="PF('BuscaPersonaMismoCi').show()" icon="ui-icon-arrowthickstop-1-s"
+                                         rendered="#{registroGeneralBean.habilitaBotonCargarListaPersonas}"/>
+                        <p:commandButton id="buscaPersonaConMismoCi" type="button" value="Lista de Empresas con mismo NIT"
+                                         onclick="PF('BuscaEmpresaMismoNit').show()" icon="ui-icon-arrowthickslistadoTipoSolicitantedPersonaSDtop-1-s"
+                                         update=":form2:listadoEmpresasCI"
+                                         rendered="#{registroGeneralBean.habilitaBotonCargarListaEmpresas}"/>
+                        <!--                        <h:commandButton id="limpiaFormulario"  
+                                                                 value="#    {msgs.solicitanteLimpiaFormulario}" 
+                                                                 disabled="# {registroGeneralBean.desabilitaTipoSolicitanteCarga}">
+                                                    <f:ajax execute="@this" render=":form:panelGridDocumentos" event="click" listener="# {registroGeneralBean.limpiaFormularioPersonaEmpresa(event)}" />
+                                                </h:commandButton>-->
+                    </h:panelGrid>    
+                </h:panelGrid>
+                <h:panelGrid columns="1" id="panelGridDocumentos">
+                    <h:panelGrid columns="6" id="formularioDatosPersonaEmpresa">
+                        <h:panelGrid columns="3" id="FormularioNroDocumento">
+                            <h:outputLabel value="*" style="color: #C00"/>
+                            <h:outputLabel value="#{msgs.solicitanteNroDocumento}"/>  
+                            <h:inputText id="nroDocumento" 
+                                         style="#{registroGeneralBean.cambiaBordeCampoNumeroDocumento==true?'border-color: #C00':' '};" 
+                                         value="#{registroGeneralBean.numeroDocumento}"
+                                         size="20" maxlength="25" autocomplete="off"
+                                         title="OBLIGATORIO. Número del documento de identidad del Solicitante o Titular, en caso de no contar con el dato, colocar valor 0.">
+                            </h:inputText>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2"  id="formularioPersonaEmpresa">
+                            <h:panelGrid columns="3" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.solicitanteTipoDocumento}"/>  
+                                <h:selectOneMenu id="tipoDocumento" 
+                                                 value="#{registroGeneralBean.tipoDocumentoIdentidad}" 
+                                                 style="#{registroGeneralBean.cambiaBordeCampoTipoDocumento==true?'border-color: #C00':' '}"
+                                                 title="OBLIGATORIO. Tipo de documento de identidad del Solicitante o Titular, en caso de no contar con el dato, colocar valor Otro.">  
+                                    <f:selectItem   id="Documento" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{registroGeneralBean.listadoTipoDocumentoIdentidadPorTipoSolicitante}" 
+                                                   var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    <f:ajax event="change" render="formularioPersonaEmpresa" listener="#{registroGeneralBean.activaComboLugarExpedicion(e)}" />
+                                    <!--                                    <p:ajax event="change" update="formularioPersonaEmpresa" listener="# {registroGeneralBean.activaComboLugarExpedicion(e)}" />-->
+                                </h:selectOneMenu>
+                            </h:panelGrid> 
+                            <h:panelGrid columns="3" style="text-align: left" rendered="#{registroGeneralBean.campoLugarExpedicionRendered}">
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                <h:selectOneMenu id="lugar" value="#{registroGeneralBean.lugarExpedicion}"
+                                                 rendered="#{registroGeneralBean.campoLugarExpedicionRendered}"
+                                                 style="#{registroGeneralBean.cambiaBordeCampoLugarExpedicion==true?'border-color: #C00':' '}"
+                                                 title="OBLIGATORIO. Seleccione el Lugar de Expedicion del documento de Identidad.">
+                                    <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroGeneralBean.listadoCiudadClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                </h:selectOneMenu>
+                            </h:panelGrid> 
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="panelGridJuridico">
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"
+                                           rendered="#{registroGeneralBean.campoRazonSocialRendered}"/>  
+                            <h:outputLabel value="#{msgs.solicitanteRazonSocial}" rendered="#{registroGeneralBean.campoRazonSocialRendered}"/>
+                        </h:panelGrid> 
+                        <h:inputText id="razonSocial" style="#{registroGeneralBean.cambiaBordeCampoRazonSocial==true?'border-color: #C00':' '};"
+                                     rendered="#{registroGeneralBean.campoRazonSocialRendered}"
+                                     value="#{registroGeneralBean.empresa.nombreRepresentante}" size="70" maxlength="150"  
+                                     autocomplete="off" 
+                                     title="OBLIGATORIO. Nombre o Razon Social del Solicitante o Titular. (Número máximo de caracteres: 150)"/>                                                                                    
+                    </h:panelGrid>
+                    <h:panelGrid columns="7" id="panelNatural">
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"
+                                           rendered="#{registroGeneralBean.campoNombreRendered}"/>  
+                            <h:outputLabel value="#{msgs.solicitanteNombre}" rendered="#{registroGeneralBean.campoNombreRendered}"/>
+                        </h:panelGrid> 
+                        <h:inputText id="nombre" style="#{registroGeneralBean.cambiaBordeCampoNombre==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.persona.nombres}" 
+                                     rendered="#{registroGeneralBean.campoNombreRendered}"
+                                     size="42" maxlength="50" autocomplete="off"
+                                     title="OBLIGATORIO. Nombre(s) del Solicitante o Titular. (Número máximo de caracteres: 150)"/>
+                        <h:outputLabel value="*" 
+                                       style="color: #C00"
+                                       rendered="#{registroGeneralBean.campoApellidoPaternoRendered}"/>  
+                        <h:outputLabel value="#{msgs.solicitanteApellidoPaterno}" rendered="#{registroGeneralBean.campoApellidoPaternoRendered}"/>
+                        <h:inputText id="apellidoPaterno" style="#{registroGeneralBean.cambiaBordeCampoApellidoPaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.persona.apellidoPaterno}" 
+                                     rendered="#{registroGeneralBean.campoApellidoPaternoRendered}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OBLIGATORIO. Primer Apellido del Solicitante o Titular. (Número máximo de caracteres: 150)"/>
+                        <h:outputLabel value="#{msgs.solicitanteApellidoMaterno}" rendered="#{registroGeneralBean.campoApellidoMaternoRendered}"/>
+                        <h:inputText id="apellidoMaterno" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.persona.apellidoMaterno}" 
+                                     rendered="#{registroGeneralBean.campoApellidoMaternoRendered}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Segundo Apellido del Solicitante o Titular. (Número máximo de caracteres: 150)"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" style="width: 50%" id="paisGenero">
+                        <h:panelGrid columns="3">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.solicitantePais}"/>
+                            <h:selectOneMenu id="pais" value="#{registroGeneralBean.paisNacionalidad}" 
+                                             style="#{registroGeneralBean.cambiaBordeCampoPais==true?'border-color: #C00':' '};"
+                                             title="OBLIGATORIO. País de origen del Solicitante o Titular.">
+                                <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{registroGeneralBean.listadoPaisesClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                            </h:selectOneMenu> 
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" id="GeneroPersona">
+                            <h:outputLabel value="#{msgs.solicitanteGenero}" rendered="#{registroGeneralBean.campoGeneroRendered}"/>
+                            <h:selectOneRadio id="genero" value="#{registroGeneralBean.genero}" 
+                                              rendered="#{registroGeneralBean.campoGeneroRendered}"
+                                              title="OBLIGATORIO: Seleccione su género.">
+                                <f:selectItems value="#{registroGeneralBean.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                            </h:selectOneRadio>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" style="text-align: left">
+                        <h:outputLabel value="*" 
+                                       style="color: #C00"/>  
+                        <h:outputLabel value="#{msgs.solicitanteDatosContacto}" style="color: #{registroGeneralBean.colorLabel}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3" id="domicilio">
+                        <h:outputLabel value="*" 
+                                       style="color: #C00"/>
+                        <h:outputLabel value="#{msgs.lmComercialDomicilio}"/>
+                        <h:inputText id="direccionUno" style="#{registroGeneralBean.cambiaBordeCampoDomicilio==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.domicilio}"
+                                     size="140" maxlength="120" autocomplete="off"
+                                     title="OBLIGATORIO. Dirección domiciliaria del Solicitante o Titular. (Número máximo de caracteres: 200)"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="6" id="panelDatosContacto">
+                        <h:outputLabel value="#{msgs.lmComercialTelefonoUno}"/>
+                        <h:inputText id="telUno" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.telefonoUno}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) telefónico(s) del Solicitante o Titular."/>
+                        <h:outputLabel value="#{msgs.lmComercialTelefonoDos}" />
+                        <h:inputText id="telDos" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.telefonoDos}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) telefónico(s) del Solicitante o Titular."/>
+                        <h:outputLabel value="#{msgs.lmComercialTelefonoTres}" />
+                        <h:inputText id="telTres" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.telefonoTres}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) telefónico(s) del Solicitante o Titular."/>
+                        <h:outputLabel value="#{msgs.lmComercialCelularUno}" />
+                        <h:inputText id="celUno" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.celUno}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) de celular(s) del Solicitante o Titular."/>
+
+                        <h:outputLabel value="#{msgs.lmComercialCelularDos}" />
+                        <h:inputText id="celDos" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.celDos}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) de celular(s) del Solicitante o Titular."/>
+
+                        <h:outputLabel value="#{msgs.lmComercialCelularTres}"/>
+                        <h:inputText id="celTres" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.celTres}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) de celular(s) del Solicitante o Titular."/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="correo">
+                        <h:outputLabel value="#{msgs.lmComercialCorreoElectronico}"/>
+                        <h:inputText id="mailUno" style="#{registroGeneralBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{registroGeneralBean.correoSolicitante}"
+                                     size="60" maxlength="60" autocomplete="off"
+                                     title="OPCIONAL. Cuenta de correo electrónico del Solicitante o Titular."/>
+                    </h:panelGrid>
+
+                    <div align="center">
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                            <div align="center" >
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </h:panelGrid>
+                            </div>
+                        </p:confirmDialog>
+                    </div>
+                </h:panelGrid>
+
+                <div align="center" style="padding:1em 2.2em;">
+                    <h:panelGrid columns="1" style="text-align: center">
+                        <h:outputLabel value="#{msgs.labelBotonesAdicionaSolicititante}" style="color: #{modificacionBean.colorLabel}"/>  
+                        <p:commandButton id="adicionaRegistroPersonaEmpresa"
+                                         value="#{!registroGeneralBean.activaBotonModificarSolicitud?msgs.solicitanteGuarda:msgs.solicitanteModifica}"
+                                         disabled="#{registroGeneralBean.campoAdicionaRegistroPersonaEmpresaDisable}"
+                                         actionListener="#{registroGeneralBean.adicionaRegistroPersonaEmpresa()}"
+                                         update=":form:listaPersonaEmpresaSolicitante :form:formularioPersonaEmpresa :form:panelGridDocumentos :form:mensajeGeneral :form:panelLista :form:comboTipoSolicitante"
+                                         icon="ui-icon ui-icon-disk"
+                                         title="Agregar un Solicitante o Titular, a la lista">
+                            <f:ajax execute="@this" event="click"/>
+                        </p:commandButton>
+                    </h:panelGrid>
+                </div>
+                <div  align="center" style="padding:1em 2.2em;" >
+                    <h:panelGrid columns="1" id="panelLista" style="width: 90%" >   
+                        <h:dataTable var="itemPersonaEmpresaPojo" 
+                                     id="listaPersonaEmpresaSolicitante"
+                                     value="#{registroGeneralBean.listaNaturalJuridicoPojo}" 
+                                     styleClass="order-table"
+                                     cellpadding="1" cellspacing="1" width="100%" rules="all"  border="1" 
+                                     headerClass="order-table-header"
+                                     rowClasses="order-table-odd-row,order-table-even-row" columnClasses="order-table-odd-row,order-table-even-row"
+                                     style="width: 100%;">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}/PERSONAS NATURALES" />
+                                </p:outputPanel>
+                            </f:facet> 
+
+                            <h:column >  
+                                <f:facet name="header" >#{msgs.lmComercialTablaCampoNumeroDoc} </f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneNumeroDeSolicitante(itemPersonaEmpresaPojo)}" />
+                            </h:column>                            
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoRazonSocialNombre}</f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneNombreDeSolicitante(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoTipoSolicitante}</f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneTipoSolicitante(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoDireccion}</f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneDireccionSolicitnate(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoTelefono}</f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneTelefono(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoCelular}</f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneCelular(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoCorreo}</f:facet>
+                                <h:outputText value="#{registroGeneralBean.obtieneCorreoElectronico(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{msgs.mensajeModificar}</f:facet>
+                                <p:commandButton id="butonModificaEmpresaLista" 
+                                                 update=":form:panelGridDocumentos :form:tipoSolicitanteVista :form:panelLista "  
+                                                 icon="ui-icon-pencil" 
+                                                 actionListener="#{registroGeneralBean.cargaDatosSolicitanteParaModificar(itemPersonaEmpresaPojo)}"
+                                                 title="Modificar datos del Titular ó Solicitante">
+                                    <f:ajax  execute="@this"  event="click" />
+                                </p:commandButton>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{msgs.mensajeQuitar}</f:facet>
+
+                                <p:commandButton id="eliminaEmpresa" 
+                                                 update=":form:panelLista :form:listaPersonaEmpresaSolicitante"
+                                                 icon="ui-icon-circle-minus" 
+                                                 title="#{msgs.mensajeQuitar}" 
+                                                 actionListener="#{registroGeneralBean.eliminaEmpresaPersonaTramite(itemPersonaEmpresaPojo)}">
+                                    <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                </p:commandButton>                          
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGrid>
+                </div>
+
+            </p:fieldset>
+            <p:dialog header="#{msgs.solicitanteListaApoderado}" widgetVar="cargaObjeto" resizable="false"
+                      width="950" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" />
+            </p:dialog>
+            <p:confirmDialog global="true" showEffect="fade" >
+                <div align="center">
+                    <h:panelGrid columns="3" style="text-align: left">
+                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:separator id="separadorSolicitante" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </h:panelGrid>
+                </div>
+            </p:confirmDialog>
+
+
+            <!--<h:inputText value="A P O D E R A D O"></h:inputText>-->
+            <p:fieldset id="panelToggleableApoderado" legend="#{msgs.apoderadoFieldset}" toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <div align="left">
+                    <h:panelGrid columns="3">
+                        <h:outputLabel value="#{msgs.apoderadoPreguntaTramitePersonal}"/>
+                        <h:selectOneRadio id="esTramiteUnipersonal" value="#{registroGeneralBean.esTramiteUnipersonal}"
+                                          title="OBLIGATORIO. Marque Sí cuando la solicitud cuente con un Representante Legal o Apoderado.">
+                            <f:selectItem itemLabel="#{msgs.apoderadoRespuestaNo}" itemValue="true" />
+                            <f:selectItem itemLabel="#{msgs.apoderadoRespuestaSi}" itemValue="false" />
+                            <p:ajax event="change"  update="panelRepre" 
+                                    listener="#{registroGeneralBean.limpiaDatosRepresentanteAction(e)}"/>
+                        </h:selectOneRadio>
+                    </h:panelGrid>
+                </div>
+                <h:panelGrid  columns="1" id="panelRepre" style="width: 100%">
+                    <h:panelGrid columns="3">
+                        <p:spacer width="750" height="0" ></p:spacer>
+                    </h:panelGrid>
+                    <p:panel id="panelRepresentante" rendered="#{registroGeneralBean.campoPanelRepresentante}" style="width: 100% ; border-style: hidden">
+                        <h:panelGrid columns="1" style="width: 100%; padding-bottom: 2%">
+                            <h:column>
+                                <div align="right" style="width: 100%">
+                                    <p:commandButton id="limpiaFormularioRepresentante" 
+                                                     value="#{msgs.apoderadoLimpiaFormulario}"
+                                                     disabled="#{registroGeneralBean.botonLimpiaFormularioApoderadoDisabled}">
+                                        <f:ajax execute="@this" render=":form:panelRepresentante" event="click"  listener="#{registroGeneralBean.limpiaFormularioApoderado(event)}"/>
+                                    </p:commandButton>
+                                    <p:commandButton id="buscaApoderado" 
+                                                     type="button"
+                                                     style="margin-left: 10px"
+                                                     icon="ui-icon-newwin"
+                                                     value="#{msgs.apoderadoCargarApoderado}" 
+                                                     onclick=" PF('buscaApoderado').show()" 
+                                                     disabled="#{registroGeneralBean.botonCargaApoderadoDisabled}">
+                                    </p:commandButton>
+                                </div>
+                            </h:column>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+
+                            <h:panelGrid columns="7"> 
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoNombre}"/>
+                                </h:panelGrid>
+                                <h:inputText id="Nombre" style="#{registroGeneralBean.cambiaBordeCampoNombreApoderado==true?'border-color: #C00':' '}" 
+                                             value="#{registroGeneralBean.personaApoderado.nombres}" 
+                                             size="50" maxlength="150" autocomplete="off"
+                                             title="OBLIGATORIO. Nombre del Apoderado o Representante Legal. (Número máximo de caracteres: 150)"
+                                             disabled="#{registroGeneralBean.campoNombreApoderadoDisable}"/> 
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoApellidoPaterno}"/>
+                                </h:panelGrid>
+                                <h:inputText id="ApellidoPaterno"  style="#{registroGeneralBean.cambiaBordeCampoApellidoPaternoApoderado==true?'border-color: #C00':' '}" 
+                                             value="#{registroGeneralBean.personaApoderado.apellidoPaterno}" 
+                                             size="30" maxlength="150" autocomplete="off" 
+                                             title="OBLIGATORIO. Primer Apellido del Apoderado o Representante Legal. (Número máximo de caracteres: 150)"
+                                             disabled="#{registroGeneralBean.campoApellidoPaternoApoderadoDisable}"/>
+                                <h:outputLabel value="#{msgs.apoderadoApellidoMaterno}"/>
+                                <h:inputText id="ApellidoMaterno" 
+                                             value="#{registroGeneralBean.personaApoderado.apellidoMaterno}" size="30" maxlength="150" autocomplete="off" 
+                                             title="OPCIONAL. Segundo Apellido del Apoderado o Representante Legal. (Número máximo de caracteres: 150)"
+                                             disabled="#{registroGeneralBean.campoApellidoMaternoApoderadoDisable}">
+                                </h:inputText>
+                            </h:panelGrid>
+                            <h:panelGrid columns="6">
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.apoderadoNroDocumento}"/>
+                                    </h:panelGrid>
+                                    <h:inputText id="nroDocumentoApoderado" 
+                                                 style="#{registroGeneralBean.cambiaBordeCampoNumeroDocumentoApoderado==true?'border-color: #C00':' '}" 
+                                                 value="#{registroGeneralBean.numeroDocumentoApoderado}" 
+                                                 size="15" maxlength="25" autocomplete="off"
+                                                 title="OBLIGATORIO. Número del documento de identidad del Apoderado o Representante Legal. (Número máximo de caracteres: 25)"
+                                                 disabled="#{registroGeneralBean.campoNumeroDeDocumentoApoderadoDisable}"/>   
+                                </h:panelGrid>
+                                <h:panelGrid columns="4"  id="panelTipoDocumentoRepresentante">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.apoderadoTipoDocumento}" />
+                                    </h:panelGrid>
+                                    <h:selectOneMenu id="TipoDocumento" style="#{registroGeneralBean.cambiaBordeCampoTipoDocumentoApoderado==true?'border-color: #C00':' '}" 
+                                                     value="#{registroGeneralBean.tipoDocumentoIdentidadApoderado}"
+                                                     title="OBLIGATORIO. Tipo del documento de identidad del Apoderado o Representante Legal."
+                                                     disabled="#{registroGeneralBean.campoTipoDeDocumentoApoderadoDisable}">
+                                        <f:selectItem   itemLabel="#{msgs.apoderadoElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroGeneralBean.listadoTipoDocumentoIdentidadSD}" var="tdi" itemLabel="#{tdi.nombre}" itemValue="#{tdi.codigo}"/>
+                                        <p:ajax event="change" update="lugarRepresentante, panelTipoDocumentoRepresentante" listener="#{registroGeneralBean.activaComboLugarExpedicionApoderado(e)}" />
+                                    </h:selectOneMenu>
+                                    <h:panelGrid columns="6" style="text-align: left" rendered="#{registroGeneralBean.campoLugarExpedicionRenderedApoderado}">
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                        <h:selectOneMenu id="lugarRepresentante" style="#{registroGeneralBean.cambiaBordeCampoLugarExpedicionApoderado==true?'border-color: #C00':' '}" 
+                                                         value="#{registroGeneralBean.lugarExpedicionRepresentante}" 
+                                                         rendered="#{registroGeneralBean.campoLugarExpedicionRenderedApoderado}"
+                                                         title="OBLIGATORIO. Seleccione el Lugar de Expedicion del documento de Identidad del Apoderado o Representante Legal."
+                                                         disabled="#{registroGeneralBean.campoLugarExpedicionApoderadoDisable}">
+                                            <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{registroGeneralBean.listadoCiudadClasificadorRepresentante}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </h:selectOneMenu>
+                                    </h:panelGrid> 
+                                </h:panelGrid>                              
+                            </h:panelGrid>
+                            <h:panelGrid columns="4">
+                                <p:outputLabel value="#{msgs.apoderadoGenero}"/>
+                                <h:selectOneRadio id="generoRepresentante" value="#{registroGeneralBean.generoRepresentante}"
+                                                  title="OBLIGATORIO: Seleccione su género."
+                                                  disabled="#{registroGeneralBean.campoGeneroApoderadoDisable}">
+                                    <f:selectItems value="#{registroGeneralBean.listadoTipoGeneroPersona}" var="gRepr" itemLabel="#{gRepr.nombre}" itemValue="#{gRepr.codigo}"/>
+                                </h:selectOneRadio>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.apoderadoDatosContacto}" style="color: #{registroGeneralBean.colorLabel}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" id="domicilioApoderado">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>
+                                <h:outputLabel value="#{msgs.lmComercialDomicilio}"/>
+                                <h:inputText id="direccionUnoApo" style="#{registroGeneralBean.cambiaBordeCampoDireccionApo==true?'border-color: #C00':' '};" 
+                                             value="#{registroGeneralBean.domicilioApo}"
+                                             disabled="#{registroGeneralBean.campoDireccionApoderadoDisable}"
+                                             size="120" maxlength="200" autocomplete="off"
+                                             title="OBLIGATORIO. Dirección domiciliaria del Apoderado o Representante Legal. (Número máximo de caracteres: 200)"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="6" id="panelDatosContactoApoderado">
+                                <h:outputLabel value="#{msgs.lmComercialTelefonoUno}"/>
+                                <h:inputText id="telUnoApo"  
+                                             value="#{registroGeneralBean.telefonoUnoApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) telefónico(s) del Apoderado o Representante Legal"
+                                             disabled="#{registroGeneralBean.campoTelefonoUnoApoderadoDisable}"/>
+                                <h:outputLabel value="#{msgs.lmComercialTelefonoDos}" />
+                                <h:inputText id="telDosApo" 
+                                             value="#{registroGeneralBean.telefonoDosApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) telefónico(s) del Apoderado o Representante Legal"
+                                             disabled="#{registroGeneralBean.campoTelefonoDosApoderadoDisable}"/>
+                                <h:outputLabel value="#{msgs.lmComercialTelefonoTres}" />
+                                <h:inputText id="telTresApo" 
+                                             value="#{registroGeneralBean.telefonoTresApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) telefónico(s) del Apoderado o Representante Legal"
+                                             disabled="#{registroGeneralBean.campoTelefonoTresApoderadoDisable}"/>
+                                <h:outputLabel value="#{msgs.lmComercialCelularUno}" />
+                                <h:inputText id="celUnoApo" 
+                                             value="#{registroGeneralBean.celUnoApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) de celular(s) del Apoderado o Representante Legal"
+                                             disabled="#{registroGeneralBean.campoCelularUnoApoderadoDisable}"/>
+                                <h:outputLabel value="#{msgs.lmComercialCelularDos}" />
+                                <h:inputText id="celDosApo" 
+                                             value="#{registroGeneralBean.celDosApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) de celular(s) del Apoderado o Representante Legal"
+                                             disabled="#{registroGeneralBean.campoCelularDosApoderadoDisable}"/>
+                                <h:outputLabel value="#{msgs.lmComercialCelularTres}"/>
+                                <h:inputText id="celTresApo" 
+                                             value="#{registroGeneralBean.celTresApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) de celular(s) del Apoderado o Representante Legal"
+                                             disabled="#{registroGeneralBean.campoCelularTresApoderadoDisable}"/>
+                            </h:panelGrid>                            
+                            <h:panelGrid columns="3" id="correoApo">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>
+                                <h:outputLabel value="#{msgs.lmComercialCorreoElectronico}"/>
+                                <h:inputText id="mailUnoApo" style="#{registroGeneralBean.cambiaBordeCampoCorreoApo==true?'border-color: #C00':' '};" 
+                                             value="#{registroGeneralBean.correoSolicitanteApo}"
+                                             size="60" maxlength="60" autocomplete="off"
+                                             title="OBLIGATORIO. Cuenta de correo electrónico del Apoderado o Representante Legal."
+                                             disabled="#{registroGeneralBean.campoCorreoElectronicoApoderadoDisable}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="7">
+                                <h:outputLabel value="#{msgs.apoderadoNumeroPoder}"/>
+                                <h:inputText id="Numero_Poder" 
+                                             value="#{registroGeneralBean.apoderado.numeroPoder}" 
+                                             size="28" maxlength="30" autocomplete="off" 
+                                             title="OPCIONAL. Numero de Poder Ejem. 015/2015"/>
+                                <h:outputLabel value="#{msgs.apoderadoFechaExpiracion}"/>
+                                <p:calendar id="mask" 
+                                            value="#{registroGeneralBean.apoderado.fechaExpiracionPoder}" 
+                                            locale="es" 
+                                            navigator="true" 
+                                            pattern="dd-MM-yyyy" 
+                                            mask="true"
+                                            size="12"
+                                            title="OPCIONAL. Fecha Expiracion del Poder"/> 
+                                <h:outputLabel value="dd-mm-aaaa" /> 
+                                <!--                                                                <h:commandButton id="limpiaFormularioRepresentante" 
+                                                                                                                 value="# {msgs.apoderadoLimpiaFormulario}" 
+                                                                                                                 >
+                                                                
+                                                                                                    <f:ajax execute="@this" render=":form:panelRepresentante" event="click"  listener="# {registroGeneralBean.limpiaFormularioApoderado(event)}"/>
+                                                                                                     </h:commandButton>
+                                                                                                                              
+                                                                <p:commandButton id="buscaApoderado" 
+                                                                                 type="button" 
+                                                                                 icon="ui-icon-newwin"
+                                                                                 value="# {msgs.apoderadoCargarApoderado}" 
+                                                                                 onclick=" PF('buscaApoderado').show()" >
+                                                                </p:commandButton>-->
+                            </h:panelGrid> 
+                        </h:panelGrid>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="1" style="text-align: center">
+                                <h:outputLabel value="#{msgs.labelBotonesAdicionaApoderado}" style="color: #{modificacionBean.colorLabel}"/>    
+                                <p:commandButton id="adicionaRegistroPersonaEmpresaApoderado"
+                                                 value="#{!registroGeneralBean.activaBotonModificarSolicitud?msgs.apoderadoRegistrarApoderado:msgs.solicitanteModifica}"
+                                                 actionListener="#{registroGeneralBean.guardaPoderPojo()}"
+                                                 update=":form:listaRepresentante  :form:adicionaRegistroPersonaEmpresaApoderado :form:panelRepre :form:panelRepresentante :form:mensajeGeneral"
+                                                 icon="ui-icon ui-icon-disk"
+                                                 title="Agregar un Apoderado a la lista">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton> 
+
+                            </h:panelGrid>
+
+
+
+
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid columns="1" id="panelListaApoderado" style="width: 90%" >
+                                    <h:dataTable var = "itemRepresentantePojo"
+                                                 id="listaRepresentante"
+                                                 value="#{registroGeneralBean.listaNaturalPoderPojo}"
+                                                 styleClass="order-table"
+                                                 cellpadding="1" cellspacing="1" width="100%" rules="all"  border="1" 
+                                                 headerClass="order-table-header"
+                                                 rowClasses="order-table-odd-row,order-table-even-row" columnClasses="order-table-odd-row,order-table-even-row"
+                                                 style="width: 100%">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.apoderadoListaRepresentanteGrilla}"/>
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoNroPoderGrilla} </f:facet>
+                                            <h:outputText value="#{itemRepresentantePojo.poderPojo.numeroPoder}" />
+                                        </h:column>   
+
+
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoNroDocumentoGrilla}</f:facet>
+                                            <h:outputText value="#{itemRepresentantePojo.personaPojo.numeroDocumento}" />
+                                        </h:column>     
+
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoNombresGrilla}</f:facet>
+                                            <h:outputText value="#{registroGeneralBean.obtieneNombreDeApoderado(itemRepresentantePojo)}" />
+                                        </h:column>     
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoDireccion}</f:facet>
+                                            <h:outputText value="#{registroGeneralBean.obtieneDireccionApoderado(itemRepresentantePojo)}" />
+                                        </h:column>
+
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoTelefono}</f:facet>
+                                            <h:outputText value="#{registroGeneralBean.obtieneTelefonoApoderado(itemRepresentantePojo)}" />
+                                        </h:column>
+
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoCelular}</f:facet>
+                                            <h:outputText value="#{registroGeneralBean.obtieneCelularApoderado(itemRepresentantePojo)}" />
+                                        </h:column>
+
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoCorreo}</f:facet>
+                                            <h:outputText value="#{registroGeneralBean.obtieneCorreoElectronicoApoderado(itemRepresentantePojo)}" />
+                                        </h:column>    
+
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoSeleccionesGrilla}</f:facet>
+                                            <p:commandButton id="buton"
+                                                             update=":form:panelRepresentante"
+                                                             icon="ui-icon-pencil"
+                                                             title="Modificar"
+                                                             actionListener="#{registroGeneralBean.cargaDatosApoderadoModificacion(itemRepresentantePojo)}">
+                                                <f:ajax execute="@this" event="click"/>
+                                            </p:commandButton>
+                                        </h:column>     
+
+
+                                        <h:column > 
+                                            <f:facet name="header" >#{msgs.apoderadoQuitarGrilla}</f:facet>
+                                            <p:commandButton id="quitaRepresentante"
+                                                             title="#{msgs.apoderadoQuitarGrilla}"
+                                                             icon="ui-icon-circle-minus" 
+                                                             actionListener="#{registroGeneralBean.borrarApoderadoDeLaLista(itemRepresentantePojo)}"
+                                                             update=":form:panelRepresentante">
+                                                <p:confirm header="#{msgs.apoderadoQuitaRepresentante}" message="#{msgs.apoderadoConfirmarQuitarRepresentante}" icon="ui-icon-alert"/>
+                                            </p:commandButton>
+                                        </h:column>     
+                                    </h:dataTable>
+                                    <p:confirmDialog global="true" showEffect="fade" >
+                                        <div align="center">
+                                            <p:commandButton value="#{msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="#{msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog>
+                                </h:panelGrid>
+                            </div>
+                            <!--                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                                            <div align="center">
+                                                                <p:commandButton value="# {msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                <p:commandButton value="# {msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                            </div>
+                                                        </p:confirmDialog>-->
+                        </div>
+                    </p:panel>
+                </h:panelGrid>
+            </p:fieldset>
+            <!--<h:inputText value="SIGNO Y MARCA"></h:inputText>-->  
+            <p:fieldset id="panelToggleableSignoMarca" legend="#{msgs.signoDistintivoFieldSet}" toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <h:outputText  id="validaTipoSigno" value="" 
+                               rendered="#{registroGeneralBean.activaValidaClasificarCambiaColor}" style="color: #C00;font-size:12px;"/>
+                <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="2">
+                    <h:panelGrid columns="3" cellpadding="2">
+                        <h:outputLabel value="*" style="color: #C00"/>  
+                        <h:outputLabel value="#{msgs.pestaniaTresSignoDistintivo}" rendered="true"/>
+                        <h:inputText id="marca" 
+                                     value="#{registroGeneralBean.marca}" 
+                                     size="100" maxlength="500"
+                                     style="#{registroGeneralBean.cambiaBordeMarca==false?'border-color: #C00':''};"
+                                     title ="OBLIGATORIO. Nombre de la Marca o Signo Distintivo, en caso de tratarse de un diseño, simplemente escriba DISEÑO. (Número máximo de caracteres: 500)"/>
+                    </h:panelGrid> 
+                    <h:panelGrid columns="15" cellpadding="2">
+                        <h:outputLabel value="*" style="color: #C00"/>  
+                        <h:outputLabel value="#{msgs.pestaniaTresTipoDeSigno}"/>
+                        <h:selectBooleanCheckbox id="denominativo" 
+                                                 value="#{registroGeneralBean.denominativo}"
+                                                 title ="OBLIGATORIO. Elija el Tipo de Signo, si es mixta seleccione dos opciones, por ejemplo: Denominativo-Figurativo">
+                            <p:ajax  listener="#{registroGeneralBean.habilitaPanelImagen(e)}" update=":form:panelGridGaleria" immediate="true" event="change" />
+                        </h:selectBooleanCheckbox>
+                        <p:outputLabel value="#{msgs.pestaniaTresDenominativo}"/>
+                        <h:selectBooleanCheckbox id="figurativa" 
+                                                 value="#{registroGeneralBean.figurativa}"
+                                                 title ="OBLIGATORIO. Elija el Tipo de Signo, si es mixta seleccione dos opciones, por ejemplo: Denominativo-Figurativo">
+                            <f:ajax  execute="@form" render=":form:panelGridGaleria" listener="#{registroGeneralBean.habilitaPanelImagen(e)}"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel value="#{msgs.pestaniaTresFigurativa}"/>
+                        <h:selectBooleanCheckbox id="tridimensional" 
+                                                 value="#{registroGeneralBean.tridimensional}"
+                                                 title ="OBLIGATORIO. Elija el Tipo de Signo, si es mixta seleccione dos opciones, por ejemplo: Denominativo-Figurativo">
+                            <p:ajax update="panelGridGaleria" event="change"  listener="#{registroGeneralBean.habilitaPanelImagen(e)}"   />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel value="#{msgs.pestaniaTresTridimensional}"/>
+                        <h:selectBooleanCheckbox id="auditivo" 
+                                                 value="#{registroGeneralBean.auditivo}"
+                                                 title ="OBLIGATORIO. Elija el Tipo de Signo, si es mixta seleccione dos opciones, por ejemplo: Denominativo-Figurativo">
+                            <p:ajax  update=":form:panelGridGaleria " event="change" listener="#{registroGeneralBean.habilitaPanelImagen(e)}"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel value="#{msgs.pestaniaTresAuditivo}"/>
+                        <h:selectBooleanCheckbox id="otro" 
+                                                 value="#{registroGeneralBean.otro}" 
+                                                 disabled="#{registroGeneralBean.campoCheckOtrosDisable}"
+                                                 title ="OBLIGATORIO. Elija el Tipo de Signo, si es mixta seleccione dos opciones, por ejemplo: Denominativo-Figurativo">
+                            <p:ajax update=":form:otroSigno :form:tipoSignoOtrosDato :form:panelGridGaleria" 
+                                    event="change" listener="#{registroGeneralBean.activaCampoTipoSignoOtrosDatoAction(e)}"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel value="#{msgs.pestaniaTresOtro}"/>
+                        <h:panelGrid columns="1" id="otroSigno">
+                            <h:inputText id="tipoSignoOtrosDato" value="#{registroGeneralBean.tipoSignoOtros}" 
+                                         style="width: 90%;#{registroGeneralBean.cambiaBordeCampoOtro==true?'border-color: #C00':''}" 
+                                         rendered="#{registroGeneralBean.campoCheckOtrosRendered}"
+                                         size="50"/>
+                            <p:watermark for="tipoSignoOtrosDato" value="#{msgs.pestaniaTresIntroduzcaElValor}" id="watermarkOtro" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" id="panelGridGaleria" style="border-style: hidden" >
+                        <h:panelGrid columns="2" id="panelGridGaleriaUno" style="border-style: hidden" >
+                            <h:panelGrid columns="1" id="panelGridGaleriaDos" rendered="#{registroGeneralBean.campoPanelImagenRendered}" >
+                                <p:commandButton id="cargaImagen" value="#{msgs.pestaniaTresCargaImagen}" type="button" onclick="PF('cargaImagen').show()" icon="ui-icon-image" style="width: 100%"
+                                                 actionListener="#{registroGeneralBean.limpiarMessages()}"
+                                                 title ="Adjunte una imagen para su marca"/>
+                                <p:galleria id="imagenCargadaGaleria" value="#{registroGeneralBean.listaImagenLogotipos}" 
+                                            var="image" panelWidth="160" panelHeight="110" 
+                                            showCaption="true" 
+                                            style=" width: 500px;#{registroGeneralBean.activaValidaImagenCargadaGaleriaCambiaColor==true?'border-color: #C00':''}">
+                                    <p:graphicImage id="graphicImagnen" value="/temp/#{image.idSMLogotipo.nombreArchivo}" title="#{image.idSMLogotipo.nombreArchivo}" width="100%"/>
+                                </p:galleria>
+                                <p:commandButton id="eliminaImagenBoton" 
+                                                 rendered="#{!empty registroGeneralBean.listaImagenLogotipos}"
+                                                 value="#{msgs.pestaniaTresBotonEliminaImagen}" type="button" onclick="PF('eliminaImagenDialog').show()" 
+                                                 icon="ui-icon-trash" style="width: 100%"/>
+                                <p:commandButton id="prioridadImagenBoton" 
+                                                 rendered="#{!empty registroGeneralBean.listaImagenLogotipos}"
+                                                 value="#{msgs.pestaniaTresBotonPrioridadImagen}" type="button" onclick="PF('principalImagenDialog').show()" 
+                                                 icon="ui-icon-tag" style="width: 100%;#{registroGeneralBean.activaValidaImagenCargadaGaleriaCambiaColor==true?'border-color: #C00':''}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" id="color">
+<!--                                <h:panelGrid columns="3" id="panelGridColor" rendered="# {registroGeneralBean.campoPanelImagenRendered}">
+                                    <p:outputLabel for="proteccion" value="Desea Proteger el color"/>
+                                    <p:selectOneRadio id="proteccion" value="# {registroGeneralBean.proteccionColor}">
+                                        <f:selectItem itemLabel="# {msgs.pestaniaTresSi}" itemValue="true"/>
+                                        <f:selectItem itemLabel="# {msgs.pestaniaTresNo}" itemValue="false"/>
+                                        <p:ajax event="change" update=":form:panelGridColor" listener="# {registroGeneralBean.activaBotonColorAction(e)}"/>
+                                    </p:selectOneRadio>
+                                    <p:commandButton id="cargaColoresBoton" 
+                                                     rendered="# {registroGeneralBean.campoCargaColoresBotonRendered}"
+                                                     value="# {msgs.pestaniaTresBotonCargaColores}" 
+                                                     update=":formDos:panelColorDialogo"
+                                                     type="button" 
+                                                     onclick="PF('colorDialog').show()" 
+                                                     icon="ui-icon-radio-on"
+                                                     title ="Adjunte una imagen para su marca"/>
+                                </h:panelGrid>-->
+                                <h:panelGrid columns="1">
+                                    <p:outputLabel value="#{msgs.pestaniaTresDescripcionLogoTipo}" rendered="#{registroGeneralBean.campoPanelImagenRendered}"/>
+                                    <p:inputTextarea id="descripcion" style=" width: 700px;#{registroGeneralBean.activaValidaDescripcionLogoTipoCambiaColor==true?'border-color: #C00':''}"  
+                                                     value="#{registroGeneralBean.smsignomarca.descripcion}" rows="5" cols="60"
+                                                     rendered="#{registroGeneralBean.campoPanelImagenRendered}"
+                                                     counter="contadorDesLogo" maxlength="2000" counterTemplate="{0} #{msgs.pestaniaTresCaracteresRestantesDescripcionLogotipo}" autoResize="false" 
+                                                     title="Realice la descripción del Logotipo. (Número máximo de caracteres: 2000)"/>
+                                    <h:outputText id="contadorDesLogo"/>
+                                </h:panelGrid>
+                                <p:spacer width="0"></p:spacer>
+                                <!--                                <h:panelGrid columns="3">
+                                                                    <p:graphicImage value="/resources/images/informacion3.png" rendered="# {registroGeneralBean.campoPanelImagenRendered}" />
+                                                                    <h:outputText value="# {msgs.pestaniaTresMensajeCargarTXT}" style="font-size:12px;color:#000000 "                             rendered="#{registroGeneralBean.campoPanelImagenRendered}"/>
+                                
+                                                                    <h:selectBooleanCheckbox id="txtDescripcionLogo" 
+                                                                                             rendered="# {registroGeneralBean.campoPanelImagenRendered}"
+                                                                                             value="# {registroGeneralBean.checkTxtdescripcion}">
+                                                                        <p:ajax update=":form:panelCargaArchivoTXT" event="change"  listener="# {registroGeneralBean.habilitacargatxt(e)}"   />
+                                                                    </h:selectBooleanCheckbox>
+                                                                </h:panelGrid>-->
+                                <h:panelGrid columns="3" width="100%" id="panelCargaArchivoTXT">
+                                    <p:commandButton id="cargaArchivoTXT" value="#{msgs.pestaniaTresBotonCargarTXT}" 
+                                                     type="button" 
+                                                     onclick="PF('adiconaArchivoTXT').show()" 
+                                                     style="width: 60%"
+                                                     disabled="#{registroGeneralBean.desahabilitaBotonCargarArchivo}"
+                                                     rendered="#{registroGeneralBean.campoHabilitaTxtLogo}"
+                                                     icon="ui-icon-folder-open"/>
+                                    <h:inputText id="archivoTXTCargaURL" value="#{registroGeneralBean.nombreArchivoTXT}" style="width: 95%" rendered="#{registroGeneralBean.campoHabilitaTxtLogo}"/>
+                                    <p:commandButton id="eliminaArchivo" 
+                                                     update=":form:mensajeGeneral, cargaArchivoTXT,panelCargaArchivoTXT" 
+                                                     icon="ui-icon-circle-minus" 
+                                                     title="#{msgs.mensajeQuitar}" 
+                                                     rendered="#{registroGeneralBean.campoHabilitaTxtLogo}"
+                                                     actionListener="#{registroGeneralBean.eliminaArchivoDescripcion()}">
+                                        <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                    </p:commandButton>    
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGrid>     
+                    </h:panelGrid>
+
+
+                    <p:dataTable var="val"
+                                 value="#{registroGeneralBean.listaSignoClaseNizaAux}"
+                                 selection="#{registroGeneralBean.smsignoclasenizaSelect}"
+                                 rowKey="#{val.numeroClaseNiza}"
+                                 style="width: 60%;height: 10%"
+                                 rendered="#{registroGeneralBean.campoListaSignoClaseNizaRendered}">
+                        <f:facet name="header">
+                            #{msgs.pestaniaTresListaDeClaseNizaYArchivos} 
+                        </f:facet>
+                        <p:column headerText="#{msgs.pestaniaTresNumeroNiza}" width="10%"
+                                  rendered="#{registroGeneralBean.campoNumeroNizaRendered}">
+                            <h:outputText value="#{val.numeroClaseNiza}"
+                                          rendered="#{registroGeneralBean.campoNumeroNizaRendered}"/>
+                        </p:column>
+                        <p:column headerText="#{msgs.pestaniaTresProductos}" width="70%"
+                                  rendered="#{registroGeneralBean.campoProductosRendered}">
+                            <h:outputText value="#{val.listaProducto}"
+                                          rendered="#{registroGeneralBean.campoProductosRendered}"/>
+                        </p:column>
+                        <p:column headerText="#{msgs.pestaniaTresURLArchivo}" width="20%"
+                                  rendered="#{registroGeneralBean.campoURLArchivoRendered}">
+                            <h:outputText value="#{val.archivoProducto}"
+                                          rendered="#{registroGeneralBean.campoURLArchivoRendered}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:spacer height="10" />
+                        </f:facet>
+                    </p:dataTable>
+                    <h:panelGrid columns="3"  id="GeneroPestañaTres" style="text-align: left" >
+                        <h:outputLabel value="*" style="color: #C00"/>  
+                        <h:outputLabel value="#{msgs.pestaniaTresGenero}"/>
+                        <h:selectOneMenu id="generoTramite" value="#{registroGeneralBean.generoTramite}"
+                                         title="OBLIGATORIO. Seleccione el Género al cual pertenece la Marca o Signo Distintivo">
+                            <f:selectItems value="#{registroGeneralBean.listadoTipoGeneroTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                            <p:ajax update=":form:panelNizaRegistro" listener="#{registroGeneralBean.buscaNizaIntervalo()}" />
+                        </h:selectOneMenu>
+                    </h:panelGrid>  
+                    <h:panelGrid columns="1" id="panelNizaRegistro">
+                        <h:panelGrid columns="4">
+                            <h:panelGrid columns="2"  id="ClaseNizaPestniaTres" style="text-align: left">
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                                <p:outputLabel value="#{msgs.pestaniaTresClaseInternacionalNiza}"/>
+                            </h:panelGrid>  
+                            <h:selectOneMenu id="numeroNiza"
+                                             value="#{registroGeneralBean.numeroInternacional}" 
+                                             style="#{registroGeneralBean.activaValidaClaseInternacionalNizaCambiaColor==true?'border-color: #C00':''}"
+                                             title="OBLIGATORIO. Ingrese la Clase Internacional Niza correspondiente, 1 al 34 para Marca de Producto y de 35 a 45 para Marca de Servicio, en otro caso escriba cero.">
+                                <f:selectItem   itemLabel="#{msgs.pestaniaTresElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{registroGeneralBean.listaNumerosClaseNizaProductosServicios}" var="h" itemLabel="#{h}" itemValue="#{h}"/>
+                                <p:ajax event="change" 
+                                        update="areaProductos " 
+                                        listener="#{registroGeneralBean.cargaCampoDescripcionNiza(e)}" />        
+                            </h:selectOneMenu>
+                            <p:spacer width="10" height="0"/>
+                            <p:commandButton id="buscaNiza" type="button" value="#{msgs.pestaniaTresAbrirClasificadorNiza}" 
+                                             onclick="PF('BuscaClaseniza').show()" actionListener="#{registroGeneralBean.limpiaBuscadorNiza()}"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <p:outputLabel value="#{msgs.pestaniaTresListaDeProductosYOServicios}"/>
+                            <p:inputTextarea id="areaProductos" style="width: 700px; #{registroGeneralBean.activaValidaListaProductosTextAreaCambiaColor==true?'border-color: #C00':''}" 
+                                             rows="5" cols="60" value="#{registroGeneralBean.listaProductosTextArea}" 
+                                             counter="contadorDesNiza" maxlength="4000" counterTemplate="{0} #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" 
+                                             title="OPCIONAL. Lista de productos o servicios relacionados con la Marca o Signo Distintivo, además de lo inicialmente ya sugerido. (Número máximo de caracteres: 4000)"/>
+                            <h:outputText id="contadorDesNiza"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <!--                    <h:panelGrid columns="3">
+                                            <p:graphicImage value="/resources/images/informacion3.png" />
+                                            <h:outputText value="# {msgs.pestaniaTresMensajeCargarTXT}" style="font-size:12px;color: #000000 "/>
+                                            <h:selectBooleanCheckbox id="txtDescripcionNiza" 
+                                                                     value="# {registroGeneralBean.checkTxtNiza}">
+                                                <p:ajax update=":form:panelCargaArchivoTXTNiza" event="change"  listener="# {registroGeneralBean.habilitacargatxtNiza(e)}"   />
+                                            </h:selectBooleanCheckbox>
+                                        </h:panelGrid>-->
+                    <p:panel id="panelCargaArchivoTXTNiza" style=" border-style: hidden">
+                        <h:panelGrid columns="3" width="80%">
+                            <p:commandButton id="cargaArchivo" value="#{msgs.pestaniaTresBotonCargarTXT}" 
+                                             type="button" 
+                                             onclick="PF('adiconaArchivoTXTNiza').show()" 
+                                             style="width: 60%"
+                                             rendered="#{registroGeneralBean.campoHabilitaTxtNiza}"
+                                             icon="ui-icon-folder-open"/>
+                            <h:inputText id="archivoCargaURL" value="#{registroGeneralBean.nombreArchivoDos}" 
+                                         rendered="#{registroGeneralBean.campoHabilitaTxtNiza}"
+                                         style="width: 95%"/>
+                            <p:commandButton id="eliminaArchivoNiza" 
+                                             update=":form:mensajeGeneral cargaArchivoTXT panelCargaArchivoTXT" 
+                                             icon="ui-icon-circle-minus" 
+                                             title="#{msgs.mensajeQuitar}" 
+                                             rendered="#{registroGeneralBean.campoHabilitaTxtNiza}"
+                                             actionListener="#{registroGeneralBean.eliminaArchivoDescripcion()}">
+                                <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                            </p:commandButton>    
+                        </h:panelGrid>
+                    </p:panel>          
+                </h:panelGrid>
+                <!--                                <div align="center" style="padding:1em 2.2em;">
+                                                    <p:commandButton id="guardaSignoYMarcar"
+                                                                     value="# {msgs.pestaniaTresBotonGuardarSignosYMarcas}"      
+                                                                     actionListener="# {registroGeneralBean.guardaSignosYMarcasGeneral()}"
+                                                                     update="form, mensajeGeneral"
+                                                                     icon="ui-icon ui-icon-disk">
+                                                        <f:ajax execute="@this" event="click"/>
+                                                    </p:commandButton>
+                                                </div>-->
+
+            </p:fieldset> 
+
+
+            <!--<h:inputText value="P R I O R I D A D E S"></h:inputText>-->
+
+
+
+            <p:fieldset legend="#{msgs.prioridadPanelOposicionAndina}" toggleable="true" >
+                <div align="left" style="padding:1em 2.2em">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="#{msgs.lmComercialOposicionAndina}"/>
+                        <h:selectOneRadio id="tieneOposicion" value="#{registroGeneralBean.activaOposicion}" style="border-color: #C00">
+                            <f:selectItem itemLabel="#{msgs.prioridaditemLabelSi}" itemValue="true"/>
+                            <f:selectItem itemLabel="#{msgs.prioridaditemLabelNo}" itemValue="false"/>
+                            <p:ajax event="change" 
+                                    update=":form:camposOposicionAndinaVista" 
+                                    listener="#{registroGeneralBean.activaCampoOposicionAndina(r)}"/>
+                        </h:selectOneRadio>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" id="camposOposicionAndinaVista" >
+                        <h:panelGrid columns="1" rendered="#{registroGeneralBean.habilitaCampoOposicionAndina}">
+                            <h:outputLabel value="#{msgs.prioridadAcreditacionReal}"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" rendered="#{registroGeneralBean.habilitaCampoOposicionAndina}">
+                            <p:spacer width="30px"></p:spacer>
+                            <h:outputLabel value="#{msgs.prioridadProcesoInteresReal}"/>
+                            <h:inputText title="OPCIONAL. Colocar el número de Acreditación"  style="width: 240%; #{registroGeneralBean.activaValidaListaProductosTextAreaCambiaColor==true?'border-color: #C00':''}" maxlength="50" id="campoCodigoAndino" value="#{registroGeneralBean.prioridadAndina}"></h:inputText>
+                        </h:panelGrid>
+                    </h:panelGrid>     
+                </div>
+                <div align="left" style="padding:1em 2.2em">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="#{msgs.prioridadEtiquetaPrioridad}"/>
+                        <h:selectOneRadio id="tienePrioridad" value="#{registroGeneralBean.activaPrioridad}">
+                            <f:selectItem itemLabel="#{msgs.prioridaditemLabelSi}" itemValue="true"/>
+                            <f:selectItem itemLabel="#{msgs.prioridaditemLabelNo}" itemValue="false"/>
+                            <p:ajax event="change" 
+                                    update=":form:panelPrioridad  :form:panelBotonesGuardado" 
+                                    listener="#{registroGeneralBean.limpiaDatosPrioridad(r)}"/>
+                        </h:selectOneRadio>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="panelPrioridad">
+                        <h:panelGrid columns="2" id="panelPrioridadCampos"  rendered="#{registroGeneralBean.campoPanelPrioridad}">
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.prioridadtipoPrioridad}"/>
+                            </h:panelGrid>  
+                            <h:selectOneMenu title="OBLIGATORIO. Escoja el tipo de Prioridad" value="#{registroGeneralBean.tipoPrioridadValorCombo}" 
+                                             style="width:200px; #{registroGeneralBean.tipoPrioridad==true?'border-color: #C00':''}">
+                                <f:selectItem itemLabel="#{msgs.prioridadOneMenuSeleccionePrioridad}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{registroGeneralBean.listadoPrioridad}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.codigo}"/>
+                                <p:ajax event="change"
+                                        update="panelPrioridadCampos"
+                                        listener="#{registroGeneralBean.cambiarTipoPreferencia(e)}" />
+                            </h:selectOneMenu>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="Nombre de la Exposicion" rendered="#{registroGeneralBean.seleccionaTipoPrioridadExposicion}"/>
+                                <h:outputLabel value="Numero de Prioridad" rendered="#{!registroGeneralBean.seleccionaTipoPrioridadExposicion}"/>
+                            </h:panelGrid>  
+                            <h:inputText title="OBLIGATORIO. Ingrese el nombre de la exposición, feria o evento." value="#{registroGeneralBean.smsolicitadoprioridad.numeroPrioridad}" size="20" maxlength="20"
+                                         style="#{registroGeneralBean.numeroCodigo==true?'border-color: #C00':''}"
+                                         rendered="#{registroGeneralBean.seleccionaTipoPrioridadExposicion}">
+                            </h:inputText>
+                            <h:inputText title="OBLIGATORIO. Ingrese el número de prioridad." value="#{registroGeneralBean.smsolicitadoprioridad.numeroPrioridad}" size="20" maxlength="20"
+                                         style="#{registroGeneralBean.numeroCodigo==true?'border-color: #C00':''}" rendered="#{!registroGeneralBean.seleccionaTipoPrioridadExposicion}">
+                            </h:inputText>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.prioridadEntidadOficinaPrioridad}"/>
+                            </h:panelGrid>  
+                            <h:inputText  title="OBLIGATORIO. Ingrese la entidad o la oficina que lo otorga" value="#{registroGeneralBean.smsolicitadoprioridad.oficinaPrioridad}" size="100" maxlength="100" style="#{registroGeneralBean.entidadOtorga==true?'border-color: #C00':''}">
+                            </h:inputText>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel id="fecha" value="Fecha de la Exposición" rendered="#{registroGeneralBean.seleccionaTipoPrioridadExposicion}"/>
+                                <h:outputLabel id="fecha1" value="Fecha de Prioridad" rendered="#{!registroGeneralBean.seleccionaTipoPrioridadExposicion}"/>
+                            </h:panelGrid>  
+                            <p:calendar  title="OBLIGATORIO. Ingrese la fecha de la Exposición, Feria o Evento en el formato dd/mm/aaaa o haga clic sobre el icono de calendario y seleccione una fecha."  id="maskPrioridades" value="#{registroGeneralBean.smsolicitadoprioridad.fechaEmision}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="#{registroGeneralBean.fechaEmision==true?'border-color: #C00':''}"/>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="Lugar de Celebración" rendered="#{registroGeneralBean.seleccionaTipoPrioridadExposicion}"/>
+                                <h:outputLabel value="Pais de Origen" rendered="#{!registroGeneralBean.seleccionaTipoPrioridadExposicion}"/>
+                            </h:panelGrid>
+
+                            <h:inputText value="#{registroGeneralBean.smsolicitadoprioridad.lugar}"
+                                         size="100" maxlength="90"
+                                         style="#{registroGeneralBean.lugarPrioridad==true?'border-color: #C00':''}"
+                                         rendered="#{registroGeneralBean.seleccionaTipoPrioridadExposicion}"
+                                         title="OBLIGATORIO. Ingrese el lugar donde se llevó a cabo la exposición">
+                            </h:inputText>
+
+                            <h:selectOneMenu 
+                                title="OBLIGATORIO. Seleccion el país de la prioridad"
+                                id="pais1" value="#{registroGeneralBean.smsolicitadoprioridad.lugar}" 
+                                style="#{registroGeneralBean.cambiaBordeCampoPais==true?'border-color: #C00':' '};"
+                                rendered="#{!registroGeneralBean.seleccionaTipoPrioridadExposicion}"
+                                >
+                                <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{registroGeneralBean.listadoPaisesClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                            </h:selectOneMenu>
+
+
+
+                            <h:outputLabel value="#{msgs.prioridadObservacionPrioridad}" />
+                            <h:inputTextarea value="#{registroGeneralBean.smsolicitadoprioridad.observacion}" style="width: 400px" rows="3" cols="50"
+                                             title="OPCIONAL. Ingrese un observación si corresponde."/>
+                            <div align="center">
+                                <!--                                <p:commandButton
+                                                                    value="# {registroGeneralBean.nombreAccion}"
+                                                                    id="btnAdicinoPrioridad"
+                                                                    update=":form"
+                                                                    action="# {registroGeneralBean.adicionaDatosPrioridadGeneral()}"
+                                                                    icon="ui-icon ui-icon-disk"/>
+                                -->
+                            </div>
+                        </h:panelGrid>
+
+                        <div align="center">
+                            <h:panelGrid columns="1"  rendered="#{registroGeneralBean.campoPanelPrioridad}">
+
+                            </h:panelGrid>
+                        </div> 
+                        <p:confirmDialog  global="true" showEffect="fade" >
+                            <div align=" left ">
+                                <h:panelGrid columns="3" style="text-align: left">
+                                    <p:commandButton value="#{msgs.prioridadListadoSiPrioridad}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:separator id="separadorPrioridad" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                    <p:commandButton value="#{msgs.prioridadListadoNoPrioridad}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </h:panelGrid>
+                            </div>
+                        </p:confirmDialog>
+                    </h:panelGrid>
+                </div>
+
+                <div align=" left " style="padding:1em 2.2em">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="#{msgs.prioridadTienePreferencia}"/>
+                        <h:selectOneRadio  id="tienePreferencia" value="#{registroGeneralBean.activaPreferencia}" style="border-color: #C00">
+                            <f:selectItem itemLabel="#{msgs.prioridaditemLabelSi}" itemValue="true"/>
+                            <f:selectItem itemLabel="#{msgs.prioridaditemLabelNo}" itemValue="false"/>
+                            <p:ajax event="change" 
+                                    update=":form:panelPrimeraPreferencia :form:panelBotonesGuardado" 
+                                    listener="#{registroGeneralBean.limpiaDatosPreferencia(r)}"/>
+                        </h:selectOneRadio>
+                    </h:panelGrid>
+                </div>
+
+                <h:panelGrid columns="1" id="panelPrimeraPreferencia">
+                    <h:panelGrid columns="2" id="panelPreferenciaCampos" rendered="#{registroGeneralBean.campoPanelPreferencia}" >
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.preferenciaListaTipoPreferencia}"/>
+                        </h:panelGrid>  
+                        <h:selectOneMenu title="OBLIGATORIO. Escoja el tipo de Preferencia." value="#{registroGeneralBean.tipoPreferenciaValorCombo}" 
+                                         style="width:200px; #{registroGeneralBean.tipoPrioridadPreferencia==true?'border-color: #C00':''}">
+                            <f:selectItem itemLabel="#{msgs.prioridadOneMenuSeleccionePreferencia}" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{registroGeneralBean.listadoPreferencia}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.codigo}"/>
+                        </h:selectOneMenu>
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.prioridadNumeroCodigoPrioridad}"/>
+                        </h:panelGrid>  
+                        <h:inputText title="OBLIGATORIO. Ingrese el número o código de Preferencia, puede usar caracteres alfanuméricos" value="#{registroGeneralBean.smsolicitadoprioridadPreferencia.numeroPrioridad}" size="20" maxlength="20" style="#{registroGeneralBean.numeroCodigoPreferencia==true?'border-color: #C00':''}">
+                        </h:inputText>
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.prioridadEntidadOficinaPrioridad}"/>
+                        </h:panelGrid>  
+                        <h:inputText  title="OBLIGATORIO. Ingrese la entidad o la oficina que lo otorga" value="#{registroGeneralBean.smsolicitadoprioridadPreferencia.oficinaPrioridad}" size="100" maxlength="100" style="#{registroGeneralBean.entidadOtorgaPreferencia==true?'border-color: #C00':''}">
+                        </h:inputText>
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel id="fechaPreferencia" value="#{msgs.prioridadFechaEmisionPrioridad}"/>
+                        </h:panelGrid>  
+                        <p:calendar title="OBLIGATORIO. Ingrese la fecha de emisión" id="maskPreferencia" value="#{registroGeneralBean.smsolicitadoprioridadPreferencia.fechaEmision}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="#{registroGeneralBean.fechaEmisionPreferencia==true?'border-color: #C00':''}"/>
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.prioridadLugarPrioridad}"/>
+                        </h:panelGrid>  
+                        <h:inputText title="OBLIGATORIO. Ingrese el lugar donde se emitió la Preferencia" value="#{registroGeneralBean.smsolicitadoprioridadPreferencia.lugar}" size="100" maxlength="90" style="#{registroGeneralBean.lugarPrioridadPreferencia==true?'border-color: #C00':''}">
+                        </h:inputText>
+                        <h:outputLabel value="#{msgs.prioridadObservacionPrioridad}"/>
+                        <h:inputTextarea title="OPCIONAL. Ingrese la observación si corresponde" value="#{registroGeneralBean.smsolicitadoprioridadPreferencia.observacion}" style="width: 400px" rows="3" cols="50" />
+                        <div align="center" style="padding: 1em 2.2em">
+                            <p:commandButton
+                                value="#{registroGeneralBean.nombreAccionPreferencia}"
+                                id="btnAdicinoPreferencia"
+                                update=":form"
+                                action="#{registroGeneralBean.adicionaDatosPreferenciaGeneral()}"
+                                icon="ui-icon ui-icon-disk"
+                                title="OBLIGATORIO. Inserte la preferencia"/>
+                        </div>
+                    </h:panelGrid>
+
+                    <div align="center">
+                        <h:panelGrid columns="1"  rendered="#{registroGeneralBean.campoPanelPreferencia}" >
+                            <h:dataTable id="listadoSolicitadoPreferencia"  
+                                         var="itemPrioridadPreferencia" 
+                                         value="#{registroGeneralBean.listadoSolicitadoPreferencia}"
+                                         styleClass="order-table"
+                                         headerClass="order-table-header"
+                                         rowClasses="order-table-odd-row,order-table-even-row"
+                                         columnClasses="order-table-odd-row,order-table-even-row"
+                                         rendered="#{registroGeneralBean.activaPreferencia}"
+                                         width="100%">
+                                <f:facet name="header">
+                                    <p:outputLabel value="#{msgs.prioridadListaPrioridadesPrioridad}">
+                                    </p:outputLabel>
+                                </f:facet>
+                                <h:column>
+                                    <f:facet name="header">
+                                        #{msgs.preferenciaListaTipoPreferencia}
+                                    </f:facet>
+                                    #{registroGeneralBean.encuentraNombreCodigoPreferencia(itemPrioridadPreferencia.codigoClasificador)}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        #{msgs.preferenciaListaNumeroPreferencia}
+                                    </f:facet>
+                                    #{itemPrioridadPreferencia.numeroPrioridad}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        #{msgs.preferenciaListaEntidadOficinaPreferencia}
+                                    </f:facet>
+                                    #{itemPrioridadPreferencia.oficinaPrioridad}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        #{msgs.preferenciaListaFechaEmisionPreferencia}
+                                    </f:facet>
+                                    <h:outputText value="#{itemPrioridadPreferencia.fechaEmision}" >
+                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        #{msgs.preferenciaListaLugarEmisionPreferencia}
+                                    </f:facet>
+                                    #{itemPrioridadPreferencia.lugar}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        #{msgs.preferenciaListaObservacionesPreferencia}
+                                    </f:facet>
+                                    #{itemPrioridadPreferencia.observacion}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header" >
+                                        #{msgs.preferenciaListaModificarPreferencia}
+                                    </f:facet>                                    
+                                    <p:commandButton update="@form" icon="ui-icon-pencil" title="#{msgs.prioridadEditar}" 
+                                                     action="#{registroGeneralBean.modificaPrioridadAdicionalPreferencia()}">
+                                        <f:setPropertyActionListener value="#{itemPrioridadPreferencia}" target="#{registroGeneralBean.seleccionadoPrioridadPreferencia}" />
+                                    </p:commandButton>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header" >
+                                        #{msgs.preferenciaListaEliminarPreferencia}
+                                    </f:facet>
+                                    <p:commandButton id="quitaPreferencia"
+                                                     update="@form"
+                                                     title="#{msgs.prioridadListadoEliminarPrioridad}"
+                                                     icon="ui-icon-circle-minus"
+                                                     actionListener="#{registroGeneralBean.eliminaSeleccionadoPreferencia(itemPrioridadPreferencia)}">
+                                        <p:confirm header="#{msgs.prioridadConfirmacionEliminarPrioridad}" message="#{msgs.prioridadmensajeConfirmarEliminarRegistro}" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGrid> 
+                    </div>
+                    <p:confirmDialog  global="true" showEffect="fade" >
+                        <div align="center">
+                            <h:panelGrid columns="3" style="text-align: left">
+                                <p:commandButton value="#{msgs.prioridadListadoSiPrioridad}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:separator id="separadorPreferencia" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                <p:commandButton value="#{msgs.prioridadListadoNoPrioridad}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </h:panelGrid>
+                        </div>
+                    </p:confirmDialog>
+                </h:panelGrid> 
+                <p:panel id="panelBotonesGuardado" style="border-style: hidden">
+                    <!--                    <div align="center" style="padding: 1em 2.2em">
+                                            <p:commandButton id="btnSinPrioridad"
+                                                             value="Adiciona Datos sin prioridades"
+                                                             actionListener="# {registroGeneralBean.adicionaSinDatosPrioridadGeneral()}"
+                                                             update=":form"
+                                                             icon="ui-icon ui-icon-disk">
+                                                <f:ajax execute="@this" event="click"/>
+                                            </p:commandButton>
+                                        </div>-->
+                    <!--                                        <div align="center" style="padding:1em 2.2em;">
+                                                                <p:commandButton id="guardarPrioridad"
+                                                                                 value="Adiciona Datos Prioridad General"      
+                                                                                 actionListener="# {registroGeneralBean.guardadoGeneralPrioridadPreferencia()}"
+                                                                                 update=":form :form:mensajeGeneral"
+                                                                                 icon="ui-icon ui-icon-disk">
+                                                                    <f:ajax execute="@this" event="click"/>
+                                                                </p:commandButton>
+                                                            </div>-->
+                </p:panel>
+            </p:fieldset>
+            <!--<h:inputText value="D I R E C C I O N   N O T I F I C A C I O N"></h:inputText>-->
+
+            <p:fieldset legend="#{msgs.formModificacionDomicilioEfectosDeNotificacion}" toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <div align="left">
+                    <p:panelGrid columns="2" style="width:100%; height:280px ; border-style: hidden">
+                        <p:column width="50%" style="width:50%;height:400px; border-style: hidden">
+                            <div align="right" style="padding:0.0em 0.0em;">
+                                <h:panelGrid id="botonDireccion" columns="7" cellpadding="1">
+                                    <p:commandButton id="BuscaDireccion" type="button" 
+                                                     value="#{msgs.usuarioNotificacionFormularioCincoObtDir}" 
+                                                     onclick="PF('buscaDireccion').show()" 
+                                                     rendered="true"
+                                                     title ="Cargar Domicilio guardado con anterioridad"
+                                                     icon="ui-icon-arrowthickstop-1-s"/>
+                                </h:panelGrid>
+                                <p:growl showDetail="true"/>
+                            </div>
+                            <div align="left">
+                                <h:panelGrid columns="2" id="datosDireccionNotificacionTramite">
+                                    <h:column>
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoDirNot}" 
+                                                       style="color: #{registroGeneralBean.colorLabel}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="3">
+                                            <h:selectOneMenu value="#{registroGeneralBean.tipoCiudadNotificacion}" title="OBLIGATORIO. Ingrese ciudad que se encuentre dentro de la jurisdicción del SENAPI: La Paz, El Alto, Cochabamba y Santa Cruz."
+                                                             style="#{registroGeneralBean.cambiaBordeCampoCiudadNotificacion==true?'border-color: #C00':''}">
+                                                <f:selectItems value="#{registroGeneralBean.listaCiudadNotificaciones}" 
+                                                               var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" id="selectCiudades"/>
+                                                <p:ajax update=":form:mapaGoogleVista  :form:googleMapsBotonRegistrar" listener="#{registroGeneralBean.handleChange()}" />
+                                            </h:selectOneMenu>
+                                            <si.componentes:informacion dimension="70%" mensaje="#{msgs.mensajeCiudadNotificacionInformacion}"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoBarrio}" style="width: 70%"/>  
+                                            </h:panelGrid> 
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText 
+                                            id="txt_barrio" 
+                                            value="#{registroGeneralBean.direccion.zonaBarrio}" 
+                                            autocomplete="off" 
+                                            maxlength="150" title="OBLIGATORIO. Especifique Nombre de Zona ó Barrio, para efectos de Notificación"
+                                            style="#{registroGeneralBean.cambiaBordeCampoDatoBarrio==true?'border-color: #C00':''};width: 70%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align:right">
+                                                <h:outputLabel value="*" style="color: #C00;size: 50"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCalle}"/>  
+                                            </h:panelGrid> 
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText id="txt_calle" value="#{registroGeneralBean.direccion.avenidaCalle}"  autocomplete="off"
+                                                     title="OBLIGATORIO. Especifique Nombre de la Calle ó Avenida, para efectos de Notificación" maxlength="200" 
+                                                     style="#{registroGeneralBean.cambiaBordeCampoDatoAvenida==true?'border-color: #C00':''};width: 70%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumero}"/>  
+                                            </h:panelGrid> 
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText id="txt_numero" value="#{registroGeneralBean.direccion.numero}" autocomplete="off" 
+                                                     title="OBLIGATORIO. Especifique Numero de la vivienda o edificio" size="5"
+                                                     maxlength="10" style="#{registroGeneralBean.cambiaBordeCampoDatoNumero==true?'border-color: #C00':''};width: 7%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:column>
+                                            <div align="right">
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoEdificio}"/>
+                                            </div>
+                                        </h:column>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="7">
+                                            <h:inputText id="txt_edificio" value="#{registroGeneralBean.direccion.edificio}" size="30"
+                                                         autocomplete="off" maxlength="110" title="Mencione el nombre de edificio de ser necesario"
+                                                         style="width: 100%"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoPiso}"/>
+                                            <h:inputText id="txt_piso" value="#{registroGeneralBean.direccion.piso}" autocomplete="off" onkeyup="return ValNumero(this);" maxlength="10"
+                                                         title="Mencione el numero de piso si es necesario" style="width: 100%;margin: 0.0" size="6"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            <h:outputLabel value=" #{msgs.usuarioNotificacionFormularioCincoNumDep}"/>  
+                                            <h:inputText id="txt_depto" value="#{registroGeneralBean.direccion.dpto}" autocomplete="off" 
+                                                         title="Mencione el numero de departamento si es necesario" maxlength="10" style="width: 100%" size="6"/>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.lmComercialTelefonoReferencia}"/>
+                                            </h:panelGrid>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="3">
+                                            <h:inputText 
+                                                id="txt_celular" value="#{registroGeneralBean.direccion.telefonoReferencia}"
+                                                autocomplete="off" maxlength="15" size="12"
+                                                title="OBLIGATORIO. Número de Movil o telf. Celular para efectos de Notificación"
+                                                style="#{registroGeneralBean.cambiaBordeCampoDatoCelular==true?'border-color: #C00':''}" />
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCorreoElectronico}"/>  
+                                            </h:panelGrid>                             
+                                            <h:inputText id="txt_correoElectronico" value="#{registroGeneralBean.direccion.correoElectronico}"
+                                                         title="OBLIGATORIO. Correo Electrónico Ejem. nombre@dominio.com, para efectos de Notificación" size="30"
+                                                         autocomplete="off" maxlength="75" style="#{registroGeneralBean.cambiaBordeCampoCorreoElectronico==true?'border-color: #C00':''}"/>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:outputLabel value="#{msgs.lmComercialDatosDomicilioDeNotificacion}"/>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText 
+                                            value="#{registroGeneralBean.direccion.referenciaDireccion}"
+                                            id="txt_referencia" autocomplete="off"
+                                            maxlength="250" title="Mencione una referencia cercana, Ejem. una plaza, iglesia u otros"
+                                            style="width: 70%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoRegistrarGMaps}" />                                    
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="6" id="googleMapsBotonRegistrar">
+                                            <p:selectBooleanButton id="valorBotonMapa" value="#{registroGeneralBean.valorBotonMapa}" 
+                                                                   onLabel="SI" offLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax 
+                                                    update="form" process="@form"
+                                                    listener="#{registroGeneralBean.activaRenderMapa()}"
+                                                    />
+                                            </p:selectBooleanButton>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoLatitud}"/>  
+                                            <h:inputText 
+                                                id="txt_coordenadaX" 
+                                                style=";width: 70%" 
+                                                value="#{registroGeneralBean.direccion.coordenadaX}" 
+                                                size="20" 
+                                                autocomplete="off"  
+                                                onkeyup="return ValNumero(this);" 
+                                                maxlength="10"
+                                                disabled="true"></h:inputText>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoLongitud}"></h:outputLabel> 
+                                            <h:inputText 
+                                                id="txt_coordenadY" 
+                                                style=";width: 70%"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                value="#{registroGeneralBean.direccion.coordenadaY}" 
+                                                size="20" 
+                                                autocomplete="off" 
+                                                maxlength="10" 
+                                                disabled="true"
+                                                >
+                                            </h:inputText>
+                                        </h:panelGrid>
+                                    </h:column>
+                                </h:panelGrid>
+                            </div> 
+                        </p:column>
+                        <p:column width="50%" style="width:50%;border-color:#ffffff"  rendered="#{registroGeneralBean.renderMapa}" id="drawmapa" disabledSelection="true">
+                            <p:panel id="mapaGoogleVista" style="margin: 0.0">
+                                <div align="center" style="margin: 0.0">
+                                    <p:growl id="growl" showDetail="true"/>
+                                    <si.componentes:informacion dimension="100%" mensaje="#{msgs.usuarioNotificacionFormularioCincoInstruccionesGMaps}"/>
+                                    <p:gmap 
+                                        center="#{registroGeneralBean.centroMapa}" 
+                                        zoom="#{registroGeneralBean.zoomID}" 
+                                        rendered="true"
+                                        type="ROADMAP" 
+                                        style="width:100%;height:400px;margin: 0.0"
+                                        model="#{registroGeneralBean.draggableModel}"
+                                        onPointClick="handlePointClick(event);" >
+                                        <p:ajax event="markerDrag" listener="#{registroGeneralBean.onMarkerDrag}" update="form"
+                                                process="@form"/>
+                                        <p:ajax event="pointSelect" process="@form" listener="#{registroGeneralBean.onPointSelect}"/>
+                                        <!--<p:ajax event="stateChange" listener="# {registroGeneralBean.onStateChange}"/>-->
+                                    </p:gmap>
+                                    <br></br>
+                                </div>
+                            </p:panel>
+                        </p:column>
+                        <p:dialog header="#{msgs.usuarioNotificacionFormularioCincoListaDireccionesUsuario}" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                                  width="98%" height="80%" showEffect="clip" hideEffect="fold" style="text-align: center" modal="true">
+                            <div align="center" style="padding:1em 2.2em;">
+
+                                <p:dataTable var="itemDireccion" 
+                                             id="listaDireccion"
+                                             rowKey="#{itemDireccion.zonaBarrio}"
+                                             value="#{registroGeneralBean.listadoDeDireccionPorUsuario()}" 
+                                             widgetVar="listaDireccion"
+                                             selectionMode="single"
+                                             scrollable="true"
+                                             selection="#{registroGeneralBean.direccionSeleccionadaPopup}"
+                                             style="width: 100%">
+
+                                    <f:facet name="header">  
+                                        <p:outputPanel>
+                                            <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoLisDirPop}" />
+                                        </p:outputPanel>
+                                    </f:facet> 
+
+                                    <p:column  filterBy="#{itemDireccion.zonaBarrio}" sortBy="#{itemDireccion.zonaBarrio}" 
+                                               headerText="#{msgs.usuarioNotificacionFormularioCincoBarrioPop}" width="8%">  
+                                        <h:outputText value="#{itemDireccion.zonaBarrio}" />
+                                    </p:column>
+
+                                    <p:column 
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoCallePop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.avenidaCalle}" />
+                                    </p:column>
+
+                                    <p:column  
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoNumeroPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.numero}" />
+                                    </p:column>
+
+                                    <p:column  
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoEdificioPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.edificio}" />
+                                    </p:column>
+
+                                    <p:column 
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoPisoPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.piso}" />
+                                    </p:column>
+
+                                    <p:column  
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoCiudadPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.tipoCiudadNotificacion.descripcion}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoSelecPop}" width="8%" 
+                                              style="width:32px;text-align: center">
+                                        <p:commandButton
+                                            id="botonSeleccionar"
+                                            title="#{msgs.usuarioNotificacionFormularioCincoBotonCargarDireccion}"      
+                                            update=":form:datosDireccionNotificacionTramite :form:txt_celular"
+                                            icon="ui-icon-transfer-e-w"
+                                            actionListener="#{registroGeneralBean.cargaDatosDireccionDialogo(event,itemDireccion)}"
+                                            onclick="PF('buscaDireccion').hide();"> 
+                                            <f:ajax execute="@this" event="click"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton
+                                        value="#{msgs.usuarioNotificacionFormularioCincoCancePop}"
+                                        onclick="PF('buscaDireccion').hide();"
+                                        icon="ui-icon-arrowreturnthick-1-w">
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:dialog>
+                    </p:panelGrid>
+                </div>
+            </p:fieldset>
+
+            <div align="center" style="padding:2.1em 2.1em">
+                <p:commandButton value="#{msgs.mensajeFormularioFinalizar}"
+                                 action="#{registroGeneralBean.guardadoGeneralFormularioSolicitud()}"
+                                 update=":form:mensajeGeneral"
+                                 ajax="false"
+                                 image="ui-icon-disk">                     
+                </p:commandButton>
+                <p:commandButton
+                    value="#{msgs.mensajeFormularioRegresarBandeja}"
+                    ajax="false"
+                    action="#{registroGeneralBean.volverBandeja()}"
+                    icon="ui-icon-arrowreturnthick-1-w"
+                    />
+            </div>
+        </h:form>    
+
+        <h:form id="formDos">
+
+            <p:dialog header="#{msgs.pestaniaTresCargaImagen}" widgetVar="cargaImagen" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="50%" height="50%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <si.componentes:informacion  dimension="100%" mensaje="#{msgs.mensajeCargadoImagenInformacion}"/>
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{registroGeneralBean.cargaImagenProyecto}" 
+                                  mode="advanced"
+                                  sizeLimit="4194304"
+                                  invalidFileMessage="#{msgs.pestaniaTresMensajeFileUploadImagen}"
+                                  allowTypes="/(\.|\/)(jpg|JPG)$/" 
+                                  label="#{msgs.pestaniaTresBuscarImagen}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaImagen}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  update="nombreImagenText,finalizaCargaImagen,mensajeSalidaimagen :form:imagenCargadaGaleria :formDos:panelImagenDialogo :formDos:principalImagenDialog :form:eliminaImagenBoton :form:panelGridGaleriaDos" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresImagenCargada}"/>
+                    <p:inputText id="nombreImagenText" value="#{registroGeneralBean.nombreImagenCargar}"/>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="#{registroGeneralBean.campoValidacionCargaImagen}" id="mensajeSalidaimagen"  style="font-weight: bold;"/>
+                    <!--<p:messages id="mensajeCargaImagenDialogo" showDetail="true" style="width: 50%"/>-->
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="finalizaCargaImagen"
+                        value="#{msgs.pestaniaTresFinalizar}"
+                        action="#{registroGeneralBean.actualizaCamposImagen()}"
+                        onclick="PF('cargaImagen').hide();"
+                        update=":formDos"
+                        disabled="#{registroGeneralBean.habilitaCargarImagenFinalizarDialogo}"
+                        icon="ui-icon-disk"/>
+                    <p:commandButton
+                        id="cancelarCargaImagen"
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('cargaImagen').hide();"
+                        icon="ui-icon-arrowreturnthick-1-w"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="cargarArchivoPopUp" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="cargaArchivo" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <h3>#{msgs.pestaniaTresElegirLogo}</h3>
+                    <p:fileUpload fileUploadListener="#{registroGeneralBean.cargaArchivoNizaActionListener}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresMensajeFileUploadLogo}"
+                                  allowTypes="/(\.|\/)(txt|doc|docx|pdf)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresMensajeFileUploadLogoError}"
+                                  update="archivoCargaURLDialogo,finalizaCargaArchivo,mensajeCargaArchivoDialogo :form:archivoCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="#{msgs.pestaniaTresArchivoCargado}"/>
+                        <h:inputText id="archivoCargaURLDialogo" value="#{registroGeneralBean.nombreArchivo}" disabled="true" size="60"/>
+                    </h:panelGrid>
+                    <p:messages id="mensajeCargaArchivoDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="finalizaCargaArchivo"
+                        value="#{msgs.pestaniaTresFinalizar}"
+                        onclick="PF('cargaArchivo').hide();"
+                        disabled="#{registroGeneralBean.habilitaCargarArchivoFinalizarDialogo}"
+                        icon="ui-icon-disk"/>
+                    <p:commandButton
+                        id="cancelarCargaArchivo"
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('cargaArchivo').hide();"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+
+            <p:dialog header="#{msgs.pestaniaTresListaClaseNIZA}" widgetVar="BuscaClaseniza" resizable="false" closable="false"
+                      width="80%" height="100%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <p:ring id="anillo"  value="#{registroGeneralBean.listadoDeClaseNiza()}" var="itemClaseniza">
+                    <p:outputPanel  style="text-align: center;width: 100%"  layout="block">
+                        #{itemClaseniza.numeroClaseNiza}
+                        <br />
+                        <p:commandButton   update=":formDos:descripcionNiza" icon="ui-icon-search"  oncomplete="PF('nizaDescripcion').show();" title="View" >
+                            <f:setPropertyActionListener value="#{itemClaseniza}" target="#{registroGeneralBean.clasenizaSeleccionada}" />
+                        </p:commandButton>
+                    </p:outputPanel>
+                </p:ring>
+                <div align="left" style="padding:1em 2.2em;">
+                    <p:fieldset legend="#{msgs.pestaniaTresBusquedaEspecial}" toggleable="true" toggleSpeed="500" style="height: 50%">
+                        <h:panelGrid columns="4" id="idBuscadorNiza">
+                            <p:outputLabel value="#{msgs.pestaniaTresPalabra}"/>
+                            <p:inputText value="#{registroGeneralBean.palabraBuscar}"/>
+
+                            <p:commandButton
+                                value="#{msgs.pestaniaTresBusqueda}"
+                                action="#{registroGeneralBean.filtroListaClaseNiza()}"
+                                update=":formDos:listaClaseNiza"
+                                icon="ui-icon-search"/>
+                            <p:commandButton
+                                value="#{msgs.pestaniaTresLimpiarBusqueda}"
+                                action="#{registroGeneralBean.limpiaBuscador()}"
+                                update=":formDos:listaClaseNiza :formDos:idBuscadorNiza"
+                                icon="ui-icon-search"/>
+                        </h:panelGrid>
+                        <p:dataTable var="niza"
+                                     id="listaClaseNiza"
+                                     rowKey="#{niza.idClaseNiza}"
+                                     value="#{registroGeneralBean.listadoClasenizaBuscador}"
+                                     widgetVar="listaclaseNizaBuscador"
+                                     style="width: 100%"
+                                     scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="150"  >
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.pestaniaTresListaDeProductoServicio}" />
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column  sortBy="#{niza.numeroClaseNiza}" headerText="#{msgs.pestaniaTresHeaderColumnaUno}" width="1%">
+                                <h:outputText value="#{niza.numeroClaseNiza}" />
+                            </p:column>
+
+                            <p:column   headerText="#{msgs.pestaniaTresProducto}" width="5%">
+                                <h:outputText value="#{niza.tipo==true?'Producto':''}" />
+                            </p:column>
+
+                            <p:column   headerText="#{msgs.pestaniaTresServicio}" width="5%">
+                                <h:outputText value="#{niza.tipo!=true?'Servicio':''}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{niza.notaTipoClaseNiza}" sortBy="#{niza.notaTipoClaseNiza}" 
+                                       headerText="#{msgs.pestaniaTresHeaderColumnaCinco}" width="15%">
+                                <h:outputText value="#{niza.notaTipoClaseNiza}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:fieldset>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('BuscaClaseniza').hide();"
+                        action="#{registroGeneralBean.limpiaListadosSeleccionados()}"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="descripcionNiza" header="#{msgs.pestaniaTresCLASENIZAINFORMACION}" widgetVar="nizaDescripcion" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="70%" closable="false">
+                <p:outputPanel id="nizadescripcionlista" style="text-align:center;" layout="block">
+                    <p:panelGrid  columns="2" columnClasses="value">
+                        <f:facet name="header">
+                        </f:facet>
+                        <h:outputText value="#{msgs.pestaniaTresNumero}" />
+                        <h:outputText value="#{registroGeneralBean.clasenizaSeleccionada.idClaseNiza}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresTipo}" />
+                        <h:outputText value="#{registroGeneralBean.clasenizaSeleccionada.numeroClaseNiza==false?'Producto':'Servicio'}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresDescripcion}" />
+                        <h:outputText value="#{registroGeneralBean.listadoProductosPorClaseNiza()}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresNotaExplicativa}" />
+                        <h:outputText value="#{registroGeneralBean.clasenizaSeleccionada.tiposClaseNiza}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="uno"
+                        value="#{msgs.pestaniaTresCerrar}"
+                        onclick="PF('nizaDescripcion').hide();"
+                        action="#{registroGeneralBean.limpiaListadosSeleccionados()}"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="colorDialog" header="#{msgs.pestaniaTresDialogoColorHeader}" widgetVar="colorDialog" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="60%" height="40%" closable="false">
+                <p:panel id="panelColorDialogo" >
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h:outputLabel value="Tipo Color: "/>
+                        <h:selectOneMenu id="tipoColorImagen" value="#{registroGeneralBean.tipoColor}"  >
+                            <f:selectItems value="#{registroGeneralBean.listaTipoColor}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                        </h:selectOneMenu>
+                        <p:spacer width="5" height="0"  />                        
+                        <h:outputLabel value="Valor: "/>
+                        <h:inputText value="#{registroGeneralBean.colorPopup}"></h:inputText>
+                        <p:spacer width="5" height="0"  />                        
+                        <p:commandButton value="#{msgs.pestaniaTresDialogoColorBotonAddColor}"
+                                         action="#{registroGeneralBean.adicionaColor(e)}"
+                                         icon="ui-icon-disk"
+                                         update=":formDos:colorLista,mensaje,logoInfo,mensajeInfo :formDos:panelColorDialogo" />
+                        <p:panel style="width: 90%">
+                            <h:panelGrid id="mensaje" columns="2">
+                                <p:graphicImage id="logoInfo" value="/resources/images/informacion3.png" 
+                                                rendered="#{registroGeneralBean.mensajeColorRendered}"/>
+                                <h:outputText id="mensajeInfo" value="#{registroGeneralBean.mensajeColor}" style="font-size:12px;color:#045491 " 
+                                              rendered="#{registroGeneralBean.mensajeColorRendered}"/>
+                            </h:panelGrid>
+                            <p:dataTable id="colorLista"
+                                         var="color" 
+                                         value="#{registroGeneralBean.listaColoresBase}" 
+                                         scrollable="true" 
+                                         scrollHeight="150"
+                                         style="width: 400px"
+                                         >
+                                <f:facet name="header">
+                                    #{msgs.pestaniaTresFacetListaColores}
+                                </f:facet>
+                                <p:column headerText="Tipo Color" 
+                                          style="text-align:center; width: 60px">
+                                    <div align="right">
+                                        <h:outputText value="#{color.tipoColor.descripcion}" />
+                                    </div>
+                                </p:column>
+                                <p:column headerText="Color" 
+                                          style="text-align:center; width: 60px">
+                                    <div align="right">
+                                        <h:outputText value="#{color.dato}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" 
+                                          footerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" style="text-align:center; width: 80px">
+                                    <p:commandButton process="colorLista" 
+                                                     icon="ui-icon-circle-minus" 
+                                                     update=":formDos:panelColorDialogo"
+                                                     action="#{registroGeneralBean.quitaColorDeLaLista(color)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                    <div align="center" style="padding:1.0em 1.0em;">
+                        <p:commandButton id="adicionaMensaje"
+                                         value="#{msgs.pestaniaTresDialogoBotonGuardaListaColores}"
+                                         actionListener="#{registroGeneralBean.adicionaColorListado()}"
+                                         onclick="PF('colorDialog').hide();"
+                                         icon="ui-icon-disk"/>
+
+                        <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                         onclick="PF('colorDialog').hide();"
+                                         icon="ui-icon-arrowreturnthick-1-w"/>
+                    </div>
+                </p:panel>
+            </p:dialog>
+            <p:dialog id="eliminaImagenDialog" header="#{msgs.pestaniaTresDialogoEliminaHeader}" widgetVar="eliminaImagenDialog" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="50%" height="40%" closable="false">
+                <div align="center" >
+                    <p:panel id="panelImagenDialogo">
+                        <h:panelGrid id="mensajeImagenElimina" columns="2">
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.pestaniaTresDialogoMensajeGraphics}" 
+                                          style="font-size:12px;color:#045491 "/>
+                        </h:panelGrid>
+                        <p:dataTable  id="imagenesLista"
+                                      var="imagen" 
+                                      value="#{registroGeneralBean.listaImagenLogotipos}" 
+                                      scrollable="true" 
+                                      scrollHeight="200"
+                                      style="width: 400px"
+                                      >
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresDialogoListaImagenes}
+                            </f:facet>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" 
+                                      footerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" style="text-align:center; width: 80px">
+                                <p:graphicImage value="/temp/#{imagen.idSMLogotipo.nombreArchivo}" width="40%" />
+                            </p:column>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" 
+                                      footerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" style="text-align:center; width: 80px">
+                                <p:commandButton process="imagenesLista" 
+                                                 icon="ui-icon-trash" 
+                                                 update="imagenesLista :formDos:panelImagenPrincipalDialogo  :form:imagenCargadaGaleria :form:panelGridGaleria :form:graphicImagnen"
+                                                 action="#{registroGeneralBean.quitaImagenDeLaListaOriginal(imagen)}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                             onclick="PF('eliminaImagenDialog').hide();"
+                                             icon="ui-icon-arrowreturnthick-1-w"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+            <p:dialog id="principalImagenDialog" header="#{msgs.pestaniaTresDialogoImagenPrincipal}" widgetVar="principalImagenDialog" 
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="60%" height="40%" closable="false">
+                <div align="center" >
+                    <p:panel id="panelImagenPrincipalDialogo">
+                        <h:panelGrid id="mensajeImagenPrincipal" columns="2" >
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.pestaniaTresDialogoImagenPrincipalSeleccione}" style="font-size:12px;color:#045491 "/>
+                        </h:panelGrid>
+                        <p:dataTable  id="imagenesPrincipalLista"
+                                      var="imagenPrincipal" 
+                                      value="#{registroGeneralBean.listaImagenLogotipos}" 
+                                      selection="#{registroGeneralBean.logotipoImagenObjetoSelecciona}"             
+                                      rowKey="#{imagenPrincipal.idSMLogotipo.nombreArchivo}"
+                                      scrollable="true" 
+                                      scrollHeight="250"
+                                      selectionMode="single" 
+                                      style="width: 500px">
+                            <p:ajax event="rowSelect" listener="#{registroGeneralBean.selecionaImagenPrincipal(e)}" update="imagenesPrincipalLista"/>
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresDialogoListaImagenes}
+                            </f:facet>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoColumnaPrincipal}" style="width: 10px"/>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" 
+                                      footerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" style="width: 40px">
+                                <p:graphicImage value="/temp/#{imagenPrincipal.idSMLogotipo.nombreArchivo}" width="40%"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="#{msgs.pestaniaTresDialogoGuardaryVolver}"
+                                                 action="#{registroGeneralBean.guardaLogoTipoSellecionadoPrincipal()}"
+                                                 onclick="PF('principalImagenDialog').hide();"
+                                                 icon="ui-icon-arrowreturnthick-1-w"/>
+
+                                <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                                 onclick="PF('principalImagenDialog').hide();"
+                                                 icon="ui-icon-arrowreturnthick-1-w"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="adiconaArchivoTXT" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="adiconaArchivoTXT" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center">
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{registroGeneralBean.cargaArchivoTXT}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresDialogoAdicionaArchivoInvalidaMensaje}"
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresDialogoAdicionaArchivoMessageTemplate}"
+                                  update="nombreArchivoText,finalizaCargaArchivoTXT,mensajeCargaArchivoTxtDialogo :form:archivoTXTCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center">
+                    <p:outputLabel value="#{msgs.pestaniaTresDialogoAdicionaArchivoNombreArchivo}"/>
+                    <p:inputText id="nombreArchivoText" value="#{registroGeneralBean.nombreArchivo}"/>
+                    <p:messages id="mensajeCargaArchivoTxtDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="finalizaCargaArchivoTXT" 
+                                     value="#{msgs.pestaniaTresFinalizar}"
+                                     onclick="PF('adiconaArchivoTXT').hide();"
+                                     update=":form:cargaArchivoTXT"
+                                     disabled="#{registroGeneralBean.habilitaCargarArchivoFinalizarDialogo}"
+                                     icon="ui-icon-disk"/>
+                    <p:commandButton value="#{msgs.pestaniaTresCancelar}"
+                                     onclick="PF('adiconaArchivoTXT').hide();"
+                                     icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="adiconaArchivoTXTNiza" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="adiconaArchivoTXTNiza" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center">
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{registroGeneralBean.cargaArchivoTXTNiza}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresDialogoAdicionaArchivoInvalidaMensaje}"
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresDialogoAdicionaArchivoMessageTemplate}"
+                                  update="nombreArchivoTextNiza,finalizaCargaArchivoTXTNiza,mensajeCargaArchivoTxtDialogo :form:archivoCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresDialogoAdicionaArchivoNombreArchivo}"/>
+                    <p:inputText id="nombreArchivoTextNiza" value="#{registroGeneralBean.nombreArchivoTXTNiza}"/>
+                    <p:messages id="mensajeCargaArchivoTxtDialogoNiza" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="finalizaCargaArchivoTXTNiza" 
+                                     value="#{msgs.pestaniaTresFinalizar}"
+                                     onclick="PF('adiconaArchivoTXTNiza').hide();"
+                                     disabled="#{registroGeneralBean.habilitaCargarArchivoFinalizarDialogoNiza}"
+                                     icon="ui-icon-disk"/>
+                    <p:commandButton value="#{msgs.pestaniaTresCancelar}"
+                                     onclick="PF('adiconaArchivoTXTNiza').hide();"
+                                     icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+            <p:dialog header="#{msgs.usuarioNotificacionFormularioCincoListaDireccionesUsuario}" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                      width="98%" height="80%" showEffect="clip" hideEffect="fold" style="text-align: center" modal="true">
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <p:dataTable var="itemDireccion" 
+                                 id="listaDireccion"
+                                 rowKey="#{itemDireccion.zonaBarrio}"
+                                 value="#{registroGeneralBean.listadoDeDireccionPorUsuario()}" 
+                                 widgetVar="listaDireccion"
+                                 selectionMode="single"
+                                 scrollable="true"
+                                 selection="#{registroGeneralBean.direccionSeleccionadaPopup}"
+                                 style="width: 100%">
+
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoLisDirPop}" />
+                            </p:outputPanel>
+                        </f:facet> 
+
+                        <p:column  filterBy="#{itemDireccion.zonaBarrio}" sortBy="#{itemDireccion.zonaBarrio}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoBarrioPop}" width="8%">  
+                            <h:outputText value="#{itemDireccion.zonaBarrio}" />
+                        </p:column>
+
+                        <p:column 
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoCallePop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.avenidaCalle}" />
+                        </p:column>
+
+                        <p:column  
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoNumeroPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.numero}" />
+                        </p:column>
+
+                        <p:column  
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoEdificioPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.edificio}" />
+                        </p:column>
+
+                        <p:column 
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoPisoPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.piso}" />
+                        </p:column>
+
+                        <p:column  
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoCiudadPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.tipoCiudadNotificacion.descripcion}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoSelecPop}" width="8%" 
+                                  style="width:32px;text-align: center">
+                            <p:commandButton
+                                id="botonSeleccionar"
+                                title="#{msgs.usuarioNotificacionFormularioCincoBotonCargarDireccion}"      
+                                update=":form:datosDireccionNotificacionTramite :form:txt_celular"
+                                icon="ui-icon-transfer-e-w"
+                                actionListener="#{registroGeneralBean.cargaDatosDireccionDialogo(event,itemDireccion)}"
+                                onclick="PF('buscaDireccion').hide();"> 
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="#{msgs.usuarioNotificacionFormularioCincoCancePop}"
+                            onclick="PF('buscaDireccion').hide();"
+                            icon="ui-icon-arrowreturnthick-1-w">
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="cargaApoderado" header="#{msgs.apoderadoPanelApoderadoNombrePanel}" widgetVar="buscaApoderado" closable="false"
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="90%" height="100%">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel style="width: 100%">
+                        <p:dataTable var="itempersonaEmpresa" 
+                                     id="listaApoderado"
+                                     rowKey="#{itempersonaEmpresa}"
+                                     value="#{registroGeneralBean.listadoPersonaEmpresaApoderadoFinal}" 
+                                     widgetVar="listapersonaEmpresa"
+                                     scrollable="true" scrollHeight="250" 
+                                     resizableColumns="true"
+                                     style="width: 100%">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.apoderadoPanelApoderadoListaApoderados}" />
+                                </p:outputPanel>
+                            </f:facet> 
+
+                            <p:column  headerText="#{msgs.apoderadoPanelApoderadoNombres}" width="6%">  
+                                <h:outputText value="#{itempersonaEmpresa.nombres}" />
+                            </p:column>
+
+                            <p:column  headerText="#{msgs.apoderadoPanelApoderadoApellidoPaterno}" width="6%">  
+                                <h:outputText value="#{itempersonaEmpresa.apellidoPaterno}" />
+                            </p:column>
+
+                            <p:column headerText="#{msgs.apoderadoPanelApoderadoApellidoMaterno}" width="6%">  
+                                <h:outputText value="#{itempersonaEmpresa.apellidoMaterno}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.apoderadoPanelApoderadoNroDocumento}" width="4%">  
+                                <h:outputText value="#{itempersonaEmpresa.numeroDocumento}" />
+                            </p:column>
+                            <p:column  headerText="#{msgs.apoderadoPanelApoderadoDescripcion}" width="5%">  
+                                <h:outputText value="#{itempersonaEmpresa.tipoDocumento.descripcion}" />
+                            </p:column>
+                            <p:column  headerText="Lugar Expedición" width="5%">  
+                                <h:outputText value="#{itempersonaEmpresa.lugarExpedicion.descripcion}" />
+                            </p:column>
+                            <p:column  headerText="Género" width="4%">  
+                                <h:outputText value="#{itempersonaEmpresa.tipoGeneroPersona.descripcion}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.apoderadoPanelApoderadoSeleccione}" width="%" style="width:32px;text-align: center">
+                                <p:commandButton 
+                                    update=":form"
+                                    icon="ui-icon-transfer-e-w" 
+                                    actionListener="#{registroGeneralBean.cargaDatosApoderadoPersonaDialogo(itempersonaEmpresa)}"
+                                    onclick="PF('buscaApoderado').hide();"
+                                    >
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="#{msgs.apoderadoPanelApoderadoCancelar}"
+                                onclick="PF('buscaApoderado').hide();"                                  
+                                icon="ui-icon-arrowreturnthick-1-w"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog> 
+
+
+
+
+
+
+
+
+        </h:form>
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+
+
+
+    </ui:define>
+</ui:composition>            

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel header="#{modificarOtrosDatosTramiteBean.texto}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000" autoUpdate="true"/>  
+                <p:panel id="mapa" style="text-align: center;width: 100%;overflow-y:auto ; border-style: hidden; overflow-x: auto;border-color: white">
+                    <div align="center">
+
+                        <p:column style="width:50%;height:400px">
+                            <p:panel  id="panelDirecciones" style="border-style: hidden; border-color: transparent">
+
+                                <div align="center">
+                                    <p:growl showDetail="true"/>
+                                    <h:panelGrid columns="2" id="datosDireccionNotificacionTramite">
+                                        <h:panelGrid columns="2" style="text-align: right">
+                                            <h:outputLabel value="*" style="color: #C00"/>  
+                                            <h:outputLabel value="Etapa Tramite:"/>  
+                                        </h:panelGrid> 
+                                        <p:selectOneMenu id="etapa"  value="#{modificarOtrosDatosTramiteBean.etapaSeleccionada}"  
+                                                         
+                                                         >  
+                                           
+                                            <f:selectItem   id="etapaselect" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{modificarOtrosDatosTramiteBean.etapaSeleccionada}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{modificarOtrosDatosTramiteBean.listaEtapasTramite}" 
+                                                           var="r" itemLabel="#{r.etapaTramite.descripcion}" itemValue="#{r.etapaTramite.codigo}"/>
+                                            <p:ajax event="change" update=":form:etapa" listener="#{modificarOtrosDatosTramiteBean.activaCombo(e)}" />
+                                        </p:selectOneMenu>
+
+
+
+                                        <h:panelGrid columns="2" style="text-align: right">
+                                            <h:outputLabel value="*" style="color: #C00"/>  
+                                            <h:outputLabel value="Estado Proceso"/>  
+                                        </h:panelGrid> 
+                                        <p:selectOneMenu id="estado"  value="#{modificarOtrosDatosTramiteBean.estadoSeleccionado}"  
+                                                         
+                                                         >  
+                                           
+                                            <f:selectItem   id="estadoselect" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{modificarOtrosDatosTramiteBean.estadoSeleccionado}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{modificarOtrosDatosTramiteBean.listaEstadoProceso}" 
+                                                           var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update=":form:estado" listener="#{modificarOtrosDatosTramiteBean.activaComboEstado(e)}" />
+                                        </p:selectOneMenu>
+
+                                        <h:panelGrid columns="2" style="text-align: right">
+                                            <h:outputLabel value="*" style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCorreoElectronico}"/>  
+                                        </h:panelGrid>                             
+                                        <p:inputTextarea id="observacion" style="width: 500px" value="#{modificarOtrosDatosTramiteBean.observacion}" rows="5" cols="60" 
+                                                         counter="contadorDesLogo" maxlength="245" counterTemplate="{0}  caracteres restantes de 245" autoResize="false" />
+                                        <h:outputLabel value=""/>
+                                        <h:outputText id="contadorDesLogo" style="color: #045491"/>
+                                        
+                                    </h:panelGrid>
+
+                                </div> 
+                            </p:panel>  
+                        </p:column>
+                        <p:separator style=";width: 1px;border-style: hidden"></p:separator>
+
+
+                    </div>
+
+
+                    <p:separator style="width: 0px; border: 0px;height: 15px"></p:separator>
+                    <p:commandButton 
+                        id="botonadicionamodifica"
+                        value="Guardar"
+                        update=":form:etapa, :form:estado, form:observacion"
+                        action ="#{modificarOtrosDatosTramiteBean.modificarOtrosDatos()}"
+                        icon = "ui-icon-disk">
+                    </p:commandButton>
+
+                </p:panel>
+                <p:panel id="panelnuevo" style="border-style: hidden">
+                    <div align="center" style="padding:0.5em 0em;">
+                        <p:toolbar style="width: 99%;" >
+                            <p:toolbarGroup align="left"  >
+
+                                <h:commandButton
+                                    id="botonRetornar"
+                                    value="#{msgs.mensajeAnterior}"
+                                    action="menuModificacionGeneral">
+
+                                </h:commandButton>
+
+                            </p:toolbarGroup>   
+
+                        </p:toolbar>  
+                    </div> 
+                </p:panel>
+            </p:panel>
+        </h:form>
+
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>            

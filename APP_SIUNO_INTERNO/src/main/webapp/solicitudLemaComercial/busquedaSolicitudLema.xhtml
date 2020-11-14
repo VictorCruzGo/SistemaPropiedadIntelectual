@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form>  
+            <p:panel header="FORMULARIO DE SOLICITUD DE LEMA COMERCIAL"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:0.5em 0.5em;">     
+                    <p:panel style="width: 100%">
+                        <p:separator id="separador0" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                        <si.componentes:informacion id="mensa" dimension="30%"  mensaje="Escriba N° Registro ó el Codigo SM"/>
+                        <p:separator id="separador" style="width: 0px ; border: 0px; height: 15px"></p:separator>
+                        <h:panelGrid columns="4" id="formularioBusquedaRegistro">
+                            <p:panel id="panelDatos" style="border-style: solid;width: 100%">
+                                <h:panelGrid columns="4" >
+                                    <h:outputLabel value="N° Registro :" />  
+                                    <p:inputText id="nRegistro" value="#{modificacionBean.nroRegistro}" style="#{modificacionBean.cambiaColorCampoNumeroRegistro ==true?'border-color: #C00':''}; width: 90%"/>
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <p:separator id="separador1" style="width: 50px ; border: 0px; height: 0px"></p:separator>
+                            <p:panel id="panel" style="border-style: solid;width: 100%">
+                                <h:panelGrid columns="2" >
+                                    <h:outputLabel  value="SM" /> 
+                                    <p:inputText id="sm" value="#{modificacionBean.sm}" style="#{modificacionBean.cambiaColorCampoSMTramite==true?'border-color: #C00':''}; width: 90%" />
+                                </h:panelGrid>
+                            </p:panel>
+
+
+                        </h:panelGrid>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="3" >
+                                <p:commandButton
+                                value="Buscar"
+                                update="formularioBusquedaRegistro"
+                                action="#{modificacionBean.irRenovacion()}"
+                                ajax="false"
+                                icon="ui-icon-search"/>
+
+                            <p:separator id="separador3" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                            <p:commandButton
+                                value="Limpiar Formulario"
+                                update="formularioBusquedaRegistro"
+                                action="#{modificacionBean.reset()}"
+                                ajax="false"
+                                icon="ui-icon-arrowrefresh-1-e"/>
+                            </h:panelGrid>
+                            
+                        </div>
+                    </p:panel>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

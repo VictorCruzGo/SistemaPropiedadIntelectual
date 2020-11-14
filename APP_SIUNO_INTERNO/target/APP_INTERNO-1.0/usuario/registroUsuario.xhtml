@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplateB}">
+    <ui:define name="content" >
+        <h:form id="form">  
+            <p:panel header="#{msgs.usuarioHeaderTitulo}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <div align="center" style="padding:1em 2.2em;">     
+                    <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                    <p:panel style="width: 80%">
+                        <h2 style="margin-top: 0"><h:outputLabel value="#{msgs.usuarioTituloFormulario}"/></h2>
+                        <h:panelGrid columns="2" style="width: 80%">
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="Nombre Completo" />  
+                                <h:outputLabel value="*" style="color: #C00"/> 
+                            </h:panelGrid>
+                            <p:inputText id="nombre"  style="border-color: #{registroUsuarioBean.colorNombre}; width: 50%"
+                                         value="#{registroUsuarioBean.usuario.nombres}" />
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="Correo Electronico" />  
+                                <h:outputLabel value="*" style="color: #C00"/> 
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" style="text-align: left;">
+                                <p:inputText id="correo" value="#{registroUsuarioBean.usuario.correoElectronico}" 
+                                             style="border-color: #{registroUsuarioBean.colorCorreo}; width: 190%"
+                                             maxlength="50">
+                                    <p:ajax update="mensajeCorreoInf,mensajeCorreoErr,imagenInf,mensajeInfCorreo,imagenErrCorreo" event="blur" listener="#{registroUsuarioBean.validaCorreo(e)}" />
+                                </p:inputText>
+                                <p:separator style="width:120px; height: 0px; border-style: hidden"></p:separator>
+                                <h:panelGrid id="mensajeCorreoInf" columns="2" style="width: 100%">
+                                    <p:graphicImage id="imagenInfCorreo" value="/resources/images/userNo.png" rendered="#{registroUsuarioBean.activaMensajeCorreoInf}"/>
+                                    <h:outputText id="mensajeInfCorreo" value="#{msgs.correoAceptado}" style="font-size:10px;color:#04B404" rendered="#{registroUsuarioBean.activaMensajeCorreoInf}"/>
+                                </h:panelGrid>
+                                <h:panelGrid id="mensajeCorreoErr" columns="2" style="width: 100%">
+                                    <p:graphicImage id="imagenErrCorreo" value="/resources/images/userOk.png" rendered="#{registroUsuarioBean.activaMensajeCorreoErr}"/>
+                                    <h:outputText id="mensajeErrCorreo" value="#{msgs.correoNoAceptado}" style="font-size:10px;color:#B40404" rendered="#{registroUsuarioBean.activaMensajeCorreoErr}"/>
+                                </h:panelGrid> 
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel style="width: 80%" id="panelFormulario">
+                        <h2 style="margin-top: 0"><h:outputLabel value="#{msgs.usuarioDatosUsuarioFormulario}"/></h2>
+                        <h:panelGrid columns="2" style="width: 70%">
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="#{msgs.usuarioLabelUsuarioFormulario}" />  
+                                <h:outputLabel value="*" style="color: #C00"/> 
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" style="text-align: left">
+                                <p:inputText id="usuario" 
+                                             value="#{registroUsuarioBean.usuario.login}" 
+                                             style="border-color: #{registroUsuarioBean.colorLogin};"
+                                             maxlength="50"
+                                             size="50"
+                                             autocomplete="off" onkeypress="return validarn(event)">
+                                    <p:ajax update="mensajeImagenInf,mensajeImagenErr,imagenInf,mensajeInf,imagenErr,mensajeErr,mensajeGeneral" event="blur" listener="#{registroUsuarioBean.verificaLogin(e)}" />
+                                </p:inputText>
+                                <h:panelGrid id="mensajeImagenInf" columns="2" style="width: 100%">
+                                    <p:graphicImage id="imagenInf" value="/resources/images/userNo.png" rendered="#{registroUsuarioBean.activaMensajeLoginInf}"/>
+                                    <h:outputText id="mensajeInf" value="#{msgs.usuarioNombreUsuarioAceptado}" style="font-size:10px;color:#04B404" rendered="#{registroUsuarioBean.activaMensajeLoginInf}"/>
+                                </h:panelGrid>
+                                <h:panelGrid id="mensajeImagenErr" columns="2" style="width: 100%">
+                                    <p:graphicImage id="imagenErr" value="/resources/images/userOk.png" rendered="#{registroUsuarioBean.activaMensajeLoginErr}"/>
+                                    <h:outputText id="mensajeErr" value="#{msgs.usuarioNombreUsuarioExiste}" style="font-size:10px;color:#B40404" rendered="#{registroUsuarioBean.activaMensajeLoginErr}"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputText value="#{msgs.usuarioLabelContraseña}"/>
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                            </h:panelGrid>
+                            <p:password binding="#{pass}" id="password" value="#{registroUsuarioBean.password}" style="border-color: #{registroUsuarioBean.colorPassUno}; width: 62%" 
+                                        autocomplete="off" feedback="true" inline="true" weakLabel="Contraseña no segura"
+                                        maxlength="90"
+                                        promptLabel="Contraseña débil" goodLabel="Contraseña segura"
+                                        strongLabel="Contraseña fuerte">
+                            </p:password>
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.mensajeDeContrasena}"/>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputText value="#{msgs.usuarioLabelRepitaContraseña}"/>
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                            </h:panelGrid>
+                            <p:password id="repeatPassword" style=" border-color: #{registroUsuarioBean.colorPassDos}; width: 62%">
+                                <f:attribute name="password" value="#{pass.value}"/>
+                            </p:password>
+                        </h:panelGrid>  
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        value="#{msgs.usuarioRegistrarContraseña}"
+                        action="#{registroUsuarioBean.registraUsuarioExterno()}"
+                        update=":form :form:nombre"
+                        ajax="false"
+                        image="ui-icon ui-icon-disk"/>
+                    <p:commandButton
+                        value="#{msgs.usuarioCancelarContraseña}"
+                        action="#{registroUsuarioBean.volverVentanaLogueo()}"
+                        ajax="false"
+                        immediate="true"
+                        image="ui-icon-closethick"/>
+                </div>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

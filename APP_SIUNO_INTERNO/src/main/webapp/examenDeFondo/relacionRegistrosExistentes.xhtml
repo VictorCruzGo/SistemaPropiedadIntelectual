@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">        
+        <h:form id="form">  
+
+            <div id="componenteDatosGenerales" style="padding:0.5em 0em;">
+                <si.componentes:datosGeneralesExpediente tramite="#{relacionRegistrosExistentesBean.tramite}" listaTramiteSolicitado="#{relacionRegistrosExistentesBean.listaTramiteSolicitado}" listaTramitesElegidos="#{relacionRegistrosExistentesBean.listaTramitesImagenes}"/>
+            </div>
+
+            <div id="componenteNavegacional" style="padding:0.5em 0em;">
+                <si.componentes:menuBotonesWizardExamenDeFondo numeroDeBotonActivado="2" tramite="#{relacionRegistrosExistentesBean.tramite}" />
+            </div>
+            <p:panel style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>                                
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:panel id="panelRegistrosExistentes" style="border-style: hidden">
+                        <p:panel>                                                        
+                            <p:outputLabel value="Buscar por SM: "  style="font-weight: bold"/>
+                            <p:inputText value="#{relacionRegistrosExistentesBean.smBusqueda}" />
+                            <p:spacer width="15"/>
+                            <p:outputLabel value="Ej: SM-00001-2015 (SM-NNNNN-YYYY)"/>
+                            <p:spacer width="15"/>
+                            <p:commandButton action="#{relacionRegistrosExistentesBean.buscaPorSM()}" update="registrosExistentes, mensajeGeneral :form" value="Buscar e Insertar"/>                     
+                            <div id="busquedaAvanzada" style="padding:0.5em 0em;">
+                                <p:fieldset legend="Busqueda Avanzada" toggleable="true" collapsed="true" toggleSpeed="500" style="height: 50%" >
+
+
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="Para realizar la búsqueda en Criterio aplicar los comodines: '%' uno o mas caracteres, '_' un carácter"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                    </h:panelGrid>
+
+
+
+                                    <p:outputLabel value="Criterio: " style="font-weight: bold"/>
+                                    <p:inputText value="#{relacionRegistrosExistentesBean.marcaBusqueda}" id="marcabusqueda" maxlength="150" size="40"/>
+                                    <p:watermark for="marcabusqueda" value="Nombre de la marca" id="wmmarcabusqueda" />
+
+                                    <p:outputLabel value="Clase: " style="font-weight: bold" />
+                                    <p:inputText value="#{relacionRegistrosExistentesBean.claseNiza}" id="clasebusqueda" onkeyup="return ValNumero(this);" size="20"/>
+
+                                    <p:watermark for="clasebusqueda" value="El numero de la clase niza" id="wmclasebusqueda" />
+
+                                    <!-- p:commandButton action="# {relacionRegistrosExistentesBean.buscaPorNizayMarca()}" update="registrosExistentesDialogo" value="Buscar " icon="ui-icon-search" /-->                            
+                                    <p:commandButton action="#{relacionRegistrosExistentesBean.buscaPorNizayMarca()}" update="form" value="Buscar " icon="ui-icon-search" />                            
+                                    <p:commandButton action="#{relacionRegistrosExistentesBean.imprimir()}" value="Imprimir "  icon="ui-icon-print" ajax="false" disabled="#{!relacionRegistrosExistentesBean.imprimeAnalisisDenomicaciones}" />                            
+                                    <div style="padding:0.5em 0em;">
+                                        <p:dataTable id="registrosExistentesDialogo" var ="item" value="#{relacionRegistrosExistentesBean.listaRegistrosEncontradosDialogo}" style="width: 100%" emptyMessage="No Existen Registros">
+                                            <f:facet name="header">
+                                                Registros Encontrados
+                                            </f:facet>
+                                            <p:column headerText="SM" >
+                                                <div align="left">                                                    
+                                                    <h:outputText value="#{item.tramite}" />
+                                                </div>
+                                            </p:column>
+                                            <p:column headerText="Clase Niza" >
+                                                <div align="right">
+                                                    <h:outputText value="#{item.numeroClaseNiza}" />
+                                                </div>
+                                            </p:column>
+                                            <p:column headerText="Nro. Registro" >
+                                                <div align="right">
+                                                    <h:outputText value="#{item.registro}" />
+                                                </div>
+                                            </p:column>
+                                            <p:column headerText="Fecha Ingreso" >
+                                                <div align="left">
+                                                    <h:outputText value="#{item.fechaIngreso}">
+                                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                                    </h:outputText>
+                                                </div>
+                                            </p:column>
+                                            <p:column headerText="Nombre Marca" >
+                                                <div align="left">
+                                                    <h:outputText value="#{item.marca}" />
+                                                </div>
+                                            </p:column>                                
+                                            <p:column headerText="Seleccionar" >        
+                                                <div align="center">
+                                                    <p:commandButton actionListener="#{relacionRegistrosExistentesBean.seleccionaRegistroEntreTablas(item)}" update="registrosExistentes, registrosExistentesDialogo :form" ajax="false" icon="ui-icon-arrowthick-2-n-s"/>
+                                                </div>
+                                            </p:column>
+                                            <p:column headerText="Ver detalle" style="width:4%;text-align: center; width: 10%" >
+                                                <p:commandButton 
+                                                    id="idVer"
+                                                    icon="ui-icon-clipboard"
+                                                    ajax="false"
+                                                    action="#{relacionRegistrosExistentesBean.irImpresion(item.idTramite)}"
+                                                    />                                                                      
+                                            </p:column>
+
+                                        </p:dataTable>                                        
+                                    </div>
+                                </p:fieldset>   
+                            </div>
+                            <div style="padding:0.5em 0em;">
+
+                                <p:dataTable id="registrosExistentes" scrollable="true" scrollHeight="170" liveScroll="true" scrollRows="20"
+                                             var ="item" value="#{relacionRegistrosExistentesBean.listaRegistrosEncontrados}" style="width: 100%" emptyMessage="No Existen Registros">
+                                    <f:facet name="header">
+                                        Registros Existentes o Encontrados
+                                    </f:facet>
+                                    <p:column headerText="SM">
+                                        <div align="left">
+                                            <h:outputText value="#{item.tramite}" />
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="Clase Niza" >
+                                        <div align="right">                                            
+                                            <h:outputText value="#{item.numeroClaseNiza}" />
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="Nro. Registro" >
+                                        <div align="right">                                            
+                                            <h:outputText value="#{item.registro}" />
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="Fecha Ingreso" >
+                                        <div align="right">
+                                            <h:outputText value="#{item.fechaIngreso}">
+                                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                            </h:outputText>
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="Nombre Marca" >
+                                        <div align="left">                                            
+                                            <h:outputText value="#{item.marca}" />
+                                        </div>
+                                    </p:column>                                
+                                    <p:column headerText="Eliminar" >                                                                     
+                                        <div align="center">
+                                            <p:commandButton update="registrosExistentes :form" 
+                                                             icon="ui-icon-trash" 
+                                                             action="#{relacionRegistrosExistentesBean.eliminaRegistro(item)}"
+                                                             process="registrosExistentes" >                                           
+                                                <p:confirm header="Eliminar" message="¿Está seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </div>
+                                    </p:column>                                
+                                </p:dataTable>                                                                        
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+                            <div style="padding:0.5em 0em;">
+                                <p:dataTable id="observaciones" var="pojo" value="#{relacionRegistrosExistentesBean.listaExamenDeFondo}" style="width: 100%" emptyMessage="No Existen Registros">                                                                        
+                                    <p:column style="border-style: hidden;text-align: left" headerText="#{pojo.examenDeFondoPojo1.texto.pestania}" width="20%">          
+                                        <h:outputText style="font-weight: bold" value="#{pojo.examenDeFondoPojo1.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH1' ? 'true':'false'}"/>                                                                                                                                                
+                                        <h:outputText style="font-weight: bold" value="#{pojo.examenDeFondoPojo1.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH6' ? 'true':'false'}"/>                                                                                                            
+                                    </p:column>                                                                
+                                    <p:column style="text-align: left; border-style: hidden"  headerText="#{pojo.examenDeFondoPojo1.texto.pestania}" width="80%">          
+                                        <h:inputText id="cajaDeTexto" value="#{pojo.examenDeFondoPojo1.texto.respuesta}" style="width: 70%" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH1' ? 'true':'false'}" />                                                                    
+                                        <h:inputTextarea id="areaDeTexto" rows="4" value="#{pojo.examenDeFondoPojo1.texto.respuesta}" style="width: 70%" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH6' ? 'true':'false'}" />                                                                    
+                                    </p:column>
+                                </p:dataTable>        
+                            </div>
+                            <div style="padding:0.5em 0em;">
+                                <p:commandButton action="#{relacionRegistrosExistentesBean.atras()}" ajax="false" value="Atrás"/>
+                                <p:commandButton action="#{relacionRegistrosExistentesBean.guarda()}" ajax="false" value="Guardar"/>
+                                <p:commandButton action="#{relacionRegistrosExistentesBean.guardaYSiguiente()}" ajax="false" value="Guardar y Siguiente"/>                                
+                                <p:commandButton value="Terminar Análisis" type="button" onclick="PF('concluyeExamen').show()"/>
+
+                                <p:dialog header="Concluirá el Examen" widgetVar="concluyeExamen" resizable="false" closable="false"  
+                                          width="50%" height="50%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                                    <div align="center" style="padding:1em 2.2em;">
+                                        <h2>¿Está seguro de terminar el examen?</h2>
+                                    </div>                                
+                                    <div align="center" style="padding:1em 2.2em;">
+                                        <p:commandButton
+                                            id="finalizaCargaImagen"
+                                            value="Sí"
+                                            onclick="PF('concluyeExamen').hide();"
+                                            action="#{relacionRegistrosExistentesBean.terminarAnalisis()}"
+                                            icon="ui-icon-disk"
+                                            ajax="false"/>
+                                        <p:commandButton
+                                            id="cancelarCargaImagen"
+                                            value="No"
+                                            onclick="PF('concluyeExamen').hide();"
+                                            icon="ui-icon-disk"/>
+                                    </div>
+                                </p:dialog>
+
+                            </div>
+                        </p:panel>
+                    </p:panel>                    
+                </div>
+
+            </p:panel>
+        </h:form>        
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

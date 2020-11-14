@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>SISTEMA INTEGRADO SENAPI</title>
+
+        <!--Line de codigo para llamar un CSS-->
+        <h:outputStylesheet library="senapi.css" name="cssLayout.css"/>
+
+        <script type="text/javascript">
+            function Solo_Numerico(variable) {
+                Numer = parseInt(variable);
+                if (isNaN(Numer)) {
+                    return "";
+                }
+                return Numer;
+            }
+            function ValNumero(Control) {
+                Control.value = Solo_Numerico(Control.value);
+            }
+        </script>
+        <script type="text/javascript">
+            function getHeigth() {
+                if (window.innerWidth !== undefined) {
+                    return window.innerHeight;
+                }
+                else {
+                    var B = document.body,
+                            D = document.documentElement;
+                    return Math.max(D.clientHeight, B.clientHeight);
+                }
+            }
+            function adjust() {
+                var idContent = document.getElementById("content");
+                idContent.style.height = (getHeigth() - 107) + "px";
+                var idMenu = document.getElementById("senapiMenu");
+                idMenu.style.height = (getHeigth() - 215) + "px";
+                var idtadaTabletList = document.getElementById("tadaTabletList");
+                idtadaTabletList.style.height = (getHeigth() - 130) + "px";
+            }
+            window.onload = function() {
+                adjust();
+            };
+            window.onresize = function() {
+                adjust();
+            };
+        </script>
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
+        <script type="text/javascript">
+            function show(bloq) {
+                obj = document.getElementById(bloq);
+                obj.style.display = (obj.style.display === 'none') ? 'block' : 'none';
+            }
+        </script>
+
+        <script type="text/javascript">
+            function blink_uno() {
+                document.getElementById('blink').style.visibility = 'visible';
+                setTimeout('blink_dos()', 4000);
+            }
+            function blink_dos() {
+                document.getElementById('blink').style.visibility = 'hidden';
+                setTimeout('blink_uno()', 1000);
+            }
+            setTimeout('blink_uno()', 1000);
+//            blink_uno();
+        </script>
+
+        <script type="text/javascript">
+            function handleDropTramite(event, ui) {
+                var droppedTramite = ui.draggable;
+
+                droppedTramite.fadeOut('fast');
+            }
+            function handleDropDeposito(event, ui) {
+                var droppedDeposito = ui.draggable;
+
+                droppedDeposito.fadeOut('fast');
+            }
+        </script>
+
+      
+      
+
+
+
+
+
+
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true" />
+    </h:head>
+    <h:body style="background-color: #F2F5F7;overflow-x: hidden;overflow-y: hidden;">
+        <div id="headerSenapi">
+            <ui:include src="../templates/head.xhtml" />
+        </div>
+        <!--<div id="senapiMenu"  style="# {sessionState.authenticated?'':'display:none'}">-->
+        <!--        <div id="senapiMenu">
+                    <h:form>
+                        <p:panel rendered="# {sessionState.authenticated}" >
+                            <ui:include src="../templates/menu.xhtml"  rendered="# {sessionState.authenticated}"/>
+                        </p:panel>
+                    </h:form>
+                </div>-->
+        <div id="content">
+            <ui:insert name="content"/>
+        </div>                
+    </h:body>
+
+</html>

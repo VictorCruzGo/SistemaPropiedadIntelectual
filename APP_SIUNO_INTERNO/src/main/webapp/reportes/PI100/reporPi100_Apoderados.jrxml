@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_Apoderados" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="35b48423-9881-4d71-be6f-954d8fcf8c56">
+	<property name="ireport.zoom" value="3.138428376721028"/>
+	<property name="ireport.x" value="1017"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nombreSolicitante" class="java.lang.String"/>
+	<field name="docIdentificacion" class="java.lang.String"/>
+	<field name="domicilio" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="poder" class="java.lang.String"/>
+	<field name="tieneApoderados" class="java.lang.String"/>
+	<title>
+		<band height="13" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{tieneApoderados}.equals( "no" )]]></printWhenExpression>
+			<rectangle>
+				<reportElement x="1" y="2" width="540" height="10" backcolor="#C0C0C0" uuid="75abe8a5-202d-4f05-9b15-0c24f7749196"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="219" y="3" width="118" height="9" uuid="37e9d5ba-3563-442d-99d1-f161fe54f792">
+					<printWhenExpression><![CDATA[$F{tieneApoderados}.equals( "no" )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[TRAMITE UNIPERSONAL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="69" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{tieneApoderados}.equals( "si" )]]></printWhenExpression>
+			<staticText>
+				<reportElement x="11" y="9" width="34" height="7" uuid="47eddae6-60be-48b7-84e7-1b7631f19049"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="1" width="540" height="7" backcolor="#C0C0C0" uuid="a5224ce8-2aef-4336-bb22-010866c645f8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="1" width="219" height="7" uuid="5f8e4541-97a6-4d8c-9797-48418fdbcd68"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[APODERADO]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="11" y="17" width="349" height="11" uuid="c0085240-9043-40e1-a971-5e7fb43a2be1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="367" y="9" width="138" height="7" uuid="5eb46267-4dab-45d7-951f-d666c140a78e"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Documento de Identificación]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="12" y="18" width="347" height="11" uuid="29bb8f8a-e9a6-43c1-ba11-eee1979830c8"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreSolicitante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="367" y="17" width="174" height="11" uuid="01de5639-b36f-4ff0-af33-54a98f7ffa48"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{docIdentificacion}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="12" y="49" width="529" height="20" uuid="d57a3626-0b2a-4c13-a092-e015f28978e0"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="177" y="8" width="171" height="11" uuid="d0bdc199-cec0-475b-b34d-57261347f159"/>
+					<box leftPadding="1">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="177" y="0" width="52" height="7" uuid="b18ee042-87dd-4f4c-94f0-5935dcd51d6f"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[Celular]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="52" height="7" uuid="d2372979-6fb1-497f-8344-37cd447f1709"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[Teléfono]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="0" y="8" width="171" height="11" uuid="c761a032-0c4f-412b-90e7-ab71681d6fd9"/>
+					<box leftPadding="1">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="353" y="0" width="119" height="7" uuid="de090451-5e1a-44ae-ac13-3fc82b3cbdb7"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[Correo Electrónico]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="354" y="8" width="175" height="11" uuid="1576e412-0af5-4549-a485-08073790b266"/>
+					<box leftPadding="1">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="11" y="28" width="530" height="20" uuid="0af5a3af-622c-4751-8590-e7e1a12747f1"/>
+				<textField isBlankWhenNull="true">
+					<reportElement x="355" y="9" width="175" height="10" uuid="51047dc7-abc7-4748-a09c-682b2df3c050"/>
+					<box leftPadding="1">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{poder}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="1" width="177" height="7" uuid="722d6d85-1e42-4143-afb7-d19609fff724"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[Domicilio]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="1" y="9" width="348" height="11" uuid="bbe18117-11af-4471-9114-762038c5d008"/>
+					<box leftPadding="1">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{domicilio}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="356" y="1" width="79" height="7" uuid="c532e1ce-ec52-404d-b9f4-76eddc68a352"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[N° Poder]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

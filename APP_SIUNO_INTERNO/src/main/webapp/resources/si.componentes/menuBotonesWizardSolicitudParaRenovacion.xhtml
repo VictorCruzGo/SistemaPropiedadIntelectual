@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <composite:interface>
+        <composite:attribute name="numeroDeBotonActivado" type="java.lang.Integer"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <div align="left">
+            <h:panelGrid columns="6" style="width: 100%">
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatSol}" style="width: 100%;height: 35px;#{cc.attrs.numeroDeBotonActivado==1?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==1?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=1}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatRep}" style="width: 100%;height: 35px;#{cc.attrs.numeroDeBotonActivado==2?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==2?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=2}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatSigDis}" style="width: 100%;height: 35px;#{cc.attrs.numeroDeBotonActivado==3?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==3?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=3}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuPrio}" style="width: 100%;height: 35px;#{cc.attrs.numeroDeBotonActivado==4?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==4?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=4}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatNot}" style="width: 100%;height: 35px;#{cc.attrs.numeroDeBotonActivado==5?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==5?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=5}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatRegExist}" style="width: 100%;height: 35px;#{cc.attrs.numeroDeBotonActivado==6?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==6?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=6}"/>
+            </h:panelGrid>
+        </div>
+    </composite:implementation>
+
+</html>

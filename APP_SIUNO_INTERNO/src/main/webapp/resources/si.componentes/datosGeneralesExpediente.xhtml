@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <composite:interface>
+        <composite:attribute name="tramite" type="org.gob.snp.entidades.Tramite" required="true"/>        
+        <composite:attribute name="listaTramiteSolicitado" type="java.util.List" />                        
+        <composite:attribute name="listaTramitesElegidos" type="java.util.List" />                        
+    </composite:interface>
+    <composite:implementation>
+        <div style="text-align: center">            
+            <p:outputLabel value="ANALISIS DE REGISTRABILIDAD #{componenteDatosGeneralesExpedienteBean.recuperaExpediente(cc.attrs.tramite)}" style="font-weight: bold;"/>
+        </div>
+        <h:panelGrid columns="3" style="border: hidden" >
+            <p:panel style="text-align: left; border-style: hidden">
+                <p:outputLabel value="Datos generales de Expediente" style="font-weight: bold; font-style: inherit"/>
+                <h:panelGrid columns="2" style="border-style: hidden">                            
+                    <p:outputLabel value="Expediente N°: " style="font-weight: bold"/>
+                    <p:outputLabel value="#{componenteDatosGeneralesExpedienteBean.recuperaExpediente(cc.attrs.tramite)}" />
+                    <p:outputLabel value="Título: " style="font-weight: bold"/>
+                    <p:outputLabel value="#{componenteDatosGeneralesExpedienteBean.recuperaSignoMarca(cc.attrs.tramite)}"/>
+                    <p:outputLabel value="Solicitante/Titular: " style="font-weight: bold"/>
+                    <p:outputLabel value="#{componenteDatosGeneralesExpedienteBean.recuperaNombreSolicitante(cc.attrs.tramite)}"/>
+                    <p:outputLabel value="Representante: " style="font-weight: bold"/>
+                    <p:outputLabel value="#{componenteDatosGeneralesExpedienteBean.recuperaApoderado(cc.attrs.tramite)}" />
+                    <p:outputLabel value="Fecha de Solicitud: " style="font-weight: bold"/>
+                    <p:outputLabel value="#{componenteDatosGeneralesExpedienteBean.recuperaFechaSolicitud(cc.attrs.tramite)}" >
+                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                    </p:outputLabel>
+                </h:panelGrid>                                        
+            </p:panel>        
+            <p:panel style="border: hidden">
+                <p:galleria value="#{componenteDatosGeneralesExpedienteBean.recuperaImagenDeTramite(cc.attrs.listaTramiteSolicitado, false)}" var="imageSolicitante" panelWidth="150" panelHeight="150" showCaption="true" showFilmstrip="false" >
+                    <p:graphicImage value="/temp/#{imageSolicitante}" title="Solicitado" width="100%" rendered="#{!imageSolicitante.equals('imagen/NoImagen.png')}"/>
+                    <p:graphicImage value="/imagen/NoImagen.png" title="Solicitado" width="100%" rendered="#{imageSolicitante.equals('imagen/NoImagen.png')}"/>
+                </p:galleria>
+            </p:panel>
+            <p:panel id="galeria" style="border: hidden" rendered="#{cc.attrs.listaTramitesElegidos == null ? 'false': cc.attrs.listaTramitesElegidos.isEmpty()?'false':'true'}">
+                <p:galleria value="#{componenteDatosGeneralesExpedienteBean.recuperaImagenDeTramite(cc.attrs.listaTramitesElegidos, true)}" var="image" panelWidth="200" panelHeight="100" showCaption="true" showFilmstrip="true" style="text-align: center"> 
+<!--                    <p:graphicImage value="/temp/# {image}" title="Registrado" width="60%" height="110%"/>                -->
+                    <p:graphicImage value="/temp/#{image}" title="Solicitado" width="100%" rendered="#{!image.equals('imagen/NoImagen.png')}"/>
+                    <p:graphicImage value="/imagen/NoImagen.png" title="Solicitado" width="100%" rendered="#{image.equals('imagen/NoImagen.png')}"/>
+                    
+                    
+                </p:galleria>
+            </p:panel>
+        </h:panelGrid>
+    </composite:implementation>
+
+</html>

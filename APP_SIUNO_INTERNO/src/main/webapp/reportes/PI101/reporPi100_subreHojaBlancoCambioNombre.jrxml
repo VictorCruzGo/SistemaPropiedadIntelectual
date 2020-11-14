@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_subreHojaBlancoCambioNombre" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e2d44245-aa9a-4acc-8a5c-3462a23b18d0">
+	<property name="ireport.zoom" value="1.331000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="contRenov" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="9" width="114" height="9" uuid="55ce41fe-1b73-469f-8c70-78443177d4d3"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[CAMBIO DE NOMBRE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="84" splitType="Stretch">
+			<rectangle>
+				<reportElement x="6" y="9" width="536" height="75" uuid="413aadc9-692e-4824-843d-b5383ce08b46"/>
+			</rectangle>
+			<line>
+				<reportElement x="232" y="26" width="117" height="1" uuid="09efa1bb-946c-4044-a3de-81619f403bf3"/>
+			</line>
+			<line>
+				<reportElement x="75" y="65" width="467" height="1" uuid="a5492c28-b138-47db-9f6e-3346885e0d11"/>
+			</line>
+			<staticText>
+				<reportElement x="16" y="18" width="73" height="12" uuid="56305fa4-dfed-4e3a-9f24-e26e41bfaa3d"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Por Resolución N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="58" width="61" height="12" uuid="5fa3dee8-9aca-4c6c-95e2-7995fb876d3c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Por el actual de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="196" y="18" width="35" height="12" uuid="cebcdefa-5b53-4ee2-a73d-8079e5f16968"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="18" width="192" height="12" uuid="c24950f9-5a33-4b2e-a31a-cf95f4d6530e"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Se aprobó, autorizó el Cambio de Nombre de la firma:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="78" y="25" width="118" height="1" uuid="e2a51b2f-9228-4210-a13b-99103d363dea"/>
+			</line>
+			<line>
+				<reportElement x="17" y="44" width="525" height="1" uuid="a1e42fe9-0cc6-4cfa-b81c-fe0f1a7d8a31"/>
+			</line>
+			<textField>
+				<reportElement x="577" y="30" width="17" height="20" forecolor="#FFFFFF" uuid="78caf3c3-cfa0-4c10-a4cd-c4bcc85e3f19"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contRenov}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

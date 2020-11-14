@@ -1,0 +1,19 @@
+
+
+Descripcion al ejecutarse el error: 
+Al ejecutar un Test de una nueva entidad creada.
+Error:
+Hibernate: select tramiteweb0_.IdTramiteWeb as IdTramit1_9_, tramiteweb0_.Codigo as Codigo9_, tramiteweb0_.CodigoXml as CodigoXml9_, tramiteweb0_.NombrePDF as NombrePDF9_, tramiteweb0_.Ruta as Ruta9_, tramiteweb0_.TipoPersona as TipoPers6_9_, tramiteweb0_.TipoTramite as TipoTram7_9_ from tramiteweb tramiteweb0_
+Exception in thread "main" org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'empresaService' is defined
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanDefinition(DefaultListableBeanFactory.java:510)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getMergedLocalBeanDefinition(AbstractBeanFactory.java:1056)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:274)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1045)
+	at org.gob.snp.test.EmpresaTest.main(EmpresaTest.java:30)
+Solucion:
+El error sale por la falta de el bean en el aplication context, es decir, todos los servicios creados deben estar en el aplication context.
+
+Descripcion al ejecutarse el error:
+Error:
+Solucion:

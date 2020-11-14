@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_notidicador" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ed8841db-b3a9-4015-a6d2-fb36714d53fb">
+	<property name="ireport.zoom" value="2.5937424601000076"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="correoNotifica" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
+	<field name="zona" class="java.lang.String"/>
+	<field name="barrio" class="java.lang.String"/>
+	<field name="calle" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="edificio" class="java.lang.String"/>
+	<field name="piso" class="java.lang.String"/>
+	<field name="numeroDepto" class="java.lang.String"/>
+	<field name="referenciaDireccion" class="java.lang.String"/>
+	<field name="telReferencia" class="java.lang.String"/>
+	<field name="firmas" class="java.lang.String"/>
+	<title>
+		<band height="128" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="Float" x="12" y="78" width="527" height="50" uuid="7e501c3d-fb98-4989-b8c3-0fab1d831bfa"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="3" y="2" width="540" height="10" backcolor="#C0C0C0" uuid="f4c07c4b-8d75-432f-816d-1e41b8929597"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="3" width="206" height="9" uuid="e9d9dda3-3f51-4969-9b0b-9ab87bd6509f"/>
+				<textElement>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[6. DATOS PARA EFECTOS DE NOTIFICACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="12" y="67" width="240" height="10" uuid="1859ac34-64f5-4e1d-b402-5e7eef03f39a"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Firma (s) del (os) Solicitante (s) o Representante(s)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="14" width="146" height="7" uuid="683326e6-6877-4987-b57c-91c980911b40"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Domicilio de Notificación]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="13" y="51" width="189" height="14" uuid="47086d99-6e86-4e44-9f51-110e53168688"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{correoNotifica}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="40" width="94" height="10" uuid="74d2d5a7-3452-43c5-a6e2-3f96a93ca1b2"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Correo Electrónico]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="24" width="524" height="12" uuid="97b72849-db20-4ea2-9cfa-9596fb52b6bb"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="211" y="40" width="94" height="10" uuid="1dab6c0f-26ee-4a31-b7f6-e46dc9a21442"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Teléfono Referencia]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="211" y="51" width="189" height="14" uuid="9aafee80-a901-4250-a655-8640e099d43e"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telReferencia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="13" y="117" width="524" height="6" uuid="f17d6bc2-a05a-416d-b802-db670eccdf67"/>
+				<textElement>
+					<font size="5" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{firmas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="122" width="182" height="6" uuid="9c0127a7-b5ae-4dc3-8786-a7d88f02a5b3"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Nombre del Solicitante o Representante]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

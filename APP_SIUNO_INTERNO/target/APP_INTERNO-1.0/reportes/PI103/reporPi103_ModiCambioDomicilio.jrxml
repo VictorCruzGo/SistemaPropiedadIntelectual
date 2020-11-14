@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi103_ModiCambioDomicilio" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="db0198dd-32b6-47e0-bbf9-6e7896d302b1">
+	<property name="ireport.zoom" value="2.593742460100003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="domicilio" class="java.lang.String"/>
+	<field name="nacionalidad" class="java.lang.String"/>
+	<title>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="17" width="54" height="8" uuid="171e83d1-728f-40a4-9975-4302f6a01afc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nuevo Domicilio:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="1" width="540" height="10" backcolor="#C0C0C0" uuid="68d05228-dce0-4739-b4ab-5ddff1fdcf06"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="2" width="229" height="9" uuid="6c4b1ec1-c271-4cf5-9702-48a246dd2401">
+					<printWhenExpression><![CDATA[$F{domicilio} == null || $F{domicilio}.equals( "" )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[4. IDENTIFICACIÓN DEL NUEVO TITULAR O LICENCIATARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="37" width="121" height="8" uuid="f77fd55b-334b-427d-9a46-b071f1080b03"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nacionalidad/Pais Constitución:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="136" y="34" width="405" height="11" uuid="a9540077-165d-41ef-a934-6e202f158105"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="136" y="16" width="405" height="11" uuid="ff0dd26f-63c6-41dc-8fc5-13fb2dc8183c"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{domicilio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="139" y="37" width="395" height="8" uuid="36e46a52-a6a3-4373-85be-8405069d2314"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="2" width="229" height="9" uuid="1a679072-72b3-48f2-b567-b21b0a01819f">
+					<printWhenExpression><![CDATA[$F{domicilio}!= null && !$F{domicilio}.equals( "" )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[4. IDENTIFICACIÓN DEL NUEVO DOMICILIO]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

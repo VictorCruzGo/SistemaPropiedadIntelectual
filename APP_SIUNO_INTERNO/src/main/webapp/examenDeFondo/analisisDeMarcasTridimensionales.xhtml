@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <div id="componenteDatosGenerales" style="padding:0.5em 0em;">
+            <si.componentes:datosGeneralesExpediente tramite="#{analisisDeMarcasTridimensionalesBean.tramite}" listaTramiteSolicitado="#{analisisDeMarcasTridimensionalesBean.listaTramiteSolicitado}" listaTramitesElegidos="#{analisisDeMarcasTridimensionalesBean.listaTramitesImagenes}"/>
+        </div>
+        <div id="componenteNavegacional" >
+            <si.componentes:menuBotonesWizardExamenDeFondo numeroDeBotonActivado="4" tramite="#{analisisDeMarcasTridimensionalesBean.tramite}" />
+        </div>
+        <h:form id="form">  
+            <p:panel style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>                  
+                <div align="center" style="padding:1em 0em;">
+                    <p:dataTable id="analisisDeDenominacionesSeccion2" var="pojo" value="#{analisisDeMarcasTridimensionalesBean.listaExamenDeFondoSeccion1}" style="width: 100%" emptyMessage="No Existen Registros">                                        
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="Marca Solicitada" >                                                                                                              
+                            <p:galleria value="#{analisisDeMarcasTridimensionalesBean.recuperaImagenDeTramite(analisisDeMarcasTridimensionalesBean.listaTramitesImagenesSolicitante, false)}" var="image" panelWidth="200" panelHeight="100" showFilmstrip="false" showCaption="false" style="text-align: center">
+                                <p:graphicImage value="/temp/#{image}"  width="60%" height="100%"/>                
+                            </p:galleria>
+                        </p:column>                   
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="Marca Registrada o Previamente Solicitada" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 1? 'true':'false'}">                                              
+                            <p:galleria value="#{analisisDeMarcasTridimensionalesBean.recuperaImagenDeTramite(analisisDeMarcasTridimensionalesBean.listaDeImagenesRegistrado(pojo.examenDeFondoPojo1.texto.respuesta), false)}" var="image" panelWidth="200" panelHeight="100" showCaption="false" style="text-align: center">
+                                <p:graphicImage value="/temp/#{image}" width="60%" height="100%"/>                
+                            </p:galleria>
+                        </p:column>                         
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="Observaciones" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 2? 'true':'false'}">                                                                          
+                            <h:inputTextarea id="areaDeTexto3" value="#{pojo.examenDeFondoPojo2.texto.respuesta}" style="width: 99%" rows="8" rendered="#{pojo.examenDeFondoPojo2.texto.tipoElemento.codigo == 'TEH6' ? 'true':'false'}" />                                                                    
+                            <p:selectOneMenu value="#{pojo.examenDeFondoPojo2.selectOneRespuesta}" style="text-align:left" rendered="#{pojo.examenDeFondoPojo2.listaSelectOne == null ? 'false':'true'}">
+                                <f:selectItems value="#{pojo.examenDeFondoPojo2.listaSelectOne}" var="s" itemLabel="#{s.nombreElemento}" itemValue="#{s.idDatoElementoFormulario}"/>                                        
+                            </p:selectOneMenu> 
+                            <p:selectManyCheckbox value="#{pojo.examenDeFondoPojo2.checkBoxRespuestas}" layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo2.listaCheckBox == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo2.listaCheckBox}" var="c" itemLabel="#{c.nombreElemento}" itemValue="#{c.idDatoElementoFormulario}"/>
+                            </p:selectManyCheckbox>
+                            <p:selectOneRadio value="#{pojo.examenDeFondoPojo2.radioButtonRespuesta}"  layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo2.listaRadioButton == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo2.listaRadioButton}" var="r" itemLabel="#{r.nombreElemento}" itemValue="#{r.idDatoElementoFormulario}"/>
+                            </p:selectOneRadio>
+                        </p:column>                         
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 4? 'true':'false'}">          
+                            <h:outputLabel value="#{pojo.examenDeFondoPojo4.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo4.texto == null ? 'false':'true'}" />
+                            <h:inputText value="#{pojo.examenDeFondoPojo4.texto.respuesta}" rendered="#{pojo.examenDeFondoPojo4.texto == null ? 'false':'true'}" />
+                            <p:selectOneMenu value="#{pojo.examenDeFondoPojo4.selectOneRespuesta}" style="text-align:left" rendered="#{pojo.examenDeFondoPojo4.listaSelectOne == null ? 'false':'true'}">
+                                <f:selectItems value="#{pojo.examenDeFondoPojo4.listaSelectOne}" var="s" itemLabel="#{s.nombreElemento}" itemValue="#{s.idDatoElementoFormulario}"/>                                        
+                            </p:selectOneMenu> 
+                            <p:selectManyCheckbox value="#{pojo.examenDeFondoPojo4.checkBoxRespuestas}" layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo4.listaCheckBox == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo4.listaCheckBox}" var="c" itemLabel="#{c.nombreElemento}" itemValue="#{c.idDatoElementoFormulario}"/>
+                            </p:selectManyCheckbox>
+                            <p:selectOneRadio value="#{pojo.examenDeFondoPojo4.radioButtonRespuesta}"  layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo4.listaRadioButton == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo4.listaRadioButton}" var="r" itemLabel="#{r.nombreElemento}" itemValue="#{r.idDatoElementoFormulario}"/>
+                            </p:selectOneRadio>
+                        </p:column>       
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="¿Es confundible la partícula?" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 5? 'true':'false'}">          
+                            <h:outputLabel value="#{pojo.examenDeFondoPojo5.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo5.texto == null ? 'false':'true'}" />
+                            <h:inputText value="#{pojo.examenDeFondoPojo5.texto.respuesta}" rendered="#{pojo.examenDeFondoPojo5.texto == null ? 'false':'true'}" />
+                            <p:selectOneMenu value="#{pojo.examenDeFondoPojo5.selectOneRespuesta}" style="text-align:left" rendered="#{pojo.examenDeFondoPojo5.listaSelectOne == null ? 'false':'true'}">
+                                <f:selectItems value="#{pojo.examenDeFondoPojo5.listaSelectOne}" var="s" itemLabel="#{s.nombreElemento}" itemValue="#{s.idDatoElementoFormulario}"/>                                        
+                            </p:selectOneMenu> 
+                            <p:selectManyCheckbox value="#{pojo.examenDeFondoPojo5.checkBoxRespuestas}" layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo5.listaCheckBox == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo5.listaCheckBox}" var="c" itemLabel="#{c.nombreElemento}" itemValue="#{c.idDatoElementoFormulario}"/>
+                            </p:selectManyCheckbox>
+                            <p:selectOneRadio value="#{pojo.examenDeFondoPojo5.radioButtonRespuesta}"  layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo5.listaRadioButton == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo5.listaRadioButton}" var="r" itemLabel="#{r.nombreElemento}" itemValue="#{r.idDatoElementoFormulario}"/>
+                            </p:selectOneRadio>
+                        </p:column>                    
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 6? 'true':'false'}">          
+                            <h:outputLabel value="#{pojo.examenDeFondoPojo6.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo6.texto == null ? 'false':'true'}" />
+                            <h:inputText value="#{pojo.examenDeFondoPojo6.texto.respuesta}" rendered="#{pojo.examenDeFondoPojo6.texto == null ? 'false':'true'}" />
+                            <p:selectOneMenu value="#{pojo.examenDeFondoPojo6.selectOneRespuesta}" style="text-align:left" rendered="#{pojo.examenDeFondoPojo6.listaSelectOne == null ? 'false':'true'}">
+                                <f:selectItems value="#{pojo.examenDeFondoPojo6.listaSelectOne}" var="s" itemLabel="#{s.nombreElemento}" itemValue="#{s.idDatoElementoFormulario}"/>                                        
+                            </p:selectOneMenu> 
+                            <p:selectManyCheckbox value="#{pojo.examenDeFondoPojo6.checkBoxRespuestas}" layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo6.listaCheckBox == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo6.listaCheckBox}" var="c" itemLabel="#{c.nombreElemento}" itemValue="#{c.idDatoElementoFormulario}"/>
+                            </p:selectManyCheckbox>
+                            <p:selectOneRadio value="#{pojo.examenDeFondoPojo6.radioButtonRespuesta}"  layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo6.listaRadioButton == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo6.listaRadioButton}" var="r" itemLabel="#{r.nombreElemento}" itemValue="#{r.idDatoElementoFormulario}"/>
+                            </p:selectOneRadio>
+                        </p:column>                  
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="Columna7" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 7? 'true':'false'}">          
+                            <h:outputLabel value="#{pojo.examenDeFondoPojo7.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo7.texto == null ? 'false':'true'}" />
+                            <h:inputText value="#{pojo.examenDeFondoPojo7.texto.respuesta}" rendered="#{pojo.examenDeFondoPojo7.texto == null ? 'false':'true'}" />
+                            <p:selectOneMenu value="#{pojo.examenDeFondoPojo7.selectOneRespuesta}" style="text-align:left" rendered="#{pojo.examenDeFondoPojo7.listaSelectOne == null ? 'false':'true'}">
+                                <f:selectItems value="#{pojo.examenDeFondoPojo7.listaSelectOne}" var="s" itemLabel="#{s.nombreElemento}" itemValue="#{s.idDatoElementoFormulario}"/>                                        
+                            </p:selectOneMenu> 
+                            <p:selectManyCheckbox value="#{pojo.examenDeFondoPojo7.checkBoxRespuestas}" layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo7.listaCheckBox == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo7.listaCheckBox}" var="c" itemLabel="#{c.nombreElemento}" itemValue="#{c.idDatoElementoFormulario}"/>
+                            </p:selectManyCheckbox>
+                            <p:selectOneRadio value="#{pojo.examenDeFondoPojo7.radioButtonRespuesta}"  layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo7.listaRadioButton == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo7.listaRadioButton}" var="r" itemLabel="#{r.nombreElemento}" itemValue="#{r.idDatoElementoFormulario}"/>
+                            </p:selectOneRadio>
+                        </p:column>
+
+                        <p:column width="#{analisisDeMarcasTridimensionalesBean.anchoDeColumnaSeccion1}" style="text-align: left"  headerText="Columna8" rendered="#{analisisDeMarcasTridimensionalesBean.cantidadDeColumnasSeccion1 >= 8? 'true':'false'}">          
+                            <h:outputLabel value="#{pojo.examenDeFondoPojo8.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo8.texto == null ? 'false':'true'}" />
+                            <h:inputText value="#{pojo.examenDeFondoPojo8.texto.respuesta}" rendered="#{pojo.examenDeFondoPojo8.texto == null ? 'false':'true'}" />
+                            <p:selectOneMenu value="#{pojo.examenDeFondoPojo8.selectOneRespuesta}" style="text-align:left" rendered="#{pojo.examenDeFondoPojo8.listaSelectOne == null ? 'false':'true'}">
+                                <f:selectItems value="#{pojo.examenDeFondoPojo8.listaSelectOne}" var="s" itemLabel="#{s.nombreElemento}" itemValue="#{s.idDatoElementoFormulario}"/>                                        
+                            </p:selectOneMenu> 
+                            <p:selectManyCheckbox value="#{pojo.examenDeFondoPojo8.checkBoxRespuestas}" layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo8.listaCheckBox == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo8.listaCheckBox}" var="c" itemLabel="#{c.nombreElemento}" itemValue="#{c.idDatoElementoFormulario}"/>
+                            </p:selectManyCheckbox>
+                            <p:selectOneRadio value="#{pojo.examenDeFondoPojo8.radioButtonRespuesta}"  layout="grid" columns="1" rendered="#{pojo.examenDeFondoPojo8.listaRadioButton == null ? 'false':'true'}" >
+                                <f:selectItems value="#{pojo.examenDeFondoPojo8.listaRadioButton}" var="r" itemLabel="#{r.nombreElemento}" itemValue="#{r.idDatoElementoFormulario}"/>
+                            </p:selectOneRadio>
+                        </p:column>                                                                                                
+                    </p:dataTable>                                                                                                
+                </div>
+
+                <div align="center" >
+                    <p:panel id="panelUno" style="border-style: hidden">
+                        <p:panel style="text-align: left">                                                                                    
+                            <div align="center" style="padding:1em 0em;">
+                                <p:panel style="text-align: center">
+                                    <h4><h:outputLabel value=" *  " style="color: #C00"/> <p:outputLabel id="labelA" value=" Para imprimir debe guardar el formulario."></p:outputLabel></h4>
+                                    <p:commandButton action="#{analisisDeMarcasTridimensionalesBean.atras()}" ajax="false" value="Atrás"/>
+                                    <p:commandButton action="#{analisisDeMarcasTridimensionalesBean.guarda()}" ajax="false" value="Guardar"/>
+                                    <p:commandButton action="#{analisisDeMarcasTridimensionalesBean.guardaYSiguiente()}" ajax="false" value="Guarda y Siguiente"/>      
+                                    <p:commandButton action="#{analisisDeMarcasTridimensionalesBean.imprimir()}" icon="ui-icon-print" ajax="false" value="Imprimir" disabled="#{!analisisDeMarcasTridimensionalesBean.imprimeTridimensional}"/>
+                                    <p:commandButton value="Terminar Análisis" type="button" onclick="PF('concluyeExamen').show()"/>
+                                    <p:dialog header="Concluirá el Examen" widgetVar="concluyeExamen" resizable="false" closable="false"  
+                                              width="50%" height="50%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <h2>¿Está seguro de terminar el examen?</h2>
+                                        </div>                                
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <p:commandButton
+                                                id="finalizaCargaImagen"
+                                                value="Sí"
+                                                onclick="PF('concluyeExamen').hide();"
+                                                action="#{analisisDeMarcasTridimensionalesBean.terminarAnalisis()}"
+                                                icon="ui-icon-disk"
+                                                ajax="false"/>
+                                            <p:commandButton
+                                                id="cancelarCargaImagen"
+                                                value="No"
+                                                onclick="PF('concluyeExamen').hide();"
+                                                icon="ui-icon-disk"/>
+                                        </div>
+                                    </p:dialog>
+                                </p:panel>           
+                            </div>
+                        </p:panel>
+                    </p:panel>                    
+                </div>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

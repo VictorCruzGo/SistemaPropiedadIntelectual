@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporAnalisisConfundibilidad_DatosSemejanza" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="34959316-638f-475a-beeb-7797d5553fb1">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="391"/>
+	<property name="ireport.y" value="0"/>
+	<field name="item" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="esSector" class="java.lang.String"/>
+	<field name="check" class="java.lang.String"/>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{esSector}.equals( "si" )]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="9" y="0" width="364" height="10" uuid="e6266f36-4dcb-404d-98fa-157689524fa2"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="19">
+			<printWhenExpression><![CDATA[$F{esSector}.equals( "no" )]]></printWhenExpression>
+			<image>
+				<reportElement x="10" y="3" width="10" height="10" uuid="c02daf33-8a6f-4d88-afe6-fd09edee2a81"/>
+				<imageExpression><![CDATA[$F{check}]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="26" y="3" width="347" height="10" uuid="f2acfb2a-2530-4cb9-a198-ab1d81ae028a"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="389" y="2" width="350" height="15" uuid="0f43b924-81ea-442c-9840-49a6f9b89014"/>
+				<box topPadding="1" leftPadding="2" bottomPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <composite:interface>
+        <composite:attribute name="numeroDeBotonActivado" type="java.lang.Integer"/>
+        <composite:attribute name="tramite" type="org.gob.snp.entidades.Tramite"/>        
+    </composite:interface>
+
+    <composite:implementation>
+        <div align="left">
+            <h:panelGrid columns="7">                              
+                <p:commandButton value="Registrabilidad" style="width: #{cc.attrs.numeroDeBotonActivado==1?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==1?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==1?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=1}"/>
+                <p:commandButton value="Relación Registros Existentes" style="font-size: 1px; width: #{cc.attrs.numeroDeBotonActivado==2?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==2?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==2?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=2}"/>
+                <p:commandButton value="Análisis de Denominaciones" style="width: #{cc.attrs.numeroDeBotonActivado==3?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==3?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==3?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=3}"/>
+                <p:commandButton value="Análisis de Marcas Tridimensionales" style="width: #{cc.attrs.numeroDeBotonActivado==4?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==4?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==4?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=4}" rendered="#{componenteBotonesWizardExamenDeFondoBean.verificaSiEsTridimensional(cc.attrs.tramite)}"/>
+                <p:commandButton value="Análisis de Conexión Competitiva" style="width: #{cc.attrs.numeroDeBotonActivado==5?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==5?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==5?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=5}"/>
+                <p:commandButton value="Análisis de Confundibilidad" style="width: #{cc.attrs.numeroDeBotonActivado==6?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==6?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==6?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=6}"/>
+                <p:commandButton value="Conclusiones" style="width: #{cc.attrs.numeroDeBotonActivado==7?'150px':'100px'};height: 50px;#{cc.attrs.numeroDeBotonActivado==7?'background: #3DABE3':''} ;#{cc.attrs.numeroDeBotonActivado==7?'color: #FFFFFF':''}" disabled="#{cc.attrs.numeroDeBotonActivado!=7}"/>
+            </h:panelGrid>
+        </div>
+    </composite:implementation>
+
+</html>

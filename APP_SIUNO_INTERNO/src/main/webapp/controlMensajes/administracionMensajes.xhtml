@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="Administrador de Mensajes" style="text-align: center;width: 99.5%;height: 99%; overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:1.0em 1.0em;">
+                    <p:dataTable id="moduloLista" var="modulo" 
+                                 value="#{moduloBean.listaModulo}" 
+                                 selectionMode="single" 
+                                 selection="#{moduloBean.moduloSelecion}" 
+                                 style="width: 70%"
+                                 scrollable="true" 
+                                 scrollHeight="200"
+                                 rowKey="#{modulo.idModulo}">
+                        <p:ajax event="rowSelect" listener="#{moduloBean.activaBoton(e)}" update="botonAdicionaModulo"/>
+                        <f:facet name="header">
+                            Listas de Modulos
+                        </f:facet>
+                        <p:column headerText="Codigo">
+                            <h:outputText value="#{modulo.codigoModulo}" />
+                        </p:column>
+                        <p:column headerText="Modulo">
+                            <h:outputText value="#{modulo.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Crear Mensaje">
+                            <p:commandButton id="crearMensajeBoton" process="moduloLista" 
+                                             icon="ui-icon-comment" 
+                                             update=":form:panelModuloDialogo"
+                                             action="#{moduloBean.irCrearMensaje(modulo)}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="botonAdicionaModulo"
+                                             process="moduloLista" 
+                                             disabled="#{moduloBean.activaBotonAdiconar}"
+                                             icon="ui-icon-search" 
+                                             update=":form:panelModuloDialogo"
+                                             action="#{moduloBean.adicionaModulo()}"
+                                             value="Adicionar Modulo" 
+                                             oncomplete="PF('moduloDialog').show()" />
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+
+                <p:dialog header="MODULO" widgetVar="moduloDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="panelModuloDialogo" style="text-align:center;">
+                        <p:panelGrid  columns="2" columnClasses="label,value">
+                            <f:facet name="header">
+                            </f:facet>
+                            <p:outputLabel value="Codigo Padre:" />
+                            <p:inputText value="#{moduloBean.moduloSelecion.codigoModulo}" />
+                            <p:outputLabel value="Descripcion:" />
+                            <p:inputText value="#{moduloBean.moduloSelecion.descripcion}" />
+                        </p:panelGrid>
+
+                        <p:selectOneRadio id="customRadioNiveles" value="#{moduloBean.nivelParaCrear}" layout="custom">  
+                            <f:selectItem itemLabel="Nivel" itemValue="N" />  
+                            <f:selectItem itemLabel="Sub Nivel" itemValue="S" />
+                        </p:selectOneRadio> 
+                        <h:panelGrid columns="4" id="mascaraGenerada">  
+                            <p:radioButton id="nivelRadio" for="customRadioNiveles" itemIndex="0"/>
+                            <h:outputLabel for="nivelRadio" value="Nivel" />
+                            <p:panel>
+                                #{moduloBean.mascaraNivelPosicionUno}
+                                <p:inputText value="#{moduloBean.nivelIn}" size="#{moduloBean.longitudNivel}" maxlength="#{moduloBean.longitudNivel}" autocomplete="off" disabled="true">
+                                    <p:ajax event="keyup" update="verifica1" listener="#{moduloBean.generaPruebaNivel(e)}"/>  
+                                </p:inputText>
+                                #{moduloBean.mascaraNivelPosicionDos}
+                            </p:panel>
+                            <h:outputText id="verifica1" value="#{moduloBean.mensajeVerifica1}" style="color: #{moduloBean.mensajeVerifica1== 'Codigo Existente'?'red':'#045491'}"/>  
+                            <p:radioButton id="subNivelRadio" for="customRadioNiveles" itemIndex="1" rendered="#{moduloBean.desactivaRadioButtonSubNivel}"/>  
+                            <h:outputLabel for="subNivelRadio" value="Sub Nivel" rendered="#{moduloBean.desactivaRadioButtonSubNivel}"/>  
+                            <p:panel rendered="#{moduloBean.desactivaRadioButtonSubNivel}">
+                                #{moduloBean.mascaraSubNivelPosicionUno}
+                                <p:inputText value="#{moduloBean.subNivelIn}" size="#{moduloBean.longitudSubNivel}" maxlength="#{moduloBean.longitudSubNivel}" disabled="true">
+                                    <p:ajax event="keyup" update="verifica2" listener="#{moduloBean.generaPruebaSubNivel(e)}"/>  
+                                </p:inputText>
+                                #{moduloBean.mascaraSubNivelPosicionDos}
+                            </p:panel>
+                            <h:outputText id="verifica2" value="#{moduloBean.mensajeVerifica2}" style="color: #{moduloBean.mensajeVerifica2== 'Codigo Existente'?'red':'#045491'}"/>
+                        </h:panelGrid>
+
+                        <p:panelGrid  columns="2" columnClasses="label,value">
+                            <f:facet name="header">
+                            </f:facet>
+                            <p:outputLabel value="Descripcion" />
+                            <p:inputText value="#{moduloBean.modulo.descripcion}" size="60"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                    <div align="center" style="padding:1.0em 1.0em;">
+                        <h:panelGrid columns="2">
+                            <p:commandButton
+                                id="adiciona"
+                                value="Adicionar Modulo"
+                                action="#{moduloBean.guardaModuloAction()}"
+                                ajax="false"
+                                update="moduloLista"
+                                icon="ui-icon-disk">
+                            </p:commandButton>  
+                            <p:commandButton
+                                value="Cancelar"
+                                onclick="PF('moduloDialog').hide();"
+                                icon="ui-icon-arrowthick-1-w">
+                            </p:commandButton>  
+                        </h:panelGrid>
+                    </div>
+                </p:dialog>
+
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

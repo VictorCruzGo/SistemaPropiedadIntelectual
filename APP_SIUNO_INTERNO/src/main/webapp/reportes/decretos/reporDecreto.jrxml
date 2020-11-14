@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporDecreto" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f179d197-8271-40ee-9e7f-fd4bee5eac05">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaSolicitud" class="java.lang.String"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="imageEscudoBol" class="java.lang.String"/>
+	<parameter name="codigoSM" class="java.lang.String"/>
+	<parameter name="numeroExpediente" class="java.lang.String"/>
+	<parameter name="textoNotificacion" class="java.lang.String"/>
+	<title>
+		<band height="190" splitType="Stretch">
+			<image>
+				<reportElement x="221" y="2" width="351" height="83" uuid="f7f0363f-f440-49bf-9da7-09c0efa7f3e6"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="2" width="193" height="83" uuid="a233f10e-e03c-4ce9-82c2-a7b66268d5a8"/>
+				<imageExpression><![CDATA[$P{imageEscudoBol}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="379" y="99" width="181" height="17" uuid="24f4f39c-5048-4302-8f91-4da3827d943c"/>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaSolicitud}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="98" width="193" height="18" forecolor="#000080" uuid="74522152-8d13-4f17-8a05-71eb037139c0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="118" width="572" height="1" uuid="8650b9ea-cc7b-40bb-8fe6-206995302ebf"/>
+			</line>
+			<staticText>
+				<reportElement x="8" y="134" width="82" height="13" uuid="ccdb2a46-3dd7-4495-b0fb-01eef38a39fd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO SM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="134" width="137" height="13" uuid="a28d2007-416e-4260-bf27-a6aafd33f1bd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NÚMERO EXPEDIENTE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="91" y="134" width="100" height="13" uuid="461c83e3-f414-4530-b7dd-1e6908727568"/>
+				<textFieldExpression><![CDATA[$P{codigoSM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="134" width="149" height="13" uuid="6696055d-339d-47b0-a030-c2784e8b4aa5"/>
+				<textFieldExpression><![CDATA[$P{numeroExpediente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="99" width="153" height="18" forecolor="#000080" uuid="3c80ccd1-8961-4566-8c8e-ca9d0cb4bb51"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Fecha de Solicitud]]></text>
+			</staticText>
+			<frame>
+				<reportElement stretchType="RelativeToTallestObject" x="10" y="169" width="562" height="20" uuid="0cea83a8-cd72-4ac2-8247-8888913ebad1"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="0" y="0" width="562" height="20" uuid="09043ea0-71ce-43af-9176-9274cfdf666b"/>
+					<textFieldExpression><![CDATA[$P{textoNotificacion}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+</jasperReport>

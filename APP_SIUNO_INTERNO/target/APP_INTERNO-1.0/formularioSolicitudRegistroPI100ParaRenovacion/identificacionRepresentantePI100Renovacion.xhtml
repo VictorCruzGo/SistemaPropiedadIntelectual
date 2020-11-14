@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <div id="componenteNavegacional">
+            <si.componentes:menuBotonesWizardSolicitudParaRenovacion numeroDeBotonActivado="2"/>
+        </div>
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel id="panelDos"  style="border-style: hidden;width: 100%">
+                <p:panel>
+                    <div align="center" style="padding:1em 2.2em">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="#{msgs.apoderadoPreguntaTramitePersonal}"/>
+                            <p:selectOneRadio id="esTramiteUnipersonal" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.esTramiteUnipersonal}">
+                                <f:selectItem itemLabel="#{msgs.apoderadoRespuestaSi}" itemValue="false" />
+                                <f:selectItem itemLabel="#{msgs.apoderadoRespuestaNo}" itemValue="true" />
+                                <p:ajax event="change" update="panelDos,panelRepre,idPanelGridBotonesGuardado" listener="#{identificacionRepresentanteRegistroPI100RenovacionBean.limpiaDatosRepresentanteAction(e)}"/>
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+                        <h:panelGrid  columns="1" id="panelRepre">
+                            <p:panel id="panelRepresentante" rendered="#{identificacionRepresentanteRegistroPI100RenovacionBean.esTramiteUnipersonal}">
+                                <div align="right" style="padding:1em 2.2em;">
+                                    <p:commandButton id="limpiaFormularioRepresentante" 
+                                                     value="#{msgs.solicitanteLimpiaFormulario}" actionListener="#{identificacionRepresentanteRegistroPI100RenovacionBean.limpiaFormularioApoderado(event)}" 
+                                                     update="form,mensajeGeneral,botonCargaDatosPersonaApoderado,informacionPersonaApoderado">                                        
+                                        <f:ajax execute="@this" render="@form" event="click" />
+                                    </p:commandButton>
+                                    <p:commandButton id="buscaApoderado" type="button" value="#{msgs.apoderadoCargarApoderado}" onclick="PF('BuscaApoderado').show()" />
+                                </div>
+                                <h:panelGrid columns="1">
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="#{msgs.apoderadoFechaUltimaModificacion}"/>
+                                        <p:calendar value="#{identificacionRepresentanteRegistroPI100RenovacionBean.apoderado.fechaUltimaModificacion}" size="7" autocomplete="off" disabled="true"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="5">
+                                        <h:outputLabel value="#{msgs.apoderadoNumeroPoder}"/>
+                                        <p:inputText id="Numero_Poder" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.apoderado.numeroPoder}" size="28" maxlength="30" autocomplete="off" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoNumeroDePoder==true?'border-color: #C00':' '}">                                                        
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.apoderadoFechaExpiracion}"/>
+                                        <p:calendar value="#{identificacionRepresentanteRegistroPI100RenovacionBean.apoderado.fechaExpiracionPoder}" size="7" autocomplete="off"/>
+                                        <p:outputLabel value="#{identificacionRepresentanteRegistroPI100RenovacionBean.apoderado.fechaExpiracionPoder==null?'':''}" />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2"> 
+                                        <h:outputLabel value="#{msgs.apoderadoNombre}"/>
+                                        <p:inputText id="Nombre" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoNombreApoderado==true?'border-color: #C00':' '}" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.personaApoderado.nombres}" size="35" maxlength="40" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="4">
+                                        <h:outputLabel value="#{msgs.apoderadoApellidoPaterno}"/>
+                                        <p:inputText id="ApellidoPaterno"  style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoApellidoPaternoApoderado==true?'border-color: #C00':' '}" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.personaApoderado.apellidoPaterno}" size="30" maxlength="30" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.apoderadoApellidoMaterno}"/>
+                                        <p:inputText id="ApellidoMaterno" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoApellidoMaternoApoderado==true?'border-color: #C00':' '}" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.personaApoderado.apellidoMaterno}" size="30" maxlength="30" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">
+                                        </p:inputText>
+                                    </h:panelGrid>    
+                                    <h:panelGrid columns="6">
+                                        <h:outputLabel value="#{msgs.apoderadoNroDocumento}" />
+                                        <p:inputText id="nroDocumentoApoderado" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoNumeroDocumentoApoderado==true?'border-color: #C00':' '}" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.numeroDocumentoApoderado}" onkeyup="return ValNumero(this);" size="15" maxlength="15" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">                                                       
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.apoderadoTipoDocumento}" />
+                                        <p:selectOneMenu id="TipoDocumento" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoTipoDocumentoApoderado==true?'border-color: #C00':' '}" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.tipoDocumentoIdentidadApoderado}" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">
+                                            <f:selectItem   itemLabel="#{msgs.apoderadoElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listadoTipoDocumentoIdentidadSD}" var="tdi" itemLabel="#{tdi.nombre}" itemValue="#{tdi.codigo}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}" />
+                                        <p:selectOneMenu id="lugarRepresentante" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoLugarExpedicionApoderado==true?'border-color: #C00':' '}" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.lugarExpedicionRepresentante}" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">
+                                            <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listadoCiudadClasificadorRepresentante}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="#{msgs.apoderadoGenero}" />
+                                        <p:selectOneRadio id="generoRepresentante" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.generoRepresentante}" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.deshabilitarRepresentante}">
+                                            <f:selectItems value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listadoTipoGeneroPersona}" var="gRepr" itemLabel="#{gRepr.nombre}" itemValue="#{gRepr.codigo}"/>
+                                        </p:selectOneRadio>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" style="text-align: center">
+                                    <h:outputLabel value="#{msgs.apoderadoDatosContacto}" style="color: #{identificacionRepresentanteRegistroPI100RenovacionBean.colorLabel}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="6">
+                                    <p:selectOneMenu value="#{identificacionRepresentanteRegistroPI100RenovacionBean.tipoContactoRepresentante}">
+                                        <f:selectItems value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listadoDatosContactoSD}" var="rRepre" itemLabel="#{rRepre.nombre}" itemValue="#{rRepre.codigo}"/>
+                                        <p:ajax event="change" update="notificarRepresentante" listener="#{identificacionRepresentanteRegistroPI100RenovacionBean.activaCheckNotificacionRepresentante(e)}" />
+                                    </p:selectOneMenu>
+                                    <p:inputText id="datoRepresentante" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.datoRepresentante}" size="70" style="#{identificacionRepresentanteRegistroPI100RenovacionBean.cambiaBordeCampoDatoRepresentante==true?'border-color: #C00':''}"/>
+                                    <p:watermark for="datoRepresentante" value="#{msgs.apoderadoIntroduceDatoContacto}" id="watermarkRepresentante" />
+                                    <p:selectBooleanCheckbox id="notificarRepresentante" value="#{identificacionRepresentanteRegistroPI100RenovacionBean.notificarRepresentante}" disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.habilitaNotificacionCheckRepresentante}"/>
+                                    <h:outputText value="#{msgs.apoderadoNotificarCorreo}" />
+                                    <p:commandButton
+                                        value="#{msgs.apoderadoAdicionar}"
+                                        update="listaDatosDeContactoRepresentante,datoRepresentante,mensajeGeneral"
+                                        process="@this,datoRepresentante,notificarRepresentante"
+                                        action="#{identificacionRepresentanteRegistroPI100RenovacionBean.adicionaDatoDeContactoDeRepresentante()}"
+                                        image="ui-icon ui-icon-disk"/>                                                                                                                                    
+                                </h:panelGrid>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:dataTable var="itemRepresentante"
+                                                 id="listaDatosDeContactoRepresentante"
+                                                 rowKey="#{itemRepresentante.tipoContacto}"
+                                                 value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listaDatosDeContactoRepresentante}"
+                                                 widgetVar="listaDatosDeContactoRepresentante"
+                                                 selectionMode="single"
+                                                 editable="true"
+                                                 selection="#{identificacionRepresentanteRegistroPI100RenovacionBean.datoscontactoRepresentanteSelect}"
+                                                 style="width: 60%;height: 10%"
+                                                 scrollable="true" scrollHeight="90" resizableColumns="true"
+                                                 emptyMessage="#{msgs.apoderadoListaContactoVacia}">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.apoderadoListaContacto}" />
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <p:ajax event="rowEdit" listener="#{identificacionRepresentanteRegistroPI100RenovacionBean.onEdit}"/>
+                                        <p:ajax event="rowEditCancel" listener="#{identificacionRepresentanteRegistroPI100RenovacionBean.onCancel}"/>
+                                        <p:column filterBy="#{itemRepresentante.tipoContacto.codigo}" sortBy="#{itemRepresentante.tipoContacto.codigo}" headerText="#{msgs.apoderadoTipoContacto}" footerText="" filterMatchMode="contains" width="20%">
+                                            <f:facet name="filter">
+                                                <p:selectOneMenu onchange="PF('listaDatosDeContactoRepresentante').filter()" >
+                                                    <f:selectItem itemLabel="#{msgs.apoderadoTodos}" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItems value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listadoDatosContactoSD}" var="rRepr" itemLabel="#{rRepr.nombre}" itemValue="#{rRepr.codigo}"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                            <h:outputText value="#{itemRepresentante.tipoContacto.descripcion}"/>
+                                        </p:column>
+                                        <p:column filterBy="#{itemRepresentante.dato}" sortBy="#{itemRepresentante.dato}" headerText="#{msgs.apoderadoDato}" footerText="" filterMatchMode="contains" width="60%">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemRepresentante.dato}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{itemRepresentante.dato}" style="width:95%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.apoderadoEliminar}" style="text-align: center" width="10%">
+                                            <p:commandButton update="listaDatosDeContactoRepresentante" 
+                                                             icon="ui-icon-trash" 
+                                                             action="#{identificacionRepresentanteRegistroPI100RenovacionBean.eliminaDatoDeContactoRepresentante()}"
+                                                             process="listaDatosDeContactoRepresentante"
+                                                             disabled="#{identificacionRepresentanteRegistroPI100RenovacionBean.habilitaEditaEliminaDatoContactoRepresentante(itemRepresentante)}">                                           
+                                                <f:setPropertyActionListener value="#{itemRepresentante}" 
+                                                                             target="#{identificacionRepresentanteRegistroPI100RenovacionBean.datoscontactoRepresentanteSelect}" />
+
+                                                <p:confirm header="#{msgs.apoderadoConfirmarEliminar}" 
+                                                           message="#{msgs.apoderadoConfirmarEliminarRegistro}" 
+                                                           icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.apoderadoModificar}" style="text-align: center" width="10%">
+                                            <p:rowEditor rendered="#{!identificacionRepresentanteRegistroPI100RenovacionBean.habilitaEditaEliminaDatoContactoRepresentante(itemRepresentante)}"/>
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>
+
+                                    </p:dataTable>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                        <p:commandButton value="#{msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </div>
+                            </p:panel>
+                        </h:panelGrid>
+                    </div>
+                    <si.componentes:informacion id="informacionPersonaApoderado"
+                                                dimension="70%"
+                                                mensaje="#{msgs.mensajeDeComponenteDeInformacion}"
+                                                rendered="#{identificacionRepresentanteRegistroPI100RenovacionBean.activaDialogoCargaDatosRepresentante}"/>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h:panelGrid columns="3" id="idPanelGridBotonesGuardado">
+                            <p:commandButton
+                                id="botonCargaDatosPersonaApoderado"
+                                value="#{msgs.apoderadoCargaDatos}"
+                                rendered="#{identificacionRepresentanteRegistroPI100RenovacionBean.activaDialogoCargaDatosRepresentante}"
+                                actionListener="#{identificacionRepresentanteRegistroPI100RenovacionBean.cargaPersonaApoderadoActionListener(event)}"
+                                update="form,Nombre,ApellidoPaterno,ApellidoMaterno,nroDocumentoApoderado,TipoDocumento,generoRepresentante,listaDatosDeContactoRepresentante,botonCargaDatosPersonaApoderado,informacionPersonaApoderado,mensajeGeneral"
+                                image="ui-icon ui-icon-disk">
+                                <f:ajax execute="@this" render="@form" event="click"/>
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </div>
+                </p:panel>
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">  
+                            <p:commandButton id="botonPanelDosAnterior"
+                                             style="left: inherit"
+                                             update="mensajeGeneral"
+                                             value="#{msgs.mensajeAnterior}"
+                                             action="#{identificacionRepresentanteRegistroPI100RenovacionBean.volverIdentificacionSolicitante()}">
+
+                            </p:commandButton>
+                        </p:toolbarGroup>  
+                        <p:toolbarGroup align="right">  
+                            <p:commandButton id="botonRepresentanteVerificaGuarda"
+                                             value="#{msgs.solicitanteGuardarYSiguiente}"                                                         
+                                             action="#{identificacionRepresentanteRegistroPI100RenovacionBean.guardaSegundaParteXhtml()}"
+                                             update="mensajeGeneral"
+                                             rendered="#{identificacionRepresentanteRegistroPI100RenovacionBean.esTramiteUnipersonal}"
+                                             image="ui-icon ui-icon-disk"
+                                             ajax="false">
+                            </p:commandButton>  
+
+                            <p:commandButton
+                                id="botonRepresentanteVerificaGuardaRadioButton"
+                                value="#{msgs.solicitanteGuardarYSiguiente}"
+                                action="#{identificacionRepresentanteRegistroPI100RenovacionBean.guardaSegundaParteRadioButtonXhtml()}"
+                                update="mensajeGeneral"
+                                rendered="#{!identificacionRepresentanteRegistroPI100RenovacionBean.esTramiteUnipersonal}"
+                                ajax="false"
+                                image="ui-icon ui-icon-disk">
+                            </p:commandButton>
+                        </p:toolbarGroup>  
+                    </p:toolbar>  
+                </div>
+            </p:panel>                     
+        </h:form>
+
+
+        <h:form id="form2">
+            <p:dialog header="#{msgs.apoderadoPanelApoderadoNombrePanel}" widgetVar="BuscaApoderado" resizable="false" closable="false"  
+                      width="80%" height="300" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:dataTable var="itemApoderado" 
+                                 id="listaApoderado"
+                                 rowKey="#{itemApoderado.idApoderado}"
+                                 value="#{identificacionRepresentanteRegistroPI100RenovacionBean.listadoDeApoderadoSegunUsuario()}" 
+                                 widgetVar="listaApoderado"
+                                 selectionMode="single" 
+                                 scrollable="true" scrollHeight="100" 
+                                 resizableColumns="true"
+                                 selection="#{identificacionRepresentanteRegistroPI100RenovacionBean.apoderadoSeleccionado}"
+                                 style="width: 100%">
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="#{msgs.apoderadoPanelApoderadoListaApoderados}" />
+                            </p:outputPanel>
+                        </f:facet> 
+
+                        <p:column  filterBy="#{itemApoderado.numeroPoder}" sortBy="#{itemApoderado.numeroPoder}" headerText="#{msgs.apoderadoPanelApoderadoNroPoder}" width="5%">  
+                            <h:outputText value="#{itemApoderado.numeroPoder}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemApoderado.persona.nombres}" sortBy="#{itemApoderado.persona.nombres}" headerText="#{msgs.apoderadoPanelApoderadoNombres}" width="10%">  
+                            <h:outputText value="#{itemApoderado.persona.nombres}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemApoderado.persona.apellidoPaterno}" sortBy="#{itemApoderado.persona.apellidoPaterno}" headerText="#{msgs.apoderadoPanelApoderadoApellidoPaterno}" width="8%">  
+                            <h:outputText value="#{itemApoderado.persona.apellidoPaterno}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemApoderado.persona.apellidoMaterno}" sortBy="#{itemApoderado.persona.apellidoMaterno}" headerText="#{msgs.apoderadoPanelApoderadoApellidoMaterno}" width="8%">  
+                            <h:outputText value="#{itemApoderado.persona.apellidoMaterno}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemApoderado.persona.numeroDocumento}" sortBy="#{itemApoderado.persona.numeroDocumento}" headerText="#{msgs.apoderadoPanelApoderadoNroDocumento}" width="5%">  
+                            <h:outputText value="#{itemApoderado.persona.numeroDocumento}" />
+                        </p:column>
+                        <p:column  filterBy="#{itemApoderado.persona.tipoDocumento.descripcion}" sortBy="#{itemApoderado.persona.tipoDocumento.descripcion}" headerText="#{msgs.apoderadoPanelApoderadoDescripcion}" width="5%">  
+                            <h:outputText value="#{itemApoderado.persona.tipoDocumento.descripcion}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemApoderado.fechaUltimaModificacion}" sortBy="#{itemApoderado.fechaUltimaModificacion}" headerText="#{msgs.apoderadoPanelApoderadoUltimaModificacion}" width="5%">  
+                            <h:outputText value="#{itemApoderado.fechaUltimaModificacion}" >
+                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msgs.apoderadoPanelApoderadoSeleccione}" width="5%" style="width:32px;text-align: center">
+                            <p:commandButton update=":form:Nombre :form:nroDocumentoApoderado :form:ApellidoPaterno :form:ApellidoMaterno :form:TipoDocumento :form:generoRepresentante :form:mensajeGeneral :form:listaDatosDeContactoRepresentante :form:lugarRepresentante" 
+                                             icon="ui-icon-transfer-e-w" 
+                                             title="View" 
+                                             actionListener="#{identificacionRepresentanteRegistroPI100RenovacionBean.cargaDatosApoderadoDialogo(event,itemApoderado)}">
+                                <f:ajax execute="@this" render="@form" event="click"/>
+                            </p:commandButton>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:spacer height="10" />
+                        </f:facet>  
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="#{msgs.apoderadoPanelApoderadoCancelar}"
+                            onclick="PF('BuscaApoderado').hide();"                                  
+                            icon="ui-icon-disk"/>
+                    </div>
+                </div>
+            </p:dialog> 
+
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>            

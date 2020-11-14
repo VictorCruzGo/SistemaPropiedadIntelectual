@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporTramitesEstadoFiltro" language="groovy" pageWidth="612" pageHeight="792" columnWidth="471" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="20" uuid="f0735c44-8ea5-40fd-b158-27cc4e7a43fd">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="58"/>
+	<property name="ireport.y" value="48"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="137" splitType="Stretch">
+			<image>
+				<reportElement x="203" y="1" width="95" height="63" uuid="5f5e0f8e-1c00-4329-8125-1eec17313ba4"/>
+				<imageExpression><![CDATA[$P{imageEscudoBol}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="1" y="1" width="412" height="47" uuid="7a922047-947b-40bd-910a-f9845ed4eb33"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="59" y="55" width="52" height="13" forecolor="#000080" uuid="9cd5ba54-35a6-49d2-88dd-eddaa60785f8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PETITORIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="67" width="167" height="18" forecolor="#000080" uuid="0571df91-0cf0-407b-b0ba-5bf065a560b3"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="68" width="202" height="20" forecolor="#000080" uuid="8d3be21c-cff6-4b80-a504-7d27d6b43fcf"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE PROPIEDAD INDUSTRIAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="88" width="471" height="14" backcolor="#000000" uuid="1a89377d-21b2-4080-9d0b-a41e6e33bbc6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="214" y="90" width="50" height="12" forecolor="#FFFFFF" uuid="6ef3c373-87b5-46a8-9f1c-e4a4115dc6da"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="173" y="122" width="70" height="10" uuid="b9ed19f4-10f7-45f4-ac78-f2cf282551fa"/>
+				<box topPadding="1" leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="131" y="122" width="37" height="10" uuid="f5bf4001-e294-477c-ae42-58e77efa623d"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha Fin:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="313" y="121" width="133" height="10" uuid="cfd63efe-c174-498f-a98e-777ba5ab09c1"/>
+				<box topPadding="1" leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuarioBus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="273" y="121" width="31" height="10" uuid="eb33e275-acec-4358-8f1a-7e0a5d4c42b5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="51" y="121" width="70" height="10" uuid="e930d5ac-628b-441e-a87e-d2b8797dc102"/>
+				<box topPadding="1" leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="121" width="45" height="10" uuid="f5c8f544-ed29-416a-8705-c1a0d52373d5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="106" width="79" height="10" uuid="c7bda163-04a6-4d84-b928-5d01b8933c8a"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Criterios de Filtrado:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="0" width="38" height="10" uuid="8f682671-d564-4018-8d60-0eeecfd3ad7a"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TRAMITE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="55" height="10" uuid="0b33b2f4-7ec7-432f-818c-4b7b01425228"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TIPO SIGNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="0" width="37" height="10" uuid="9e4d9045-1219-44fd-9dbe-4f0828f7be9f"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MARCA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="0" width="82" height="10" uuid="3bc612ff-ca33-44a9-a101-d32156221d1c"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ETAPA DE TRAMITE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

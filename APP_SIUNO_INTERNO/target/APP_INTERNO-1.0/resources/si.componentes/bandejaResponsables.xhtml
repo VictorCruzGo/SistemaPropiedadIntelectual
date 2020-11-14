@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>      
+        <!--Variables de entrada del componente-->
+        <composite:attribute name="updateFormId" type="java.lang.String"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panel style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+
+
+            <h:panelGrid columns="5">
+                <h:outputLabel value="#{msgs.bandejaPrincipalFechaInicio}"/>
+                <p:calendar value="#{componenteBandejaBeanResponsables.fechaInicial}" id="fechainicio" locale="es" 
+                            navigator="true" pattern="dd/MM/yyyy" size="12" style="border-color: #C00"/>
+
+                <h:outputLabel value="#{msgs.bandejaPrincipalFechaFin}"/>
+                <p:calendar value="#{componenteBandejaBeanResponsables.fechaFinal}" id="fechafin" locale="es" 
+                            navigator="true" pattern="dd/MM/yyyy" size="12" style="border-color: #C00"/>
+
+                <p:commandButton
+                    value="#{msgs.bandejaPrincipalBotonBuscar}"
+                    ajax="false"                    
+                    update="#{cc.attrs.updateFormId}:dataTable"
+                    image="ui-icon-search"
+                    action="#{componenteBandejaBeanResponsables.busqueda()}" />
+            </h:panelGrid>
+
+            <p:dataTable id="dataTable"                              
+                         var="item" 
+                         value="#{componenteBandejaBeanResponsables.listaBandejaUsuario}"
+                         rowKey="#{item.idExpediente}"
+                         emptyMessage="#{msgs.bandejaPrincipalEmptyMensaje}"
+                         widgetVar="dataTableBandeja"
+                         paginator="true" rows="10" paginatorPosition="bottom"                             
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,30,50,100">                    
+                <f:facet name="header" >
+                    <h:outputLabel value="#{msgs.bandejaPrincipalDataTableTitulo}"></h:outputLabel>
+                </f:facet>
+
+                <p:column sortBy="#{item.idExpediente}" headerText="#{msgs.bandejaPrincipalColumnaUno}" 
+                          id="idExpediente" style="width: 8%" >
+                    <div align="right">                        
+                        #{item.idExpediente}
+                    </div>
+                </p:column>
+
+                <p:column sortBy="#{item.tramite}" filterBy="#{item.tramite}" headerText="#{msgs.bandejaPrincipalColumnaDos}" 
+                          id="sm" style="width: 13%">
+                    <div align="left">
+                        #{item.tramite}                        
+                    </div>
+                </p:column>
+
+                <p:column sortBy="#{item.nombreSolicitud}" headerText="#{componenteBandejaBeanResponsables.tituloColumnaTipoTramite}"  
+                          id="Marca">
+                    <div align="left">                        
+                        #{item.nombreSolicitud}
+                    </div>
+                </p:column>
+
+                <p:column headerText="Estado proceso"
+                          id="EstadoProceso">
+                    <div align="left">
+                        #{componenteBandejaBeanResponsables.devolverValor(item.estadoProceso)}
+                    </div>
+                </p:column>
+
+                <p:column sortBy="#{item.fechaIngreso}" headerText="#{msgs.bandejaPrincipalColumnaTres}" id="fechaIngreso"
+                          style="width: 10%">
+                    <div align="right">
+                        <h:outputText value="#{item.fechaIngreso}"> 
+                            <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                        </h:outputText>                        
+                    </div>
+                </p:column>
+
+                <p:column sortBy="#{item.fechaAsignacion}" headerText="#{msgs.bandejaPrincipalColumnaCuatro}" 
+                          id="fechaAsignacion" style="width: 10%">
+                    <div align="right">
+                        <h:outputText value="#{item.fechaAsignacion}">
+                            <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                        </h:outputText>                        
+                    </div>
+                </p:column>
+
+                <p:column headerText="#{msgs.bandejaPrincipalColumnaCinco}" id="estado" style="width: 4%">
+                    <p:graphicImage id="semaforo2" value="#{componenteBandejaBeanResponsables.devuelveColorSemaforoSegunDias(item.tipoTramite, item.etapaTramite, item.fechaAsignacion)}"/>
+                </p:column>
+
+                <p:column headerText="#{msgs.bandejaPrincipalColumnaObservacion}" id="observacion" style="width: 10%" rendered="#{componenteBandejaBeanResponsables.tieneObservacion}">
+                    <div align="left">
+                        #{item.observacion}
+                    </div>
+                </p:column>
+
+                <p:column headerText="Seleccionar" id="seleccionar" style="width: 8%" rendered="#{!componenteBandejaBeanResponsables.habilitaColumnasParaRevisor}">
+                    <p:commandLink action="#{componenteBandejaBeanResponsables.navegaSegunUsuario(item)}" value="Selecciona" ajax="false"/>
+                </p:column>
+
+                <p:column headerText="Reporte Solicitud" id="exFondo" style="width: 8%" rendered="#{componenteBandejaBeanResponsables.habilitaColumnasParaRevisor}">
+                    <p:commandButton 
+                        id="idReporteSolicitud"
+                        icon="ui-icon-print"
+                        ajax="false"
+                        action="#{componenteBandejaBeanResponsables.irImpresion(item.idTramite)}"
+                        />
+                </p:column>
+
+                <p:column headerText="Revisar Examenes Realizados" id="decreto" style="width: 8%" rendered="#{componenteBandejaBeanResponsables.habilitaColumnasParaRevisor}">
+                    <p:commandButton 
+                        id="idMenuExamenesRealizados"
+                        icon="ui-icon-circle-check"
+                        ajax="false"
+                        action="#{componenteBandejaBeanResponsables.menuExamenesRealizados(item.idTramite)}"
+                        />
+                </p:column>
+
+                <p:column headerText="Continuar/Devolver" id="conceder_denegar" style="width: 8%" rendered="#{componenteBandejaBeanResponsables.habilitaColumnasParaRevisor}">                    
+                    <p:commandButton value="Continuar" action="#{componenteBandejaBeanResponsables.concedeBoton(item.idTramite)}" oncomplete="PF('observaciones').show()" />                    
+                    <p:commandButton value="Devolver" action="#{componenteBandejaBeanResponsables.deniegaBoton(item.idTramite)}" oncomplete="PF('observaciones').show()" />                                        
+                </p:column>            
+
+            </p:dataTable>
+        </p:panel>                       
+
+        <h:form id="formDialogo"> 
+            <p:dialog id="observaciones"  widgetVar="observaciones" header="Observación" resizable="false" closable="false" modal="true" width="47%" height="97%" showEffect="fade" hideEffect="fade" style="text-align: center">                                
+                <p:growl id="growl" showDetail="true" />
+                <div align="center">
+                    <p:panelGrid columns="1" style="border-style: hidden; text-align: center" >
+                        <p:outputLabel value="Detalle la observación que desea registrar"/>
+                        <p:inputTextarea id="areaDeObservacion" value="#{componenteBandejaBeanResponsables.observacion}" cols="100" maxlength="250"/>
+                    </p:panelGrid>
+                </div>
+                <p:commandButton 
+                    value="Enviar"
+                    action="#{componenteBandejaBeanResponsables.concedeODeniegaBandeja()}"
+                    onclick="PF('observaciones').hide();"
+                    icon="ui-icon-disk"
+                    ajax="false"/>                                
+                <p:commandButton
+                    id="cerrar"
+                    value="Cancelar"
+                    onclick="PF('observaciones').hide();"
+                    action="#{componenteBandejaBeanResponsables.borrarObservacion()}"
+                    icon="ui-icon-arrowreturnthick-1-w"
+                    update="areaDeObservacion"/>
+            </p:dialog>
+        </h:form>
+
+    </composite:implementation>
+</html>

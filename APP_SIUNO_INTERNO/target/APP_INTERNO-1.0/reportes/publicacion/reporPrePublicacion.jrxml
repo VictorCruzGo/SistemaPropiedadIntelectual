@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPrePublicacion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9dc32c42-b361-4dfb-a4a6-043953ff20a0">
+	<property name="ireport.zoom" value="2.5937424601000028"/>
+	<property name="ireport.x" value="507"/>
+	<property name="ireport.y" value="1320"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="mesCaratula" class="java.lang.String"/>
+	<parameter name="anioCaratula" class="java.lang.String"/>
+	<parameter name="datosDenominativas" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<parameter name="esPrepublicacion" class="java.lang.String"/>
+	<title>
+		<band height="583" splitType="Stretch">
+			<staticText>
+				<reportElement x="252" y="545" width="129" height="20" uuid="f71fdc27-4786-4671-816c-a3b2ba501a88"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[LA PAZ - BOLIVIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="216" y="354" width="195" height="20" uuid="8e636aae-ec7a-48df-93b4-c9cdeb7f89a5"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CORRESPONDIENTE A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="132" y="216" width="362" height="36" uuid="887cc45d-9e92-4c4b-ab48-51dd2fbe65ca"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOLETIN DE PUBLICACIONES]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="58" y="263" width="501" height="81" backcolor="#DEDEDE" uuid="10e36682-c41e-4c26-b284-375438ca7659"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="74" y="274" width="471" height="54" uuid="5f3da1e3-45f2-448f-836f-4568dc8c5ab6"/>
+				<textElement>
+					<font size="44"/>
+				</textElement>
+				<text><![CDATA[SIGNOS DISTINTIVOS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="141" y="109" width="310" height="91" uuid="ceda0854-57f6-475e-8f0e-2a843e6c505a"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="215" y="384" width="191" height="30" uuid="3cfb5076-d729-4aff-8f10-c18334df395c"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mesCaratula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="414" width="191" height="47" uuid="ba5df2f4-e821-4a9f-8107-0b28c595a7b7"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anioCaratula}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="403" y="2" width="169" height="32" uuid="7fa3a1d9-fb65-476d-947c-444772888b89">
+					<printWhenExpression><![CDATA[$P{esPrepublicacion}.equals( "PUBL" )]]></printWhenExpression>
+				</reportElement>
+				<rectangle radius="10">
+					<reportElement x="16" y="3" width="150" height="20" backcolor="#DEDEDE" uuid="a408d3c3-1328-40d0-8c81-28f8f82c0ed3"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="25" y="9" width="140" height="14" uuid="4b9106db-5190-4db5-a74c-5f51796fc431"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[S-SNP/SERV/P/301/R03]]></text>
+				</staticText>
+			</frame>
+			<textField>
+				<reportElement x="162" y="31" width="135" height="20" forecolor="#FEFEFE" uuid="fbdea064-a5cf-42a1-96d5-ea329b2459bc"/>
+				<textFieldExpression><![CDATA[$P{esPrepublicacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="22">
+			<subreport>
+				<reportElement x="0" y="2" width="572" height="19" uuid="169cd12c-dbbd-4a34-8dce-190979cb0bc9"/>
+				<dataSourceExpression><![CDATA[$P{datosDenominativas}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporCaratula2PrePublicacion.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="71">
+			<textField>
+				<reportElement x="298" y="1" width="17" height="10" uuid="b05ac240-08a0-42cf-ab01-ef7cca2136f4"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

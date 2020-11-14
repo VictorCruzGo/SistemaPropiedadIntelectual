@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="repor2Preferencias" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9e57e2a3-9a4b-4e10-bdfc-9065966e8772">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="d05e2827-c3d0-42bc-9b45-66d6b6b07249"/>
+	<field name="tipoPrioridad" class="java.lang.String"/>
+	<field name="fechaEmision" class="java.lang.String"/>
+	<field name="entidad" class="java.lang.String"/>
+	<title>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="573" height="11" backcolor="#C0C0C0" uuid="7fbc9dc1-b7c1-4161-b5d5-036e51140f5b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="3" width="100" height="9" uuid="ae90ba80-ab62-4a03-b7e5-31311de0a1b6"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. PREFERENCIAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="7" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement x="45" y="2" width="67" height="11" uuid="ffa036c7-85ca-4123-9e47-5010fbef7605"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tipo Prioridad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="213" y="1" width="100" height="12" uuid="244a458b-72ff-43b1-a41e-4bfb0a207791"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emision]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="1" width="45" height="12" uuid="900a4132-20dd-49cc-8f44-1f40d9f1365c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Entidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="361" y="2" width="202" height="20" uuid="39ab9ada-a0e6-471b-8e79-b096bb389f2d"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="189" y="2" width="148" height="20" uuid="2b9eddee-6fdd-4e12-913e-8a91a31ed78d"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="5" y="2" width="155" height="20" uuid="62b657a5-eb57-49fb-9e53-e31e9db8eb08"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="3" width="144" height="20" uuid="2af80de1-a53f-4428-ba10-5c4d235970a7"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoPrioridad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="197" y="5" width="140" height="17" uuid="59a915a3-6494-426b-9f6e-a2e5515df998"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaEmision}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="5" width="197" height="16" uuid="525b0f51-f88d-41b1-a56b-533cb8c7b87c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

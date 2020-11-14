@@ -1,0 +1,320 @@
+#top {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#headerSenapi {
+    box-shadow: 0 2px 8px #666666;
+    border-radius: 8px 8px 8px 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    min-height: 70px;
+    /*min-height: 150px;*/
+}
+
+#baner {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 40px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #E2E7E2;
+    padding: 5px;
+    margin: 2px -8px 0px -5px;
+    height: 32px;
+    border: 1px solid black;
+
+}
+#contenedor { 
+    width: 100%;
+    margin: auto;
+}
+
+#contenedorMensajes {
+    background-color: #E2E7A2;
+    padding: 0px;
+    margin-left: 16%;
+    height: 35px;
+    border: 1px solid black;
+    overflow:auto;
+    border-color: #045491;
+}
+#pagina { 
+    width: 100%;
+    margin: auto;
+    max-width: 1024px;
+    max-height: 1000px;
+}
+
+#left {
+    float: left;
+    background-color: #E2E7E2;
+    padding: 5px;
+    /*width: 155px;*/
+    width: 15%;
+    /*height: 435px;*/
+    height: 480px;
+    border: 1px solid black;
+    margin-left: -5px;
+}
+
+#menu {
+    /*float: left;*/
+    /*background-color: #E2E7E2;*/
+    /*border: 1px solid black;*/
+    /*width: 20%;*/
+    /*    width: 16%;
+        min-width: 20px;
+        height: 480px;
+        border: 1px solid black;*/
+
+}
+#senapiMenu{
+    float: left;
+    background-color: #F2F5F7;
+    box-shadow: 0 2px 8px #666666;
+    border-radius: 8px 8px 8px 8px;
+    min-height: 225px;
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 14%;
+    overflow-y: auto;
+}
+/*panel del fondo de la aplicacion*/
+#content {
+    float: right;
+    background-color: #F2F5F7;
+    box-shadow: 0 2px 8px #666666;
+    border-radius: 8px 8px 8px 8px;
+    /*Configuracion de el alto de la pagina*/
+/*    min-height: 700px;*/
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    /*width: 85%;*/
+    width: 100%;
+    overflow-y: auto;
+}
+
+.barra{
+    height:60px; 
+    float:left; 
+    clear:both; 
+    text-align:left; 
+    /*background:url("../resources/images/barra2.png") repeat-x;*/ 
+    background: #E2E7E2; 
+    width:100%;
+}
+
+#contenedorPadre{
+    padding: 2px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border-radius: 10px;
+    border: 1px solid;
+    border-color: #AED0EA;
+    overflow: auto;
+}
+
+
+.vector{
+    width:605px;
+    position:absolute;
+    background-image:url("../resources/images/vector6.png");
+    background-repeat:no-repeat;
+    height:50px;
+}
+
+.logoMinisterio{
+    width:400px;
+    position:inherit;
+    background-image:url("../resources/images/logoMinisterioB.png");
+    background-repeat:no-repeat;
+    height:100px;
+}
+
+.logoSenapi{
+    width:210px;
+    position:inherit;
+    background-image:url("../resources/images/logoSenapiB.png");
+    background-repeat:no-repeat;
+    height:100px;
+}
+
+
+.fondo {
+    background: #E2E7E2;
+}
+
+#centro {
+    width: 150px;
+    height: 150px;
+}
+
+.companyHeaderGrid {
+    border: none;
+}
+
+.validation-passed { 
+    border-color: blue; 
+} /* campo valido */
+
+.validation-failed { 
+    border-color: red; 
+} /* campo invalido */
+
+.validation-advice { 
+    color: #C00; font-size: 10px; 
+} /* mensaje de error */
+
+.banner1{
+    position: relative;
+    top:1px;
+    left:auto;
+    height:90px;
+    width: 345px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border: 2px #9cc2d6;
+}
+
+.para-filas {
+    background: none repeat scroll 0 0 #F2F5F7;
+}
+
+.para-elegidas {
+    background: none repeat scroll 0 0 #3BAAE3;
+}
+
+.colorLabelSenapi{
+    color: #3C82B4;
+}
+
+h1 
+{ 
+    color: #3C82B4; text-align: center; 
+}
+
+h2 
+{ 
+    color: #3C82B4; text-align: center; 
+}
+
+.ui-icon-excel {
+    background-image: url("images/editar.png");
+}
+
+.disk {
+    background-image: url("../resources/images/editar.png") !important;
+}
+
+.ui-widget {
+    font-size: 10px !important;
+}
+
+span.red {
+    background: red;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 15px;
+    text-align: center;
+    width: 1.6em;
+}
+
+span.grey {
+    background: #cccccc;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #fff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 15px;
+    text-align: center;
+    width: 1.6em;
+}
+
+span.green {
+    background: #5EA226;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 15px;
+    text-align: center;
+    width: 1.6em;
+}
+
+span.blue {
+    background: #5178D0;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 15px;
+    text-align: center;
+    width: 1.6em;
+}
+
+/*span.pink {
+  background: #EF0BD8;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: #ffffff;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.6em;
+  margin-right: 15px;
+  text-align: center;
+  width: 1.6em;
+}*/
+span.pink {
+    background: #3C82B4;
+    border-radius: 2em;
+    -moz-border-radius: 2em;
+    -webkit-border-radius: 2em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 2.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 2.6em;
+    -webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
+span.numerosBlink {
+    /*background: #3C82B4;*/
+    border-radius: 1em; 
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 2.3em;
+    margin-right: 5px;
+    text-align: center;
+    width: 3.5em;
+    -webkit-box-shadow: 5px 5px 4px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    5px 5px 4px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         5px 5px 4px 0px rgba(50, 50, 50, 0.75);
+}

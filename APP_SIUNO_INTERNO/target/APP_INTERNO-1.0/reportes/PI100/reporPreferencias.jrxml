@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPreferencias" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7d7c0c58-18c6-47f6-aec1-638851bfdbb1">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="tipoPrioridad" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="entidad" class="java.lang.String"/>
+	<field name="lugarEmision" class="java.lang.String"/>
+	<field name="fechaEmision" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<title>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-4" y="1" width="559" height="10" backcolor="#C0C0C0" uuid="5a00e457-6452-45e3-baf2-ad24fe898cc8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="2" width="171" height="14" uuid="aa3c5850-4512-47a3-a6ed-49611f85a8f3"/>
+				<textElement>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[3. PREFERENCIAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="2" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="3" width="48" height="10" uuid="5b882151-eaab-4653-a24b-1d0c7527c761"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tipo Prioridad]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="2" y="13" width="128" height="14" uuid="31b53a74-4e0e-4f3c-87a4-54ab57abb3b7"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="141" y="3" width="65" height="10" uuid="05076baf-66d7-45fd-bac3-4049f4e16b43"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Número]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="140" y="13" width="70" height="14" uuid="5f48e724-75d6-4f90-8ea0-c25383eb2560"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="230" y="3" width="53" height="10" uuid="f7f868ba-fa6d-4404-ad32-405cb0d02002"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Entidad/Oficina]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="227" y="13" width="205" height="14" uuid="e71e340b-6348-465c-98c5-919c94f0bd99"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="1" y="38" width="524" height="14" uuid="1ef8b5a4-ae3b-4f92-ba9a-173dcbc1b654"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="30" width="139" height="10" uuid="6f626fa1-b3e9-40f2-a7e8-4df014b66422"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Lugar de Emision]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="444" y="12" width="81" height="14" uuid="006e9361-70a4-4aa6-b77d-6d28b10292de"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="455" y="3" width="65" height="10" uuid="0c2843bf-eee7-4e64-a334-ff9f5f15af34"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fecha Emision]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="53" width="139" height="10" uuid="561ce16f-6ae2-4806-a851-b47be555b6df"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Observacion]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="0" y="63" width="525" height="28" uuid="c24995eb-426a-4c51-b5e4-d8a83eac9b9a"/>
+			</rectangle>
+			<textField>
+				<reportElement x="3" y="14" width="128" height="14" uuid="9e081667-37ad-4e6d-897b-e4755cb2d8d6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoPrioridad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="14" width="65" height="13" uuid="1beb9ef3-a1a8-4f96-a57e-f1b426f84b54"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="15" width="202" height="13" uuid="c73b837e-c576-46b5-8b29-7bb090ced210"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="40" width="522" height="12" uuid="9106e981-1479-4677-b2d4-ad45767dfc4e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugarEmision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="447" y="14" width="73" height="12" uuid="ec49466f-19aa-4436-9eaf-5cb7acec59f3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaEmision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="63" width="516" height="28" uuid="47c2d868-7384-4721-82cf-83c700b10671"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000" autoUpdate="true"/>  
+            <p:panel id="mapa" style="text-align: center;width: 100%;overflow-y:auto ; border-style: hidden; overflow-x: auto;border-color: white">
+                <div align="center">
+                    <p:panelGrid columns="3" style="width:100%; height:400px" >
+                        <p:column style="width:50%;height:400px">
+                            <p:panel  id="panelDirecciones" style="border-style: hidden; border-color: transparent">
+                                <div align="right" style="padding:0.0em 0.0em;">
+                                    <h:panelGrid id="botonDireccion" columns="7" cellpadding="5">
+                                        <p:commandButton id="BuscaDireccion" type="button" 
+                                                         value="#{msgs.usuarioNotificacionFormularioCincoObtDir}" 
+                                                         onclick="PF('buscaDireccion').show()" 
+                                                         rendered="true"
+                                                         icon="ui-icon-arrowthickstop-1-s"/>
+                                    </h:panelGrid>
+                                </div>
+                                <div align="center">
+                                    <p:growl showDetail="true"/>
+
+                                    <h:panelGrid columns="2" id="panelDireccionNotificacion">
+                                        <h:panelGrid columns="2" id="datosDireccionNotificacionTramite">
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoDirNot}" style="color: #{direccionNotificacionGeneralBean.colorLabel}"/>
+                                            <h:panelGrid columns="3">
+                                                <h:selectOneMenu value="#{direccionNotificacionGeneralBean.tipoCiudadNotificacion}" 
+                                                                 style="#{direccionNotificacionGeneralBean.cambiaBordeCampoCiudadNotificacion==true?'border-color: #C00':''}">
+                                                    <f:selectItem itemLabel="#{msgs.usuarioNotificacionFormularioCincoElegir}" 
+                                                                  itemValue="#{msgs.usuarioNotificacionFormularioCincoElegir}" 
+                                                                  noSelectionOption="true"/>
+                                                    <f:selectItems value="#{direccionNotificacionGeneralBean.listaCiudadNotificaciones}" 
+                                                                   var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" id="selectCiudaddes"/>
+                                                    <p:ajax update=":form:mapaGoogleVista  :form:googleMapsBotonRegistrar :form:selecionarZona" listener="#{direccionNotificacionGeneralBean.handleChange()}" />
+                                                </h:selectOneMenu>
+                                                <si.componentes:informacion dimension="100%" mensaje="#{msgs.mensajeCiudadNotificacionInformacion}"/>
+                                                <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            </h:panelGrid>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoZona}"/>  
+                                            </h:panelGrid> 
+                                            <h:selectOneMenu id="selecionarZona" value="#{direccionNotificacionGeneralBean.zonaCiudadNotificacion}" disabled="#{direccionNotificacionGeneralBean.activaBotonMaps}" 
+                                                             style="#{direccionNotificacionGeneralBean.cambiaBordeCampoCiudadNotificacion==true?'border-color: #C00':''}">
+                                                <f:selectItem itemLabel="#{msgs.usuarioNotificacionFormularioCincoElegir}" itemValue="#{null}" 
+                                                              noSelectionOption="true"/>
+                                                <f:selectItems value="#{direccionNotificacionGeneralBean.listaZonaCiudad}" 
+                                                               var="s" itemLabel="#{s.nombre}" itemValue="#{s.descripcion}" id="selectZonas"/>
+                                                <p:ajax update=":form:mapaGoogleVista"/>
+                                            </h:selectOneMenu>
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoBarrio}"/>  
+                                            </h:panelGrid> 
+                                            <p:inputText 
+                                                id="txt_barrio" 
+                                                value="#{direccionNotificacionGeneralBean.direccion.barrio}" 
+                                                autocomplete="off" 
+                                                maxlength="65" 
+                                                style="#{direccionNotificacionGeneralBean.cambiaBordeCampoDatoBarrio==true?'border-color: #C00':''};width: 90%" ></p:inputText>
+                                            <h:panelGrid columns="2" style="text-align:right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCalle}"/>  
+                                            </h:panelGrid> 
+                                            <p:inputText id="txt_calle" value="#{direccionNotificacionGeneralBean.direccion.calle}"  autocomplete="off"
+                                                         maxlength="65" style="#{direccionNotificacionGeneralBean.cambiaBordeCampoDatoCalle==true?'border-color: #C00':''};width: 90%"/>
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumero}"/>  
+                                            </h:panelGrid> 
+                                            <p:inputText id="txt_numero" value="#{direccionNotificacionGeneralBean.direccion.numero}" autocomplete="off" 
+                                                         maxlength="10" style="#{direccionNotificacionGeneralBean.cambiaBordeCampoDatoNumero==true?'border-color: #C00':''};width: 30%"/>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoEdificio}"/>  
+                                            <p:inputText id="txt_edificio" style=";width: 70%" value="#{direccionNotificacionGeneralBean.direccion.edificio}" size="50" autocomplete="off" maxlength="78">
+                                            </p:inputText>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoPiso}"/> 
+                                            <h:panelGrid columns="6">
+                                                <p:inputText id="txt_piso" style=";width: 70%" value="#{direccionNotificacionGeneralBean.direccion.piso}" size="12" autocomplete="off" onkeyup="return ValNumero(this);" maxlength="10"/>
+                                                <h:outputLabel value=" #{msgs.usuarioNotificacionFormularioCincoNumDep}"/>  
+                                                <p:inputText id="txt_depto" style=";width: 70%" value="#{direccionNotificacionGeneralBean.direccion.dpto}" size="12" autocomplete="off" 
+                                                             maxlength="10">
+                                                </p:inputText>
+                                            </h:panelGrid>
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCorreoElectronico}"/>  
+                                            </h:panelGrid>                             
+                                            <p:inputText id="txt_correoElectronico" value="#{direccionNotificacionGeneralBean.direccion.correoElectronico}" size="50" 
+                                                         autocomplete="off" maxlength="50" style="#{direccionNotificacionGeneralBean.cambiaBordeCampoCorreoElectronico==true?'border-color: #C00':''}"/>
+                                            <p:outputLabel value=""/>
+
+                                            <h:panelGrid columns="6" id="googleMapsBotonRegistrar">
+                                                <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoRegistrarGMaps}" />
+                                                <p:selectBooleanButton id="valorBotonMapa" value="#{direccionNotificacionGeneralBean.valorBotonMapa}" 
+                                                                       onLabel="SI" offLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"
+                                                                       disabled="#{direccionNotificacionGeneralBean.activaBotonMaps}">
+                                                    <p:ajax 
+                                                        update="form" process="@form"
+                                                        listener="#{direccionNotificacionGeneralBean.setRenderMapa()}"
+                                                        />
+                                                </p:selectBooleanButton>
+
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoLatitud}"/>  
+                                                <p:inputText 
+                                                    id="txt_coordenadaX" 
+                                                    style=";width: 70%" 
+                                                    value="#{direccionNotificacionGeneralBean.direccion.coordenadaX}" 
+                                                    size="20" 
+                                                    autocomplete="off"  
+                                                    onkeyup="return ValNumero(this);" 
+                                                    maxlength="10"
+                                                    disabled="true"></p:inputText>                          
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoLatitud}"></h:outputLabel> 
+                                                <p:inputText 
+                                                    id="txt_coordenadY" 
+                                                    style=";width: 70%"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                    value="#{direccionNotificacionGeneralBean.direccion.coordenadaY}" 
+                                                    size="20" 
+                                                    autocomplete="off" 
+                                                    maxlength="10" 
+                                                    disabled="true"
+                                                    >
+                                                </p:inputText>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </div> 
+                            </p:panel>  
+                        </p:column>
+                        <p:separator style=";width: 1px;border-style: hidden"></p:separator>
+                        <p:column style="border-color:#ffffff"  rendered="#{direccionNotificacionGeneralBean.renderMapa}" id="drawmapa" disabledSelection="true">
+                            <p:panel id="mapaGoogleVista">
+                                <div align="center">
+                                    <p:growl id="growl" showDetail="true"/>
+                                    <p:gmap 
+                                        center="#{direccionNotificacionGeneralBean.centroMapa}" 
+                                        zoom="#{direccionNotificacionGeneralBean.zoomID}" 
+                                        rendered="true"
+                                        type="ROADMAP" 
+                                        style="width:100%;height:400px"
+                                        model="#{direccionNotificacionGeneralBean.draggableModel}"
+                                        onPointClick="handlePointClick(event);" >
+                                        <p:ajax event="markerDrag" listener="#{direccionNotificacionGeneralBean.onMarkerDrag}" update="growl"
+                                                process="@form"/>
+                                        <p:ajax event="pointSelect" process="@form" listener="#{direccionNotificacionGeneralBean.onPointSelect}"/>
+                                    </p:gmap>
+                                    <p:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoInstruccionesGMaps}" 
+                                                   style="width:50%;height:400px;color: #666666"></p:outputLabel>
+                                    <br></br>
+                                    <p:commandButton 
+                                        update="form" 
+                                        value="#{msgs.usuarioNotificacionFormularioCincoBotonEstablecerUbicacion}" 
+                                        icon="ui-icon-disk" 
+                                        actionListener="#{direccionNotificacionGeneralBean.onPointSelect(event)}" 
+                                        process="@form"
+                                        ></p:commandButton>
+
+                                </div>
+                            </p:panel>
+                        </p:column>
+                    </p:panelGrid>
+                </div>
+
+                <!--                            <p:dataTable value="# {direccionNotificacionGeneralBean.listaDatosDeDirecciones}"
+                                                     var="direccion"
+                                                     id="listaDatosDeDireccion">
+                                            <p:column>
+            
+                                                <h:panelGrid columns="2" style="text-align: left">
+                                                    <h:outputLabel value="*" 
+                                                                   style="color: #C00"/>  
+                                                    <p:outputLabel value="# {msgs.prioridadNumeroCodigoPrioridad}"/>
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoZonaGri}"/>
+                                                </h:panelGrid>  
+            
+                                                <h:outputText value="# {direccion.zona}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoBarrioGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.barrio}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoCalleGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.calle}"/>
+                                            </p:column>
+                                            <p:column style="width: 4%">
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoNumeroGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.numero}" style="text-align: right"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoEdificioGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.edificio}"/>
+                                            </p:column>
+                                            <p:column  headerText="# {msgs.usuarioNotificacionFormularioCincoPisoGri} " width="30">
+                                                <div align="reght">
+                                                    <h:outputText value="# {direccion.piso}" style="text-align: right"/>
+                                                </div>
+                                            </p:column>
+                                            <p:column style="width: 4%">
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoDeptoGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.dpto}"  style="text-align: right"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoCiudadGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.tipoCiudad.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="# {msgs.usuarioNotificacionFormularioCincoFechModGri}"/>
+                                                </f:facet>
+                                                <h:outputText value="# {direccion.fechaUltimaModificacion}" style="text-align: right">
+                                                    <f:convertDateTime pattern="# {sessionState.formatoFecha}"/>
+                                                </h:outputText>
+                                            </p:column>
+            
+            
+                                            <p:column headerText="# {msgs.usuarioNotificacionFormularioCincoModificar}" style="text-align: center" width="5%">
+                                                <p:commandButton  icon="ui-icon-pencil" title="Editar" action="# {direccionNotificacionGeneralBean.modificaDatoDeDireccion()}"
+                                                                  update="listaDatosDeDireccion :form:FechaUltima :form:txt_zona :form:txt_barrio  :form:txt_calle :form:txt_numero :form:txt_edificio 
+                                                                  :form:txt_piso :form:txt_depto :form:botonadicionamodifica"
+                                                                  disabled="# {direccionNotificacionGeneralBean.campoValidaBotonDisable}">
+                                                    <f:setPropertyActionListener value="# {direccion}" target="# {direccionNotificacionGeneralBean.direccionSeleccionada}" />
+                                                </p:commandButton>
+                                            </p:column>
+            
+                                            <p:column headerText="# {msgs.usuarioNotificacionFormularioCincoEliminar}" style="text-align: center" width="5%">
+                                                <p:commandButton action="# {direccionNotificacionGeneralBean.borrarDireccionDeLaLista()}"
+                                                                 image="ui-icon-trash"
+                                                                 update="listaDatosDeDireccion">
+                                                    <f:setPropertyActionListener value="# {direccion}" target="# {direccionNotificacionGeneralBean.direccionSeleccionada}" />
+                                                    <p:confirm header="# {msgs.usuarioNotificacionFormularioCincoConfirmacionEliminar}" message="# {msgs.usuarioNotificacionFormularioCincoEstaSeguroQueQuiereEliminarElRegistro} " icon="ui-icon-alert" />
+                                                </p:commandButton>
+            
+                                                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode">
+                                                    <p:commandButton value="# {msgs.usuarioNotificacionFormularioCincoSi}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                    <p:commandButton value="# {msgs.usuarioNotificacionFormularioCincoNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                </p:confirmDialog>
+                                            </p:column>
+                                        </p:dataTable>-->
+                <p:separator style="width: 0px; border: 0px;height: 15px"></p:separator>
+                <p:commandButton value="#{direccionNotificacionGeneralBean.etiqueta}"
+                                 id="botonadicionamodifica"
+                                 process="@this,datosDireccionNotificacionTramite"
+                                 update=":form:panelnuevo, form:mensajeGeneral,:form:panelDireccionNotificacion"
+                                 action="#{direccionNotificacionGeneralBean.adicionaDatoDeDireccion()}"
+                                 icon = "ui-icon-disk">
+                </p:commandButton>
+
+            </p:panel>
+            <p:panel id="panelnuevo" style="border-style: hidden">
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;" >
+                        <p:toolbarGroup align="left"  >
+                            <h:commandButton  id="retornar" value="#{msgs.mensajeAnterior}"
+                                              rendered="#{direccionNotificacionGeneralBean.swBoton}"
+                                              action="#{direccionNotificacionGeneralBean.cancelarPrioridadesRegistroGeneral()}">
+                            </h:commandButton>
+                            <h:commandButton
+                                id="botonRetornar"
+                                value="#{msgs.mensajeAnterior}"
+                                rendered="#{!direccionNotificacionGeneralBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#{direccionNotificacionGeneralBean.cancelarPrioridadesRegistroGeneral()}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>   
+                        <!--                    <p:toolbarGroup align="right">  
+                                                <h:commandButton value="Siguiente"
+                                                                 action="# {direccionNotificacionGeneralBean.siguientePI100()}"
+                                                                 rendered="# {!direccionNotificacionGeneralBean.renderizaBotonFinalizar}">                     
+                                                </h:commandButton>
+                                                                        <p:commandButton value="# {msgs.usuarioNotificacionFormularioCincoVerGuar} "
+                                                                                         action="# {direccionNotificacionGeneralBean.finalizarRegistroGeneral()}"
+                                                                                         rendered="# {direccionNotificacionGeneralBean.renderizaBotonFinalizar }"
+                                                                                         update="mensajeGeneral"
+                                                                                         ajax="false"
+                                                                                         image="ui-icon-disk">                     
+                                                                        </p:commandButton>
+                                            </p:toolbarGroup>  -->
+                    </p:toolbar>  
+                </div> 
+            </p:panel>
+        </h:form>
+        <h:form id="formPopup">
+
+            <p:dialog header="#{msgs.usuarioNotificacionFormularioCincoListaDireccionesUsuario}" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                      width="98%" height="400" showEffect="clip" hideEffect="fold" style="text-align: center" modal="true">
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <p:dataTable var="itemDireccion" 
+                                 id="listaDireccion"
+                                 rowKey="#{itemDireccion.barrio}"
+                                 value="#{direccionNotificacionGeneralBean.listadoDeDireccionPorUsuario()}" 
+                                 widgetVar="listaDireccion"
+                                 selectionMode="single"
+                                 scrollable="true"
+                                 selection="#{direccionNotificacionGeneralBean.direccionSeleccionadaPopup}"
+                                 style="width: 100%">
+
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoLisDirPop}" />
+                            </p:outputPanel>
+                        </f:facet> 
+                        <p:column  filterBy="#{itemDireccion.zona}" sortBy="#{itemDireccion.zona}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoZonaPop}" width="12%">  
+                            <h:outputText value="#{itemDireccion.zona}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemDireccion.barrio}" sortBy="#{itemDireccion.barrio}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoBarrioPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.barrio}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemDireccion.calle}" sortBy="#{itemDireccion.calle}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoCallePop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.calle}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemDireccion.numero}" sortBy="#{itemDireccion.numero}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoNumeroPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.numero}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemDireccion.edificio}" sortBy="#{itemDireccion.edificio}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoEdificioPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.edificio}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemDireccion.piso}" sortBy="#{itemDireccion.piso}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoPisoPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.piso}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemDireccion.tipoCiudadNotificacion.descripcion}" sortBy="#{itemDireccion.tipoCiudadNotificacion.descripcion}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoCiudadPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.tipoCiudadNotificacion.descripcion}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoSelecPop}" width="11%" 
+                                  style="width:32px;text-align: center">
+                            <p:commandButton
+                                id="botonSeleccionar"
+                                title="#{msgs.usuarioNotificacionFormularioCincoBotonCargarDireccion}"      
+                                update=":form"
+                                icon="ui-icon-transfer-e-w"
+                                actionListener="#{direccionNotificacionGeneralBean.cargaDatosDireccionDialogo(event,itemDireccion)}"
+                                onclick="PF('buscaDireccion').hide();"> 
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="#{msgs.usuarioNotificacionFormularioCincoCancePop}"
+                            onclick="PF('buscaDireccion').hide();"
+                            icon="ui-icon-arrowreturnthick-1-w">
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:dialog>
+        </h:form>
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>            

@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="Deposito" style="text-align: center;width: 99.5%;height: 99%; overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:1.0em 1.0em;">
+                    <p:fieldset id="formularioDepositoField" legend="Deposito" toggleable="true" toggleSpeed="500" style="height: 100%">
+                        <h:panelGrid id="formularioDeposito" columns="6">
+
+                            <h:outputLabel value="Nro. Deposito:"/>  
+                            <p:inputText id="nroDeposito" value="#{canjeDepositoBean.deposito.numeroDeposito}" style="#{canjeDepositoBean.cambiaColorNumeroDeposito == true?'border-color: #C00':''}; width: 90%" />
+
+                            <h:outputLabel value="Depositante:"/>  
+                            <p:inputText id="personaDeposito" value="#{canjeDepositoBean.deposito.personaDeposito}" style="#{canjeDepositoBean.cambiaColorPersonaDeposito == true?'border-color: #C00':''}; width: 90%" />
+
+                            <h:outputLabel value="Fecha:"/>  
+                            <p:calendar id="fechaDeposito" value="#{canjeDepositoBean.deposito.fechaDeposito}" size="7" autocomplete="off" style="#{canjeDepositoBean.cambiaColorFechaDeposito==true?'border-color: #C00':''}; width: 90%" />
+
+                            <p:outputLabel value="Banco:" />
+                            <p:selectOneMenu value="#{canjeDepositoBean.tipoBanco}" style="#{canjeDepositoBean.cambiaColorBancoDeposito==true?'border-color: #C00':''}; width: 90%">  
+                                <f:selectItem itemLabel="Seleccione Banco" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{canjeDepositoBean.listaTipoBanco}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                            </p:selectOneMenu>  
+
+                            <h:outputLabel value="Monto Total (Bs.)"/>  
+                            <p:inputText id="monto" value="#{canjeDepositoBean.deposito.monto}" style="#{canjeDepositoBean.cambiaColormontoDeposito == true?'border-color: #C00':''}; width: 90%" />
+
+                        </h:panelGrid>
+
+                        <p:commandButton
+                            id="botonDepositoAdiciona"
+                            value="Adicionar Deposito"
+                            process="@this,formularioDeposito"
+                            action="#{canjeDepositoBean.adicionaDeposito()}"
+                            update="listaDepositoSeleccion,formularioDeposito,tipoBanco"
+                            ajax="false"
+                            rendered="#{canjeDepositoBean.activaBotonDeposito}"
+                            image="ui-icon-plusthick">
+                        </p:commandButton>
+
+                        <p:commandButton
+                            id="botonDepositoModifica"
+                            value="Modificar Deposito"
+                            process="@this,formularioDeposito"
+                            action="#{canjeDepositoBean.modificaDeposito()}"
+                            update="listaDepositoSeleccion,formularioDeposito,formularioDepositoField"
+                            rendered="#{!canjeDepositoBean.activaBotonDeposito}"
+                            image="ui-icon-pencil">
+                        </p:commandButton>
+
+                        <p:commandButton
+                            id="botonDepositoCancela"
+                            value="Cancelar"
+                            process="@this,formularioDeposito"
+                            action="#{canjeDepositoBean.cancelarDeposito()}"
+                            update="listaDepositoSeleccion,formularioDeposito,formularioDepositoField"
+                            rendered="#{!canjeDepositoBean.activaBotonDeposito}">
+                        </p:commandButton>
+
+                    </p:fieldset>
+                </div>
+                <div align="center">
+
+                    <p:dataTable id="listaDepositoSeleccion" 
+                                 var="deposito" 
+                                 value="#{canjeDepositoBean.listaDeposito}" 
+                                 scrollable="true" scrollHeight="150" resizableColumns="true"
+                                 emptyMessage="No existen depositos registrados."
+                                 style="width: 80%;">
+                        <f:facet name="header">
+                            Lista Depositos
+                        </f:facet>
+                        <p:column headerText="Nro." width="10%" style="text-align:right">
+                            <h:outputText value="#{deposito.numeroDeposito}" />
+                        </p:column>
+                        <p:column headerText="Banco" width="20%">
+                            <h:outputText value="#{deposito.tipoBanco.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Monto (Bs.)" width="10%" style="text-align:right">
+                            <h:outputText value="#{deposito.monto}" />
+                        </p:column>
+                        <p:column headerText="Fecha" width="15%" style="text-align:center">
+                            <h:outputText value="#{deposito.fechaDeposito}">
+                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Depositante" width="25%">
+                            <h:outputText value="#{deposito.personaDeposito}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.solicitanteEliminar}" style="text-align: center" width="10%">
+                            <p:commandButton update="listaDepositoSeleccion" 
+                                             icon="ui-icon-trash" 
+                                             action="#{canjeDepositoBean.eliminaDeposito(deposito)}" 
+                                             process="listaDepositoSeleccion" disabled="#{canjeDepositoBean.activaEliminaModifica(deposito)}">                                           
+                                <p:confirm header="Eliminar" message="¿Está seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="#{msgs.solicitanteModificar}" style="text-align: center" width="10%">
+                            <p:commandButton update="listaDepositoSeleccion :form:formularioDeposito :form:botonDepositoAdiciona :form:botonDepositoModifica :form:formularioDepositoField" 
+                                             icon="ui-icon-pencil" 
+                                             action="#{canjeDepositoBean.seleccionDepositoParaModificar(deposito)}" 
+                                             process="listaDepositoSeleccion" disabled="#{canjeDepositoBean.activaEliminaModifica(deposito)}">                                           
+                                <p:confirm header="Modificar" message="¿Está seguro que quiere modificar el registro?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="#{msgs.solicitanteDevolucion}" style="text-align: center" width="10%">
+                            <p:commandButton update="listaDepositoSeleccion :form:formularioDeposito :form:botonDepositoAdiciona :form:botonDepositoModifica :form:formularioDepositoField" 
+                                             icon="ui-icon-arrowreturn-1-e"
+                                             action="#{canjeDepositoBean.seleccionDepositoModificarEstado(deposito)}" 
+                                             process="listaDepositoSeleccion" >                                           
+                                <p:confirm header="Devolución" message="¿Está seguro que quiere hacer la devolución del este Deposito?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:spacer height="10"/>
+                        </f:facet>
+                    </p:dataTable>   
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </h:panelGrid>
+                        </div>
+                    </p:confirmDialog>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="Generar Recibos"
+                            action="#{canjeDepositoBean.irRecibo()}"
+                            ajax="false"
+                            image="ui-icon-circle-arrow-e"/>
+                    </div>
+                </div>
+
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

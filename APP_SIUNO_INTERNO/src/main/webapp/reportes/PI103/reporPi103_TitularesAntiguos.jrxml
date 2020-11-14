@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi103_TitularesAntiguos" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c7d55440-e10a-446e-9b32-9627944ee44e">
+	<property name="ireport.zoom" value="1.3310000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="apMaterno" class="java.lang.String"/>
+	<field name="apPaterno" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="3" width="569" height="10" backcolor="#C0C0C0" uuid="2a7c8062-8af2-4ef4-bac5-1e15087938f7"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="4" width="229" height="9" uuid="ca0388a7-ad15-479c-970c-98046e3423fb"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[TITULAR(ES) O LICENCIATARIOS(S) ANTIGUOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="18">
+			<staticText>
+				<reportElement x="10" y="4" width="98" height="11" uuid="c5012548-8a51-43b4-b561-cbfa8ca363cc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="167" y="4" width="98" height="11" uuid="7392af0d-3582-407e-a1a7-24b571221f7b"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Apellido Paterno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="4" width="98" height="11" uuid="4f22a1ef-3c2c-4658-853b-cb6643c1447f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Apellido Materno]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="9" y="6" width="138" height="13" uuid="adf788c3-4c17-49e8-b77c-f92fbcb8d191"/>
+				<box topPadding="1" leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="167" y="7" width="137" height="12" uuid="997df421-412f-4d27-b364-f34cb65ae4b7"/>
+				<box topPadding="1" leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apPaterno}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="322" y="7" width="134" height="12" uuid="0f8283bf-5e95-465a-b8a3-fdfe746ecf10"/>
+				<box topPadding="1" leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apMaterno}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="516" y="16" width="26" height="11" uuid="55820bee-fd33-4ceb-9a70-b77f089810c5"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<line>
+				<reportElement x="473" y="13" width="100" height="1" uuid="6d8948fb-d288-4a29-83b7-fe7b9479bdb7"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

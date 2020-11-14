@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi102" language="groovy" pageWidth="612" pageHeight="792" columnWidth="551" leftMargin="41" rightMargin="20" topMargin="12" bottomMargin="11" uuid="43bdd8fc-9545-4f94-a7b5-54d51789907c">
+	<property name="ireport.zoom" value="1.210000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="66"/>
+	<parameter name="imageEscudoBol" class="java.lang.String"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="CodigoDia" class="java.lang.String"/>
+	<parameter name="datosSolicitantes" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosApoderado" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosPreferencias" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosNotificador" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosLema" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosLema2" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="esRegistrada" class="java.lang.String"/>
+	<parameter name="FechaUltModif" class="java.lang.String"/>
+	<parameter name="UsuarioReporte" class="java.lang.String"/>
+	<parameter name="contadorRenovacion" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="contadorTransferencias" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="contadorLicencia" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="contadorFusion" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="contadorCambioDomicilio" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="contadorCambioNombre" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="dirSolicitante" class="java.lang.String"/>
+	<parameter name="dirApoderado" class="java.lang.String"/>
+	<parameter name="dirPreferencias" class="java.lang.String"/>
+	<parameter name="dirNotificacion" class="java.lang.String"/>
+	<title>
+		<band height="101" splitType="Stretch">
+			<staticText>
+				<reportElement x="435" y="16" width="98" height="12" forecolor="#000080" uuid="6f12d662-6fbf-4228-8480-37e22462bb56"/>
+				<text><![CDATA[FORMULARIO PI102]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="3" width="134" height="12" forecolor="#000080" uuid="5c0efdf7-fe98-44f8-b284-469b7f1d59dd"/>
+				<text><![CDATA[S-NPI/SERV/301 - -PI - 102]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="49" width="46" height="10" forecolor="#000080" uuid="05134a7a-5e5b-433a-a55b-3f7837cfa93e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PETITORIO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="237" y="-2" width="100" height="63" uuid="a1b91287-31c6-4210-8d28-7dfe98dd4ecd"/>
+				<imageExpression><![CDATA[$P{imageEscudoBol}]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement stretchType="RelativeToTallestObject" x="415" y="31" width="133" height="28" uuid="b1fe19e4-e155-475a-92aa-ec48a6db0517"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{CodigoDia}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement x="2" y="61" width="166" height="10" forecolor="#000080" uuid="8e3d2a62-0e6d-4e54-8571-06e21b0b337c"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE PROPIEDAD INTELECTUAL]]></text>
+			</staticText>
+			<image>
+				<reportElement x="-1" y="-2" width="238" height="47" uuid="b709c0cc-49c4-4b14-a22a-cab14f23eae0"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="415" y="60" width="133" height="15" uuid="9f23d515-3e08-427f-b1a9-289274bab131"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{CodigoDia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="66" width="156" height="15" forecolor="#000080" uuid="5fe1b845-9fc9-4349-87b0-80a3780ed65f"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="81" width="369" height="15" uuid="fd547282-8b0c-4f83-8043-849de85544b6"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO DE SOLICITUD DE REGISTRO DE LEMA COMERCIAL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<subreport>
+				<reportElement x="-1" y="0" width="552" height="32" uuid="121ff204-44d0-47f0-983a-abd031418f9b"/>
+				<dataSourceExpression><![CDATA[$P{datosSolicitantes}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{dirSolicitante}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="551" height="50" uuid="45c7225b-258e-43b6-bbcc-870f8421e02d"/>
+				<dataSourceExpression><![CDATA[$P{datosApoderado}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{dirApoderado}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="42">
+			<printWhenExpression><![CDATA[$P{esRegistrada}.equals( "no" )]]></printWhenExpression>
+			<subreport runToBottom="false">
+				<reportElement x="1" y="0" width="551" height="42" uuid="1b79972e-1e19-42ca-b81b-db3e9ff5f487"/>
+				<dataSourceExpression><![CDATA[$P{datosLema}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_LemaComercial2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="43">
+			<printWhenExpression><![CDATA[$P{esRegistrada}.equals( "si" )]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="552" height="41" uuid="4163a284-c094-424e-95df-22d83acf5e05"/>
+				<dataSourceExpression><![CDATA[$P{datosLema}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_LemaComercial.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="549" height="50" uuid="fecbad4a-9212-4213-9944-b11648c93077"/>
+				<dataSourceExpression><![CDATA[$P{datosPreferencias}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{dirPreferencias}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="42">
+			<subreport>
+				<reportElement x="1" y="2" width="551" height="40" uuid="d2d885ab-c1df-4911-8026-338bd3931c8f"/>
+				<dataSourceExpression><![CDATA[$P{datosNotificador}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{dirNotificacion}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="41">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="2" width="550" height="38" uuid="c1a81434-b1a2-457a-81b6-838edf035d9b"/>
+				<dataSourceExpression><![CDATA[$P{contadorRenovacion}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_subreHojaBlanco.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement positionType="Float" x="0" y="1" width="100" height="1" uuid="0a81d039-7dbf-4c94-9fc4-42caddd8d892"/>
+			</break>
+		</band>
+		<band height="42">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="3" width="550" height="38" uuid="1acb64fb-5580-4664-aaba-9af7010a8b4d"/>
+				<dataSourceExpression><![CDATA[$P{contadorTransferencias}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_subreHojaBlancoTransfer.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement positionType="Float" x="0" y="1" width="100" height="1" uuid="59d71319-3d17-4d54-8fee-94c0118260ed"/>
+			</break>
+		</band>
+		<band height="37">
+			<break>
+				<reportElement positionType="Float" x="0" y="1" width="100" height="1" uuid="8d573f1c-8898-40c6-a60d-c7c0f410ccf1"/>
+			</break>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="3" width="549" height="34" uuid="3f8b92aa-bc57-4e50-ab9f-f81abe9be386"/>
+				<dataSourceExpression><![CDATA[$P{contadorLicencia}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_subreHojaBlancoLicencia.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="43">
+			<subreport>
+				<reportElement positionType="Float" x="-1" y="3" width="552" height="40" isRemoveLineWhenBlank="true" uuid="e09df44c-85bc-4f9e-830f-92f5786b5dc9"/>
+				<dataSourceExpression><![CDATA[$P{contadorFusion}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_subreHojaBlancoFusion.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement positionType="Float" x="0" y="1" width="100" height="1" uuid="c35890a7-0891-45c1-abab-d4bd3f67f2db"/>
+			</break>
+		</band>
+		<band height="44">
+			<subreport>
+				<reportElement positionType="Float" x="-1" y="3" width="553" height="40" uuid="00047cca-3bab-47da-b8b6-4ca51209f0ee"/>
+				<dataSourceExpression><![CDATA[$P{contadorCambioDomicilio}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_subreHojaBlancoCambioDomi.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement positionType="Float" x="0" y="1" width="100" height="1" uuid="8fbdca1b-f926-4a17-ba52-0e9df760e650"/>
+			</break>
+		</band>
+		<band height="50">
+			<break>
+				<reportElement positionType="Float" x="0" y="2" width="100" height="1" uuid="06a46267-b22f-4c86-bb07-78b47fa8f2c5"/>
+			</break>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="3" width="551" height="47" uuid="00da3e0b-6295-4ffa-867e-e740527847c0"/>
+				<dataSourceExpression><![CDATA[$P{contadorCambioNombre}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporPi102_subreHojaBlancoCambioNombre.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement x="419" y="6" width="48" height="7" forecolor="#000000" uuid="984d62f6-535a-4381-b5df-3e54a5575538"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Fecha Ult. Modif.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="346" y="6" width="29" height="7" forecolor="#000000" uuid="b25acde7-9624-4362-86ab-3527daedf1f1"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="532" y="5" width="18" height="7" forecolor="#000000" uuid="9160b4b8-a209-4153-866f-089b6726e7d0"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="506" y="5" width="26" height="7" forecolor="#000000" uuid="bc23299c-145c-421e-84d5-6831342447dc"/>
+				<textElement textAlignment="Right">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="467" y="5" width="32" height="7" forecolor="#000000" uuid="ef376244-c7a9-4d83-9132-811b5ca33e52"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaUltModif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="6" width="43" height="7" forecolor="#000000" uuid="310aaf25-4d95-4ccf-85c9-1adc192d6604"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{UsuarioReporte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">                
+    <ui:define name="content">
+        <h:form>  
+            <p:panel header="#{msgs.headerBuscador}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:0.5em 0.5em;">     
+
+                    <p:panel style="width: 100%">
+                        <p:separator id="separador0" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                        <si.componentes:informacion id="mensa" dimension="30%"  mensaje="#{msgs.mensajeBusquedaDigitalizacion}"/>
+                        <p:separator id="separador" style="width: 0px ; border: 0px; height: 15px"></p:separator>
+                        <h:panelGrid columns="4" id="formularioBusquedaRegistro">
+<!--                            <p:panel id="panelDatos" style="border-style: solid;width: 100%">
+                                <h:panelGrid columns="4" >
+                                    <h:outputLabel value="# {msgs.labelRegistro}" />  
+                                    <p:inputText id="nRegistro" value="# {digitalizacionBusquedaBean.nroRegistro}" style="# {digitalizacionBusquedaBean.cambiaColorCampoNumeroRegistro ==true?'border-color: #C00':''}; width: 90%"/>
+                                    <h:outputLabel value="# {msgs.labelFecha}" />
+                                    <p:calendar id="fechaResolucion" value="# {digitalizacionBusquedaBean.fechaResolucion}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="# {digitalizacionBusquedaBean.cambiaColorCampoFechaRegistro ==true?'border-color: #C00':''}; width: 90%" />
+                                </h:panelGrid>
+                            </p:panel>-->
+
+                            <p:separator id="separador1" style="width: 50px ; border: 0px; height: 0px"></p:separator>
+                            <p:panel id="panel" style="border-style: solid;width: 100%">
+                                <h:panelGrid columns="2" >
+                                    <h:outputLabel  value="SM" /> 
+                                    <p:inputText id="sm" value="#{digitalizacionBusquedaBean.sm}" style="#{digitalizacionBusquedaBean.cambiaColorCampoSMTramite ==true?'border-color: #C00':''}; width: 90%" />
+                                </h:panelGrid>
+                            </p:panel>
+
+
+                        </h:panelGrid>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="3" >
+                                <p:commandButton
+                                    value="#{msgs.labelBuscar}"
+                                    update="formularioBusquedaRegistro"
+                                    action="#{digitalizacionBusquedaBean.irBusqueda()}"
+                                    ajax="false"
+                                    icon="ui-icon-search"/>
+
+                                <p:separator id="separador3" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                <p:commandButton
+                                    value="#{msgs.labelLimpiar}"
+                                    update="formularioBusquedaRegistro"
+                                    action="#{digitalizacionBusquedaBean.reset()}"
+                                    ajax="false"
+                                    icon="ui-icon-arrowrefresh-1-e"/>
+                            </h:panelGrid>
+
+                        </div>
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:0.5em 0.5em;">
+                    <p:panel id="panelTramiteLista" style="width: 100%" rendered="#{digitalizacionBusquedaBean.activaPanelesSiExisteTramite}">
+                        <h:panelGrid columns="2"  style="width: 50%">
+                            <p:graphicImage value="/resources/images/SiEncontrado2X2.png"/>
+                            <h:panelGrid columns="2" id="datosTramite" style="width: 80%">
+                                <p:outputLabel value="#{msgs.labelTramite}" style="width: 10%"/>
+                                <p:inputText value="#{digitalizacionBusquedaBean.tramite.tramite}" style="width:100%" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelCodigo}" style="width: 10%"/>
+                                <p:inputText value="#{digitalizacionBusquedaBean.tramite.codigoDia}" style="width:100%" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelTipo}" style="width: 10%"/>
+                                <p:inputText value="#{digitalizacionBusquedaBean.tramite.tipoTramite.descripcion}" style="width:100%" disabled="true"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        
+                           <p:separator id="separador5" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                        <p:commandButton
+                            value="Digitalizar Documentos"
+                            action ="#{digitalizacionBusquedaBean.abrirBandejaDigitalizacion()}"
+                            icon="ui-icon-circle-arrow-e"/>
+                    </p:panel>
+                    
+                    <p:panel id="panelMensaje" style="width: 100%" rendered="#{digitalizacionBusquedaBean.activaPanelesNoExisteTramite}">
+                        <h:panelGrid id="mensaje" columns="2" >
+                            <p:graphicImage value="/resources/images/NoEncontrado2X2.png"/>
+                            <h:outputText value="#{msgs.labelNoEncontradoDigitalizacion}" style="font-size:14px;" />
+                        </h:panelGrid>
+<!--                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="# {msgs.botonRegistrar}"
+                                action="# {digitalizacionBusquedaBean.irFormularioPI100ParaRenovacion()}"
+                                ajax="false"
+                                icon="ui-icon-circle-arrow-e"/>
+                        </div>-->
+                    </p:panel>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

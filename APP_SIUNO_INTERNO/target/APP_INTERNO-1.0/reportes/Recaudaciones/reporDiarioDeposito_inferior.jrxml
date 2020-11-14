@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporDiarioDeposito_inferior" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1856910-5734-4172-bd2a-4ac4ba5e739a">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="montoFinal" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="157" splitType="Stretch">
+			<line>
+				<reportElement x="252" y="3" width="216" height="1" uuid="58f4ee5b-4702-4b88-a800-d4fdc3652d23"/>
+			</line>
+			<staticText>
+				<reportElement x="274" y="11" width="124" height="11" uuid="8cae6b50-476a-44c4-b8fe-1161975ba006"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MONTO TOTAL DE DEPOSITOS]]></text>
+			</staticText>
+			<rectangle radius="3">
+				<reportElement x="397" y="9" width="73" height="20" uuid="ca0e6acb-9bf8-4588-9932-f2ec90714dc9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="24" y="84" width="100" height="9" uuid="f287a644-f699-47c1-8c1c-2bbdbe4b63d3"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[ENTREGUE CONFORME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="84" width="40" height="9" uuid="a4796251-5635-4c01-9775-4cbee9109e08"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[REVISOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="96" width="60" height="9" uuid="ff521aaf-79ea-407b-9a09-42286c6ecfc4"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[RECAUDADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="96" width="60" height="9" uuid="7acd4e79-f804-4ddf-9e54-39545359ddc0"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONTADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="96" width="110" height="9" uuid="c5d6a371-16f5-4613-bb5a-9cbcc96886a0"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DIRECTOR ADMNISTRATIVO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="403" y="12" width="65" height="14" uuid="9e488650-4314-417e-bcbd-f9cba7b17026"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

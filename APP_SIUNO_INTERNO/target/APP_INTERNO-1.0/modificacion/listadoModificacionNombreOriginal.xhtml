@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+
+    <ui:define name="content">
+        <p:panel header=" #{msgs.headerListado}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="listado">
+             <p:panel style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto">
+                <div align="center" >
+                    <h:form>
+                        <p:separator id="separador1" style="width: 0px ; border: 0px; height: 30px"></p:separator>
+                        <p:dataTable var="itemEmpresa" value="#{listadoModificacionNombreBean.listadoEmpresaOficial}" style="width: 70%"
+                                     scrollable="true" scrollHeight="120"
+                                     resizableColumns="true" emptyMessage="#{msgs.listaVacia}">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}"/>
+                                </p:outputPanel>
+                            </f:facet>     
+                            <p:column  filterBy="#{itemEmpresa.nombreRepresentante}" sortBy="#{itemEmpresa.nombreRepresentante}" headerText="#{msgs.solicitantelabelRazonSocial}" width="30%">  
+                                <h:outputText value="#{itemEmpresa.nombreRepresentante}" />
+                            </p:column>
+                            <p:column  filterBy="#{itemEmpresa.numeroDocumento}" sortBy="#{itemEmpresa.numeroDocumento}" headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="35%">  
+                                <h:outputText value="#{itemEmpresa.numeroDocumento}" />
+                            </p:column>  
+                            <p:column  filterBy="#{itemEmpresa.tipoPais.codigo}"   sortBy="#{itemEmpresa.tipoPais.codigo}" headerText="#{msgs.solicitantePais}" width="30%">  
+                                <h:outputText value="#{itemEmpresa.tipoPais.descripcion}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.mensajeModificar}" width="20%" style="width:32px;text-align: center">
+                                <p:commandButton id="butonModificaPersonaLista" 
+                                                 icon="ui-icon-pencil" 
+                                                 title="Modificar Nombre Empresa"   
+                                                 action="#{listadoModificacionNombreBean.modificarNombre()}"
+                                                 ajax ="false"
+                                                 >
+                                    <!--                                <f:setPropertyActionListener target="# {listadoModificacionNombreBean.empresaSeleccionada}" value="# {itemEmpresa}"/>-->
+                                    <f:setPropertyActionListener target="#{listadoModificacionNombreBean.empresa}" value="#{itemEmpresa}" />
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </p:panel>
+            <p:panel style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto">
+                <div align="center" >
+                    <h:form>
+                        <p:separator id="separador1" style="width: 0px ; border: 0px; height: 30px"></p:separator>
+                        <p:dataTable id="lista" var="persona" value="#{listadoModificacionNombreBean.listadoPersonaOficial}" style="width: 70%"
+                                     scrollable="true" scrollHeight="120"
+                                     resizableColumns="true" emptyMessage="#{msgs.listaVacia}">             
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloPersona}"/>
+                                </p:outputPanel>
+                            </f:facet>                 
+                            <p:column filterBy="#{persona.nombres}" sortBy="#{persona.nombres}" headerText="#{msgs.solicitantelabelNombres}" width="30%" >  
+                                <h:outputText value="#{persona.nombres}" />
+                            </p:column>
+                            <p:column  filterBy="#{persona.apellidoPaterno}" sortBy="#{persona.apellidoPaterno}" headerText="#{msgs.solicitantelabelApellidoPaterno}" width="35%">  
+                                <h:outputText value="#{persona.apellidoPaterno}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{persona.apellidoMaterno}" sortBy="#{persona.apellidoMaterno}" headerText="#{msgs.solicitantelabelApellidoMaterno}" width="30%">  
+                                <h:outputText value="#{persona.apellidoMaterno}" />
+                            </p:column>
+
+                            <p:column headerText="#{msgs.mensajeModificar}" width="20%" style="text-align: center">
+                                <p:commandButton id="butonModificaPersonaLista" 
+                                                 icon="ui-icon-pencil" 
+                                                 title="Modificar Nombre Persona" 
+                                                 action="#{listadoModificacionNombreBean.modificarNombre()}"
+                                                 update ="mensajeGeneral"
+                                                 ajax="false">
+                                    <f:setPropertyActionListener target="#{listadoModificacionNombreBean.persona}" value="#{persona}" />
+                                </p:commandButton>
+                            </p:column> 
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                    </h:form>
+                </div>                
+
+
+            </p:panel>
+           
+            <div align="center" style="padding:0.5em 0em;">
+                <h:form>
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <h:commandButton
+                                value="#{msgs.mensajeAnterior}"
+                                action="#{listadoModificacionNombreBean.cancelaListaModificacionNombreBean()}">
+                               
+                               
+                            </h:commandButton>
+                        </p:toolbarGroup>  
+
+                    </p:toolbar>  
+                </h:form>
+            </div>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

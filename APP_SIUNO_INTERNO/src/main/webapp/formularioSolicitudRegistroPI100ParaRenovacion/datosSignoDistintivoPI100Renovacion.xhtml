@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+
+    <ui:define name="content">
+        <div id="componenteNavegacional">
+            <si.componentes:menuBotonesWizardSolicitudParaRenovacion numeroDeBotonActivado="3"/>
+        </div>
+        <div id="contenidoSolicitud">
+            <h:form id="form">  
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <p:panel id="panelTres">
+                    <h:panelGrid columns="2" >
+                        <p:outputLabel value="#{msgs.pestaniaTresSignoDistintivo}"/>
+                        <p:inputText id="marca" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.smsignomarca.marca}" size="120" maxlength="100" style="#{datosSignoDistintivoRegistroPI100RenovacionBean.cambiaBordeMarca==false?'border-color: #C00':''};"/>
+                    </h:panelGrid>
+                    <p:panel id="padre" style="border-style: hidden">
+                        <p:panel  style="width: 98%;" header="#{msgs.pestaniaTresTipoDeSigno}">
+                            <div align="center" style="padding:0.5em 0em;">
+                                <p:outputLabel  id="validaTipoSigno" value="#{msgs.pestaniaTresValdidaTipoSigno}'" rendered="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaValidaClasificarCambiaColor}" style="color: #C00"/>
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="6" style="margin-bottom:10px" cellpadding="5">
+
+                                        <p:selectBooleanCheckbox id="denominativo" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.denominativo}" >
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,panelImagen,padre" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaPanelImagen(e)}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresDenominativo}"/>
+
+                                        <p:selectBooleanCheckbox id="denominativoGrafia" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.denominativoConGrafia}">
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,panelImagen,padre" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaPanelImagen(e)}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresDenominativoConGrafia}" />
+
+                                        <p:selectBooleanCheckbox id="figurativa" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.figurativa}" >
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,panelImagen,padre" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaPanelImagen(e)}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresFigurativa}" />
+
+                                        <p:selectBooleanCheckbox id="tridimensional" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.tridimensional}">
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,panelImagen,padre" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaPanelImagen(e)}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresTridimensional}" />
+
+                                        <p:selectBooleanCheckbox id="auditivo" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.auditivo}" >
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,panelImagen,padre" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaPanelImagen(e)}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresAuditivo}" />
+
+                                        <p:selectBooleanCheckbox id="otro" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.otro}" >
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,tipoSignoOtrosDato,panelImagen,padre" event="change" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaCampoTipoSignoOtrosDatoAction(e)}"/>
+                                        </p:selectBooleanCheckbox>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="#{msgs.pestaniaTresOtro}" />
+                                            <p:inputText id="tipoSignoOtrosDato" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.tipoSignoOtros}" style="width: 90%;#{datosSignoDistintivoRegistroPI100RenovacionBean.cambiaBordeCampoOtro==true?'border-color: #C00':''}" disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaTipoSignoOtros}" size="50"/>
+                                            <p:watermark for="tipoSignoOtrosDato" value="#{msgs.pestaniaTresIntroduzcaElValor}" id="watermarkOtro" />
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="#{msgs.pestaniaTresGenero}" />
+                                        <p:selectOneMenu id="generoTramite" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.generoTramite}">
+                                            <f:selectItems value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listadoTipoGeneroTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </div>
+                        </p:panel>
+                        <p:panel  id="panelImagen" style="width: 98%" header="#{msgs.pestaniaTresImagen}" rendered="#{!datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargarImagen}">
+                            <div align="center" style="padding:0.0em 0em;">
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="1">
+                                        <p:commandButton id="cargaImagen" value="#{msgs.pestaniaTresCargaImagen}" type="button" onclick="PF('cargaImagen').show()" icon="ui-icon-image" style="width: 100%" disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargarImagen}"/>
+                                        <p:galleria id="imagenCargadaGaleria" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.images}" var="image" panelWidth="200" panelHeight="150" showCaption="true" style=" width: 500px;#{datosSignoDistintivoRegistroPI100RenovacionBean.activaValidaImagenCargadaGaleriaCambiaColor==true?'border-color: #C00':''}" >
+                                            <p:graphicImage value="/imagen/#{image}" title="#{image}" width="100%"/>
+                                        </p:galleria>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="1">
+                                        <h:panelGrid columns="2">
+                                            <h:outputText value="#{msgs.pestaniaTresSiDeseaPuedeSelecionarUnColor}" />
+                                            <p:colorPicker value="#{datosSignoDistintivoRegistroPI100RenovacionBean.colorPopup}" />                   
+                                            <p:outputLabel for="proteccion" value="#{msgs.pestaniaTresDeseaProtegerElColor}" />
+                                            <p:selectOneRadio id="proteccion" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.proteccionColor}" disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargarImagen}">
+                                                <f:selectItem itemLabel="#{msgs.pestaniaTresSi}" itemValue="true" />
+                                                <f:selectItem itemLabel="#{msgs.pestaniaTresNo}" itemValue="false" />
+                                            </p:selectOneRadio>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="#{msgs.pestaniaTresDescripcionLogoTipo}" />
+                                            <h:panelGrid columns="1">
+                                                <p:outputLabel value="#{msgs.pestaniaTresLlenarSolo}" />
+                                                <p:outputLabel value="#{msgs.pestaniaTresEsMixto}" />
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                        <p:inputTextarea id="descripcion" style=" width: 500px;#{datosSignoDistintivoRegistroPI100RenovacionBean.activaValidaDescripcionLogoTipoCambiaColor==true?'border-color: #C00':''}" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.smslogotipo.descripcion}" rows="5" cols="60" 
+                                                         counter="contadorDesLogo" maxlength="250" counterTemplate="{0}  #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargarImagen}"
+                                                         />
+                                        <h:outputText id="contadorDesLogo" style="color: #045491"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </div>
+                        </p:panel>
+                        <p:panel style="width: 98%" header="#{msgs.pestaniaTresClaseNiza}">
+                            <h:panelGrid columns="1">
+                                <h:panelGrid columns="3">
+                                    <p:outputLabel value="#{msgs.pestaniaTresClaseInternacionalNiza}"/>
+                                    <p:selectOneMenu id="numeroNiza" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.numeroInternacional}" style="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaValidaClaseInternacionalNizaCambiaColor==true?'border-color: #C00':''}">
+                                        <f:selectItem   itemLabel="#{msgs.pestaniaTresElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listaNumerosClaseNizaProductosServicios}" var="h" itemLabel="#{h}" itemValue="#{h}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:commandButton id="buscaNiza" type="button" value="#{msgs.pestaniaTresAbrirClasificadorNiza}" onclick="PF('BuscaClaseniza').show()" actionListener="#{datosSignoDistintivoRegistroPI100RenovacionBean.limpiaBuscadorNiza()}" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="#{msgs.pestaniaTresListaDeProductosYOServicios} "/>
+                                    <p:inputTextarea id="areaProductos" style="width: 600px; #{datosSignoDistintivoRegistroPI100RenovacionBean.activaValidaListaProductosTextAreaCambiaColor==true?'border-color: #C00':''}" rows="5" cols="60" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listaProductosTextArea}" 
+                                                     counter="contadorDesNiza" maxlength="250" counterTemplate="{0} #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" />
+                                    <p:spacer height="10" />
+                                    <h:outputText id="contadorDesNiza" style="color: #045491"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" id="checkActivaCargarArchivo">
+                                    <p:selectBooleanCheckbox value="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaCargaDocumento}">
+                                        <p:ajax event="change" listener="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaCargaArchivosAction(e)}" update="cargaArchivo,archivoCargaURL"/>
+                                    </p:selectBooleanCheckbox>
+                                    <h:outputText value="#{msgs.pestaniaTresMarcarEsteRecuadro}" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <div align="center" style="padding:0.5em 0em;">
+                                <p:panel id="panelCargaArchivo" style="width: 55%">
+                                    <h:panelGrid columns="3" width="100%">
+                                        <p:commandButton id="cargaArchivo" value="#{msgs.pestaniaTresCargaArchivo}" 
+                                                         type="button" 
+                                                         disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargaDeArchivos}"
+                                                         onclick="PF('cargaArchivo').show()" 
+                                                         style="width: 60%"
+                                                         icon="ui-icon-folder-open" />
+                                        <p:inputText id="archivoCargaURL" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.nombreArchivo}" style="width: 95%" disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargaDeArchivos}"/>
+                                    </h:panelGrid>
+                                </p:panel> 
+                            </div>
+                            <div align="center" style="padding:0.5em 0em;">
+                                <p:commandButton
+                                    id="botonadicionalistaclaseniza"
+                                    value="#{datosSignoDistintivoRegistroPI100RenovacionBean.etiqueta}"
+                                    process="@this,areaProductos,numeroNiza"
+                                    update=":form3:cargarArchivoPopUp,archivoCargaURL,checkActivaCargarArchivo,panelCargaArchivo,multipleDT,areaProductos,botonadicionalistaclaseniza,botonSignoDistintivoVerificaGuarda,numeroNiza,mensajeGeneral"                                            
+                                    action="#{datosSignoDistintivoRegistroPI100RenovacionBean.adicionaProductos()}"
+                                    image="ui-icon-disk"/>
+                            </div>                                    
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:dataTable id="multipleDT"
+                                             var="val"
+                                             value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listaSignoClaseNiza}"
+                                             selectionMode="single"
+                                             selection="#{datosSignoDistintivoRegistroPI100RenovacionBean.smsignoclasenizaSelect}"
+                                             rowKey="#{val.numeroClaseNiza}"
+                                             style="width: 90%;height: 10%"
+                                             scrollable="true" scrollHeight="70" resizableColumns="true">
+                                    <f:facet name="header">
+                                        #{msgs.pestaniaTresListaDeClaseNizaYArchivos}
+                                    </f:facet>
+                                    <p:column headerText="#{msgs.pestaniaTresNumeroNiza}" width="10%">
+                                        <h:outputText value="#{val.numeroClaseNiza}" />
+                                    </p:column>
+                                    <p:column headerText="#{msgs.pestaniaTresProductos}" width="30%">
+                                        <h:outputText value="#{val.listaProducto}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.pestaniaTresURLArchivo}" width="40%">
+                                        <h:outputText value="#{val.archivoProducto}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.pestaniaTresModificar}" width="10%">
+                                        <p:commandButton icon="ui-icon-pencil" title="#{msgs.pestaniaTresModificar}"
+                                                         action="#{datosSignoDistintivoRegistroPI100RenovacionBean.modificaDatoListaSignoClaseNiza()}"
+                                                         update="multipleDT :form:numeroNiza :form:areaProductos :form:botonSignoDistintivoVerificaGuarda :form:botonadicionalistaclaseniza "
+                                                         process="@this"
+                                                         disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaEdicion}"
+                                                         >
+                                            <f:setPropertyActionListener value="#{val}" target="#{datosSignoDistintivoRegistroPI100RenovacionBean.smsignoclasenizaSelect}" />
+                                        </p:commandButton>
+                                    </p:column>
+
+                                    <p:column headerText="#{msgs.pestaniaTresEliminar}" width="10%">
+                                        <p:commandButton icon="ui-icon-trash" title="#{msgs.pestaniaTresEliminar}"
+                                                         action="#{datosSignoDistintivoRegistroPI100RenovacionBean.borrarDatoListSignoClaseNiza()}"
+                                                         update="multipleDT"
+                                                         process="@this"
+                                                         disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaEdicion}"
+                                                         >
+                                            <f:setPropertyActionListener value="#{val}" target="#{datosSignoDistintivoRegistroPI100RenovacionBean.smsignoclasenizaSelect}" />
+                                        </p:commandButton>
+                                    </p:column>
+
+                                    <f:facet name="footer">
+                                        <p:spacer height="10" />
+                                    </f:facet>
+                                </p:dataTable>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                    <div align="center" style="padding:1em 2.2em;">
+                                        <h:panelGrid columns="2">
+                                            <p:commandButton value="#{msgs.pestaniaTresSi}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="#{msgs.pestaniaTresNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </h:panelGrid>
+                                    </div>
+                                </p:confirmDialog>
+                            </div>
+                        </p:panel>
+                    </p:panel>
+
+                    <div align="center" style="padding:0.5em 0em;">
+
+                        <p:toolbar style="width: 99%;">
+                            <p:toolbarGroup align="left">  
+                                <p:commandButton id="botonPanelTresAnterior"
+                                                 value="#{msgs.mensajeAnterior}"
+                                                 update="mensajeGeneral"
+                                                 image="ui-icon ui-icon-disk"
+                                                 action="#{datosSignoDistintivoRegistroPI100RenovacionBean.volverIdentificacionRepresentante()}">
+                                </p:commandButton>
+                            </p:toolbarGroup>  
+                            <p:toolbarGroup align="right">  
+                                <p:commandButton
+                                    id="botonSignoDistintivoVerificaGuarda"
+                                    value="#{msgs.pestaniaTresVerificarYGuardar}"
+                                    action="#{datosSignoDistintivoRegistroPI100RenovacionBean.guardaTerceraParteSignosDistintivosRenovacion()}"
+                                    update="mensajeGeneral"
+                                    ajax="false"
+                                    image="ui-icon ui-icon-disk"
+                                    disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.activaEdicion}">
+                                </p:commandButton>
+
+                            </p:toolbarGroup>  
+                        </p:toolbar>  
+                    </div>
+                </p:panel> 
+            </h:form>
+            <h:form id="form3">
+                <p:dialog header="#{msgs.pestaniaTresCargaImagen}" widgetVar="cargaImagen" resizable="false" closable="false"  
+                          width="50%" height="50%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                        <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroPI100RenovacionBean.cargaImagenProyecto}" 
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                      label="#{msgs.pestaniaTresBuscarImagen}"
+                                      uploadLabel="#{msgs.pestaniaTresCargaImagen}"
+                                      cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                      update="nombreImagenText,finalizaCargaImagen,mensajeCargaImagenDialogo :form:imagenCargadaGaleria" style="width: 80%"/>
+                    </div>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:outputLabel value="#{msgs.pestaniaTresImagenCargada}"/>
+                        <p:inputText id="nombreImagenText" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.nombreImagenCargar}"/>
+                        <p:messages id="mensajeCargaImagenDialogo" showDetail="true" style="width: 50%"/>
+                    </div>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            id="finalizaCargaImagen"
+                            value="#{msgs.pestaniaTresFinalizar}"
+                            onclick="PF('cargaImagen').hide();"
+                            disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargarImagenFinalizarDialogo}"
+                            icon="ui-icon-disk"/>
+                        <p:commandButton
+                            id="cancelarCargaImagen"
+                            value="#{msgs.pestaniaTresCancelar}"
+                            onclick="PF('cargaImagen').hide();"
+                            icon="ui-icon-disk"/>
+                    </div>
+                </p:dialog>
+
+                <p:dialog id="cargarArchivoPopUp" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="cargaArchivo" resizable="false" closable="false"  
+                          width="50%" height="50%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h3>#{msgs.pestaniaTresElegirLogo}</h3>
+                        <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroPI100RenovacionBean.cargaArchivoNizaActionListener}" 
+                                      allowTypes="/(\.|\/)(txt|doc|docx|pdf)$/"
+                                      sizeLimit="100000" 
+                                      label="#{msgs.pestaniaTresBuscarArchivo}"
+                                      uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                      cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                      update="archivoCargaURLDialogo,finalizaCargaArchivo,mensajeCargaArchivoDialogo :form:archivoCargaURL" style="width: 80%"/>
+                    </div>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.pestaniaTresArchivoCargado}"/>
+                            <h:inputText id="archivoCargaURLDialogo" value="#{datosSignoDistintivoRegistroPI100RenovacionBean.nombreArchivo}" disabled="true" size="60"/>
+                        </h:panelGrid>
+                        <p:messages id="mensajeCargaArchivoDialogo" showDetail="true" style="width: 50%"/>
+                    </div>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            id="finalizaCargaArchivo"
+                            value="#{msgs.pestaniaTresFinalizar}"
+                            onclick="PF('cargaArchivo').hide();"
+                            disabled="#{datosSignoDistintivoRegistroPI100RenovacionBean.habilitaCargarArchivoFinalizarDialogo}"
+                            icon="ui-icon-disk"/>
+                        <p:commandButton
+                            id="cancelarCargaArchivo"
+                            value="#{msgs.pestaniaTresCancelar}"
+                            onclick="PF('cargaArchivo').hide();"
+                            icon="ui-icon-disk"/>
+                    </div>
+                </p:dialog>
+
+                <p:dialog id="cargarMapaPopUp"  widgetVar="cargaMapaArchivo" resizable="false" closable="true"  
+                          width="60%" height="90%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                    <!--                   <p:gmap id="gmap" center="-16.497327, -68.133433" zoom="15" type="TERRAIN" style="width:600px;height:400px"
+                                        mapTypeControl="false" navigationControl="false" />-->
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <p:gmap id="gmap" center="-16.497327, -68.133433" zoom="13" type="HYBRID"   style="width:600px;height:400px">
+                        <p:ajax event="markerDrag" update="growl" />
+                    </p:gmap>
+                    <p:commandButton
+                        id="finalMapa"
+                        value="Cerrar"
+                        onclick="PF('cargaMapaArchivo').hide();"
+                        icon="ui-icon-disk"/>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="form2">
+                <p:dialog header="#{msgs.pestaniaTresListaClaseNIZA}" widgetVar="BuscaClaseniza" resizable="false" closable="false"
+                          width="80%" height="100%" showEffect="clip" hideEffect="fold" style="text-align: center">
+
+                    <p:ring id="anillo"  value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listadoDeClaseNiza()}" var="itemClaseniza">
+                        <p:outputPanel  style="text-align: center;width: 100%"  layout="block">
+                            #{itemClaseniza.numeroClaseNiza}
+                            <br />
+                            <p:commandButton   update=":form2:descripcionNiza" icon="ui-icon-search"  oncomplete="PF('nizaDescripcion').show();" title="View" >
+                                <f:setPropertyActionListener value="#{itemClaseniza}" target="#{datosSignoDistintivoRegistroPI100RenovacionBean.clasenizaSeleccionada}" />
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </p:ring>
+                    <div align="left" style="padding:1em 2.2em;">
+                        <p:fieldset legend="#{msgs.pestaniaTresBusquedaEspecial}" toggleable="true" toggleSpeed="500" style="height: 50%">
+                            <h:panelGrid columns="4" id="idBuscadorNiza">
+                                <p:outputLabel value="#{msgs.pestaniaTresPalabra}"/>
+                                <p:inputText value="#{datosSignoDistintivoRegistroPI100RenovacionBean.palabraBuscar}"/>
+
+                                <p:commandButton
+                                    value="#{msgs.pestaniaTresBusqueda}"
+                                    action="#{datosSignoDistintivoRegistroPI100RenovacionBean.filtroListaClaseNiza()}"
+                                    update=":form2:listaClaseNiza"
+                                    image="ui-icon-search"/>
+                                <p:commandButton
+                                    value="#{msgs.pestaniaTresLimpiarBusqueda}"
+                                    action="#{datosSignoDistintivoRegistroPI100RenovacionBean.limpiaBuscador()}"
+                                    update=":form2:listaClaseNiza :form2:idBuscadorNiza"
+                                    image="ui-icon-search"/>
+                            </h:panelGrid>
+                            <p:dataTable var="niza"
+                                         id="listaClaseNiza"
+                                         rowKey="#{niza.idClaseNiza}"
+                                         value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listadoClasenizaBuscador}"
+                                         widgetVar="listaclaseNizaBuscador"
+                                         selectionMode="single"
+                                         style="width: 100%"
+                                         scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="150"  >
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="#{msgs.pestaniaTresListaDeProductoServicio}" />
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column  sortBy="#{niza.numeroClaseNiza}" headerText="Clase" width="1%">
+                                    <h:outputText value="#{niza.numeroClaseNiza}" />
+                                </p:column>
+
+                                <p:column   headerText="#{msgs.pestaniaTresProducto}" width="5%">
+                                    <h:outputText value="#{niza.tipo==true?'Producto':''}" />
+                                </p:column>
+
+                                <p:column   headerText="#{msgs.pestaniaTresServicio}" width="5%">
+                                    <h:outputText value="#{niza.tipo!=true?'Servicio':''}" />
+                                </p:column>
+
+                                <p:column  filterBy="#{niza.notaTipoCLaseNiza}" sortBy="#{niza.notaTipoCLaseNiza}" headerText="Detalle" width="15%">
+                                    <h:outputText value="#{niza.notaTipoCLaseNiza}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset>
+                    </div>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="Cancelar"
+                            onclick="PF('BuscaClaseniza').hide();"
+                            action="#{datosSignoDistintivoRegistroPI100RenovacionBean.limpiaListadosSeleccionados()}"
+                            icon="ui-icon-disk"/>
+                    </div>
+                </p:dialog>
+
+                <p:dialog id="descripcionNiza" header="#{msgs.pestaniaTresCLASENIZAINFORMACION}" widgetVar="nizaDescripcion" showEffect="fade" hideEffect="fade" resizable="false" width="70%">
+                    <p:outputPanel id="nizadescripcionlista" style="text-align:center;" layout="block">
+                        <p:panelGrid  columns="2" columnClasses="value">
+                            <f:facet name="header">
+                            </f:facet>
+                            <h:outputText value="#{msgs.pestaniaTresNumero}" />
+                            <h:outputText value="#{datosSignoDistintivoRegistroPI100RenovacionBean.clasenizaSeleccionada.idClaseNiza}" />
+
+                            <h:outputText value="#{msgs.pestaniaTresTipo}" />
+                            <h:outputText value="#{datosSignoDistintivoRegistroPI100RenovacionBean.clasenizaSeleccionada.numeroClaseNiza==false?'Producto':'Servicio'}" />
+
+                            <h:outputText value="#{msgs.pestaniaTresDescripcion}" />
+                            <h:outputText value="#{datosSignoDistintivoRegistroPI100RenovacionBean.listadoProductosPorClaseNiza()}" />
+
+                            <h:outputText value="#{msgs.pestaniaTresNotaExplicativa}" />
+                            <h:outputText value="#{datosSignoDistintivoRegistroPI100RenovacionBean.clasenizaSeleccionada.tiposClaseNiza}" />
+                        </p:panelGrid>
+                    </p:outputPanel>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            id="uno"
+                            value="#{msgs.pestaniaTresCerrar}"
+                            onclick="PF('nizaDescripcion').hide();"
+                            action="#{datosSignoDistintivoRegistroPI100RenovacionBean.limpiaListadosSeleccionados()}"
+                            icon="ui-icon-disk"/>
+                    </div>
+                </p:dialog>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>            

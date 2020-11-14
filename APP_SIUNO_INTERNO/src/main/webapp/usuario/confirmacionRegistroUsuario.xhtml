@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel header="CONFIRMACION DE REGISTRO "  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:1em 2.2em;">           
+                    <p:panel id="panelConfirmacion" style="width: 100%">
+                        <h2 style="margin-top: 0">CONFIRMACION</h2>
+                        <h:panelGrid columns="3"  id="centro" style="width: 90%">  
+                            <h:outputLabel value="#{msgs.usuarioConfirmacion}" />  
+                            <h:inputText value="#{confirmacionRegistroUsuarioBean.usuario.login}"  style="width: 90%"/>
+                            <h:outputLabel value="*" style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.usuarioConfirmacionCodigo}" />  
+                            <p:password value="#{confirmacionRegistroUsuarioBean.codigo}" style="width: 90%" autocomplete="off">
+                                <p:ajax event="blur" update=":form:mensajedos" listener="#{confirmacionRegistroUsuarioBean.verificaPassword(confirmacionRegistroUsuarioBean.codigo)}" />
+                            </p:password>
+                            <h:outputLabel id="mensajedos" value="#{confirmacionRegistroUsuarioBean.codigoFinal}" ></h:outputLabel>
+                            <h:outputLabel id="mensajeTres" value="prueba" ></h:outputLabel>
+                            <h:outputLabel value="*" style="color: #C00"/>  
+                        </h:panelGrid>  
+                    </p:panel>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="Ingresar"
+                            action="#{confirmacionRegistroUsuarioBean.verificaUsuarioLogueado()}"
+                            ajax="false"
+                            update=":form:mensajeGeneral"
+                            image="ui-icon ui-icon-key"/>
+                    </div>
+                </div>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

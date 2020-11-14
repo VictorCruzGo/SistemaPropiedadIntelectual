@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporClasesNiza" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="920554c2-beab-4845-8949-18ab6cd4f99a">
+	<property name="ireport.zoom" value="1.610510000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="claseInternacional" class="java.lang.String"/>
+	<field name="productos" class="java.lang.String"/>
+	<field name="txtClaseNiza" class="java.lang.String"/>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="92" height="13" uuid="f29f9424-b84a-490d-808a-f52764a47df5"/>
+				<textElement>
+					<font size="7" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLASE INTERNACIONAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="93" y="0" width="100" height="13" uuid="da0f7467-73d4-4fc8-baca-bdd4f5a70c56"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{claseInternacional}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="0" y="13" width="448" height="35" uuid="95f89a7a-2b79-4c77-9eaf-9a33295db0e1"/>
+				<staticText>
+					<reportElement positionType="Float" x="1" y="2" width="48" height="11" uuid="8dd2c0f7-e693-49fc-b472-9586218804aa"/>
+					<textElement>
+						<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[PRODUCTOS]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="1" y="13" width="447" height="11" uuid="45824f02-118b-42fe-805c-17be94e281fe"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productos}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" isPrintRepeatedValues="false" x="1" y="26" width="447" height="9" isRemoveLineWhenBlank="true" uuid="e5cd7ec1-8338-44a9-8d0c-2e30480f72b8"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Justified">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{txtClaseNiza}.trim()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

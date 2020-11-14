@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporClases" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2795a63f-70bd-4333-83b9-708dd2d4478a">
+	<property name="ireport.zoom" value="1.4641000000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="claseNiza" class="java.lang.String"/>
+	<field name="listaProducto" class="java.lang.String"/>
+	<field name="descripcionSigno" class="java.lang.String"/>
+	<field name="textClaseniza" class="java.lang.String"/>
+	<title>
+		<band height="43" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="10" backcolor="#C0C0C0" uuid="9156648a-6b03-4cd6-9485-4234d8304cf2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="180" y="2" width="201" height="10" uuid="9ab4d02c-b906-4cbf-8e2e-fa9a306c6764"/>
+				<textElement>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[ANEXOS DESCRIPCION SIGNO DISTINTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="17" width="149" height="10" uuid="52a3d5b3-fea8-4d9c-8654-51389f126d34"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion del Signo Distintivo :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="15" y="31" width="540" height="12" uuid="b01ab0ea-17b8-43a8-9e8d-79212d5a79de"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionSigno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="117" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="11" width="94" height="10" uuid="ecdbf7cd-3311-4811-bd00-093b8d735efc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Clase Internacional de Niza]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="100" y="7" width="105" height="14" uuid="2ae80007-a9ea-4805-a259-97a59228479d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="21" width="74" height="10" uuid="cea571f2-f619-43ca-baf7-7a55009d2188"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Producto o Servicio]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="6" y="31" width="527" height="61" uuid="7947b626-b32e-4748-b574-e747c52fe094"/>
+			</rectangle>
+			<textField>
+				<reportElement x="104" y="10" width="100" height="11" uuid="e602123b-8529-4c51-af56-acc7d5caa9e7"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{claseNiza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="33" width="524" height="59" uuid="fa4be2c3-2a10-4869-8ea4-fd31c6de4767"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{listaProducto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="96" width="345" height="10" uuid="5e5ababe-297c-4037-8947-5a02abe71aad">
+					<printWhenExpression><![CDATA[!$F{textClaseniza}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[El Archivo .TXT  de la descripción de Producto o Servicio:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="9" y="3" width="225" height="1" uuid="9e9e9afd-b3ea-4d46-b74d-5b80e117d615"/>
+			</line>
+			<line>
+				<reportElement x="302" y="2" width="231" height="1" uuid="39415279-d5dc-4c2d-8061-d083d3a2310c"/>
+			</line>
+			<staticText>
+				<reportElement x="246" y="-1" width="46" height="10" uuid="f996c4ad-2d97-4484-878a-1904201c0986"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clase Niza]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="5" y="105" width="529" height="11" uuid="dc6055e4-614d-49e7-9859-86c72e632201">
+					<printWhenExpression><![CDATA[!$F{textClaseniza}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{textClaseniza}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

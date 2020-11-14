@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_notidicador" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ed8841db-b3a9-4015-a6d2-fb36714d53fb">
+	<property name="ireport.zoom" value="2.1435888100000047"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="correoNotifica" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
+	<field name="zona" class="java.lang.String"/>
+	<field name="barrio" class="java.lang.String"/>
+	<field name="calle" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="edificio" class="java.lang.String"/>
+	<field name="piso" class="java.lang.String"/>
+	<field name="numeroDepto" class="java.lang.String"/>
+	<field name="referenciaDireccion" class="java.lang.String"/>
+	<field name="telReferencia" class="java.lang.String"/>
+	<title>
+		<band height="238" splitType="Stretch">
+			<rectangle>
+				<reportElement x="414" y="97" width="129" height="140" uuid="7e501c3d-fb98-4989-b8c3-0fab1d831bfa"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="3" y="9" width="540" height="10" backcolor="#C0C0C0" uuid="f4c07c4b-8d75-432f-816d-1e41b8929597"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="441" y="228" width="88" height="8" uuid="14fa1b7b-041d-4c2d-b007-75e60681723e"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre del Solicitante]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="13" y="29" width="163" height="14" uuid="b998265e-ec75-49cf-92f4-aa7db92a6607"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="10" width="206" height="9" uuid="e9d9dda3-3f51-4969-9b0b-9ab87bd6509f"/>
+				<textElement>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[6. DATOS PARA EFECTOS DE NOTIFICACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="128" width="94" height="10" uuid="06003e81-3ede-47c2-a76c-b8874ef9f6cd"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="219" width="129" height="10" uuid="1859ac34-64f5-4e1d-b402-5e7eef03f39a"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Firma del Solicitante o Representante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="21" width="46" height="7" uuid="683326e6-6877-4987-b57c-91c980911b40"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Ciudad]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="15" y="222" width="181" height="14" uuid="47086d99-6e86-4e44-9f51-110e53168688"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{correoNotifica}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="414" y="227" width="127" height="1" uuid="797f7353-b7e6-46ec-af53-009924243715"/>
+			</line>
+			<staticText>
+				<reportElement x="16" y="47" width="128" height="7" uuid="22b48d5b-16c8-46cc-8bc9-404de49cd5e0"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Zona o Barrio]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="14" y="56" width="385" height="14" uuid="5a92aff1-a5a8-48a3-8871-18c1b885ed12"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="73" width="114" height="7" uuid="878b6ff4-e08a-4f75-ac25-3822e1955397"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Datos de Referencia]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="13" y="82" width="386" height="14" uuid="25f938c5-7a99-4a75-9bb9-cf713ed4b7cb"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="101" width="92" height="7" uuid="9813d594-45b2-4f5f-a2b8-0823f9037653"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Avenida o Calle]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="14" y="110" width="385" height="14" uuid="29a26aec-e92f-4a3d-b2cf-425ee95b28f7"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="15" y="136" width="161" height="14" uuid="52f25def-ce6a-48a9-8f68-6b70e1893fe3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="16" y="156" width="94" height="10" uuid="9297926e-59fe-47a0-8fd6-8d135f59f9bd"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Edificio]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="14" y="166" width="385" height="14" uuid="c539066e-be26-46f2-95a7-1677b7438343"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="183" width="94" height="10" uuid="d4019fec-4311-48ca-af10-a1b7f35e95ee"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Piso]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="15" y="193" width="181" height="14" uuid="81e5248b-ffe0-4894-8233-bd82a96ff458"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="219" y="183" width="94" height="10" uuid="7cd89d55-93bc-42fb-aa26-2f8777bfbfba"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[N° Dpto]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="220" y="193" width="179" height="14" uuid="98f88929-0162-4f84-af9f-691577343b65"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="211" width="94" height="10" uuid="74d2d5a7-3452-43c5-a6e2-3f96a93ca1b2"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Correo Electrónico]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="17" y="31" width="159" height="12" uuid="97b72849-db20-4ea2-9cfa-9596fb52b6bb"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="18" y="59" width="381" height="10" uuid="5e29ed8d-ced1-48a0-9f19-689696087ff3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zona}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="17" y="112" width="382" height="12" uuid="8c5c9e92-923e-49aa-bbac-f1c3654a5ca4"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{calle}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="18" y="140" width="158" height="10" uuid="647eeb63-4a59-43d0-a218-124dc4aa1e93"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="17" y="168" width="382" height="12" uuid="be3ecc73-010e-445c-b919-0f1fda076f41"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{edificio}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="17" y="196" width="179" height="11" uuid="d273216a-bcc1-45ea-bdbf-b8fcc06c67f5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{piso}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="224" y="196" width="175" height="11" uuid="a6e95d43-b814-41cc-8546-744f7138dff2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroDepto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="219" y="211" width="94" height="10" uuid="1dab6c0f-26ee-4a31-b7f6-e46dc9a21442"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Teléfono Referencia]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="17" y="85" width="381" height="10" uuid="7f1340c5-728e-4fff-8e6c-be5fc5b83b71"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referenciaDireccion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="220" y="222" width="179" height="14" uuid="9aafee80-a901-4250-a655-8640e099d43e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telReferencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

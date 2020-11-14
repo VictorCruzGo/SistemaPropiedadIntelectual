@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <p:panel header="LOGIN" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panel1">
+            <div align="center" style="padding:1em 2.2em;">
+                <h:form id="Campo">
+                    <p:dataTable var="car" value="#{pruebaFormularioDinamicoBean.listaVista}" style="border-bottom: #ffffff">
+                        <p:column>
+                            <h:outputText value="#{car.padre}" />
+                        </p:column>
+
+                        <p:column>
+                            <p:selectCheckboxMenu id="menu" value="#{car.hijosRespuesta}" label="Cities"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                <f:selectItems value="#{car.hijos}" />
+                            </p:selectCheckboxMenu>
+                        </p:column>
+
+                        <p:column>
+                            <h:inputText value="#{car.observacion}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:commandButton
+                        value="Muestra Lista"
+                        action="#{pruebaFormularioDinamicoBean.muetsraListaValores()}"
+                        ajax="false"
+                        image="ui-icon ui-icon-key"/>
+
+                </h:form>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

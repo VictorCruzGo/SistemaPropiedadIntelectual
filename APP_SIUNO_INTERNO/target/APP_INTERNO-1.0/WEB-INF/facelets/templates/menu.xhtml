@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <h:form id="menuGeneral">               
+            <p:panelMenu  style="width:100%" model="#{menuUsuarioBean.menuModel}"/>   
+            <!--            <p:commandButton value="Menu" onclick="show('headerSenapi')"/>
+                        <p:commandButton
+                            value="Dosificacion"
+                            action="# {menuBean.irDocificacionAction()}"
+                            ajax="false"
+                            image="ui-icon ui-icon-disk"/>
+                        <p:commandButton
+                            value="Canje Deposito"
+                            action="# {menuBean.irCanjeDepositoAction()}"
+                            ajax="false"
+                            image="ui-icon ui-icon-disk"/>
+                        <p:commandButton
+                            value="Renovacion"
+                            action="# {menuBean.irRenovacionAction()}"
+                            ajax="false"
+                            image="ui-icon ui-icon-disk"/>
+                        <p:commandButton
+                            value="Registro"
+                            action="# {menuBean.irRegistroAction()}"
+                            ajax="false"
+                            image="ui-icon ui-icon-disk"/>-->
+<!--            <p:commandButton
+                value="MODIFICACION"
+                action="# {menuBean.irModificacionAction()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+-->            <p:commandButton
+                value="FORMULARIO PI100"
+                action="#{menuBean.irFormularioPI100Action()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="CONTROL MENSAJE"
+                action="#{menuBean.irControlMensajesAction()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="PESTAÑA TRES"
+                action="#{menuBean.irImagenPestaniaTres()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="Responsable"
+                action="#{menuBean.irResponsable()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="Motocicleta"
+                action="#{menuBean.irMotocicleta()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="Movilidad"
+                action="#{menuBean.irMovilidad()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="Agenda"
+                action="#{menuBean.irAgenda()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            <p:commandButton
+                value="Contaco"
+                action="#{menuBean.irContacto()}"
+                ajax="false"
+                image="ui-icon ui-icon-disk"/>
+            
+<!--            <p:commandButton
+                value="Henrry todo bien"
+                icon="dolar-icon"
+                title="# {app['title.searchregimen']}"/>
+
+            <a href="#" class="myButton">turquoise</a>
+
+            <a class="button" href="#">Button text</a>-->
+
+
+        </h:form> 
+    </h:body>
+</html>

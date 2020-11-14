@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi102_LemaComercial2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b37bfdd6-2666-4ba7-8ebb-651f9a4f3385">
+	<property name="ireport.zoom" value="3.797498335832416"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="frase" class="java.lang.String"/>
+	<field name="codBarra" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="1" width="540" height="10" backcolor="#C0C0C0" uuid="3a606b26-b310-44a4-95be-b6fa27d64ac2"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="1" y="13" width="540" height="10" backcolor="#C0C0C0" uuid="adf4c6e2-59b4-44fd-ad82-667116be236d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="14" width="219" height="9" uuid="9f0a8bcb-b094-48a5-847d-bb65d4a82cc6"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[2.1 Frase que lo Constituye]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="3" width="219" height="9" uuid="5c89eb15-d153-419e-8edb-e024fd7bc678"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2. DATOS DEL LEMA COMERCIAL SOLICITADO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="11" y="28" width="532" height="39" uuid="e0497eec-f358-4d37-9f8a-2e4617af3cea"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="12" y="28" width="531" height="39" uuid="114062a1-22ca-4a1b-bf60-626336df0d7b"/>
+				<box topPadding="1" leftPadding="1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{frase}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="70" width="209" height="9" uuid="5233c684-4551-4423-b7a1-1408dc0d8478"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Número del código de barras de la solicitud de la marca:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="246" y="69" width="250" height="12" uuid="4a99efda-5b3f-4fc8-82ff-9d6638dc7b88"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="250" y="70" width="246" height="11" uuid="c60a8b43-2962-4299-93a4-570ff26ee23b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codBarra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

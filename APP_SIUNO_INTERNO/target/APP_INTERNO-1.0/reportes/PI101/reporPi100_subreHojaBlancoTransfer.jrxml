@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_subreHojaBlancoTransfer" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4fed5077-14d5-4ea3-84ff-54ee3c4f41da">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="251"/>
+	<property name="ireport.y" value="0"/>
+	<field name="contRenov" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="13" width="78" height="9" uuid="69c13172-dad7-44bb-bb9b-ad83a566b65b"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[TRANSFERENCIAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<rectangle>
+				<reportElement x="6" y="0" width="536" height="74" uuid="66c84d88-db97-4acf-bc65-02bf3b591e3e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="4" width="71" height="10" uuid="59e5c4cb-6833-4b71-b907-6262ab664042"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Por Resolución N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="4" width="27" height="10" uuid="3e84d3b8-9750-40f9-976c-32112409140e"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="4" width="179" height="10" uuid="3837a071-4241-4ab2-9a38-ac1fe4bee7c1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Se aprobó la Transferencia efectuada por la firma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="34" width="74" height="10" uuid="751fcf15-b01d-4479-95b1-640444527d9b"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[En favor de la firma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="53" width="39" height="10" uuid="c68fa8af-e50f-4f05-bbb3-9a601bb950dc"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="77" y="11" width="98" height="1" uuid="bc6681b3-6161-44e4-8997-96d319fe6383"/>
+			</line>
+			<line>
+				<reportElement x="207" y="11" width="141" height="1" uuid="8595994c-55ba-42ac-8897-ee5ee8ed294d"/>
+			</line>
+			<line>
+				<reportElement x="14" y="26" width="528" height="3" uuid="447e0f1f-9361-4bd7-94e2-113b3ac9f10d"/>
+			</line>
+			<line>
+				<reportElement x="89" y="41" width="453" height="3" uuid="84b6f92d-7190-4649-849d-a7e7aa88ba06"/>
+			</line>
+			<line>
+				<reportElement x="53" y="58" width="489" height="3" uuid="60abcd15-e629-48a2-b229-3a7fad8d0f59"/>
+			</line>
+			<textField>
+				<reportElement x="573" y="34" width="25" height="20" forecolor="#FFFFFF" uuid="f4acc3bd-9939-49a7-8612-08016ccff9c6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contRenov}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

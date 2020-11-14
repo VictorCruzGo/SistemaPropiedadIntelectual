@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <div id="contenidoSolicitud">
+            <h:form id="form">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <p:panel id="panelCuatro" style="border-style: hidden">
+                    <p:panel style="border-style: hidden; width: 100%">
+                        <p:panel style="width: 100%" header="#{msgs.prioridadPanelOposicionAndina}">
+                            <div align="center" style="padding:1em 2.2em">
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{msgs.prioridadAcreditacionReal}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="3">
+                                    <p:spacer width="30px"></p:spacer>
+                                    <p:outputLabel value="#{msgs.prioridadProcesoInteresReal}"/>
+                                    <p:inputText  style="width: 240%" maxlength="50" id="campoCodigoAndino" value="#{prioridadesModificacionBean.signoMarca.prioridadAndina}"></p:inputText>
+                                </h:panelGrid>
+                            </div>
+                        </p:panel>  
+                        <p:panel style="width: 100%" header="#{msgs.prioridadPriori}" id="prioridadPanel">
+                            <div align="center" style="padding:1em 2.2em">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="#{msgs.prioridadEtiquetaPrioridad}"/>
+                                    <h:selectOneRadio id="tienePrioridad" value="#{prioridadesModificacionBean.activaPrioridad}">
+                                        <f:selectItem itemLabel="#{msgs.prioridaditemLabelSi}" itemValue="true"/>
+                                        <f:selectItem itemLabel="#{msgs.prioridaditemLabelNo}" itemValue="false"/>
+                                        <p:ajax event="change" 
+                                                update=":form:prioridadPanel :form:panelBotonesGuardado" 
+                                                listener="#{prioridadesModificacionBean.limpiaDatosPrioridad(r)}"/>
+                                    </h:selectOneRadio>
+                                </h:panelGrid>
+                            </div>
+                            <h:panelGrid columns="1" id="panelPrimeraPrioridad">
+                                <p:panel id="panelPrioridad" header="#{msgs.prioridadPriori}" rendered="#{prioridadesModificacionBean.campoPanelPrioridad}">
+                                    <h:panelGrid columns="2" id="panelPrioridadCampos">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.prioridadtipoPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <h:selectOneMenu value="#{prioridadesModificacionBean.tipoPrioridadValorCombo}" 
+                                                         style="width:200px; #{prioridadesModificacionBean.tipoPrioridad==true?'border-color: #C00':''}">
+                                            <f:selectItem itemLabel="#{msgs.prioridadOneMenuSeleccionePrioridad}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{prioridadesModificacionBean.listadoPrioridad}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.codigo}"/>
+                                        </h:selectOneMenu>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <p:outputLabel value="#{msgs.prioridadNumeroCodigoPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:inputText value="#{prioridadesModificacionBean.smsolicitadoprioridad.numeroPrioridad}" size="20" maxlength="20" style="#{prioridadesModificacionBean.numeroCodigo==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.prioridadEntidadOficinaPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:inputText  value="#{prioridadesModificacionBean.smsolicitadoprioridad.oficinaPrioridad}" size="100" maxlength="100" style="#{prioridadesModificacionBean.entidadOtorga==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel id="fecha" value="#{msgs.prioridadFechaEmisionPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:calendar id="mask" value="#{prioridadesModificacionBean.smsolicitadoprioridad.fechaEmision}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="#{prioridadesModificacionBean.fechaEmision==true?'border-color: #C00':''}"/>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.prioridadLugarPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:inputText value="#{prioridadesModificacionBean.smsolicitadoprioridad.lugar}" size="100" maxlength="90" style="#{prioridadesModificacionBean.lugarPrioridad==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.prioridadObservacionPrioridad}"/>
+                                        <p:inputTextarea value="#{prioridadesModificacionBean.smsolicitadoprioridad.observacion}" style="width: 400px" rows="3" cols="50" maxlength="250" />
+                                    </h:panelGrid>
+                                    <div align="center" style="padding: 1em 2.2em">
+                                        <p:commandButton
+                                            value="#{prioridadesModificacionBean.nombreAccion}"
+                                            id="btnAdicinoPrioridad"
+                                            update="form"
+                                            action="#{prioridadesModificacionBean.adicionaDatosPrioridadGeneral()}"
+                                            icon="ui-icon ui-icon-disk"/>
+                                    </div>
+                                    <p:dataTable id="listadoSolicitadoPrioridad"  
+                                                 var="itemPrioridad" 
+                                                 value="#{prioridadesModificacionBean.listadoSolicitadoPrioridad}"
+                                                 rowKey="#{itemPrioridad.idSolicitadoPrioridad}"
+                                                 selection="#{prioridadesModificacionBean.seleccionadoPrioridad}"
+                                                 widgetVar="listaDatosDeContactoRepresentante"
+                                                 scrollable="true" scrollHeight="90" 
+                                                 resizableColumns="true"
+                                                 editable="true" 
+                                                 style="margin-bottom:20px; border-color: #C00"
+                                                 emptyMessage="#{msgs.prioridadListaDePrioridadesAdicionalesEstaVacia}.">
+                                        <f:facet name="header">
+                                            <p:outputLabel value="#{msgs.prioridadListaPrioridadesPrioridad}">
+                                            </p:outputLabel>
+                                        </f:facet>
+                                        <p:ajax event="rowEdit" listener="#{prioridadesModificacionBean.onRowEdit}" />
+                                        <p:ajax event="rowEditCancel" listener="#{prioridadesModificacionBean.onRowCancel}" />
+                                        <p:column headerText="#{msgs.prioridadListaTipoPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{prioridadesModificacionBean.encuentraNombreCodigoPrioridad(itemPrioridad.codigoClasificador)}" style="width:8%" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <h:selectOneMenu value="#{prioridadesModificacionBean.datoSegundoCombo}" style="width:8%"
+                                                                     >
+                                                        <f:selectItems value="#{prioridadesModificacionBean.listaTipoProteccionPrioridad()}" var="pri" itemLabel="#{pri.descripcion}" itemValue="#{pri.codigo}" />
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaNumeroPrioridad}" style="width:8%">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.numeroPrioridad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="numeroPrioridad" value="#{itemPrioridad.numeroPrioridad}" style="width:8%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaEntidadOficinaPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.oficinaPrioridad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="oficinaPrioridad" value="#{itemPrioridad.oficinaPrioridad}" style="width:30%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaFechadeEmisionPrioridad}" style="width:10%">
+                                            <h:outputText value="#{itemPrioridad.fechaEmision}" >
+                                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaLugarPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.lugar}"  style="width:30%"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="lugarPrioridad" value="#{itemPrioridad.lugar}" style="width:30%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaObservacionesPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridad.observacion}"   style="width:60%"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="obsPrioridad" value="#{itemPrioridad.observacion}" style="width:60%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column  headerText="#{msgs.prioridadListadoModificarPrioridad}" style="text-align: center" width="5%">
+                                            <p:commandButton update=":form:panelPrimeraPrioridad" icon="ui-icon-pencil" title="#{msgs.prioridadEditar}" 
+                                                             action="#{prioridadesModificacionBean.modificaPrioridadAdicional()}">
+                                                <f:setPropertyActionListener value="#{itemPrioridad}" target="#{prioridadesModificacionBean.seleccionadoPrioridad}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListadoEliminarPrioridad}" style="text-align: center" width="5%">
+                                            <p:commandButton id="quitaPrioridad"
+                                                             update=":form:panelPrimeraPrioridad"
+                                                             title="#{msgs.prioridadListadoEliminarPrioridad}"
+                                                             icon="ui-icon-circle-minus"
+                                                             actionListener="#{prioridadesModificacionBean.eliminaSeleccionadoPrioridad(itemPrioridad)}">
+                                                <p:confirm header="#{msgs.prioridadConfirmacionEliminarPrioridad}" message="#{msgs.prioridadmensajeConfirmarEliminarRegistro}" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:confirmDialog  global="true" showEffect="fade" >
+                                        <div align="center">
+                                            <h:panelGrid columns="3" style="text-align: left">
+                                                <p:commandButton value="#{msgs.prioridadListadoSiPrioridad}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:separator id="separador9" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                                <p:commandButton value="#{msgs.prioridadListadoNoPrioridad}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </h:panelGrid>
+                                        </div>
+                                    </p:confirmDialog>
+                                </p:panel>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:panel style="width: 100%" header="#{msgs.prioridadPreferencia}" id="preferenciaPanel">
+                            <div align="center" style="padding:1em 2.2em">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="#{msgs.prioridadTienePreferencia}"/>
+                                    <h:selectOneRadio id="tienePreferencia" value="#{prioridadesModificacionBean.activaPreferencia}" style="border-color: #C00">
+                                        <f:selectItem itemLabel="#{msgs.prioridaditemLabelSi}" itemValue="true"/>
+                                        <f:selectItem itemLabel="#{msgs.prioridaditemLabelNo}" itemValue="false"/>
+                                        <p:ajax event="change" 
+                                                update=":form:panelPrimeraPreferencia :form:panelBotonesGuardado" 
+                                                listener="#{prioridadesModificacionBean.limpiaDatosPreferencia(r)}"/>
+                                    </h:selectOneRadio>
+                                </h:panelGrid>
+                            </div>
+
+                            <h:panelGrid columns="1" id="panelPrimeraPreferencia">
+                                <p:panel id="panelPreferencia" header="Preferencia" rendered="#{prioridadesModificacionBean.campoPanelPreferencia}">
+                                    <h:panelGrid columns="2" id="panelPreferenciaCampos">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.prioridadtipoPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <h:selectOneMenu value="#{prioridadesModificacionBean.tipoPreferenciaValorCombo}" 
+                                                         style="width:200px; #{prioridadesModificacionBean.tipoPrioridadPreferencia==true?'border-color: #C00':''}">
+                                            <f:selectItem itemLabel="#{msgs.prioridadOneMenuSeleccionePreferencia}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{prioridadesModificacionBean.listadoPreferencia}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.codigo}"/>
+                                        </h:selectOneMenu>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <p:outputLabel value="#{msgs.prioridadNumeroCodigoPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:inputText value="#{prioridadesModificacionBean.smsolicitadoprioridadPreferencia.numeroPrioridad}" size="20" maxlength="20" style="#{prioridadesModificacionBean.numeroCodigoPreferencia==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.prioridadEntidadOficinaPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:inputText  value="#{prioridadesModificacionBean.smsolicitadoprioridadPreferencia.oficinaPrioridad}" size="100" maxlength="100" style="#{prioridadesModificacionBean.entidadOtorgaPreferencia==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel id="fechaPreferencia" value="#{msgs.prioridadFechaEmisionPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:calendar id="maskPreferencia" value="#{prioridadesModificacionBean.smsolicitadoprioridadPreferencia.fechaEmision}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="#{prioridadesModificacionBean.fechaEmisionPreferencia==true?'border-color: #C00':''}"/>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.prioridadLugarPrioridad}"/>
+                                        </h:panelGrid>  
+                                        <p:inputText value="#{prioridadesModificacionBean.smsolicitadoprioridadPreferencia.lugar}" size="100" maxlength="90" style="#{prioridadesModificacionBean.lugarPrioridadPreferencia==true?'border-color: #C00':''}">
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.prioridadObservacionPrioridad}"/>
+                                        <p:inputTextarea value="#{prioridadesModificacionBean.smsolicitadoprioridadPreferencia.observacion}" style="width: 400px" rows="3" cols="50" maxlength="250" />
+                                    </h:panelGrid>
+                                    <div align="center" style="padding: 1em 2.2em">
+                                        <p:commandButton
+                                            value="#{prioridadesModificacionBean.nombreAccionPreferencia}"
+                                            id="btnAdicinoPreferencia"
+                                            update="form"
+                                            action="#{prioridadesModificacionBean.adicionaDatosPreferenciaGeneral()}"
+                                            icon="ui-icon ui-icon-disk"/>
+                                    </div>
+                                    <p:dataTable id="listadoSolicitadoPreferencia"  
+                                                 var="itemPrioridadPreferencia" 
+                                                 value="#{prioridadesModificacionBean.listadoSolicitadoPreferencia}"
+                                                 rowKey="#{itemPrioridadPreferencia.idSolicitadoPrioridad}"
+                                                 selection="#{prioridadesModificacionBean.seleccionadoPrioridadPreferencia}"
+                                                 widgetVar="listaDatosDeContactoRepresentante"
+                                                 scrollable="true" scrollHeight="90" 
+                                                 resizableColumns="true"
+                                                 editable="true" 
+                                                 style="margin-bottom:20px;"
+                                                 emptyMessage="#{msgs.prioridadListaDePrioridadesAdicionalesEstaVacia}.">
+                                        <f:facet name="header">
+                                            <p:outputLabel value="#{msgs.prioridadListaPrioridadesPrioridad}">
+                                            </p:outputLabel>
+                                        </f:facet>
+                                        <p:ajax event="rowEdit" listener="#{prioridadesModificacionBean.onRowEdit}" />
+                                        <p:ajax event="rowEditCancel" listener="#{prioridadesModificacionBean.onRowCancel}" />
+                                        <p:column headerText="#{msgs.prioridadListaTipoPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{prioridadesModificacionBean.encuentraNombreCodigoPreferencia(itemPrioridadPreferencia.codigoClasificador)}" style="width:8%" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <h:selectOneMenu value="#{prioridadesModificacionBean.datoSegundoCombo}" style="width:8%"
+                                                                     >
+                                                        <f:selectItems value="#{prioridadesModificacionBean.listaTipoProteccionPrioridad()}" var="pri" itemLabel="#{pri.descripcion}" itemValue="#{pri.codigo}" />
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaNumeroPrioridad}" style="width:8%">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridadPreferencia.numeroPrioridad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="numeroPreferencia" value="#{itemPrioridadPreferencia.numeroPrioridad}" style="width:8%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaEntidadOficinaPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridadPreferencia.oficinaPrioridad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="oficinaPreferencia" value="#{itemPrioridadPreferencia.oficinaPrioridad}" style="width:30%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaFechadeEmisionPrioridad}" style="width:10%">
+                                            <h:outputText value="#{itemPrioridadPreferencia.fechaEmision}" >
+                                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaLugarPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridadPreferencia.lugar}"  style="width:30%"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="lugarPreferencia" value="#{itemPrioridadPreferencia.lugar}" style="width:30%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListaObservacionesPrioridad}">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{itemPrioridadPreferencia.observacion}"   style="width:60%"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText id="obsPreferencia" value="#{itemPrioridadPreferencia.observacion}" style="width:60%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column  headerText="#{msgs.prioridadListadoModificarPrioridad}" style="text-align: center" width="5%">
+                                            <p:commandButton update="@form" icon="ui-icon-pencil" title="#{msgs.prioridadEditar}" 
+                                                             action="#{prioridadesModificacionBean.modificaPrioridadAdicionalPreferencia()}">
+                                                <f:setPropertyActionListener value="#{itemPrioridadPreferencia}" target="#{prioridadesModificacionBean.seleccionadoPrioridadPreferencia}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.prioridadListadoEliminarPrioridad}" style="text-align: center" width="5%">
+                                            <p:commandButton id="quitaPreferencia"
+                                                             update="@form"
+                                                             title="#{msgs.prioridadListadoEliminarPrioridad}"
+                                                             icon="ui-icon-circle-minus"
+                                                             actionListener="#{prioridadesModificacionBean.eliminaSeleccionadoPreferencia(itemPrioridadPreferencia)}">
+                                                <p:confirm header="#{msgs.prioridadConfirmacionEliminarPrioridad}" message="#{msgs.prioridadmensajeConfirmarEliminarRegistro}" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:confirmDialog  global="true" showEffect="fade" >
+                                        <div align="center">
+                                            <h:panelGrid columns="3" style="text-align: left">
+                                                <p:commandButton value="#{msgs.prioridadListadoSiPrioridad}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:separator id="separadorPreferencia" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                                <p:commandButton value="#{msgs.prioridadListadoNoPrioridad}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </h:panelGrid>
+                                        </div>
+                                    </p:confirmDialog>
+                                </p:panel>
+                            </h:panelGrid> 
+                        </p:panel>
+                        <p:panel id="panelBotonesGuardado" style="border-style: hidden">
+                            <div align="center" style="padding: 1em 2.2em">
+                                <p:commandButton id="btnSinPrioridad"
+                                                 value="#{msgs.prioridadAceptar}"
+                                                 actionListener="#{prioridadesModificacionBean.adicionaSinDatosPrioridadGeneral()}"
+                                                 update="form"
+                                                 rendered="#{!prioridadesModificacionBean.botonAdicionarSinPrioridadRendered}"
+                                                 icon="ui-icon ui-icon-disk">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </div>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:commandButton id="guardar"
+                                                 value="#{msgs.prioridadGuardarPrioridad}"      
+                                                 actionListener="#{prioridadesModificacionBean.guardadoGeneralPrioridadPreferencia()}"
+                                                 rendered="#{prioridadesModificacionBean.botonAdicionarSinPrioridadRendered}"
+                                                 update="form, mensajeGeneral"
+                                                 icon="ui-icon ui-icon-disk">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </div>
+                        </p:panel>
+                    </p:panel>
+                    <div align="center" style="padding:0.5em 0em;">
+                        <p:toolbar style="width: 99%;">
+                            <p:toolbarGroup align="left">  
+                                <h:commandButton id="botonPanelCuatroAnterior"
+                                                 value="#{msgs.mensajeAnterior}"
+                                                 action="#{prioridadesModificacionBean.cancelarPrioridadesRegistroGeneral()}">
+                                </h:commandButton>
+                            </p:toolbarGroup>
+                            <p:toolbarGroup align="right">  
+                                <h:commandButton id="botonPanelCuatroSiguiente"
+                                                 value="#{msgs.mensajeSiguiente}"
+                                                 rendered="#{prioridadesModificacionBean.swBoton}"
+                                                 action="#{prioridadesModificacionBean.siguienteSolicitudDireccionNotificacion()}">
+                                </h:commandButton>
+                                <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                 rendered="#{!prioridadesModificacionBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#{prioridadesModificacionBean.siguienteSolicitudDireccionNotificacion()}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                            </p:toolbarGroup>  
+                        </p:toolbar>  
+                    </div>
+                </p:panel>
+            </h:form>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+            </p:dialog>
+        </div>
+    </ui:define>
+</ui:composition>            

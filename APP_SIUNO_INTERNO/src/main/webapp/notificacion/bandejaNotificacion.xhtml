@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form"> 
+            <p:panel header="#{msgs.notificacionesTitulo}" 
+                     style="text-align: center;width: 100%; overflow-x: auto;border-style: hidden">
+                <div align="center" style="padding:0.5em 0.5em;">  
+                    <p:dataTable id="dataTableNoti" var="bandejaNotifi" 
+                                 value="#{bandejaNotificacionesBean.listaBandejaNotificacion}" 
+                                 selection="#{bandejaNotificacionesBean.selectedBandejaNotificaciones}"
+                                 rowKey="#{bandejaNotifi.idNotificacion}" 
+                                 paginator="true"
+                                 rows="10"
+                                 paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20,30,50,100"
+                                 style="margin-bottom:0;background: #E5F0F8">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{msgs.notificacionesTituloPanelPrincipal}"></p:outputLabel>
+                        </f:facet>
+                        <p:ajax event="rowSelectCheckbox" listener="#{bandejaNotificacionesBean.checkSelect()}" update=":form" />
+                        <p:ajax event="rowUnselectCheckbox" listener="#{bandejaNotificacionesBean.checkUnSelect()}" update=":form" />
+                        <p:ajax event="rowSelect" listener="#{bandejaNotificacionesBean.checkSelect()}" update=":form" />
+                        <p:ajax event="rowUnselect" listener="#{bandejaNotificacionesBean.checkUnSelect()}" update=":form" />
+                        <p:ajax event="toggleSelect" listener="#{bandejaNotificacionesBean.toggleSelect()}" update=":form" />
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+                        <p:column headerText="#{msgs.notificacionesDataTableColumnaUno}" filterBy="#{bandejaNotifi.codigoTramite}"
+                                  sortBy="#{bandejaNotifi.codigoTramite}" style="width: 15%; text-align: center" >
+                            <h:outputText value="#{bandejaNotifi.codigoTramite}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.notificacionesDataTableColumnaDos}" filterBy="#{bandejaNotifi.nombreSolicitud}"
+                                  sortBy="#{bandejaNotifi.nombreSolicitud}" style="width: 25%; text-align: center">
+                            <h:outputText value="#{bandejaNotifi.nombreSolicitud}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.notificacionesDataTableColumnaTres}" filterBy="#{bandejaNotifi.fechaSolicitudNotificacion}"
+                                  sortBy="#{bandejaNotifi.fechaSolicitudNotificacion}" style="width: 15%; text-align: center">
+                            <h:outputText value="#{bandejaNotifi.fechaSolicitudNotificacion}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.notificacionesDataTableColumnaCuatro}" style="width: 25%; text-align: center">
+                            <h:outputText value="#{bandejaNotifi.observacion}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.notificacionesDataTableColumnaCinco}" style="width: 15%; text-align: center">
+                            <p:commandLink action="#{bandejaNotificacionesBean.irDetalleNotificacion(bandejaNotifi)}" 
+                                           value="#{msgs.notificacionesDataTableLink}" ajax="false" immediate="true"/>
+                        </p:column>
+                        <!--                    <p:column headerText="Ver" style="text-align: center;width:8%">
+                                                <h:commandButton action="#"
+                                                                 image="/resources/images/pdfP.png" 
+                                                                 style="border-image: 0" />  
+                                            </p:column>-->
+                        <f:facet name="footer">
+                            <p:commandButton 
+                                process="dataTableNoti" 
+                                icon="ui-icon-suitcase" 
+                                value="#{msgs.notificacionesBotonNotificacion}" 
+                                onclick="PF('dlg').show()"
+                                disabled="#{bandejaNotificacionesBean.activaImprimir}"/>
+                            <p:commandButton 
+                                icon="ui-icon-print" 
+                                ajax="false"
+                                value="#{msgs.notificacionesBotonImprimirSolicitud}" 
+                                actionListener="#{bandejaNotificacionesBean.imprimir}"
+                                disabled="#{bandejaNotificacionesBean.activaImprimir}"/>
+                            <p:commandButton 
+                                icon="ui-icon-print" 
+                                ajax="false"
+                                value="#{msgs.notificacionesBotonImprimirFormulario}" 
+                                actionListener="#{bandejaNotificacionesBean.imprimirFormulario}"
+                                disabled="#{bandejaNotificacionesBean.activaImprimir}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+            </p:panel>
+            <p:growl id="growl" showDetail="true"/>
+            <p:dialog header="Registrar Notificación" widgetVar="dlg" resizable="false" id="dialogo" dynamic="true" closable="false" modal="true">
+                <h:panelGrid columns="2" cellpadding="5" id="validado">
+                    <p:outputLabel for="popupfecha" value="#{msgs.notificacionesDialogoFechaNotificacion}" style="float: right"/>
+                    <p:column>
+                        <p:calendar id="popupfecha" value="#{bandejaNotificacionesBean.fechaNotificacion}" style="float: left" label="Fecha Notificación">
+                        </p:calendar>
+                        <p:outputLabel value="Hora"></p:outputLabel>
+                        <p:selectOneMenu value="#{bandejaNotificacionesBean.horaSeleccionada}" label="Hora">
+                            <f:selectItem itemLabel="Hora" itemValue="#{null}" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems 
+                                value="#{bandejaNotificacionesBean.listaHoras}" var="h" itemLabel="#{h}"
+                                itemValue="#{h}"></f:selectItems>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu value="#{bandejaNotificacionesBean.minutoSeleccionado}" label="Minuto">
+                            <f:selectItem itemLabel="Minuto" itemValue="#{null}" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems value="#{bandejaNotificacionesBean.listaMinutos}" var="m" itemLabel="#{m}" itemValue="#{m}"></f:selectItems>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:outputLabel value="#{msgs.notificacionesDialogoPersonaNotificada}" style="float: right" for="personaNotificada"></p:outputLabel>
+                    <p:inputText id="personaNotificada" size="40" style="float: left" label="Persona Notificada"
+                                 value="#{bandejaNotificacionesBean.personaNotificada}">
+                    </p:inputText>
+                    <p:outputLabel value="#{msgs.notificacionesDialogoObservaciones}" style="float: right"></p:outputLabel>
+                    <p:inputTextarea id="observacionNotificacion" rows="4" cols="30"
+                                     style="float: left" value="#{bandejaNotificacionesBean.observacion}">
+                    </p:inputTextarea>
+                    <p:column></p:column>
+                    <p:column>
+                        <p:selectBooleanCheckbox id="checked" value="#{bandejaNotificacionesBean.activaNotificado}" itemLabel="Notificado" >
+                            <p:ajax update="si" listener="#{bandejaNotificacionesBean.actualizaBotones()}" />
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                </h:panelGrid>
+                <h:panelGrid style="margin-top: 3%">
+                    <p:outputLabel value="Notificaciones Seleccionadas:"></p:outputLabel>
+                </h:panelGrid>
+                <p:panelGrid columns="1" style="margin: 0 auto; margin-bottom: 3%">
+                    <p:column style="center">
+                        <ui:repeat value="#{bandejaNotificacionesBean.selectedBandejaNotificaciones}" var="noti" >
+                            <h:outputText value="#{noti.codigoTramite} - #{noti.nombreSolicitud}" style="display:block"/>
+                        </ui:repeat>
+                    </p:column>
+                </p:panelGrid>
+                <p:outputLabel value="*" style="color: #ff3300"></p:outputLabel>
+                <p:outputLabel value="Si presiona FINALIZAR la Notificación se eliminará de la Bandeja."></p:outputLabel>
+                <p:separator id="customSeparator" style="width:100%;height:1px" /> 
+                <center>
+                    <h:panelGrid columns="3" style="margin: 0 auto;width: 100%">
+                        <p:column>
+                            <div align="center">
+                                <p:commandButton value="Guardar" id="si" style="margin: 0 auto" oncomplete="handleLoginRequest(xhr, status, args)" 
+                                                 action="#{bandejaNotificacionesBean.actualizarInfoNotificaciones()}" update="growl, validado"
+                                                 icon="ui-icon-disk"></p:commandButton>    </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <p:commandButton value="Finalizar" style=" margin: 0 auto;color: #ff6600;background-color: #ffcccc" 
+                                                 action="#{bandejaNotificacionesBean.finalizarInfoNotificaciones()}" icon="ui-icon-circle-triangle-e"
+                                                 oncomplete="handleLoginRequest(xhr, status, args)" update="growl, validado">
+                                </p:commandButton>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <p:commandButton value="Cancelar" onclick="PF('dlg').hide()" type="button"
+                                                 icon="ui-icon-closethick">
+                                </p:commandButton>                            
+                            </div>
+                        </p:column>
+                    </h:panelGrid>
+                </center>
+                <p:ajax event="close" update="dialogo"></p:ajax>
+            </p:dialog>
+
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

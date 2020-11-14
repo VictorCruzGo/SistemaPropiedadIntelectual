@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="formExamenDeForma">
+
+            <p:panel header="DATOS TRAMITE PI100 TRAMITE: #{reportePI100Bean.tramite.tramite}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+
+                <div align="center">
+
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Nombre solicitante"/>
+                        <p:outputLabel value=":"/>
+                        <p:outputLabel value="#{reportePI100Bean.nombreSolicitante}" />
+
+                        <p:outputLabel value="Nacionalidad"/>
+                        <p:outputLabel value=":"/>
+                        <p:outputLabel value="#{reportePI100Bean.nacionalidad}" />
+
+                        <p:outputLabel value="Numero de Identificación"/>
+                        <p:outputLabel value=":"/>
+                        <p:outputLabel value="#{reportePI100Bean.documentoIdentificacion}" />
+
+                        <p:outputLabel value="Nombre Apoderado"/>
+                        <p:outputLabel value=":"/>
+                        <p:outputLabel value="#{reportePI100Bean.nombreApoderado}"/>
+
+                        <p:outputLabel value="Nombre de la Marca Solicitada"/>
+                        <p:outputLabel value=":"/>
+                        <p:outputLabel value="#{reportePI100Bean.nombreSigno}" />
+
+                        <p:outputLabel value="Direccion de Notificacion"/>
+                        <p:outputLabel value=":"/>
+                        <p:outputLabel value="#{reportePI100Bean.direccionNotifica}"/>
+
+                    </h:panelGrid>
+
+                </div>
+
+                <div align="center" >
+                    <h:panelGrid columns="2" border="0">
+                        <p:commandButton
+                            value="Imprimir Formulario"
+                            action="#{reportePI100Bean.imprimirFormulario1()}"
+                            ajax="false"
+                            icon="ui-icon-print"
+                            />
+                        <p:commandButton
+                            value="Regresar Bandeja"
+                            ajax="false"
+                            action="#{reportePI100Bean.volverBandejaVentanilla()}"
+                            icon="ui-icon-arrowreturnthick-1-w"
+                            />
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

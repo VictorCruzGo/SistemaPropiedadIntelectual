@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajes" showDetail="true" life="2000" />
+            <p:panel header="REGISTRO" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelRegistro">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>               
+                <p:panel id="panelUno" style="border-style: hidden">             
+                    <div align="left">
+                        <p:fieldset id="panelToggleable" legend="FORMULARIO PARA REGISTRO" 
+                                    toggleable="true" collapsed="#{registroBean.campoPanelDatosPersonaEmpresaReplegableActivaEvento}" 
+                                    toggleSpeed="500" style="margin-bottom:20px; height: 100%">  
+                            <h:panelGrid  id="panelMensaje" columns="2" cellpadding="5">                            
+                                <p:separator id="separador" style="width: #{registroBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                                <si.componentes:informacion id="mensaje" dimension="100%" rendered="#{registroBean.impresion}" mensaje="#{msgs.mensajeImpresion}"/>
+                                <si.componentes:informacion id="mensaje2" dimension="100%" rendered="#{registroBean.noImpresion}" mensaje="#{msgs.mensajeNoImpresion}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="5" cellspacing="5">
+                                <h:outputLabel for="name" value="#{registroBean.informacion}" />
+                            </h:panelGrid>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <p:commandButton
+                                        value="Generar Registro"
+                                        onclick="PF('reporte').show();"
+                                        actionListener="#{registroBean.botonGenerar()}"
+                                        update="descripcion,ori"
+                                        image="ui-icon-circle-triangle-e"     >
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </div>
+                            <p:separator id="separador5" style="width: #{registroBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                            <div align="right" style="padding:1em 2.2em;">
+                                <p:commandButton value="Digitalizar Documentos" action="#{registroBean.abrirBandejaDigitalizacion()}"/>
+                            </div>
+                            <p:dialog header="GENERAR REGISTRO" widgetVar="reporte" closable="false" height="600" width="850" resizable="false" showEffect="explode" footer="El documento solo puede imprimirse una vez.">
+
+                                <div align="center">
+                                    <h:panelGrid columns="1" cellspacing="10">
+                                        <p:separator id="separador1" style="width: #{registroBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                                        <p:inputTextarea id="descripcion"  rows="8" cols="50" 
+                                                         counterTemplate="{0}  #{msgs.pestaniaTresCaracteresRestantes}"
+                                                         autoResize="false" 
+                                                         value="#{registroBean.informacion}"
+                                                         />
+                                    </h:panelGrid>
+                                </div>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton id="ori"
+                                                     value="Imprimir Registro"
+                                                     icon="ui-icon-print"
+                                                     actionListener="#{registroBean.botonImprimir()}"
+                                                     disabled="#{registroBean.original}"
+                                                     update=":form:ori,:form:mensaje,:form:mensaje2,:form:panelMensaje,:form:descripcion"
+                                                     onclick="PF('reporte').hide();"
+                                                     />
+<!--                                    <p:commandButton id="cop"
+                                                     value="Imprimir Copia Registro"
+                                                     icon="ui-icon-print"
+                                                     />-->
+                                    <p:commandButton
+                                        value="Cancelar"
+                                        onclick="PF('reporte').hide();"
+                                        icon="ui-icon-arrowreturnthick-1-w"
+                                        update=":form:ori,:form:mensaje,:form:mensaje2"
+                                        />
+                                </div>
+                            </p:dialog>
+                            <div align="right" style="padding:1em 2.2em;">
+                                <p:commandButton
+                                    value="Derivar"
+                                    action="#{registroBean.derivarRegistroSiguienteEtapa()}"
+                                    ajax="false"
+                                    image="ui-icon-circle-triangle-e">
+                                </p:commandButton>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                </p:panel>
+            </p:panel>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>                    

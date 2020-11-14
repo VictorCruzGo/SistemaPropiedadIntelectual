@@ -1,0 +1,626 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel id="panelUno" style="border-style: hidden">
+                <p:panel>
+                    <p:fieldset id="panelToggleable" legend="#{msgs.solicitanteLegendFieldDatosSolicitante}" 
+                                toggleable="true" collapsed="false"
+                                toggleSpeed="500" style="height: 100%">
+                        <h:panelGrid  columns="10" cellpadding="5">
+                            <div align="left">
+                                <h:outputLabel value="#{msgs.solicitanteTipoSolicitante}"/>
+                                <h:selectOneMenu id="comboTipoSolicitante" value="#{identificacionSolicitanteModificacionBean.tipoSolicitante}"
+                                                 style="text-align:left">
+                                    <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoTipoSolicitantedPersonaSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    <p:ajax event="change" 
+                                            update="cBoxCargarDatos,btnBuscaPersonaEmpresa,panelGridDocumentos,panelGridJuridico,listaDatosDeContacto" 
+                                            listener="#{identificacionSolicitanteModificacionBean.activaCamposNaturalJuridicoAction(e)}" />        
+                                </h:selectOneMenu> 
+                            </div>
+                            <div align="center">
+                                <h:panelGrid id="cBoxCargarDatos" columns="1">
+
+                                   
+                                   
+                                   
+                                </h:panelGrid>
+                            </div>
+                            <p:separator id="separador" style="width: #{identificacionSolicitanteModificacionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                            <h:panelGrid  id="btnBuscaPersonaEmpresa" columns="3" cellpadding="5">
+                                <!--                                <p:outputLabel value="# {msgs.solicitanteFechaCreacion}"/>
+                                                                <h:inputText value="# {identificacionSolicitanteModificacionBean.fechaAdicion}"
+                                                                             rendered="# {identificacionSolicitanteModificacionBean.campoFechaCreacionRendered}"
+                                                                             style="text-align:right;width: 55%">
+                                                                    <f:convertDateTime pattern="# {sessionState.formatoFecha}"/>
+                                                                </h:inputText>-->
+                                <p:commandButton id="limpiaFormulario" 
+                                                 value="#{msgs.solicitanteLimpiaFormulario}" 
+                                                 actionListener="#{identificacionSolicitanteModificacionBean.limpiaFormularioPersonaEmpresa(event)}" 
+                                                 update="form,,informacion,mensajeGeneral" icon="ui-icon-tag ">                                        
+                                    <f:ajax execute="@this" render="@form" event="click" />
+                                </p:commandButton>
+                                <p:commandButton id="buscaEmpresa" type="button" value="#{msgs.solicitanteCargarEmpresa}" 
+                                                 onclick="PF('BuscaEmpresa').show()" icon="ui-icon-arrowthickstop-1-s"
+                                                 rendered="#{identificacionSolicitanteModificacionBean.campoBotonCargaPersonaRendered}"/>
+
+                                <p:commandButton id="buscaPersonaEmpresa" type="button" value="#{msgs.solicitanteCargarPersona}" 
+                                                 onclick="PF('Busca').show()" icon="ui-icon-arrowthickstop-1-s"
+                                                 rendered="#{identificacionSolicitanteModificacionBean.campoBotonCargaEmpresaRendered}"/>
+                            </h:panelGrid>    
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" id="panelGridDocumentos">
+                            <h:panelGrid columns="6" id="formularioDatosPersonaEmpresa">
+                                <h:panelGrid columns="2" id="FormularioNroDocumento">
+
+
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteNroDocumento}"/>  
+                                    </h:panelGrid> 
+
+                                    <h:inputText id="nroDocumento" 
+                                                 style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoNumeroDocumento==true?'border-color: #C00':' '};" 
+                                                 value="#{identificacionSolicitanteModificacionBean.numeroDocumento}"
+                                                 disabled="#{identificacionSolicitanteModificacionBean.campoNumeroDocumentoDisable}"
+                                                 size="20" maxlength="15" autocomplete="off"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="4"  id="formularioPersonaEmpresa">
+
+
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteTipoDocumento}"/>  
+                                    </h:panelGrid> 
+
+
+
+                                    <h:selectOneMenu id="tipoDocumento" 
+                                                     value="#{identificacionSolicitanteModificacionBean.tipoDocumentoIdentidad}" 
+                                                     disabled="#{identificacionSolicitanteModificacionBean.campoTipoDocumentoDisable}"
+                                                     style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoTipoDocumento==true?'border-color: #C00':' '}">  
+                                        <f:selectItem   id="Documento" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoTipoDocumentoIdentidadPorTipoSolicitante}" 
+                                                       var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        <f:ajax event="change" render="formularioPersonaEmpresa" listener="#{identificacionSolicitanteModificacionBean.activaComboLugarExpedicion(e)}" />
+                                    </h:selectOneMenu>
+                                    
+                                    <h:panelGrid columns="2" style="text-align: left" rendered="#{identificacionSolicitanteModificacionBean.campoLugarExpedicionRendered}">
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                    </h:panelGrid> 
+
+                                    <h:selectOneMenu id="lugar" value="#{identificacionSolicitanteModificacionBean.lugarExpedicion}"
+                                                     disabled="#{identificacionSolicitanteModificacionBean.campoLugarExpedicionDisable}"
+                                                     rendered="#{identificacionSolicitanteModificacionBean.campoLugarExpedicionRendered}"
+                                                     style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoLugarExpedicion==true?'border-color: #C00':' '}">
+                                        <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoCiudadClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    </h:selectOneMenu>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+
+
+                            <h:outputLabel value="#{msgs.solicitanteMensajeJuridico}" style="color: #{identificacionSolicitanteModificacionBean.colorLabel}" rendered="#{identificacionSolicitanteModificacionBean.campoRazonSocialRendered}"/>
+
+
+                            <h:panelGrid columns="2" id="panelGridJuridico">
+
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"
+                                                   rendered="#{identificacionSolicitanteModificacionBean.campoRazonSocialRendered}"/>  
+                                    <h:outputLabel value="#{msgs.solicitanteRazonSocial}" rendered="#{identificacionSolicitanteModificacionBean.campoRazonSocialRendered}"/>
+                                </h:panelGrid> 
+                                <h:inputText id="razonSocial" style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoRazonSocial==true?'border-color: #C00':' '};"
+                                             rendered="#{identificacionSolicitanteModificacionBean.campoRazonSocialRendered}"
+                                             disabled="#{identificacionSolicitanteModificacionBean.campoRazonSocialDisable}"
+                                             value="#{identificacionSolicitanteModificacionBean.empresa.nombreRepresentante}" size="70" maxlength="60"  
+                                             autocomplete="off" />                                                                                    
+                            </h:panelGrid>
+                            <h:outputLabel value="#{msgs.solicitantePersonaNatural}" style="color: #{identificacionSolicitanteModificacionBean.colorLabel}" rendered="#{identificacionSolicitanteModificacionBean.campoNombreRendered}"/>
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"
+                                                   rendered="#{identificacionSolicitanteModificacionBean.campoNombreRendered}"/>  
+                                    <h:outputLabel value="#{msgs.solicitanteNombre}" rendered="#{identificacionSolicitanteModificacionBean.campoNombreRendered}"/>
+                                </h:panelGrid> 
+                                <h:inputText id="nombre" style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoNombre==true?'border-color: #C00':' '};" 
+                                             value="#{identificacionSolicitanteModificacionBean.persona.nombres}" 
+                                             disabled="#{identificacionSolicitanteModificacionBean.campoNombreDisable}"
+                                             rendered="#{identificacionSolicitanteModificacionBean.campoNombreRendered}"
+                                             size="42" maxlength="50" autocomplete="off"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" id="ApellidosPersona">
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"
+                                                   rendered="#{identificacionSolicitanteModificacionBean.campoApellidoPaternoRendered}"/>  
+                                    <h:outputLabel value="#{msgs.solicitanteApellidoPaterno}" rendered="#{identificacionSolicitanteModificacionBean.campoApellidoPaternoRendered}"/>
+                                </h:panelGrid> 
+
+                                <h:inputText id="apellidoPaterno" style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoApellidoPaterno==true?'border-color: #C00':' '};" 
+                                             value="#{identificacionSolicitanteModificacionBean.persona.apellidoPaterno}" 
+                                             disabled="#{identificacionSolicitanteModificacionBean.campoApellidoPaternoDisable}"
+                                             rendered="#{identificacionSolicitanteModificacionBean.campoApellidoPaternoRendered}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+                                <h:outputLabel value="#{msgs.solicitanteApellidoMaterno}" rendered="#{identificacionSolicitanteModificacionBean.campoApellidoMaternoRendered}"/>
+                                <h:inputText id="apellidoMaterno" style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{identificacionSolicitanteModificacionBean.persona.apellidoMaterno}" 
+                                             disabled="#{identificacionSolicitanteModificacionBean.campoApellidoMaternoDisable}"
+                                             rendered="#{identificacionSolicitanteModificacionBean.campoApellidoMaternoRendered}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="4" style="width: 50%">
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitantePais}"/>
+                                    </h:panelGrid> 
+                                    <h:selectOneMenu id="pais" value="#{identificacionSolicitanteModificacionBean.paisNacionalidad}" 
+                                                     style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoPais==true?'border-color: #C00':' '};">
+                                        <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoPaisesClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                                    </h:selectOneMenu> 
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" id="GeneroPersona">
+                                    <h:outputLabel value="#{msgs.solicitanteGenero}" rendered="#{identificacionSolicitanteModificacionBean.campoGeneroRendered}"/>
+                                    <h:selectOneRadio id="genero" value="#{identificacionSolicitanteModificacionBean.genero}" 
+                                                      disabled="#{identificacionSolicitanteModificacionBean.campoGeneroDisable}"
+                                                      rendered="#{identificacionSolicitanteModificacionBean.campoGeneroRendered}">
+                                        <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    </h:selectOneRadio>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" style="text-align: center">
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.solicitanteDatosContacto}" style="color: #{identificacionSolicitanteModificacionBean.colorLabel}"/>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+
+
+                            <h:panelGrid columns="6">
+                                <p:commandButton
+                                    value="#{msgs.solicitanteAdicionarContacto}"
+                                    id="btnSurname"
+                                    process="@this,dato,notificar"
+                                    update="listaDatosDeContacto,dato,notificar,mensajeGeneral"
+                                    action="#{identificacionSolicitanteModificacionBean.adicionaDatoDeContacto()}"
+                                    icon="ui-icon-plusthick">
+                                    <!--<p:confirm header="# {msgs.solicitanteConfirmacionAdicion}" message="# {msgs.solicitanteMensajeSeguroGuardarDatos}" icon="ui-icon-alert"/>-->
+                                </p:commandButton>
+                                <h:selectOneMenu id="tipoContactoClasificadorSolicitante"
+                                                 value="#{identificacionSolicitanteModificacionBean.tipoContacto}">
+                                    <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    <p:ajax event="change" update="notificar" listener="#{identificacionSolicitanteModificacionBean.activaCheckNotificacion(e)}" />
+                                </h:selectOneMenu>
+                                <h:inputText id="dato" value="#{identificacionSolicitanteModificacionBean.dato}" size="60" maxlength="200" 
+                                             style="#{identificacionSolicitanteModificacionBean.cambiaBordeCampoDato==true?'border-color: #C00':''}"/>
+                                <p:watermark for="dato" value="#{msgs.solicitanteIntroduzcaDatoContacto}" id="watermark" />
+                                <h:selectBooleanCheckbox id="notificar" value="#{identificacionSolicitanteModificacionBean.notificar}" disabled="#{identificacionSolicitanteModificacionBean.habilitaNotificacionCheck}"/>
+                                <h:outputText value="#{msgs.solicitanteNotificarContactoSeleccionado}"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:dataTable var="item"                                                 
+                                         id="listaDatosDeContacto"
+                                         rowKey="#{item.tipoContacto}"
+                                         value="#{identificacionSolicitanteModificacionBean.listaDatosDeContacto}"
+                                         widgetVar="listaDatosDeContacto"
+                                         editable="true"
+                                         selection="#{identificacionSolicitanteModificacionBean.datoscontactoSelect}"
+                                         style="width: 80%;background: #E5F0F8"
+                                         scrollable="true" scrollHeight="100" resizableColumns="true"
+                                         emptyMessage="#{msgs.solicitanteListaContactosVacia}">
+
+                                <f:facet name="header">
+                                    <p:outputPanel >
+                                        <h:outputText value="#{msgs.solicitanteListadeContactos}" />
+                                    </p:outputPanel>
+                                </f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{identificacionSolicitanteModificacionBean.onEdit}"/>
+                                <p:ajax event="rowEditCancel" listener="#{identificacionSolicitanteModificacionBean.onCancel}"/>
+
+                                <p:column headerText="#{msgs.solicitanteTipoContacto}" width="30">
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('listaDatosDeContacto').filter()" >
+                                            <f:selectItem itemLabel="#{msgs.solicitanteTodos}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{identificacionSolicitanteModificacionBean.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <h:outputText value="#{item.tipoContacto.descripcion}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.solicitanteDato}" width="50">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.dato}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item.dato}" style="width:95%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                
+                                <p:column headerText="#{msgs.solicitanteDatoNotificar}" width="8">
+                                            <h:outputText value="#{identificacionSolicitanteModificacionBean.muestraMensajeNotificacion(item.notificar)}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.solicitanteModificar}" style="text-align: center" width="10"
+                                          rendered="#{identificacionSolicitanteModificacionBean.campoListaDatosContactoBotonModificaRendered}">
+                                    <p:rowEditor rendered="#{identificacionSolicitanteModificacionBean.campoListaDatosContactoBotonModificaRendered}"/>
+                                </p:column>
+
+
+                                <p:column headerText="#{msgs.solicitanteEliminar}" style="text-align: center" width="10"
+                                          rendered="#{identificacionSolicitanteModificacionBean.campoListaDatosContactoBotonEliminaRendered}">
+                                    <p:commandButton update="listaDatosDeContacto" 
+                                                     icon="ui-icon-circle-minus" 
+                                                     action="#{identificacionSolicitanteModificacionBean.eliminaDatoDeContacto()}" 
+                                                     process="listaDatosDeContacto" 
+                                                     disabled="#{identificacionSolicitanteModificacionBean.campoListaDatosContactoBotonEliminaDisable}">                                           
+
+                                        <f:setPropertyActionListener value="#{item}" target="#{identificacionSolicitanteModificacionBean.datoscontactoSelect}" />
+
+                                        <p:confirm header="#{msgs.solicitanteConfirmacionEliminar}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert" />
+
+                                    </p:commandButton>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:spacer height="10" />
+                                </f:facet>                                    
+                            </p:dataTable>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+                        </div>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <si.componentes:informacion id="informacion"
+                                                        dimension="70%"
+                                                        rendered="#{identificacionSolicitanteModificacionBean.campoBotonCargaPersonaEmpresaEncontradoMismoNroDocumento}"
+                                                        mensaje="#{msgs.mensajeDeComponenteDeInformacion}"/>
+                            <p:commandButton
+                                id="botonCargaDatosPersonaEmpresa"
+                                value="#{msgs.solicitanteCargaDatos}"
+                                rendered="#{identificacionSolicitanteModificacionBean.campoBotonCargaPersonaEmpresaEncontradoMismoNroDocumento}"
+                                actionListener="#{identificacionSolicitanteModificacionBean.cargaPersonaEmpresa(event)}"
+                                update="form,razonSocial,nombre,apellidoPaterno,apellidoMaterno,nroDocumento,genero,listaDatosDeContacto,botonCargaDatosPersonaEmpresa,informacion,mensajeGeneral"
+                                icon="ui-icon ui-icon-disk"
+                                >
+                                <f:ajax execute="@this" render="@form" event="click"/>
+                            </p:commandButton>
+                        </div>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton id="adicionaRegistroPersonaEmpresa"
+                                             value="#{!identificacionSolicitanteModificacionBean.activaBotonModificarSolicitud?msgs.solicitanteGuarda:msgs.solicitanteModifica}"
+                                             disabled="#{identificacionSolicitanteModificacionBean.campoAdicionaRegistroPersonaEmpresaDisable}"
+                                             actionListener="#{identificacionSolicitanteModificacionBean.adicionaRegistroPersonaEmpresa()}"
+                                             update="razonSocial,nombre,apellidoPaterno,apellidoMaterno,nroDocumento,genero,listaDatosDeContacto,botonCargaDatosPersonaEmpresa,informacion,mensajeGeneral,listaPersonaNaturales,listaEmpresaJuridicas,comboTipoSolicitante,panelUno"                                
+                                             icon="ui-icon ui-icon-disk"
+                                             >
+                                <!--                                update="form,razonSocial,nombre,apellidoPaterno,apellidoMaterno,nroDocumento,genero,listaDatosDeContacto,botonCargaDatosPersonaEmpresa,informacion,mensajeGeneral,listaPersonaNaturales,listaEmpresaJuridicas,comboTipoSolicitante,panelUno"
+                                                                                                        icon="ui-icon ui-icon-disk"-->
+                                <!--                               <f:ajax execute="@this" render="@form" event="click"/>-->
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton>
+                        </div>
+                    </p:fieldset>
+
+                    <div align="center" style="padding:1em 1em;">
+                        <p:dataTable var="itemEmpresaT" 
+                                     id="listaEmpresaJuridicas"
+                                     rowKey="#{itemEmpresaT.idEmpresa}"
+                                     value="#{identificacionSolicitanteModificacionBean.listadoEmpresaOficial}" 
+                                     widgetVar="listaEmpresa"
+                                     scrollable="true" scrollHeight="100" 
+                                     resizableColumns="true"
+                                     selection="#{identificacionSolicitanteModificacionBean.empresaSeleccionada}"
+                                     style="width: 90%;background: #E5F0F8">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}" />
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column  filterBy="#{itemEmpresaT.nombreRepresentante}" sortBy="#{itemEmpresaT.nombreRepresentante}" headerText="#{msgs.solicitantelabelRazonSocial}" width="8%">  
+                                <h:outputText value="#{itemEmpresaT.nombreRepresentante}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{itemEmpresaT.numeroDocumento}" sortBy="#{itemEmpresaT.numeroDocumento}" headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="10%">  
+                                <h:outputText value="#{itemEmpresaT.numeroDocumento}" />
+                            </p:column>                            
+
+                            <p:column  filterBy="#{itemEmpresaT.tipoPais.codigo}"   sortBy="#{itemEmpresaT.tipoPais.codigo}" headerText="#{msgs.solicitanteColumna}" width="10%">  
+                                <h:outputText value="#{itemEmpresaT.tipoPais.descripcion}" />
+                            </p:column>
+
+                            <p:column headerText="#{msgs.mensajeModificar}" width="10%" style="width:32px;text-align: center">
+                                <!--                                <p:commandButton update=":form:panelUno" 
+                                
+                                                                                 icon="ui-icon-pencil" 
+                                                                                 title="View" 
+                                                                                 actionListener="# {identificacionSolicitanteModificacionBean.cargaDatosEmpresaParaElListadoModifica(itemEmpresaT)}" 
+                                                                                 >
+                                                                                                        <f:setPropertyActionListener value="# {itemEmpresaT}" target="# {identificacionSolicitanteModificacionBean.empresaSeleccionada}" />
+                                                                    update=":form:razonSocial :form:nroDocumento :form:tipoDocumento :form:lugar :form:panelUno" 
+                                                                    <f:ajax  execute="@this" render="@form" event="click"/>
+                                                                </p:commandButton>-->
+                                <p:commandButton id="butonModificaEmpresaLista" 
+                                                 update=":form:razonSocial :form:nroDocumento :form:tipoDocumento :form:lugar :form:panelUno"  
+                                                 icon="ui-icon-pencil" 
+                                                 title="View" 
+                                                
+                                                 actionListener="#{identificacionSolicitanteModificacionBean.cargaDatosEmpresaParaElListadoModifica(itemEmpresaT)}">
+                                    <f:ajax  execute="@this"  event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="#{msgs.mensajeQuitar}" width="20" style="text-align: center">
+
+                                <p:commandButton id="eliminaEmpresa" 
+                                                 update=":form:mensajeGeneral :form:tipoDocumento :form:lugar :form:nombre :form:nroDocumento  :form:tipoDocumento :form:apellidoPaterno :form:apellidoMaterno :form:listaDatosDeContacto :form:panelUno" 
+
+                                                 icon="ui-icon-circle-minus" 
+                                                 title="#{msgs.mensajeQuitar}" 
+                                                 actionListener="#{identificacionSolicitanteModificacionBean.borrarEmpresaDeLaLista(itemEmpresaT)}">
+                                    <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                </p:commandButton>                          
+
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                    </div>
+                    <div align="center" style="padding:1em 1em;">
+                        <p:dataTable var="itemPersona" 
+                                     id="listaPersonaNaturales"
+                                     rowKey="#{itemPersona.idPersona}"
+                                     value="#{identificacionSolicitanteModificacionBean.listadoPersonaOficial}" 
+                                     widgetVar="listaPersona"
+                                     scrollable="true" scrollHeight="100" 
+                                     resizableColumns="true"
+                                     selection="#{identificacionSolicitanteModificacionBean.personaSeleccionada}"
+                                     style="width: 90%;background: #E5F0F8">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloPersona}"/>
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column filterBy="#{itemPersona.nombres}" sortBy="#{itemPersona.nombres}" headerText="#{msgs.solicitantelabelNombres}" width="20" >  
+                                <h:outputText value="#{itemPersona.nombres}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{itemPersona.apellidoPaterno}" sortBy="#{itemPersona.apellidoPaterno}" headerText="#{msgs.solicitantelabelApellidoPaterno}" width="40">  
+                                <h:outputText value="#{itemPersona.apellidoPaterno}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{itemPersona.apellidoMaterno}" sortBy="#{itemPersona.apellidoMaterno}" headerText="#{msgs.solicitantelabelApellidoMaterno}" width="40">  
+                                <h:outputText value="#{itemPersona.apellidoMaterno}" />
+                            </p:column>
+
+                            <p:column headerText="#{msgs.mensajeModificar}" width="20" style="text-align: center">
+                                <p:commandButton id="butonModificaPersonaLista" 
+                                                 update=":form:panelUno :form:lugar" 
+                                                 icon="ui-icon-pencil" 
+                                                 title="View" 
+                                                
+                                                 actionListener="#{identificacionSolicitanteModificacionBean.cargaDatosPersonaParaElListadoModifica(itemPersona)}">
+                                    <f:ajax  execute="@this" event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="#{msgs.mensajeQuitar}" width="20" style="text-align: center">
+                                <p:commandButton id="eliminaPersonaLista" 
+                                                 update=":form:mensajeGeneral :form:tipoDocumento :form:lugar :form:nombre :form:nroDocumento  :form:tipoDocumento :form:apellidoPaterno :form:apellidoMaterno :form:listaDatosDeContacto :form:panelUno" 
+                                                 icon="ui-icon-circle-minus" 
+                                                 title="#{msgs.mensajeQuitar}" 
+                                                 actionListener="#{identificacionSolicitanteModificacionBean.borrarPersonaDeLaLista(itemPersona)}">
+                                    <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                </p:commandButton>                          
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                    </div>
+
+                </p:panel>
+                <p:dialog header="#{msgs.solicitanteListaApoderado}" widgetVar="cargaObjeto" resizable="false"
+                          width="950" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                    <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" />
+                </p:dialog>
+                <p:confirmDialog global="true" showEffect="fade" >
+                    <div align="center">
+                        <h:panelGrid columns="3" style="text-align: left">
+                            <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:separator id="separador9" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                            <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </h:panelGrid>
+                    </div>
+                </p:confirmDialog>
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <h:commandButton
+                                value="#{msgs.mensajeAnterior}"
+                                action="#{identificacionSolicitanteModificacionBean.cancelaIdentificacionSolicitanteGeneral()}">
+                            </h:commandButton>
+                        </p:toolbarGroup>  
+                        <p:toolbarGroup align="right">  
+                            <h:commandButton
+                                id="botonSiguienteNormal"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{identificacionSolicitanteModificacionBean.swBoton}"
+                                action="#{identificacionSolicitanteModificacionBean.irIdentificacionRepresentanteGeneralBoton()}">
+                            </h:commandButton>
+                            <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{!identificacionSolicitanteModificacionBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#{identificacionSolicitanteModificacionBean.irIdentificacionRepresentanteGeneralBoton()}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>  
+                    </p:toolbar>  
+                </div>
+            </p:panel> 
+        </h:form>
+
+
+
+        <!-- debe ir todo los formularios de los paneles-->
+
+        <h:form id="form2">
+            <p:dialog header="#{msgs.apoderadoDatosContacto}" widgetVar="Busca" resizable="false" closable="false" modal="true"
+                      width="980" height="300" showEffect="fade" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:dataTable var="itemPersona" 
+                                 id="listaPersona"
+                                 rowKey="#{itemPersona.idPersona}"
+                                 value="#{identificacionSolicitanteModificacionBean.listadoDePersonaSegunUsuario()}" 
+                                 widgetVar="listaPersona"
+                                 scrollable="true" scrollHeight="100" 
+                                 resizableColumns="true"
+                                 selection="#{identificacionSolicitanteModificacionBean.personaSeleccionada}"
+                                 style="width: 90%">
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="#{msgs.solicitantelabelTituloPersona}"/>
+                            </p:outputPanel>
+                        </f:facet> 
+                        <p:column filterBy="#{itemPersona.nombres}" sortBy="#{itemPersona.nombres}" headerText="#{msgs.solicitantelabelNombres}" width="20" >  
+                            <h:outputText value="#{itemPersona.nombres}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemPersona.apellidoPaterno}" sortBy="#{itemPersona.apellidoPaterno}" headerText="#{msgs.solicitantelabelApellidoPaterno}" width="40">  
+                            <h:outputText value="#{itemPersona.apellidoPaterno}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{itemPersona.apellidoMaterno}" sortBy="#{itemPersona.apellidoMaterno}" headerText="#{msgs.solicitantelabelApellidoMaterno}" width="40">  
+                            <h:outputText value="#{itemPersona.apellidoMaterno}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.solicitantelabelSeleccionePersona}" width="20" style="text-align: center">
+                            <p:commandButton id="boton"
+                                             update=":form"
+                                             icon="ui-icon-transfer-e-w" 
+
+                                             actionListener="#{identificacionSolicitanteModificacionBean.cargaDatosPersonaDialogo(event,itemPersona)}"
+                                             onclick="PF('Busca').hide();"
+                                             > 
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:spacer height="10" />
+                        </f:facet>  
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="#{msgs.solicitantelabelSeleccionePersonaCancelar}"
+                            onclick="PF('Busca').hide();"
+                            icon="ui-icon-arrowreturnthick-1-w"/>
+                    </div>
+                </div>
+            </p:dialog>  
+
+            <p:dialog header="#{msgs.solicitanteEmpresa}" widgetVar="BuscaEmpresa" resizable="false" closable="false" modal="true"
+                      width="950" height="300" showEffect="fade"  style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel>
+                        <p:dataTable var="itemEmpresa" 
+                                     id="listaEmpresa"
+                                     rowKey="#{itemEmpresa.idEmpresa}"
+                                     value="#{identificacionSolicitanteModificacionBean.listadoDeEmpresaSegunUsuario()}" 
+                                     widgetVar="listaEmpresa"
+                                     scrollable="true" scrollHeight="100" 
+                                     resizableColumns="true"
+                                     selection="#{identificacionSolicitanteModificacionBean.empresaSeleccionada}"
+                                     style="width: 100%">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}" /> 
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column  filterBy="#{itemEmpresa.nombreRepresentante}" sortBy="#{itemEmpresa.nombreRepresentante}" headerText="#{msgs.solicitantelabelRazonSocial}" width="8%">  
+                                <h:outputText value="#{itemEmpresa.nombreRepresentante}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{itemEmpresa.numeroDocumento}" sortBy="#{itemEmpresa.numeroDocumento}" headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="10%">  
+                                <h:outputText value="#{itemEmpresa.numeroDocumento}" />
+                            </p:column>  
+
+                            <p:column headerText="#{msgs.solicitantelabelLugarEmpresaSelecciona}" width="10%" style="width:32px;text-align: center">
+
+                                <p:commandButton id="botonEmpresa"
+                                                 update=":form"
+                                                 icon="ui-icon-transfer-e-w" 
+                                                 actionListener="#{identificacionSolicitanteModificacionBean.cargaDatosEmpresaDialogo(event,itemEmpresa)}"
+                                                 onclick="PF('BuscaEmpresa').hide();"
+                                                 >
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="#{msgs.solicitantelabelSeleccionaEmpresaCancelar}"
+                                onclick="PF('BuscaEmpresa').hide();"
+                                icon="ui-icon-arrowreturnthick-1-w"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+        </h:form>
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>            

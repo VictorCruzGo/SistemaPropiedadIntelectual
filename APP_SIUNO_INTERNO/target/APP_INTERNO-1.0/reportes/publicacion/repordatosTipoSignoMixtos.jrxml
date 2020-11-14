@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="repordatosTipoSignoMixtos" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="43" bottomMargin="0" uuid="d8296bfe-7108-46bc-af96-935bc73dc0fa">
+	<property name="ireport.zoom" value="1.3310000000000046"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="numeroPublicacion" class="java.lang.Long"/>
+	<field name="nombreSigno" class="java.lang.String"/>
+	<field name="generoSigno" class="java.lang.String"/>
+	<field name="tipoSigno" class="java.lang.String"/>
+	<field name="numeroSolicitud" class="java.lang.String"/>
+	<field name="fechaSolicitud" class="java.lang.String"/>
+	<field name="esDenominativo" class="java.lang.String"/>
+	<field name="nombreTitular" class="java.lang.String"/>
+	<field name="direccionTitular" class="java.lang.String"/>
+	<field name="paisTitular" class="java.lang.String"/>
+	<field name="nombreApoderado" class="java.lang.String"/>
+	<field name="direccionApoderado" class="java.lang.String"/>
+	<field name="datosDeClaseNiza" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="descripcionLogo" class="java.lang.String"/>
+	<field name="txtDescripcionLogo" class="java.lang.String"/>
+	<field name="foto" class="java.lang.Object"/>
+	<field name="marcaAgua" class="java.lang.String"/>
+	<field name="esPrepublicacion" class="java.lang.String"/>
+	<background>
+		<band height="394">
+			<image scaleImage="FillFrame">
+				<reportElement x="88" y="0" width="405" height="394" uuid="85e4d355-96de-478b-a9f1-90410b0b45c8">
+					<printWhenExpression><![CDATA[$F{esPrepublicacion}.equals( "PREP" )]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{marcaAgua}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<detail>
+		<band height="170" splitType="Stretch">
+			<frame>
+				<reportElement positionType="Float" x="87" y="80" width="315" height="10" uuid="d29d02fc-00de-49a5-8133-8425252d55b2"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="115" y="1" width="198" height="9" uuid="af8b6bc5-bf49-4209-b7f0-23f8da6c625d"/>
+					<textElement textAlignment="Justified">
+						<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{direccionTitular}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="2" width="106" height="7" uuid="32e91495-af2f-4a8f-8eec-7a535d6be223"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[ DATOS CONTACTO TITULAR(ES)]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="89" y="116" width="312" height="10" uuid="18c730ee-bb63-41a4-8912-833533dc72a7"/>
+				<staticText>
+					<reportElement x="0" y="3" width="117" height="7" uuid="7bc85bc4-f140-45e3-8cc8-ce96ce1efc9a"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[DATOS CONTACTO APODERADO(S)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="113" y="1" width="198" height="9" uuid="ba5cc299-5d7b-4f4b-a664-a84d5e4f0e85"/>
+					<textElement textAlignment="Justified">
+						<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{direccionApoderado}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="201" y="71" width="200" height="9" uuid="a038b86c-f3e0-4422-9ef1-cfa880edbe03"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreTitular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="56" width="21" height="9" forecolor="#FEFEFE" uuid="22bc76c0-b60e-436d-8f13-6eb544300c97"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{esDenominativo}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape">
+				<reportElement x="406" y="6" width="128" height="120" uuid="36e5d8b0-2464-4b08-96dd-64b952814779"/>
+				<imageExpression><![CDATA[$F{foto}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="89" y="14" width="100" height="7" uuid="ca9a80a2-5ec2-45d4-b768-ba119073c8f6"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEL SIGNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="89" y="70" width="100" height="7" uuid="dd4d0ae2-586d-42f9-8474-2e0be81a4dc3"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEL TITULAR(ES)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="27" width="100" height="7" uuid="81c6cec0-f7bd-4b9e-96ff-1a51c641ec50"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[GENERO DEL SIGNO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="59" y="55" width="28" height="9" forecolor="#FEFEFE" uuid="f4a27a9a-9cfe-4481-9dab-516528a4beb8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{esPrepublicacion}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="90" y="127" width="444" height="33" isRemoveLineWhenBlank="true" uuid="ba2a4246-2554-4aa6-8185-9624bcfc35fa"/>
+				<staticText>
+					<reportElement positionType="Float" x="1" y="3" width="56" height="7" uuid="ce27c5ca-fdd2-42a7-9ba0-a3b9ec3b020c">
+						<printWhenExpression><![CDATA[!$F{descripcionLogo}.equals( null )]]></printWhenExpression>
+					</reportElement>
+					<textElement>
+						<font size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[DESCRIPCION]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="13" width="444" height="10" isRemoveLineWhenBlank="true" uuid="3d5100ba-a6bf-40e9-b428-37248cf2bcc7"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descripcionLogo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="24" width="444" height="9" isRemoveLineWhenBlank="true" uuid="a13b7329-7e40-4a5c-980f-a3c3e2306d0f"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{txtDescripcionLogo}.trim()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement x="90" y="1" width="449" height="2" uuid="d1cc5b3c-9397-4c45-ac06-626a0ac27974"/>
+			</line>
+			<textField>
+				<reportElement positionType="Float" x="201" y="49" width="200" height="9" uuid="1019e82f-c622-4c9e-94b5-94aa6de0d3e9"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroSolicitud}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="89" y="105" width="312" height="10" uuid="cad4a37c-0b25-4649-9af5-3bc2b070f23f"/>
+				<staticText>
+					<reportElement x="1" y="2" width="104" height="7" uuid="73a6531d-ee76-4355-adca-79356a4f7fdf"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[NOMBRE DEL APODERADO(S)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="113" y="1" width="198" height="9" uuid="e917d4f7-4fdf-46f1-8c29-3342fd58335d"/>
+					<textElement>
+						<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombreApoderado}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement positionType="Float" x="89" y="60" width="81" height="7" uuid="5a204b0c-1c81-4547-9988-3555ea96bb37"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[FECHA DE SOLICITUD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="89" y="49" width="100" height="7" uuid="cd95bfe7-0881-4a8e-b4c4-5af44c81e63d"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="6" isBold="false"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE SOLICITUD]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="201" y="27" width="201" height="9" uuid="87fa6793-1510-409a-b9a6-8598b6a4435f"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generoSigno}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="192" y="12" width="202" height="13" forecolor="#FAFAFA" backcolor="#D7D0D0" uuid="1baf46ce-e905-4100-b0dc-3e46ef68ae0f"/>
+			</rectangle>
+			<textField>
+				<reportElement positionType="Float" x="201" y="60" width="200" height="9" uuid="9310653e-67ae-4028-ad50-0f6e2179b26c"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaSolicitud}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="88" y="93" width="313" height="10" uuid="934df58c-2d80-458a-a2e1-748e5de23c8e"/>
+				<staticText>
+					<reportElement x="2" y="2" width="86" height="7" uuid="3d261be8-9f33-4eb8-9da4-a0392fe97d9b"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[PAIS DEL TITULAR(ES)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="113" y="0" width="198" height="9" uuid="aab63c50-0cfe-4466-a6a6-434fb7a8cc8f"/>
+					<textElement>
+						<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{paisTitular}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="192" y="14" width="202" height="9" uuid="7ae2d9c3-52ea-40ee-a67b-58d4e50a269c"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreSigno}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="90" y="161" width="444" height="8" uuid="e02f4089-5dd0-4e46-8da0-d9c3164fa2a0"/>
+				<dataSourceExpression><![CDATA[$F{datosDeClaseNiza}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporClasesNiza.jasper"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement x="87" y="38" width="315" height="10" uuid="a1d089d5-c655-4cda-9bce-77b3d077d0b4"/>
+				<staticText>
+					<reportElement x="2" y="0" width="97" height="7" uuid="66a819ae-c877-4830-9a71-1e89324eab16"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="6" isBold="false"/>
+					</textElement>
+					<text><![CDATA[TIPO DE SIGNO]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="115" y="0" width="200" height="9" uuid="e35d4e40-3e1d-48ad-8e8c-71755c06628d"/>
+					<textElement>
+						<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipoSigno}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

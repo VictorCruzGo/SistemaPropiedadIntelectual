@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+
+            <p:panel header="#{recepcionDeDocumentosBean.titulo}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <div align="left" style="padding:0.7em 0.0em;">
+                    <div align="left" style="padding:1em 2.2em;">
+                    </div>   
+                    <div align="center" style="padding:1em 2.2em;">   
+                        <p:panel id="panelMinimos" rendered="#{recepcionDeDocumentosBean.listaFormularioVentanillaMinimos.size()>0}">
+                            <p:dataTable var="plantillaMinimos" value="#{recepcionDeDocumentosBean.listaFormularioVentanillaMinimos}"
+                                         style="width: 100%" rendered="#{recepcionDeDocumentosBean.listaFormularioVentanillaMinimos.size()>0}">
+                                <p:column width="180"  headerText="#{recepcionDeDocumentosBean.tituloPrimero}" style="text-align:left">
+                                    <p:selectBooleanCheckbox value="#{plantillaMinimos.datoTramiteVentanillaEForma.presento}" >
+                                        
+                                    </p:selectBooleanCheckbox>
+                                    <p:spacer width="10" height="0"/>
+                                    <h:outputText value="#{plantillaMinimos.datoTramiteVentanillaEForma.descripcion}"/>
+                                </p:column>
+                                <p:column width="60" style="border-left-style: hidden;text-align:left">
+                                    <p:selectManyCheckbox id="minimosHijoCheck"  value="#{plantillaMinimos.valorTramiteVentanillaEFormaRespuestaLista}" layout="grid" columns="1">
+                                        <f:selectItems value="#{plantillaMinimos.valorTramiteVentanillaEFormaLista}" var="h" itemLabel="#{h.dominioOpcion}" itemValue="#{h.dominioOpcion}"/>
+                                    </p:selectManyCheckbox>
+                                </p:column>
+                                <p:column width="100" style="border-left-style: hidden">
+                                    <h:inputText id="minimoDescripcion" value="#{plantillaMinimos.datoTramiteVentanillaEForma.observacion}" style="width: 85%" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+
+                    <div align="center" style="padding:0.7em 0.0em;">
+                        <p:panel id="panelOpcionales" rendered="#{recepcionDeDocumentosBean.listaFormularioVentanillaOpcionales.size()>0}">
+                            <p:dataTable var="plantillaOpcionales" value="#{recepcionDeDocumentosBean.listaFormularioVentanillaOpcionales}" style="width: 100%" rendered="#{recepcionDeDocumentosBean.listaFormularioVentanillaOpcionales.size()>0}"> 
+                                <p:column width="53%" headerText="#{recepcionDeDocumentosBean.tituloSegundo}" style="text-align:left">
+                                    <p:selectBooleanCheckbox value="#{plantillaOpcionales.datoTramiteVentanillaEForma.presento}" >
+                                        
+                                    </p:selectBooleanCheckbox>
+                                    <p:spacer width="10" height="0"/>
+                                    <h:outputText value="#{plantillaOpcionales.datoTramiteVentanillaEForma.descripcion}"/>
+                                </p:column>
+                                <p:column width="18%" style="border-left-style: hidden;text-align:left">
+                                    <p:selectManyCheckbox id="opcionalesHijoCheck" value="#{plantillaOpcionales.valorTramiteVentanillaEFormaRespuestaLista}" layout="grid" columns="1">
+                                        <f:selectItems value="#{plantillaOpcionales.valorTramiteVentanillaEFormaLista}" var="h" itemLabel="#{h.dominioOpcion}" itemValue="#{h.dominioOpcion}"/>
+                                    </p:selectManyCheckbox>
+                                </p:column>
+                                <p:column width="29%" style="border-left-style: hidden">
+                                    <h:inputText id="opcionalesDescripcion" value="#{plantillaOpcionales.datoTramiteVentanillaEForma.observacion}" style="width: 85%" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+
+                    <div align="center" style="padding:0.5em 0.0em;">
+                        <p:panel id="panelOtros">
+                            <p:dataTable id="listaOtros" var="plantillaOtros" value="#{recepcionDeDocumentosBean.listaFormularioVentanillaOtros}" style="width: 100%" 
+                                         rendered="#{recepcionDeDocumentosBean.listaFormularioVentanillaOtros.size()>0}"> 
+                                <p:column width="180"  headerText="#{recepcionDeDocumentosBean.tituloTercero}" style="text-align:left">
+                                    <p:selectBooleanCheckbox value="#{plantillaOtros.datoTramiteVentanillaEForma.presento}" />
+                                    <p:spacer width="10" height="0"/>
+                                    <h:outputText value="#{plantillaOtros.datoTramiteVentanillaEForma.descripcion}"/>
+                                </p:column>
+                                <p:column width="60" style="border-left-style: hidden;text-align:left"/>
+                                <p:column width="100" style="border-left-style: hidden">
+                                    <h:inputText value="#{plantillaOtros.datoTramiteVentanillaEForma.observacion}" style="width: 85%"  />
+                                    <p:spacer width="5" />
+                                    <p:commandButton
+                                        actionListener="#{recepcionDeDocumentosBean.eliminaFormularioVentanillaPojo(recepcionDeDocumentosBean.listaFormularioVentanillaOtros, plantillaOtros)}"
+                                        update=":form:panelOtros"
+                                        icon="ui-icon-trash">
+                                        <f:ajax execute="@this" event="click"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+
+                    <div align="center" style="padding:0.7em 0.0em;">
+                        <p:panel id="panelAgregarOtros">
+                            <h:panelGrid columns="1" style="width: 100%">
+                                <p:outputLabel value="Otros Documentos" styleClass="colorLabelSenapi"/>
+                                <h:panelGrid columns="2" style="width: 100%">
+                                    <h:panelGrid columns="2">
+                                        <p:selectBooleanCheckbox value="#{recepcionDeDocumentosBean.checkAdiciona}">
+                                            
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="Otros"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid id="adicionaOtros" columns="5" style="width: 80%">
+                                        <h:outputLabel value="Tipo documento:"/>
+                                        <h:inputText value="#{recepcionDeDocumentosBean.padreAdiciona}" style="width: 90%" />
+                                        <h:outputLabel value="Nombre documento:"/>
+                                        <h:inputText value="#{recepcionDeDocumentosBean.observacionAdiciona}" style="width: 90%" />
+                                        <p:commandButton
+                                            value="Adiciona Registro"
+                                            actionListener="#{recepcionDeDocumentosBean.adicionaRegistroNuevoPlantillaActionListener(recepcionDeDocumentosBean.listaFormularioVentanillaOtros)}"
+                                            update = "panelAgregarOtros, panelOtros"
+                                            icon="ui-icon-disk">
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel> 
+                    </div>
+                    <p:panel>
+                        <div>
+                            <h:panelGrid columns="2">
+
+                                <p:outputLabel value="Nro. Fojas" />
+                                <p:inputText value="#{recepcionDeDocumentosBean.nroFojas}"/>
+
+                                <p:outputLabel value="Observacion:"/>
+                                <p:inputTextarea id="observacion" style="width: 500px" value="#{recepcionDeDocumentosBean.tramiteObservacion}" rows="5" cols="60" 
+                                                 counter="contadorDesLogo" maxlength="4000" counterTemplate="{0}  #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" />
+                                <h:outputLabel value=""/>
+                                <h:outputText id="contadorDesLogo" style="color: #045491"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+
+                    <div align="center" style="padding:1em 0.0em;">
+                        <p:toolbar style="width: 99%;">
+                            <p:toolbarGroup align="right"> 
+                                <p:commandButton
+                                    id="botonImprimeUno"
+                                    value="Retornar Bandeja"
+                                    action="#{recepcionDeDocumentosBean.volverBandeja()}"
+                                    ajax="false"
+                                    icon="ui-icon-arrowreturnthick-1-w"
+                                    >
+                                </p:commandButton>
+                                <p:commandButton
+                                    id="botonImprime"
+                                    value="Imprimir"
+                                    action="#{recepcionDeDocumentosBean.imprimePlantillaFormularioVentanilla()}"
+                                    ajax="false"
+                                    update="@none"
+                                    icon="ui-icon-print"
+                                    >
+
+                                </p:commandButton>
+                            </p:toolbarGroup>  
+                        </p:toolbar>  
+                    </div>
+
+                </div>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

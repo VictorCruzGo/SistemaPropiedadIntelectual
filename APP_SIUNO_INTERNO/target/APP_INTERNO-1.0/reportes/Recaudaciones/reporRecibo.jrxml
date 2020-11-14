@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporRecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="43" bottomMargin="0" uuid="b4d3a988-1fa9-4db6-883b-b17ad69c8812">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="montoNumeral" class="java.lang.String"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="montoLiteral" class="java.lang.String"/>
+	<parameter name="tipo" class="java.lang.String"/>
+	<parameter name="tramite" class="java.lang.String"/>
+	<parameter name="dia" class="java.lang.String"/>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="anio" class="java.lang.String"/>
+	<parameter name="imageFirma" class="java.lang.String"/>
+	<parameter name="nombreFirma" class="java.lang.String"/>
+	<title>
+		<band height="408" splitType="Stretch">
+			<textField>
+				<reportElement x="510" y="2" width="100" height="20" uuid="369fc77c-c4e6-43cf-a398-f83400cd9ec5"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-BoldOblique"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montoNumeral}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="80" width="535" height="20" uuid="8d587b87-1008-4c20-af76-31254aae7f42"/>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="105" y="103" width="499" height="20" uuid="032dbd37-7466-4461-b10e-5b45c11da7a3"/>
+				<textFieldExpression><![CDATA[$P{montoLiteral}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="135" y="149" width="431" height="20" uuid="3a08a9c0-5fe0-4400-aec8-bac6c5876f8c"/>
+				<textFieldExpression><![CDATA[$P{tipo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="129" y="223" width="373" height="20" uuid="c07d92b7-cc8b-43f1-98de-3dc160052283"/>
+				<textFieldExpression><![CDATA[$P{tramite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="252" width="53" height="20" uuid="3a1bf468-8e6c-4248-8465-2470439f9013"/>
+				<textFieldExpression><![CDATA[$P{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="253" width="75" height="20" uuid="88059997-5568-4455-bb5f-a6f1dc606ff3"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="517" y="254" width="74" height="20" uuid="347e1320-ef6c-4a01-8c7d-a4d20962bc45"/>
+				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="222" y="276" width="142" height="37" uuid="a783fd79-2b24-470e-9bcb-c7199e1b5242"/>
+				<imageExpression><![CDATA[$P{imageFirma}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="228" y="316" width="208" height="20" uuid="b10ca61e-0a0f-433d-ad23-0d9774088cf2"/>
+				<textFieldExpression><![CDATA[$P{nombreFirma}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

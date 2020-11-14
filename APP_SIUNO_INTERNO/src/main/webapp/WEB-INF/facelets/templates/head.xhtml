@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:body>
+        <h:form id="fr">
+            <div class="barra" style="width: 100%">
+                <div align="center">
+                    <p:toolbar style="width: 99%;">
+                        <f:facet name="left" class="text-height:5px">  
+                            <h:panelGrid columns="5">
+                                <p:commandButton 
+                                    value="#{sessionState.idioma=='es'?'Change Languaje':'Cambiar Idioma'}"
+                                    action="#{menuUsuarioBean.actualizaMenu()}"
+                                    update="idioma,bandera"
+                                    ajax="false" rendered="false"/>
+                                <p:outputLabel value="Seleccione Idioma:" rendered="#{sessionState.idUsuarioLogin != null ? false : true}"/>
+                                <p:selectOneMenu id="idioma" value="#{sessionState.idioma}" style="width:150px" rendered="#{sessionState.idUsuarioLogin != null ? false : true}">
+                                    <f:selectItem itemLabel="Español" itemValue="es" />
+                                    <f:selectItem itemLabel="English" itemValue="en" />
+                                    <p:ajax event="change" listener="#{language.modificaidioma(e)}" update="@all"/>
+                                </p:selectOneMenu>
+                                <p:graphicImage id="bandera" value="#{sessionState.idioma=='en'?'/resources/images/EstadosUnidos10.png':'/resources/images/espania10.png'}" rendered="#{sessionState.idUsuarioLogin != null ? false : true}"/>
+                            </h:panelGrid>
+                        </f:facet>
+                        <f:facet name="left">  <p:commandButton value="#{msgs.labelBuscar}"  action="busquedaModificacionGeneral"  ajax="false"/>
+                        </f:facet>
+                        <f:facet name="right" >  
+                            <h:panelGrid columns="8" rendered="#{sessionState.authenticated}">
+                                <h:outputLabel value="#{msgs.encabezadoBienvenido}"
+                                               style="padding-bottom: 10px; color: #5EA226;font: 200"/>
+                                <h:outputLabel value="#{sessionState.login}" 
+                                               style="padding-bottom: 10px"/>
+                                <span class="ui-separator">
+                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                </span>
+                                <p:commandButton icon="ui-icon-key" action="#{loginUsuarioBean.irCambiaContrasenia()}"  value="#{msgs.cambioContrasenia}" style="padding-bottom: 1px; color: #5EA226">
+                                </p:commandButton>
+                                <span class="ui-separator">
+                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                </span>
+                                <p:commandButton  icon="ui-icon-power" action="#{loginUsuarioBean.cerrarSesion()}" value="#{msgs.cerrarsesion}" style="   padding-bottom: 1px;color: #5EA226">
+                                </p:commandButton>      
+                                <p:spacer width="24" />
+
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:toolbar>  
+                    <div align="center">
+                        <p:menubar style="background: #E2E7E2;">
+                            <p:submenu rendered="#{sessionState.idUsuarioLogin != null ? false:true}"/>
+                            <c:forEach var="menuNivelUno" items="#{menuUsuarioBean.listaMenuNivelUno}" rendered="#{sessionState.idUsuarioLogin != null ? true:false }">        
+                                <p:submenu label="#{menuNivelUno.nombre}">
+                                    <c:forEach var="menuNivelDos" items="#{menuUsuarioBean.listaMenuDescendientes(menuNivelUno)}">                                    
+                                        <p:menuitem value="#{menuNivelDos.nombre}" url="#{menuNivelDos.pagina.rutaNavegacion}" 
+                                                    rendered="#{!menuUsuarioBean.tieneDescendientes(menuNivelDos)}"/>
+                                        <p:submenu label="#{menuNivelDos.nombre}" rendered="#{menuUsuarioBean.tieneDescendientes(menuNivelDos)}" >
+                                            <c:forEach var="menuNivelTres" items="#{menuUsuarioBean.listaMenuDescendientes(menuNivelDos)}">
+                                                <p:menuitem value="#{menuNivelTres.nombre}"  action="#{menuUsuarioBean.navegaPagina()}">
+                                                    <f:setPropertyActionListener target="#{menuUsuarioBean.pagina}" value="#{menuNivelTres.pagina}"/>
+                                                </p:menuitem>
+                                            </c:forEach>                                        
+                                        </p:submenu>
+                                    </c:forEach>
+                                </p:submenu>                            
+                            </c:forEach>                          
+                        </p:menubar>
+<!--                        <h:selectManyMenu id="subscriptions"
+                                          value="# {subscriptionController.subscriptions}">
+                            <f:selectItem id="item1" itemLabel="Bandeja de Tramites" itemValue="1" />
+                            <f:selectItem id="item2" itemLabel="Solicitud de Registro de Signo Distintivo (PI-100)" itemValue="2" />
+                            <f:selectItem id="item3" itemLabel="Solicitu de Regsitro de Nombre Comercial, Rotulo Comercial o Enseñas (PI-101) " itemValue="3" />
+                            <f:selectItem id="item4" itemLabel="" itemValue="4" />
+                            <f:selectItem id="item5" itemLabel="Web" itemValue="5" />
+                        </h:selectManyMenu>    -->
+
+
+
+                    </div>
+                </div>              
+            </div>                             
+        </h:form>
+    </h:body>
+</html>

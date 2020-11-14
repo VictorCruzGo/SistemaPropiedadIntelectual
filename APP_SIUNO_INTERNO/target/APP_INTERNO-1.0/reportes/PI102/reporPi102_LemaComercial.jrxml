@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi102_LemaComercial" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a5526d42-8d47-4f18-b167-f8799848c9e8">
+	<property name="ireport.zoom" value="2.5937424601000054"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="signo" class="java.lang.String"/>
+	<field name="nrosolicitud" class="java.lang.String"/>
+	<field name="nroCertificado" class="java.lang.String"/>
+	<field name="vigente" class="java.lang.String"/>
+	<field name="frase" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="140" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="1" width="540" height="10" backcolor="#C0C0C0" uuid="f9aeb7e3-2708-476d-a5ce-8d80dcf59cba"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="1" y="13" width="540" height="10" backcolor="#C0C0C0" uuid="b13d8a10-4377-4d50-a243-4174b34988fb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="14" width="219" height="9" uuid="d5d05407-4ae2-483e-970c-63d0b1689e9d"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[2.1 Frase que lo Constituye]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="3" width="219" height="9" uuid="29b2e7df-89b2-4486-b26f-f1026cb0b5b9"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2. DATOS DEL LEMA COMERCIAL SOLICITADO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="9" y="28" width="532" height="38" uuid="bd09c19b-e01d-425a-9280-9a92eb4dddb3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="1" y="68" width="540" height="10" backcolor="#C0C0C0" uuid="09d46dde-8cd5-4008-9270-99f47211fbb2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="68" width="219" height="9" uuid="a9022d93-ab1c-4b0f-a996-a308e005e9f4"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[2.2 Para usarse como complemento  de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="83" width="114" height="10" uuid="6f7e1a9b-d576-45c5-abd0-df6e657330b8"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Signo Solicitado o Registrado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="98" width="100" height="10" uuid="4458674e-73a5-4da6-b324-81dc5ec58741"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Solicitud de Trámite Nro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="113" width="100" height="10" uuid="c23c53cd-40a3-440b-a9dd-b354b839b3c1"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Certificado Nro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="128" width="100" height="10" uuid="4e862796-e357-48a7-aa8f-c5053e0d231a"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Vigente Hasta:]]></text>
+			</staticText>
+			<rectangle radius="1">
+				<reportElement x="236" y="82" width="208" height="11" uuid="7924d87a-a25e-4733-a21c-1eba46230cf2"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="1">
+				<reportElement x="236" y="97" width="208" height="12" uuid="ae858f88-3de1-46ce-a712-f63188af0951"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="1">
+				<reportElement x="236" y="112" width="208" height="12" uuid="84895626-62ee-4ea8-8cfd-eba7fa5c960d"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="1">
+				<reportElement x="236" y="127" width="208" height="11" uuid="e122c1bf-b5ac-48a5-aaf9-62d7784fe4e0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="83" width="202" height="12" uuid="899ef7dc-b7a2-47fc-8b60-121f31fa588f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{signo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="99" width="204" height="12" uuid="0d5b6a8f-7de2-4d01-871b-79c0cb0ca681"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrosolicitud}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="241" y="114" width="201" height="11" uuid="e23912bb-b164-4f3c-88ea-d221f84659c0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroCertificado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="127" width="202" height="12" uuid="b01efaab-fd0f-4663-98c3-42fa1b5cc864"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vigente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="10" y="27" width="531" height="39" uuid="2081214b-f6e7-4751-a0a1-a79fd81e7ee4"/>
+				<box topPadding="1" leftPadding="1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{frase}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

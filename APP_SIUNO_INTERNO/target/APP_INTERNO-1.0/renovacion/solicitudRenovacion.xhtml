@@ -1,0 +1,1725 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <div align="center">
+                <p:panel  id="panelGeneral" style="width: 98%; text-align: center; size: 100px; font-size: 100px " header="FORMULARIO DE SOLICITUD DE RENOVACIÓN DE REGISTRO DE SIGNO DISTINTIVO" />
+            </div>
+            <p:fieldset id="panelToggleable" legend="#{msgs.solicitanteFieldSet}" 
+                        toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <h:panelGrid  columns="10" cellpadding="5" style="border-style: hidden" id="tipoSolicitnateVista">
+                    <div align="left">
+                        <h:outputLabel value="#{msgs.solicitanteTipoSolicitante}"/>
+                        <h:selectOneMenu id="comboTipoSolicitante" value="#{renovacionesBean.tipoSolicitante}" style="text-align:left"
+                                         title="OBLIGATORIO. Escoja un tipo de Solicitante o Titular" disabled="#{renovacionesBean.desabilitaTipoSolicitanteCarga}">
+                            <f:selectItems value="#{renovacionesBean.listadoTipoSolicitantedPersonaSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                            <p:ajax event="change" 
+                                    update="btnBuscaPersonaEmpresa :form:panelGridDocumentos panelGridJuridico" 
+                                    listener="#{renovacionesBean.activaCamposNaturalJuridicoAction(e)}" />        
+                        </h:selectOneMenu> 
+                    </div>
+                    <p:separator id="separador" style="width: #{renovacionesBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                    <h:panelGrid  id="btnBuscaPersonaEmpresa" columns="5" cellpadding="5">
+                        <p:commandButton id="buscaEmpresaConMismoCi" type="button" value="Lista de Personas con mismo CI" 
+                                         update=":form2:listaPeronasCi" onclick="PF('BuscaPersonaMismoCi').show()" icon="ui-icon-arrowthickstop-1-s"
+                                         rendered="#{renovacionesBean.habilitaBotonCargarListaPersonas}"/>
+                        <p:commandButton id="buscaPersonaConMismoCi" type="button" value="Lista de Empresas con mismo NIT"
+                                         onclick="PF('BuscaEmpresaMismoNit').show()" icon="ui-icon-arrowthickslistadoTipoSolicitantedPersonaSDtop-1-s"
+                                         update=":form2:listadoEmpresasCI"
+                                         rendered="#{renovacionesBean.habilitaBotonCargarListaEmpresas}"/>
+                        <!--                        <h:commandButton id="limpiaFormulario" disabled="# {renovacionesBean.desabilitaTipoSolicitanteCarga}"
+                                                                 value="# {msgs.solicitanteLimpiaFormulario}"       >
+                                                    <f:ajax execute="@this" render=":form:panelGridDocumentos" event="click" 
+                                                            listener="# {renovacionesBean.limpiaFormularioPersonaEmpresa(event)}"/>
+                                                </h:commandButton>                    -->
+                    </h:panelGrid>    
+                </h:panelGrid>
+                <h:panelGrid columns="1" id="panelGridDocumentos">
+                    <h:panelGrid columns="6" id="formularioDatosPersonaEmpresa">
+                        <h:panelGrid columns="3" id="FormularioNroDocumento">
+                            <h:outputLabel value="*" style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.solicitanteNroDocumento}"/>  
+                            <h:inputText id="nroDocumento" 
+                                         style="#{renovacionesBean.cambiaBordeCampoNumeroDocumento==true?'border-color: #C00':' '};" 
+                                         value="#{renovacionesBean.numeroDocumento}"
+                                         disabled="#{renovacionesBean.campoNumeroDocumentoDisable}"
+                                         size="20" maxlength="25" autocomplete="off"
+                                         title="OBLIGATORIO. Número del documento de identidad del Solicitante o Titular, en caso de no contar con el dato, colocar valor 0.">
+                            </h:inputText>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2"  id="formularioPersonaEmpresa">
+                            <h:panelGrid columns="3" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.solicitanteTipoDocumento}"/>  
+                                <h:selectOneMenu id="tipoDocumento" 
+                                                 value="#{renovacionesBean.tipoDocumentoIdentidad}" 
+                                                 disabled="#{renovacionesBean.campoTipoDocumentoDisable}"
+                                                 style="#{renovacionesBean.cambiaBordeCampoTipoDocumento==true?'border-color: #C00':' '}"
+                                                 title="OBLIGATORIO. Tipo de documento de identidad del Solicitante o Titular, en caso de no contar con el dato, colocar valor Otro.">  
+                                    <f:selectItem   id="Documento" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{renovacionesBean.listadoTipoDocumentoIdentidadPorTipoSolicitante}" 
+                                                   var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    <f:ajax event="change" render="formularioPersonaEmpresa" listener="#{renovacionesBean.activaComboLugarExpedicion(e)}" />
+                                </h:selectOneMenu>
+                            </h:panelGrid> 
+                            <h:panelGrid columns="3" style="text-align: left" rendered="#{renovacionesBean.campoLugarExpedicionRendered}">
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                <h:selectOneMenu id="lugar" value="#{renovacionesBean.lugarExpedicion}"
+                                                 disabled="false"
+                                                 rendered="#{renovacionesBean.campoLugarExpedicionRendered}"
+                                                 style="#{renovacionesBean.cambiaBordeCampoLugarExpedicion==true?'border-color: #C00':' '}"
+                                                 title="OBLIGATORIO. Seleccione el Lugar de Expedicion del documento de Identidad.">
+                                    <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{renovacionesBean.listadoCiudadClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                </h:selectOneMenu>
+                            </h:panelGrid> 
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="panelGridJuridico">
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"
+                                           rendered="#{renovacionesBean.campoRazonSocialRendered}"/>  
+                            <h:outputLabel value="#{msgs.solicitanteRazonSocial}" rendered="#{renovacionesBean.campoRazonSocialRendered}"/>
+                        </h:panelGrid> 
+                        <h:inputText id="razonSocial" style="#{renovacionesBean.cambiaBordeCampoRazonSocial==true?'border-color: #C00':' '};"
+                                     rendered="#{renovacionesBean.campoRazonSocialRendered}"
+                                     disabled="#{renovacionesBean.campoRazonSocialDisable}"
+                                     value="#{renovacionesBean.empresa.nombreRepresentante}" size="70" maxlength="150"  
+                                     autocomplete="off" 
+                                     title="OBLIGATORIO. Nombre o Razon Social del Solicitante o Titular. (Número máximo de caracteres: 150)"/>                                                                                    
+                    </h:panelGrid>
+                    <h:panelGrid columns="7" id="panelNatural">
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"
+                                           rendered="#{renovacionesBean.campoNombreRendered}"/>  
+                            <h:outputLabel value="#{msgs.solicitanteNombre}" rendered="#{renovacionesBean.campoNombreRendered}"/>
+                        </h:panelGrid> 
+                        <h:inputText id="nombre" style="#{renovacionesBean.cambiaBordeCampoNombre==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.persona.nombres}" 
+                                     disabled="#{renovacionesBean.campoNombreDisable}"
+                                     rendered="#{renovacionesBean.campoNombreRendered}"
+                                     size="42" maxlength="50" autocomplete="off"
+                                     title="OBLIGATORIO. Primer Apellido del Solicitante o Titular. (Número máximo de caracteres: 150)"/>
+                        <h:outputLabel value="*" 
+                                       style="color: #C00"
+                                       rendered="#{renovacionesBean.campoApellidoPaternoRendered}"/>  
+                        <h:outputLabel value="#{msgs.solicitanteApellidoPaterno}" rendered="#{renovacionesBean.campoApellidoPaternoRendered}"/>
+                        <h:inputText id="apellidoPaterno" style="#{renovacionesBean.cambiaBordeCampoApellidoPaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.persona.apellidoPaterno}" 
+                                     disabled="#{renovacionesBean.campoApellidoPaternoDisable}"
+                                     rendered="#{renovacionesBean.campoApellidoPaternoRendered}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OBLIGATORIO. Primer Apellido del Solicitante o Titular. (Número máximo de caracteres: 150)"/>
+                        <h:outputLabel value="#{msgs.solicitanteApellidoMaterno}" rendered="#{renovacionesBean.campoApellidoMaternoRendered}"/>
+                        <h:inputText id="apellidoMaterno" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.persona.apellidoMaterno}" 
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     rendered="#{renovacionesBean.campoApellidoMaternoRendered}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Segundo Apellido del Solicitante o Titular. (Número máximo de caracteres: 150)"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" style="width: 50%" id="paisGenero">
+                        <h:panelGrid columns="3">
+                            <h:outputLabel value="*" 
+                                           style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.solicitantePais}"/>
+                            <h:selectOneMenu id="pais" value="#{renovacionesBean.paisNacionalidad}" 
+                                             style="#{renovacionesBean.cambiaBordeCampoPais==true?'border-color: #C00':' '};"
+                                             title="OBLIGATORIO. País de origen del Solicitante o Titular.">
+                                <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{renovacionesBean.listadoPaisesClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                            </h:selectOneMenu> 
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" id="GeneroPersona">
+                            <h:outputLabel value="#{msgs.solicitanteGenero}" rendered="#{renovacionesBean.campoGeneroRendered}"/>
+                            <h:selectOneRadio id="genero" value="#{renovacionesBean.genero}" 
+                                              disabled="false"
+                                              rendered="#{renovacionesBean.campoGeneroRendered}"
+                                              title="OBLIGATORIO: Seleccione su género.">
+                                <f:selectItems value="#{renovacionesBean.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                            </h:selectOneRadio>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" style="text-align: left">
+                        <h:outputLabel value="*" 
+                                       style="color: #C00"/>  
+                        <h:outputLabel value="#{msgs.solicitanteDatosContacto}" style="color: #{renovacionesBean.colorLabel}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3" id="domicilio">
+                        <h:outputLabel value="*" 
+                                       style="color: #C00"/>
+                        <h:outputLabel value="#{msgs.lmComercialDomicilio}"/>
+                        <h:inputText id="direccionUno" style="#{renovacionesBean.cambiaBordeCampoDomicilio==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.domicilio}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="130" maxlength="120" autocomplete="off"
+                                     title="OBLIGATORIO. Dirección domiciliaria del Solicitante o Titular. (Número máximo de caracteres: 200)"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="6" id="panelDatosContacto">
+                        <h:outputLabel value="#{msgs.lmComercialTelefonoUno}"/>
+                        <h:inputText id="telUno" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.telefonoUno}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) telefónico(s) del Solicitante o Titular."/>
+                        <h:outputLabel value="#{msgs.lmComercialTelefonoDos}" />
+                        <h:inputText id="telDos" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.telefonoDos}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) telefónico(s) del Solicitante o Titular."/>
+                        <h:outputLabel value="#{msgs.lmComercialTelefonoTres}" />
+                        <h:inputText id="telTres" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.telefonoTres}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) telefónico(s) del Solicitante o Titular."/>
+                        <h:outputLabel value="#{msgs.lmComercialCelularUno}" />
+                        <h:inputText id="celUno" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.celUno}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) de celular(s) del Solicitante o Titular."/>
+
+                        <h:outputLabel value="#{msgs.lmComercialCelularDos}" />
+                        <h:inputText id="celDos" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.celDos}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) de celular(s) del Solicitante o Titular."/>
+
+                        <h:outputLabel value="#{msgs.lmComercialCelularTres}"/>
+                        <h:inputText id="celTres" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.celTres}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="35" maxlength="30" autocomplete="off"
+                                     title="OPCIONAL. Número(s) de celular(s) del Solicitante o Titular."/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="correo">
+                        <h:outputLabel value="#{msgs.lmComercialCorreoElectronico}"/>
+                        <h:inputText id="mailUno" style="#{renovacionesBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                     value="#{renovacionesBean.correoSolicitante}"
+                                     disabled="#{renovacionesBean.campoApellidoMaternoDisable}"
+                                     size="60" maxlength="60" autocomplete="off"
+                                     title="OPCIONAL. Cuenta de correo electrónico del Solicitante o Titular."/>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <div align="center">
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                        <div align="center" >
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </h:panelGrid>
+                        </div>
+                    </p:confirmDialog>
+                </div>
+                <div align="center" style="padding:1em 1em;">
+                    <h:panelGrid columns="1" style="text-align: center">
+                        <h:outputLabel value="#{msgs.labelBotonesAdicionaSolicititante}" style="color: #{modificacionBean.colorLabel}"/>    
+                        <p:commandButton id="adicionaRegistroPersonaEmpresa"
+                                         value="#{!renovacionesBean.activaBotonModificarSolicitud?msgs.solicitanteGuarda:msgs.solicitanteModifica}"
+                                         disabled="#{renovacionesBean.campoAdicionaRegistroPersonaEmpresaDisable}"
+                                         actionListener="#{renovacionesBean.adicionaRegistroPersonaEmpresa()}"
+                                         update=":form:listaPersonaEmpresaSolicitante :form:formularioPersonaEmpresa :form:panelGridDocumentos :form:mensajeGeneral :form:panelLista :form:comboTipoSolicitante"
+                                         icon="ui-icon ui-icon-disk"
+                                         title="Agregar un Solicitante o Titular, a la lista">
+                            <f:ajax execute="@this" event="click"/>
+                        </p:commandButton>
+                    </h:panelGrid>
+                </div>
+
+
+                <div align="center" style="padding:1em 2.2em;" >
+                    <h:panelGrid columns="1" id="panelLista" style="width: 90%" > 
+                        <h:dataTable var="itemPersonaEmpresaPojo" 
+                                     id="listaPersonaEmpresaSolicitante"
+                                     value="#{renovacionesBean.listaNaturalJuridicoPojo}" 
+                                     styleClass="order-table"
+                                     cellpadding="1" cellspacing="1" width="100%" rules="all"  border="1" 
+                                     headerClass="order-table-header"
+                                     rowClasses="order-table-odd-row,order-table-even-row" columnClasses="order-table-odd-row,order-table-even-row"
+                                     style="width: 90%;">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}/PERSONAS NATURALES" />
+                                </p:outputPanel>
+                            </f:facet> 
+
+                            <h:column >  
+                                <f:facet name="header" >#{msgs.lmComercialTablaCampoNumeroDoc}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneNumeroDeSolicitante(itemPersonaEmpresaPojo)}" />
+                            </h:column>                            
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoRazonSocialNombre}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneNombreDeSolicitante(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoTipoSolicitante}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneTipoSolicitante(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoDireccion}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneDireccionSolicitnate(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoTelefono}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneTelefono(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoCelular}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneCelular(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>  
+                                <f:facet name="header">#{msgs.lmComercialTablaCampoCorreo}</f:facet>
+                                <h:outputText value="#{renovacionesBean.obtieneCorreoElectronico(itemPersonaEmpresaPojo)}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{msgs.mensajeModificar}</f:facet>
+                                <p:commandButton id="butonModificaEmpresaLista" 
+                                                 update=":form:panelGridDocumentos :form:tipoSolicitnateVista :form:panelLista"  
+                                                 icon="ui-icon-pencil" 
+                                                 title="Modificar datos del Titular ó Solicitante"
+                                                 actionListener="#{renovacionesBean.cargaDatosSolicitanteParaModificar(itemPersonaEmpresaPojo)}">
+                                    <f:ajax  execute="@this"  event="click" />
+                                </p:commandButton>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{msgs.mensajeQuitar}</f:facet>
+
+                                <p:commandButton id="eliminaEmpresa" 
+                                                 update=":form:panelLista :form:listaPersonaEmpresaSolicitante "         
+                                                 icon="ui-icon-circle-minus" 
+                                                 title="#{msgs.mensajeQuitar}" 
+                                                 actionListener="#{renovacionesBean.eliminaEmpresaPersonaTramite(itemPersonaEmpresaPojo)}">
+                                    <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                </p:commandButton>                          
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGrid>  
+
+                </div>
+            </p:fieldset>
+            <p:dialog header="#{msgs.solicitanteListaApoderado}" widgetVar="cargaObjeto" resizable="false"
+                      width="950" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" />
+            </p:dialog>
+            <p:confirmDialog global="true" showEffect="fade" >
+                <div align="center">
+                    <h:panelGrid columns="3" style="text-align: left">
+                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:separator id="separadorSolicitante" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </h:panelGrid>
+                </div>
+            </p:confirmDialog>
+
+
+            <!--<h:inputText value="A P O D E R A D O"></h:inputText>-->
+            <p:fieldset id="panelToggleableApoderado" legend="#{msgs.apoderadoFieldset}" toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <div align="left">
+                    <h:panelGrid columns="3">
+                        <h:outputLabel value="#{msgs.apoderadoPreguntaTramitePersonal}"/>
+                        <h:selectOneRadio id="esTramiteUnipersonal" value="#{renovacionesBean.esTramiteUnipersonal}"
+                                          title="OBLIGATORIO. Marque Sí cuando la solicitud cuente con un Representante Legal o Apoderado.">
+                            <f:selectItem itemLabel="#{msgs.apoderadoRespuestaNo}" itemValue="true" />
+                            <f:selectItem itemLabel="#{msgs.apoderadoRespuestaSi}" itemValue="false" />
+                            <p:ajax event="change"  update="panelRepre" 
+                                    listener="#{renovacionesBean.limpiaDatosRepresentanteAction(e)}"/>
+                        </h:selectOneRadio>
+                    </h:panelGrid>
+                </div>
+                <h:panelGrid  columns="1" id="panelRepre" style="width: 100%">
+                    <h:panelGrid columns="3">
+                        <p:spacer width="750" height="0" ></p:spacer>
+                    </h:panelGrid>
+                    <p:panel id="panelRepresentante" rendered="#{renovacionesBean.campoPanelRepresentante}" style="width: 100% ; border-style: hidden">
+                        <h:panelGrid columns="1" style="width: 100%; padding-bottom: 2%">
+                            <h:column>
+                                <div align="right" style="width: 100%">
+                                    <p:commandButton id="limpiaFormularioRepresentante" 
+                                                     value="#{msgs.apoderadoLimpiaFormulario}"
+                                                     disabled="#{renovacionesBean.botonLimpiaFormularioApoderadoDisabled}">
+                                        <f:ajax execute="@this" render=":form:panelRepresentante" event="click"  listener="#{renovacionesBean.limpiaFormularioApoderado(event)}"/>
+                                    </p:commandButton>
+                                    <p:commandButton id="buscaApoderado" 
+                                                     type="button"
+                                                     style="margin-left: 10px"
+                                                     icon="ui-icon-newwin"
+                                                     value="#{msgs.apoderadoCargarApoderado}" 
+                                                     onclick=" PF('buscaApoderado').show()" 
+                                                     disabled="#{renovacionesBean.botonCargaApoderadoDisabled}">
+                                    </p:commandButton>
+                                </div>
+                            </h:column>
+                        </h:panelGrid>
+                        <p:dialog id="cargaApoderado" header="#{msgs.apoderadoPanelApoderadoNombrePanel}" widgetVar="buscaApoderado" closable="false"
+                                  modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="90%" height="100%">
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:panel style="width: 100%">
+                                    <p:dataTable var="itempersonaEmpresa" 
+                                                 id="listaApoderado"
+                                                 rowKey="#{itempersonaEmpresa}"
+                                                 value="#{renovacionesBean.listadoPersonaEmpresaApoderadoFinal}" 
+                                                 widgetVar="listapersonaEmpresa"
+                                                 scrollable="true" scrollHeight="250" 
+                                                 resizableColumns="true"
+                                                 style="width: 100%">
+                                        <f:facet name="header">  
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.apoderadoPanelApoderadoListaApoderados}" />
+                                            </p:outputPanel>
+                                        </f:facet> 
+
+                                        <p:column  headerText="#{msgs.apoderadoPanelApoderadoNombres}" width="6%">  
+                                            <h:outputText value="#{itempersonaEmpresa.nombres}" />
+                                        </p:column>
+
+                                        <p:column  headerText="#{msgs.apoderadoPanelApoderadoApellidoPaterno}" width="6%">  
+                                            <h:outputText value="#{itempersonaEmpresa.apellidoPaterno}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoPanelApoderadoApellidoMaterno}" width="6%">  
+                                            <h:outputText value="#{itempersonaEmpresa.apellidoMaterno}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.apoderadoPanelApoderadoNroDocumento}" width="4%">  
+                                            <h:outputText value="#{itempersonaEmpresa.numeroDocumento}" />
+                                        </p:column>
+                                        <p:column  headerText="#{msgs.apoderadoPanelApoderadoDescripcion}" width="5%">  
+                                            <h:outputText value="#{itempersonaEmpresa.tipoDocumento.descripcion}" />
+                                        </p:column>
+                                        <p:column  headerText="Lugar Expedición" width="5%">  
+                                            <h:outputText value="#{itempersonaEmpresa.lugarExpedicion.descripcion}" />
+                                        </p:column>
+                                        <p:column  headerText="Género" width="4%">  
+                                            <h:outputText value="#{itempersonaEmpresa.tipoGeneroPersona.descripcion}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.apoderadoPanelApoderadoSeleccione}" width="%" style="width:32px;text-align: center">
+                                            <p:commandButton 
+                                                update=":form"
+                                                icon="ui-icon-transfer-e-w" 
+                                                actionListener="#{renovacionesBean.cargaDatosApoderadoPersonaDialogo(itempersonaEmpresa)}"
+                                                onclick="PF('buscaApoderado').hide();"
+                                                >
+                                                <f:ajax execute="@this" event="click"/>
+                                            </p:commandButton>
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>  
+                                    </p:dataTable>
+                                    <div align="center" style="padding:1em 2.2em;">
+                                        <p:commandButton
+                                            value="#{msgs.apoderadoPanelApoderadoCancelar}"
+                                            onclick="PF('buscaApoderado').hide();"                                  
+                                            icon="ui-icon-arrowreturnthick-1-w"/>
+                                    </div>
+                                </p:panel>
+                            </div>
+                        </p:dialog> 
+                        <h:panelGrid columns="1" id="panelGridDocumentosRepresentante">
+                            <h:panelGrid columns="7"> 
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoNombre}"/>
+                                </h:panelGrid>
+                                <h:inputText id="Nombre" style="#{renovacionesBean.cambiaBordeCampoNombreApoderado==true?'border-color: #C00':' '}" 
+                                             value="#{renovacionesBean.personaApoderado.nombres}" 
+                                             title="OBLIGATORIO. Nombre del Apoderado o Representante Legal. (Número máximo de caracteres: 150)"
+                                             size="50" maxlength="150" autocomplete="off"/> 
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoApellidoPaterno}"/>
+                                </h:panelGrid>
+                                <h:inputText id="ApellidoPaterno"  style="#{renovacionesBean.cambiaBordeCampoApellidoPaternoApoderado==true?'border-color: #C00':' '}" 
+                                             value="#{renovacionesBean.personaApoderado.apellidoPaterno}" 
+                                             title="OBLIGATORIO. Primer Apellido del Apoderado o Representante Legal. (Número máximo de caracteres: 150)"
+                                             size="30" maxlength="150" autocomplete="off" />
+
+                                <h:outputLabel value="#{msgs.apoderadoApellidoMaterno}"/>
+
+                                <h:inputText id="ApellidoMaterno" 
+                                             title="OPCIONAL. Segundo Apellido del Apoderado o Representante Legal. (Número máximo de caracteres: 150)"
+                                             value="#{renovacionesBean.personaApoderado.apellidoMaterno}" size="30" maxlength="150" autocomplete="off" >
+                                </h:inputText>
+                            </h:panelGrid>
+                            <h:panelGrid columns="6">
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.apoderadoNroDocumento}"/>
+                                    </h:panelGrid>
+                                    <h:inputText id="nroDocumentoApoderado" 
+                                                 style="#{renovacionesBean.cambiaBordeCampoNumeroDocumentoApoderado==true?'border-color: #C00':' '}" 
+                                                 value="#{renovacionesBean.numeroDocumentoApoderado}" 
+                                                 size="15" maxlength="25" autocomplete="off"
+                                                 title="OBLIGATORIO. Número del documento de identidad del Apoderado o Representante Legal. (Número máximo de caracteres: 25)"/>   
+                                </h:panelGrid>
+                                <h:panelGrid columns="4"  id="panelTipoDocumentoRepresentante">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.apoderadoTipoDocumento}" />
+                                    </h:panelGrid>
+                                    <h:selectOneMenu id="TipoDocumento" style="#{renovacionesBean.cambiaBordeCampoTipoDocumentoApoderado==true?'border-color: #C00':' '}" 
+                                                     value="#{renovacionesBean.tipoDocumentoIdentidadApoderado}"
+                                                     title="OBLIGATORIO. Tipo del documento de identidad del Apoderado o Representante Legal.">
+                                        <f:selectItem   itemLabel="#{msgs.apoderadoElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{renovacionesBean.listadoTipoDocumentoIdentidadSD}" var="tdi" itemLabel="#{tdi.nombre}" itemValue="#{tdi.codigo}"/>
+                                        <p:ajax event="change" update="lugarRepresentante, panelTipoDocumentoRepresentante" listener="#{renovacionesBean.activaComboLugarExpedicionApoderado(e)}" />
+                                    </h:selectOneMenu>
+                                    <h:panelGrid columns="6" style="text-align: left" rendered="#{renovacionesBean.campoLugarExpedicionRenderedApoderado}">
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                        <h:selectOneMenu id="lugarRepresentante" style="#{renovacionesBean.cambiaBordeCampoLugarExpedicionApoderado==true?'border-color: #C00':' '}" 
+                                                         value="#{renovacionesBean.lugarExpedicionRepresentante}" 
+                                                         rendered="#{renovacionesBean.campoLugarExpedicionRenderedApoderado}"
+                                                         title="OBLIGATORIO. Seleccione el Lugar de Expedicion del documento de Identidad del Apoderado o Representante Legal.">
+                                            <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{renovacionesBean.listadoCiudadClasificadorRepresentante}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </h:selectOneMenu>
+                                    </h:panelGrid> 
+                                </h:panelGrid>                              
+                            </h:panelGrid>
+                            <h:panelGrid columns="4">
+                                <p:outputLabel value="#{msgs.apoderadoGenero}"/>
+                                <h:selectOneRadio id="generoRepresentante" value="#{renovacionesBean.generoRepresentante}"
+                                                  title="OBLIGATORIO: Seleccione su género.">
+                                    <f:selectItems value="#{renovacionesBean.listadoTipoGeneroPersona}" var="gRepr" itemLabel="#{gRepr.nombre}" itemValue="#{gRepr.codigo}"/>
+                                </h:selectOneRadio>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.apoderadoDatosContacto}" style="color: #{renovacionesBean.colorLabel}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" id="domicilioApoderado">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>
+                                <h:outputLabel value="#{msgs.lmComercialDomicilio}"/>
+                                <h:inputText id="direccionUnoApo" style="#{renovacionesBean.cambiaBordeCampoDireccionApo==true?'border-color: #C00':' '};" 
+                                             value="#{renovacionesBean.domicilioApo}"
+                                             size="120" maxlength="200" autocomplete="off"
+                                             title="OBLIGATORIO. Dirección domiciliaria del Apoderado o Representante Legal. (Número máximo de caracteres: 200)"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="6" id="panelDatosContactoApoderado">
+                                <h:outputLabel value="#{msgs.lmComercialTelefonoUno}"/>
+                                <h:inputText id="telUnoApo"  
+                                             value="#{renovacionesBean.telefonoUnoApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) telefónico(s) del Apoderado o Representante Legal"/>
+                                <h:outputLabel value="#{msgs.lmComercialTelefonoDos}" />
+                                <h:inputText id="telDosApo" 
+                                             value="#{renovacionesBean.telefonoDosApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) telefónico(s) del Apoderado o Representante Legal"/>
+                                <h:outputLabel value="#{msgs.lmComercialTelefonoTres}" />
+                                <h:inputText id="telTresApo" 
+                                             value="#{renovacionesBean.telefonoTresApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) telefónico(s) del Apoderado o Representante Legal"/>
+                                <h:outputLabel value="#{msgs.lmComercialCelularUno}" />
+                                <h:inputText id="celUnoApo" 
+                                             value="#{renovacionesBean.celUnoApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) de celular(s) del Apoderado o Representante Legal"/>
+                                <h:outputLabel value="#{msgs.lmComercialCelularDos}" />
+                                <h:inputText id="celDosApo" 
+                                             value="#{renovacionesBean.celDosApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) de celular(s) del Apoderado o Representante Legal"/>
+                                <h:outputLabel value="#{msgs.lmComercialCelularTres}"/>
+                                <h:inputText id="celTresApo" 
+                                             value="#{renovacionesBean.celTresApo}"
+                                             size="35" maxlength="30" autocomplete="off"
+                                             title="OPCIONAL. Número(s) de celular(s) del Apoderado o Representante Legal"/>
+                            </h:panelGrid>                            
+                            <h:panelGrid columns="3" id="correoApo">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>
+                                <h:outputLabel value="#{msgs.lmComercialCorreoElectronico}"/>
+                                <h:inputText id="mailUnoApo" style="#{renovacionesBean.cambiaBordeCampoCorreoApo==true?'border-color: #C00':' '};" 
+                                             value="#{renovacionesBean.correoSolicitanteApo}"
+                                             size="60" maxlength="60" autocomplete="off"
+                                             title="OBLIGATORIO. Cuenta de correo electrónico del Apoderado o Representante Legal."/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="7">
+                                <h:outputLabel value="#{msgs.apoderadoNumeroPoder}"/>
+                                <h:inputText id="Numero_Poder" 
+                                             value="#{renovacionesBean.apoderado.numeroPoder}" 
+                                             size="28" maxlength="30" autocomplete="off" 
+                                             title="OPCIONAL. Numero de Poder Ejem. 015/2015"/>
+                                <h:outputLabel value="#{msgs.apoderadoFechaExpiracion}"/>
+                                <p:calendar id="mask" 
+                                            value="#{renovacionesBean.apoderado.fechaExpiracionPoder}" 
+                                            locale="es" 
+                                            navigator="true" 
+                                            pattern="dd-MM-yyyy" 
+                                            mask="true"
+                                            size="12"
+                                            title="OPCIONAL. Fecha Expiracion del Poder"/> 
+                                <h:outputLabel value="dd-mm-aaaa" /> 
+
+                                <!--                                <h:commandButton id="limpiaFormularioRepresentante" 
+                                                                                 value="# {msgs.apoderadoLimpiaFormulario}">
+                                                                    <f:ajax execute="@this" event="click" render=":form:panelGridDocumentosRepresentante" listener="# {renovacionesBean.limpiaFormularioApoderado(event)}"/>
+                                                                </h:commandButton>-->
+
+
+                                <!--                                <p:commandButton id="buscaApoderado" 
+                                                                                 type="button" 
+                                                                                 icon="ui-icon-newwin"
+                                                                                 value="# {msgs.apoderadoCargarApoderado}" 
+                                                                                 onclick="PF('buscaApoderado').show()" >
+                                                                </p:commandButton>-->
+                            </h:panelGrid> 
+                        </h:panelGrid>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="1" style="text-align: center">
+                                <h:outputLabel value="#{msgs.labelBotonesAdicionaApoderado}" style="color: #{modificacionBean.colorLabel}"/>    
+                                <p:commandButton id="adicionaRegistroPersonaEmpresaApoderado"
+                                                 value="#{!renovacionesBean.activaBotonModificarSolicitud?msgs.apoderadoRegistrarApoderado:msgs.solicitanteModifica}"
+                                                 actionListener="#{renovacionesBean.guardaPoderPojo()}"
+                                                 update=":form:listaRepresentante  :form:adicionaRegistroPersonaEmpresaApoderado :form:panelRepre :form:panelRepresentante :form:mensajeGeneral"
+                                                 icon="ui-icon ui-icon-disk"
+                                                 title="Agregar un Apoderado a la lista">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton> 
+                            </h:panelGrid>
+
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid columns="1" id="panelListaApoderado" style="width: 90%" >
+                                    <h:dataTable var = "itemRepresentantePojo"
+                                                 id="listaRepresentante"
+                                                 value="#{renovacionesBean.listaNaturalPoderPojo}"
+                                                 styleClass="order-table"
+                                                 cellpadding="1" cellspacing="1" width="100%" rules="all"  border="1" 
+                                                 headerClass="order-table-header"
+                                                 rowClasses="order-table-odd-row,order-table-even-row" columnClasses="order-table-odd-row,order-table-even-row"
+                                                 style="width: 100%">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.apoderadoListaRepresentanteGrilla}"/>
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoNroPoderGrilla} </f:facet>
+                                            <h:outputText value="#{itemRepresentantePojo.poderPojo.numeroPoder}" />
+                                        </h:column>   
+
+
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoNroDocumentoGrilla}</f:facet>
+                                            <h:outputText value="#{itemRepresentantePojo.personaPojo.numeroDocumento}" />
+                                        </h:column>     
+
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoNombresGrilla}</f:facet>
+                                            <h:outputText value="#{renovacionesBean.obtieneNombreDeApoderado(itemRepresentantePojo)}" />
+                                        </h:column>     
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoDireccion}</f:facet>
+                                            <h:outputText value="#{renovacionesBean.obtieneDireccionApoderado(itemRepresentantePojo)}" />
+                                        </h:column>
+
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoTelefono}</f:facet>
+                                            <h:outputText value="#{renovacionesBean.obtieneTelefonoApoderado(itemRepresentantePojo)}" />
+                                        </h:column>
+
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoCelular}</f:facet>
+                                            <h:outputText value="#{renovacionesBean.obtieneCelularApoderado(itemRepresentantePojo)}" />
+                                        </h:column>
+
+                                        <h:column>  
+                                            <f:facet name="header">#{msgs.lmComercialTablaCampoCorreo}</f:facet>
+                                            <h:outputText value="#{renovacionesBean.obtieneCorreoElectronicoApoderado(itemRepresentantePojo)}" />
+                                        </h:column>    
+
+                                        <h:column >  
+                                            <f:facet name="header" >#{msgs.apoderadoSeleccionesGrilla}</f:facet>
+                                            <p:commandButton id="buton"
+                                                             update=":form:panelRepresentante"
+                                                             icon="ui-icon-pencil"
+                                                             title="Modificar datos del Apoderado o Representante Legal"
+                                                             actionListener="#{renovacionesBean.cargaDatosApoderadoModificacion(itemRepresentantePojo)}">
+                                                <f:ajax execute="@this" event="click"/>
+                                            </p:commandButton>
+                                        </h:column>     
+
+
+                                        <h:column > 
+                                            <f:facet name="header" >#{msgs.apoderadoQuitarGrilla}</f:facet>
+                                            <p:commandButton id="quitaRepresentante"
+                                                             title="#{msgs.apoderadoQuitarGrilla}"
+                                                             icon="ui-icon-circle-minus" 
+                                                             actionListener="#{renovacionesBean.borrarApoderadoDeLaLista(itemRepresentantePojo)}"
+                                                             update=":form:panelRepresentante">
+                                                <p:confirm header="#{msgs.apoderadoQuitaRepresentante}" message="#{msgs.apoderadoConfirmarQuitarRepresentante}" icon="ui-icon-alert"/>
+                                            </p:commandButton>
+                                        </h:column>     
+                                    </h:dataTable>
+                                    <p:confirmDialog global="true" showEffect="fade" >
+                                        <div align="center">
+                                            <p:commandButton value="#{msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="#{msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog>
+                                </h:panelGrid>
+                            </div>
+                            <!--                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                                            <div align="center">
+                                                                <p:commandButton value="# {msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                <p:commandButton value="# {msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                            </div>
+                                                        </p:confirmDialog>-->
+                        </div>
+                    </p:panel>
+                </h:panelGrid>
+            </p:fieldset>
+            <!--<h:inputText value="RENOVACIONES"></h:inputText>-->  
+            
+            <p:fieldset id="panelToggleableSignoMarca" legend="#{msgs.renovacionFieldSet}" toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <h:outputText  id="validaTipoSigno" value="" 
+                               rendered="#{renovacionesBean.activaValidaClasificarCambiaColor}" style="color: #C00;font-size:12px;"/>
+                <h:panelGrid columns="1" style="margin-bottom:10px; width: 100%" cellpadding="2">
+
+                    <h:panelGrid columns="1" cellpadding="2" id="panelDatosTitular"  style="width: 90%">
+                        <h:panelGrid columns="3">
+                            <h:outputLabel value="*" style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.formModificacionNombreTitular}" rendered="true"/>
+                            <h:inputText id="renovacion" 
+                                         value="#{renovacionesBean.renovacionTramite.nombreRazonSocialTitular}" 
+                                         size="100" maxlength="100"
+                                         style="#{renovacionesBean.cambiaRenovacionNombreTitular==false?'border-color: #C00':''};"
+                                         title="OBLIGATORIO. Ingrese el nombre del titular de la marca o signo."/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3">
+                            <h:outputLabel value="*" style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.lmComercialDomicilio}" rendered="true"/>
+                            <h:inputText id="direccionRenovacion" 
+                                         value="#{renovacionesBean.renovacionTramite.domicilio}" 
+                                         size="100" maxlength="100"
+                                         style="#{renovacionesBean.cambiaRenovacionDomicilio==false?'border-color: #C00':''};"
+                                         title="OBLIGATORIO. Ingrese el domicilio del titular de la marca o signo."/>
+                        </h:panelGrid>
+                    </h:panelGrid> 
+
+                    <h:panelGrid columns="1" id="panelBotonesGuardaSolicitante" style="padding:1em 2.2em;text-align: center;  width: 100%">
+                        <h:outputLabel value="#{msgs.formRenovacionMensajeAdicionarTitular}" style="color: #{modificacionBean.colorLabel}"/>    
+                        <p:commandButton id="adicionaTitular"
+                                         value="#{msgs.formRenovacionAdicionarTitular}"      
+                                         actionListener="#{renovacionesBean.adicionaListaTitulares()}"
+                                         update="form listaTitulares"
+                                         icon="ui-icon ui-icon-disk"
+                                         title="OBLIGATORIO: Adicione un Titular.">
+                            <f:ajax execute="@this" event="click"/>
+                        </p:commandButton>
+                    </h:panelGrid>                                           
+                    <h:panelGrid columns="3" style="width: 100%"> 
+                        <p:spacer width="35"></p:spacer>
+                        <h:dataTable var = "itemTitulares"
+                                     id="listaTitulares"
+                                     value="#{renovacionesBean.listaRenovacionTramite}"
+                                     styleClass="order-table"
+                                     cellpadding="1"  rules="all"  border="1" 
+                                     headerClass="order-table-header"
+                                     rowClasses="order-table-odd-row,order-table-even-row" columnClasses="order-table-odd-row,order-table-even-row"
+                                     style="width: 80%">
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.formRenovacionListaTitulares}"/>
+                                </p:outputPanel>
+                            </f:facet>
+                            <h:column class="size-column"> 
+                                <f:facet name="header" >#{msgs.apoderadoNombresGrilla}</f:facet>
+                                <h:outputText value="#{itemTitulares.nombreRazonSocialTitular}"  />
+                            </h:column>     
+                            <h:column class="size-column-b">  
+                                <f:facet name="header">#{msgs.lmComercialDomicilio}</f:facet>
+                                <h:outputText value="#{itemTitulares.domicilio}" />
+                            </h:column>
+                            <h:column class="size-column-options">  
+                                <f:facet name="header" >#{msgs.apoderadoSeleccionesGrilla}</f:facet>
+                                <p:commandButton id="buton"
+                                                 update=":form:panelDatosTitular"
+                                                 icon="ui-icon-pencil"
+                                                 title="Modificar"
+                                                 actionListener="#{renovacionesBean.cargaDatosTitularesModificacion(itemTitulares)}">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </h:column>     
+
+                            <h:column  class="size-column-options-b"> 
+                                <f:facet name="header" >#{msgs.apoderadoQuitarGrilla}</f:facet>
+                                <p:commandButton id="quitaRepresentante"
+                                                 title="#{msgs.apoderadoQuitarGrilla}"
+                                                 icon="ui-icon-circle-minus" 
+                                                 actionListener="#{renovacionesBean.borrarTitularDeLaLista(itemTitulares)}"
+                                                 update=":form">
+                                    <p:confirm header="#{msgs.apoderadoQuitaRepresentante}" message="#{msgs.apoderadoConfirmarQuitarRepresentante}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </h:column>     
+                        </h:dataTable>
+                        <p:confirmDialog global="true" showEffect="fade" >
+                            <div align="center">
+                                <p:commandButton value="#{msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="#{msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </div>
+                        </p:confirmDialog>
+                    </h:panelGrid>
+                    <p:spacer width=" 5"></p:spacer>
+
+                    <h:panelGrid columns="3">   
+                        <h:outputLabel value="*" style="color: #C00"/>  
+                        <h:outputLabel value="#{msgs.pestaniaTresSignoDistintivo}" rendered="true"/>
+                        <h:inputText id="marcaRenovacion" 
+                                     value="#{renovacionesBean.renovacionTramiteGuaradarBase.signoDistintivo}" 
+                                     size="100" maxlength="100"
+                                     style="#{renovacionesBean.cambiaBordeRenovacionSignoDistintivo==false?'border-color: #C00':''};"
+                                     title ="OBLIGATORIO. Nombre de la Marca o Signo Distintivo"/>
+                    </h:panelGrid> 
+                    <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+                        <h:outputLabel value="*" style="color: #C00"/>  
+                        <p:outputLabel value="#{msgs.pestaniaTresTipoDeSigno}" style="#{renovacionesBean.cambiaBordeRenovacionGenero==false?'color: #C00':''}"/>
+                        <h:selectOneRadio id="renovacionGenero" value="#{renovacionesBean.generoRenovacion}" 
+                                          title="OBLIGATORIO: Seleccione su género.">
+                            <f:selectItems value="#{renovacionesBean.listadoTipoGeneroTramiteRenovacion}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                        </h:selectOneRadio>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" id="panelNizaRegistro">
+                        <h:panelGrid columns="4">
+                            <h:panelGrid columns="2"  id="ClaseNizaPestniaTres" style="text-align: left">
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                                <p:outputLabel value="#{msgs.formRenovacionClasificacionInterNiza}" style="#{renovacionesBean.cambiaBordeRenovacionClaseNiza==false?'color: #C00':''}"/>
+                            </h:panelGrid>  
+                            <h:selectOneMenu id="numeroNiza"  value="#{renovacionesBean.numeroInternacionalRenovacion}" title="OBLIGATORIO. Elija la clasificación de la clase Niza.">
+                                <f:selectItem   itemLabel="Ninguno" itemValue="#{-1}" noSelectionOption="true"/>
+                                <f:selectItem   itemLabel="0" itemValue="#{0}" noSelectionOption="true"/>
+                                <f:selectItems value="#{renovacionesBean.listaNumerosClaseNizaProductosServicios}" var="h" itemLabel="#{h}" itemValue="#{h}"/>
+                            </h:selectOneMenu>
+                            <p:spacer width="10" height="0"/>
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="3" cellpadding="2">
+                            <h:panelGrid columns="4" cellpadding="2">
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.formRenovacionNumeroRegistro}" rendered="true"/>
+                                <h:inputText id="certRegsitro" 
+                                             value="#{renovacionesBean.renovacionTramiteGuaradarBase.registro}" 
+                                             size="20" maxlength="20"
+                                             onkeyup="return ValNumero(this);"
+                                             style="#{renovacionesBean.cambiaBordeRenovacionRegistro==false?'border-color: #C00':''};"
+                                             title="OPCIONAL. Escriba el número de Registro."/>
+                                <h:inputText id="certRegsitroSerie" 
+                                             value="#{renovacionesBean.renovacionTramiteGuaradarBase.serieRegistro}" 
+                                             size="4" maxlength="4"
+                                             style="#{renovacionesBean.cambiarBordeRenovacionSerieRegistro==false?'border-color: #C00':''};text-transform: uppercase"
+                                             title="OPCIONAL. Escriba la serie del número de Registro."/>
+                            </h:panelGrid>
+
+                            <p:spacer width="50" height="0"/>
+
+                            <h:panelGrid columns="4" cellpadding="2">
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.formRenovacionFechaDeOtorgacion}" style="#{renovacionesBean.cambiarBordeRenovacionFechaOtorgacionMarca==false?'color: #C00':''};"/>
+                                <p:calendar id="certificacionFecha" 
+                                            value="#{renovacionesBean.renovacionTramiteGuaradarBase.fechaOtorgacionMarca}" 
+                                            locale="es" 
+                                            navigator="true" 
+                                            pattern="dd-MM-yyyy" 
+                                            mask="true"
+                                            size="12"
+                                            title="OBLIGATORIO. Escriba la fecha de la otorgación de la marca."/> 
+                                <h:outputLabel value="dd-mm-aaaa" /> 
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+ 
+                            <p:outputLabel value="#{msgs.formRenovacionNroUltimaRenovacion}" />
+ 
+                          
+ 
+                            <h:inputText id="ultimaResolucion" 
+                                         value="#{renovacionesBean.renovacionTramiteGuaradarBase.numeroUltimaRenovacion}" 
+                                         size="18" maxlength="18"
+                                         style="#{renovacionesBean.cambiaBordeMarca==false?'border-color: #C00':''};"
+                                         title="Número de última renovación (si corresponde) - Introduzca solo números."/>
+                            <p:outputLabel value="- A" />
+ 
+                            <p:outputLabel value="#{msgs.formRenovacionPenultimaRenovacion}" />
+ 
+                         
+ 
+                            <h:inputText id="penultimaResolucion" 
+                                         value="#{renovacionesBean.renovacionTramiteGuaradarBase.numeroPenultimaRenovacion}" 
+                                         size="18" maxlength="18"
+                                         style="#{renovacionesBean.cambiaBordeMarca==false?'border-color: #C00':''};"
+                                         title="OPCIONAL. Número de penúltima renovación (si corresponde) - Introduzca solo números."/>
+                            <p:outputLabel value="- A" />
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1">
+                            <p:outputLabel value="#{msgs.formRenovacionListaDeProdutosOServicios}"/>
+                            <p:inputTextarea id="areaProductos" style="width: 700px; #{renovacionesBean.activaValidaListaProductosTextAreaCambiaColor==true?'border-color: #C00':''}" 
+                                             rows="5" cols="60" value="#{renovacionesBean.listaProductosTextAreaRenovacion}" 
+                                             counter="contadorDesNiza" maxlength="4000" counterTemplate="{0} #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" 
+                                             title="OPCIONAL. Puede escribir una lista de productos y/o servicios de la marca o signo.(de ser el caso de limitacion de Productos o Servicios que dsitingue el Signo distintivo)"/>
+                            <h:outputText id="contadorDesNiza"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <!--                    <h:panelGrid columns="3">
+                                            <p:graphicImage value="/resources/images/informacion3.png" />
+                                            <h:outputText value="# {msgs.pestaniaTresMensajeCargarTXT}" style="font-size:12px;color: #000000 "/>
+                                            <h:selectBooleanCheckbox id="txtDescripcionNiza" 
+                                                                     value="# {renovacionesBean.checkTxtNiza}">
+                                                <p:ajax update=":form:panelCargaArchivoTXTNiza" event="change"  listener="# {renovacionesBean.habilitacargatxtNiza(e)}"   />
+                                            </h:selectBooleanCheckbox>
+                                        </h:panelGrid>-->
+                    <p:panel id="panelCargaArchivoTXTNiza" style=" border-style: hidden">
+                        <h:panelGrid columns="3" width="80%">
+                            <p:commandButton id="cargaArchivo" value="#{msgs.pestaniaTresBotonCargarTXT}" 
+                                             type="button" 
+                                             onclick="PF('adiconaArchivoTXTNiza').show()" 
+                                             disabled="#{renovacionesBean.desahabilitaBotonCargarArchivo}"
+                                             style="width: 60%"
+                                             rendered="#{renovacionesBean.campoHabilitaTxtNiza}"
+                                             icon="ui-icon-folder-open"/>
+                            <h:inputText id="archivoCargaURL" value="#{renovacionesBean.nombreArchivoDos}" 
+                                         rendered="#{renovacionesBean.campoHabilitaTxtNiza}"
+                                         disabled="#{renovacionesBean.desahabilitaBotonCargarArchivo}"
+                                         style="width: 95%; #{!renovacionesBean.cambiarBordeRenovacionIncluyeRegistro==true?'border-color: #C00':''}"
+                                         />
+                            <p:commandButton id="eliminaArchivoNiza" 
+                                             update=":form:mensajeGeneral :form:panelCargaArchivoTXTNiza" 
+                                             icon="ui-icon-circle-minus" 
+                                             title="#{msgs.mensajeQuitar}" 
+                                             rendered="#{renovacionesBean.campoHabilitaTxtNiza}"
+                                             actionListener="#{renovacionesBean.eliminaArchivoDescripcion()}">
+                                <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                            </p:commandButton>    
+                        </h:panelGrid>
+                    </p:panel> 
+
+                    <h:panelGrid columns="5">
+                        <h:panelGrid columns="1"  id="ClaseNizaReclasificacion" style="text-align: left">
+                            <p:outputLabel value="#{msgs.formRenovacionClaseNizaActual}"/>
+                        </h:panelGrid>  
+                        <h:selectOneMenu id="numeroNizareclasificacion"
+                                         value="#{renovacionesBean.numeroInternacionalReclasificacion}" 
+                                         style="#{renovacionesBean.activaValidaClaseInternacionalNizaCambiaColor==true?'border-color: #C00':''}"
+                                         title="OPCIONAL. Elija la clase Niza Actual SOLAMENTE en caso de reclasificación de productos o servicios.">
+                            <f:selectItem   itemLabel="#{msgs.pestaniaTresElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{renovacionesBean.listaNumerosClaseNizaProductosServicios}" var="p" itemLabel="#{p}" itemValue="#{p}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msgs.formRenovacionNota}" style="color: #C00"/>  
+                        <p:spacer width="10" height="0"/>
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+                <!--                                <div align="center" style="padding:1em 2.2em;">
+                                                    <p:commandButton id="guardaSignoYMarcar"
+                                                                     value="# {msgs.pestaniaTresBotonGuardarSignosYMarcas}"      
+                                                                     actionListener="# {renovacionesBean.guardaSignosYMarcasGeneral()}"
+                                                                     update="form, mensajeGeneral"
+                                                                     icon="ui-icon ui-icon-disk">
+                                                        <f:ajax execute="@this" event="click"/>
+                                                    </p:commandButton>
+                                                </div>-->
+
+            </p:fieldset> 
+            <!--<h:inputText value="D I R E C C I O N   N O T I F I C A C I O N"></h:inputText>-->
+
+            <p:fieldset legend="#{msgs.formModificacionDomicilioEfectosDeNotificacion}" toggleable="true" collapsed="false"
+                        toggleSpeed="500" style="height: 100%">
+                <div align="left">
+                    <p:panelGrid columns="2" style="width:100%; height:280px ; border-style: hidden">
+                        <p:column width="50%" style="width:50%;height:400px; border-style: hidden">
+                            <div align="right" style="padding:0.0em 0.0em;">
+                                <h:panelGrid id="botonDireccion" columns="7" cellpadding="1">
+                                    <p:commandButton id="BuscaDireccion" type="button" 
+                                                     value="#{msgs.usuarioNotificacionFormularioCincoObtDir}" 
+                                                     onclick="PF('buscaDireccion').show()" 
+                                                     rendered="true"
+                                                     title ="Cargar Domicilio guardado con anterioridad"
+                                                     icon="ui-icon-arrowthickstop-1-s"/>
+                                </h:panelGrid>
+                                <p:growl showDetail="true"/>
+                            </div>
+                            <div align="left">
+                                <h:panelGrid columns="2" id="datosDireccionNotificacionTramite">
+                                    <h:column>
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoDirNot}" 
+                                                       style="color: #{renovacionesBean.colorLabel}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="3">
+                                            <h:selectOneMenu value="#{renovacionesBean.tipoCiudadNotificacion}" title="OBLIGATORIO. Ingrese ciudad que se encuentre dentro de la jurisdicción del SENAPI: La Paz, El Alto, Cochabamba y Santa Cruz."
+                                                             style="#{renovacionesBean.cambiaBordeCampoCiudadNotificacion==true?'border-color: #C00':''}">
+                                                <f:selectItems value="#{renovacionesBean.listaCiudadNotificaciones}" 
+                                                               var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" id="selectCiudades"/>
+                                                <p:ajax update=":form:mapaGoogleVista  :form:googleMapsBotonRegistrar" listener="#{renovacionesBean.handleChange()}" />
+                                            </h:selectOneMenu>
+                                            <si.componentes:informacion dimension="70%" mensaje="#{msgs.mensajeCiudadNotificacionInformacion}"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoBarrio}" style="width: 70%"/>  
+                                            </h:panelGrid> 
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText 
+                                            id="txt_barrio" 
+                                            value="#{renovacionesBean.direccion.zonaBarrio}" 
+                                            autocomplete="off" 
+                                            maxlength="150" title="OBLIGATORIO. Especifique Nombre de Zona ó Barrio, para efectos de Notificación"
+                                            style="#{renovacionesBean.cambiaBordeCampoDatoBarrio==true?'border-color: #C00':''};width: 70%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align:right">
+                                                <h:outputLabel value="*" style="color: #C00;size: 50"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCalle}"/>  
+                                            </h:panelGrid> 
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText id="txt_calle" value="#{renovacionesBean.direccion.avenidaCalle}"  autocomplete="off"
+                                                     title="OBLIGATORIO. Especifique Nombre de la Calle ó Avenida, para efectos de Notificación" maxlength="200" 
+                                                     style="#{renovacionesBean.cambiaBordeCampoDatoAvenida==true?'border-color: #C00':''};width: 70%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumero}"/>  
+                                            </h:panelGrid> 
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText id="txt_numero" value="#{renovacionesBean.direccion.numero}" autocomplete="off" 
+                                                     title="OBLIGATORIO. Especifique Numero de la vivienda o edificio" size="5"
+                                                     maxlength="10" style="#{renovacionesBean.cambiaBordeCampoDatoNumero==true?'border-color: #C00':''};width: 7%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:column>
+                                            <div align="right">
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoEdificio}"/>
+                                            </div>
+                                        </h:column>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="7">
+                                            <h:inputText id="txt_edificio" value="#{renovacionesBean.direccion.edificio}" size="30"
+                                                         autocomplete="off" maxlength="110" title="Mencione el nombre de edificio de ser necesario"
+                                                         style="width: 100%"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoPiso}"/>
+                                            <h:inputText id="txt_piso" value="#{renovacionesBean.direccion.piso}" autocomplete="off" onkeyup="return ValNumero(this);" maxlength="10"
+                                                         title="Mencione el numero de piso si es necesario" style="width: 100%;margin: 0.0" size="6"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            <h:outputLabel value=" #{msgs.usuarioNotificacionFormularioCincoNumDep}"/>  
+                                            <h:inputText id="txt_depto" value="#{renovacionesBean.direccion.dpto}" autocomplete="off" 
+                                                         title="Mencione el numero de departamento si es necesario" maxlength="10" style="width: 100%" size="6"/>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.lmComercialTelefonoReferencia}"/>
+                                            </h:panelGrid>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="3">
+                                            <h:inputText 
+                                                id="txt_celular" value="#{renovacionesBean.direccion.telefonoReferencia}"
+                                                autocomplete="off" maxlength="15" size="12"
+                                                title="OBLIGATORIO. Número de Movil o telf. Celular para efectos de Notificación"
+                                                style="#{renovacionesBean.cambiaBordeCampoDatoCelular==true?'border-color: #C00':''}" />
+                                            <h:panelGrid columns="2" style="text-align: right">
+                                                <h:outputLabel value="*" style="color: #C00"/>  
+                                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCorreoElectronico}"/>  
+                                            </h:panelGrid>                             
+                                            <h:inputText id="txt_correoElectronico" value="#{renovacionesBean.direccion.correoElectronico}"
+                                                         title="OBLIGATORIO. Correo Electrónico Ejem. nombre@dominio.com, para efectos de Notificación" size="30"
+                                                         autocomplete="off" maxlength="75" style="#{renovacionesBean.cambiaBordeCampoCorreoElectronico==true?'border-color: #C00':''}"/>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <div align="right">
+                                            <h:outputLabel value="#{msgs.lmComercialDatosDomicilioDeNotificacion}"/>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <h:inputText 
+                                            value="#{renovacionesBean.direccion.referenciaDireccion}"
+                                            id="txt_referencia" autocomplete="off"
+                                            maxlength="250" title="Mencione una referencia cercana, Ejem. una plaza, iglesia u otros"
+                                            style="width: 70%"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoRegistrarGMaps}" />                                    
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="6" id="googleMapsBotonRegistrar">
+                                            <p:selectBooleanButton id="valorBotonMapa" value="#{renovacionesBean.valorBotonMapa}" 
+                                                                   onLabel="SI" offLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax 
+                                                    update="form" process="@form"
+                                                    listener="#{renovacionesBean.activaRenderMapa()}"
+                                                    />
+                                            </p:selectBooleanButton>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoLatitud}"/>  
+                                            <h:inputText 
+                                                id="txt_coordenadaX" 
+                                                style=";width: 70%" 
+                                                value="#{renovacionesBean.direccion.coordenadaX}" 
+                                                size="20" 
+                                                autocomplete="off"  
+                                                onkeyup="return ValNumero(this);" 
+                                                maxlength="10"
+                                                disabled="true"></h:inputText>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoLongitud}"></h:outputLabel> 
+                                            <h:inputText 
+                                                id="txt_coordenadY" 
+                                                style=";width: 70%"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                value="#{renovacionesBean.direccion.coordenadaY}" 
+                                                size="20" 
+                                                autocomplete="off" 
+                                                maxlength="10" 
+                                                disabled="true"
+                                                >
+                                            </h:inputText>
+                                        </h:panelGrid>
+                                    </h:column>
+                                </h:panelGrid>
+                            </div> 
+                        </p:column>
+                        <p:column width="50%" style="width:50%;border-color:#ffffff"  rendered="#{renovacionesBean.renderMapa}" id="drawmapa" disabledSelection="true">
+                            <p:panel id="mapaGoogleVista" style="margin: 0.0">
+                                <div align="center" style="margin: 0.0">
+                                    <p:growl id="growl" showDetail="true"/>
+                                    <si.componentes:informacion dimension="100%" mensaje="#{msgs.usuarioNotificacionFormularioCincoInstruccionesGMaps}"/>
+                                    <p:gmap 
+                                        center="#{renovacionesBean.centroMapa}" 
+                                        zoom="#{renovacionesBean.zoomID}" 
+                                        rendered="true"
+                                        type="ROADMAP" 
+                                        style="width:100%;height:400px;margin: 0.0"
+                                        model="#{renovacionesBean.draggableModel}"
+                                        onPointClick="handlePointClick(event);" >
+                                        <p:ajax event="markerDrag" listener="#{renovacionesBean.onMarkerDrag}" update="form"
+                                                process="@form"/>
+                                        <p:ajax event="pointSelect" process="@form" listener="#{renovacionesBean.onPointSelect}"/>
+                                        <!--<p:ajax event="stateChange" listener="# {renovacionesBean.onStateChange}"/>-->
+                                    </p:gmap>
+                                    <br></br>
+                                </div>
+                            </p:panel>
+                        </p:column>
+                        <p:dialog header="#{msgs.usuarioNotificacionFormularioCincoListaDireccionesUsuario}" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                                  width="98%" height="80%" showEffect="clip" hideEffect="fold" style="text-align: center" modal="true">
+                            <div align="center" style="padding:1em 2.2em;">
+
+                                <p:dataTable var="itemDireccion" 
+                                             id="listaDireccion"
+                                             rowKey="#{itemDireccion.zonaBarrio}"
+                                             value="#{renovacionesBean.listadoDeDireccionPorUsuario()}" 
+                                             widgetVar="listaDireccion"
+                                             selectionMode="single"
+                                             scrollable="true"
+                                             selection="#{renovacionesBean.direccionSeleccionadaPopup}"
+                                             style="width: 100%">
+
+                                    <f:facet name="header">  
+                                        <p:outputPanel>
+                                            <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoLisDirPop}" />
+                                        </p:outputPanel>
+                                    </f:facet> 
+
+                                    <p:column  filterBy="#{itemDireccion.zonaBarrio}" sortBy="#{itemDireccion.zonaBarrio}" 
+                                               headerText="#{msgs.usuarioNotificacionFormularioCincoBarrioPop}" width="8%">  
+                                        <h:outputText value="#{itemDireccion.zonaBarrio}" />
+                                    </p:column>
+
+                                    <p:column 
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoCallePop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.avenidaCalle}" />
+                                    </p:column>
+
+                                    <p:column  
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoNumeroPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.numero}" />
+                                    </p:column>
+
+                                    <p:column  
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoEdificioPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.edificio}" />
+                                    </p:column>
+
+                                    <p:column 
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoPisoPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.piso}" />
+                                    </p:column>
+
+                                    <p:column  
+                                        headerText="#{msgs.usuarioNotificacionFormularioCincoCiudadPop}" width="11%">  
+                                        <h:outputText value="#{itemDireccion.tipoCiudadNotificacion.descripcion}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoSelecPop}" width="8%" 
+                                              style="width:32px;text-align: center">
+                                        <p:commandButton
+                                            id="botonSeleccionar"
+                                            title="#{msgs.usuarioNotificacionFormularioCincoBotonCargarDireccion}"      
+                                            update=":form:datosDireccionNotificacionTramite :form:txt_celular"
+                                            icon="ui-icon-transfer-e-w"
+                                            actionListener="#{renovacionesBean.cargaDatosDireccionDialogo(event,itemDireccion)}"
+                                            onclick="PF('buscaDireccion').hide();"> 
+                                            <f:ajax execute="@this" event="click"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton
+                                        value="#{msgs.usuarioNotificacionFormularioCincoCancePop}"
+                                        onclick="PF('buscaDireccion').hide();"
+                                        icon="ui-icon-arrowreturnthick-1-w">
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:dialog>
+                    </p:panelGrid>
+                </div>
+            </p:fieldset>
+
+            <div align="center" style="padding:2.1em 2.1em">
+                <p:commandButton value="#{msgs.mensajeFormularioFinalizar}"
+                                 action="#{renovacionesBean.guardadoGeneralFormularioSolicitud()}"
+                                 update=":form:mensajeGeneral"
+                                 ajax="false"
+                                 image="ui-icon-disk">                     
+                </p:commandButton>
+                <p:commandButton
+                    value="#{msgs.mensajeFormularioRegresarBandeja}"
+                    ajax="false"
+                    action="#{renovacionesBean.volverBandeja()}"
+                    icon="ui-icon-arrowreturnthick-1-w"
+                    />
+            </div>
+        </h:form>    
+
+        <h:form id="formDos">
+
+            <p:dialog header="#{msgs.pestaniaTresCargaImagen}" widgetVar="cargaImagen" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="50%" height="50%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <si.componentes:informacion  dimension="100%" mensaje="#{msgs.mensajeCargadoImagenInformacion}"/>
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{renovacionesBean.cargaImagenProyecto}" 
+                                  mode="advanced"
+                                  sizeLimit="4194304"
+                                  invalidFileMessage="#{msgs.pestaniaTresMensajeFileUploadImagen}"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                  label="#{msgs.pestaniaTresBuscarImagen}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaImagen}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  update="nombreImagenText,finalizaCargaImagen,mensajeCargaImagenDialogo   :formDos:panelImagenDialogo :formDos:principalImagenDialog  " style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresImagenCargada}"/>
+                    <p:inputText id="nombreImagenText" value="#{renovacionesBean.nombreImagenCargar}"/>
+                    <p:messages id="mensajeCargaImagenDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="finalizaCargaImagen"
+                        value="#{msgs.pestaniaTresFinalizar}"
+                        action="#{renovacionesBean.actualizaCamposImagen()}"
+                        onclick="PF('cargaImagen').hide();"
+                        update=":formDos"
+                        disabled="#{renovacionesBean.habilitaCargarImagenFinalizarDialogo}"
+                        icon="ui-icon-disk"/>
+                    <p:commandButton
+                        id="cancelarCargaImagen"
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('cargaImagen').hide();"
+                        icon="ui-icon-arrowreturnthick-1-w"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="cargarArchivoPopUp" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="cargaArchivo" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <h3>#{msgs.pestaniaTresElegirLogo}</h3>
+                    <p:fileUpload fileUploadListener="#{renovacionesBean.cargaArchivoNizaActionListener}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresMensajeFileUploadLogo}"
+                                  allowTypes="/(\.|\/)(txt|doc|docx|pdf)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresMensajeFileUploadLogoError}"
+                                  update="archivoCargaURLDialogo,finalizaCargaArchivo,mensajeCargaArchivoDialogo :form:archivoCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="#{msgs.pestaniaTresArchivoCargado}"/>
+                        <h:inputText id="archivoCargaURLDialogo" value="#{renovacionesBean.nombreArchivo}" disabled="true" size="60"/>
+                    </h:panelGrid>
+                    <p:messages id="mensajeCargaArchivoDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="finalizaCargaArchivo"
+                        value="#{msgs.pestaniaTresFinalizar}"
+                        onclick="PF('cargaArchivo').hide();"
+                        disabled="#{renovacionesBean.habilitaCargarArchivoFinalizarDialogo}"
+                        icon="ui-icon-disk"/>
+                    <p:commandButton
+                        id="cancelarCargaArchivo"
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('cargaArchivo').hide();"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+
+            <p:dialog header="#{msgs.pestaniaTresListaClaseNIZA}" widgetVar="BuscaClaseniza" resizable="false" closable="false"
+                      width="80%" height="100%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <p:ring id="anillo"  value="#{renovacionesBean.listadoDeClaseNiza()}" var="itemClaseniza">
+                    <p:outputPanel  style="text-align: center;width: 100%"  layout="block">
+                        #{itemClaseniza.numeroClaseNiza}
+                        <br />
+                        <p:commandButton   update=":formDos:descripcionNiza" icon="ui-icon-search"  oncomplete="PF('nizaDescripcion').show();" title="View" >
+                            <f:setPropertyActionListener value="#{itemClaseniza}" target="#{renovacionesBean.clasenizaSeleccionada}" />
+                        </p:commandButton>
+                    </p:outputPanel>
+                </p:ring>
+                <div align="left" style="padding:1em 2.2em;">
+                    <p:fieldset legend="#{msgs.pestaniaTresBusquedaEspecial}" toggleable="true" toggleSpeed="500" style="height: 50%">
+                        <h:panelGrid columns="4" id="idBuscadorNiza">
+                            <p:outputLabel value="#{msgs.pestaniaTresPalabra}"/>
+                            <p:inputText value="#{renovacionesBean.palabraBuscar}"/>
+
+                            <p:commandButton
+                                value="#{msgs.pestaniaTresBusqueda}"
+                                action="#{renovacionesBean.filtroListaClaseNiza()}"
+                                update=":formDos:listaClaseNiza"
+                                icon="ui-icon-search"/>
+                            <p:commandButton
+                                value="#{msgs.pestaniaTresLimpiarBusqueda}"
+                                action="#{renovacionesBean.limpiaBuscador()}"
+                                update=":formDos:listaClaseNiza :formDos:idBuscadorNiza"
+                                icon="ui-icon-search"/>
+                        </h:panelGrid>
+                        <p:dataTable var="niza"
+                                     id="listaClaseNiza"
+                                     rowKey="#{niza.idClaseNiza}"
+                                     value="#{renovacionesBean.listadoClasenizaBuscador}"
+                                     widgetVar="listaclaseNizaBuscador"
+                                     style="width: 100%"
+                                     scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="150"  >
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.pestaniaTresListaDeProductoServicio}" />
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column  sortBy="#{niza.numeroClaseNiza}" headerText="#{msgs.pestaniaTresHeaderColumnaUno}" width="1%">
+                                <h:outputText value="#{niza.numeroClaseNiza}" />
+                            </p:column>
+
+                            <p:column   headerText="#{msgs.pestaniaTresProducto}" width="5%">
+                                <h:outputText value="#{niza.tipo==true?'Producto':''}" />
+                            </p:column>
+
+                            <p:column   headerText="#{msgs.pestaniaTresServicio}" width="5%">
+                                <h:outputText value="#{niza.tipo!=true?'Servicio':''}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{niza.notaTipoClaseNiza}" sortBy="#{niza.notaTipoClaseNiza}" 
+                                       headerText="#{msgs.pestaniaTresHeaderColumnaCinco}" width="15%">
+                                <h:outputText value="#{niza.notaTipoClaseNiza}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:fieldset>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('BuscaClaseniza').hide();"
+                        action="#{renovacionesBean.limpiaListadosSeleccionados()}"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="descripcionNiza" header="#{msgs.pestaniaTresCLASENIZAINFORMACION}" widgetVar="nizaDescripcion" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="70%" closable="false">
+                <p:outputPanel id="nizadescripcionlista" style="text-align:center;" layout="block">
+                    <p:panelGrid  columns="2" columnClasses="value">
+                        <f:facet name="header">
+                        </f:facet>
+                        <h:outputText value="#{msgs.pestaniaTresNumero}" />
+                        <h:outputText value="#{renovacionesBean.clasenizaSeleccionada.idClaseNiza}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresTipo}" />
+                        <h:outputText value="#{renovacionesBean.clasenizaSeleccionada.numeroClaseNiza==false?'Producto':'Servicio'}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresDescripcion}" />
+                        <h:outputText value="#{renovacionesBean.listadoProductosPorClaseNiza()}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresNotaExplicativa}" />
+                        <h:outputText value="#{renovacionesBean.clasenizaSeleccionada.tiposClaseNiza}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="uno"
+                        value="#{msgs.pestaniaTresCerrar}"
+                        onclick="PF('nizaDescripcion').hide();"
+                        action="#{renovacionesBean.limpiaListadosSeleccionados()}"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="colorDialog" header="#{msgs.pestaniaTresDialogoColorHeader}" widgetVar="colorDialog" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="60%" height="40%" closable="false">
+                <p:panel id="panelColorDialogo" >
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h:outputLabel value="Tipo Color: "/>
+                        <h:selectOneMenu id="tipoColorImagen" value="#{renovacionesBean.tipoColor}"  >
+                            <f:selectItems value="#{renovacionesBean.listaTipoColor}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                        </h:selectOneMenu>
+                        <p:spacer width="5" height="0"  />                        
+                        <h:outputLabel value="Valor: "/>
+                        <h:inputText value="#{renovacionesBean.colorPopup}"></h:inputText>
+                        <p:spacer width="5" height="0"  />                        
+                        <p:commandButton value="#{msgs.pestaniaTresDialogoColorBotonAddColor}"
+                                         action="#{renovacionesBean.adicionaColor(e)}"
+                                         icon="ui-icon-disk"
+                                         update=":formDos:colorLista,mensaje,logoInfo,mensajeInfo :formDos:panelColorDialogo" />
+                        <p:panel style="width: 90%">
+                            <h:panelGrid id="mensaje" columns="2">
+                                <p:graphicImage id="logoInfo" value="/resources/images/informacion3.png" 
+                                                rendered="#{renovacionesBean.mensajeColorRendered}"/>
+                                <h:outputText id="mensajeInfo" value="#{renovacionesBean.mensajeColor}" style="font-size:12px;color:#045491 " 
+                                              rendered="#{renovacionesBean.mensajeColorRendered}"/>
+                            </h:panelGrid>
+                            <p:dataTable id="colorLista"
+                                         var="color" 
+                                         value="#{renovacionesBean.listaColoresBase}" 
+                                         scrollable="true" 
+                                         scrollHeight="150"
+                                         style="width: 400px"
+                                         >
+                                <f:facet name="header">
+                                    #{msgs.pestaniaTresFacetListaColores}
+                                </f:facet>
+                                <p:column headerText="Tipo Color" 
+                                          style="text-align:center; width: 60px">
+                                    <div align="right">
+                                        <h:outputText value="#{color.tipoColor.descripcion}" />
+                                    </div>
+                                </p:column>
+                                <p:column headerText="Color" 
+                                          style="text-align:center; width: 60px">
+                                    <div align="right">
+                                        <h:outputText value="#{color.dato}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" 
+                                          footerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" style="text-align:center; width: 80px">
+                                    <p:commandButton process="colorLista" 
+                                                     icon="ui-icon-circle-minus" 
+                                                     update=":formDos:panelColorDialogo"
+                                                     action="#{renovacionesBean.quitaColorDeLaLista(color)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                    <div align="center" style="padding:1.0em 1.0em;">
+                        <p:commandButton id="adicionaMensaje"
+                                         value="#{msgs.pestaniaTresDialogoBotonGuardaListaColores}"
+                                         actionListener="#{renovacionesBean.adicionaColorListado()}"
+                                         onclick="PF('colorDialog').hide();"
+                                         icon="ui-icon-disk"/>
+
+                        <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                         onclick="PF('colorDialog').hide();"
+                                         icon="ui-icon-arrowreturnthick-1-w"/>
+                    </div>
+                </p:panel>
+            </p:dialog>
+            <p:dialog id="eliminaImagenDialog" header="#{msgs.pestaniaTresDialogoEliminaHeader}" widgetVar="eliminaImagenDialog" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="50%" height="40%" closable="false">
+                <div align="center" >
+                    <p:panel id="panelImagenDialogo">
+                        <h:panelGrid id="mensajeImagenElimina" columns="2">
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.pestaniaTresDialogoMensajeGraphics}" 
+                                          style="font-size:12px;color:#045491 "/>
+                        </h:panelGrid>
+                        <p:dataTable  id="imagenesLista"
+                                      var="imagen" 
+                                      value="#{renovacionesBean.listaImagenLogotipos}" 
+                                      scrollable="true" 
+                                      scrollHeight="200"
+                                      style="width: 400px"
+                                      >
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresDialogoListaImagenes}
+                            </f:facet>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" 
+                                      footerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" style="text-align:center; width: 80px">
+                                <p:graphicImage value="/temp/#{imagen.idSMLogotipo.nombreArchivo}" width="40%" />
+                            </p:column>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" 
+                                      footerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" style="text-align:center; width: 80px">
+                                <p:commandButton process="imagenesLista" 
+                                                 icon="ui-icon-trash" 
+                                                 update="imagenesLista :formDos:panelImagenPrincipalDialogo    :form:graphicImagnen"
+                                                 action="#{renovacionesBean.quitaImagenDeLaListaOriginal(imagen)}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                             onclick="PF('eliminaImagenDialog').hide();"
+                                             icon="ui-icon-arrowreturnthick-1-w"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+            <p:dialog id="principalImagenDialog" header="#{msgs.pestaniaTresDialogoImagenPrincipal}" widgetVar="principalImagenDialog" 
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="60%" height="40%" closable="false">
+                <div align="center" >
+                    <p:panel id="panelImagenPrincipalDialogo">
+                        <h:panelGrid id="mensajeImagenPrincipal" columns="2" >
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.pestaniaTresDialogoImagenPrincipalSeleccione}" style="font-size:12px;color:#045491 "/>
+                        </h:panelGrid>
+                        <p:dataTable  id="imagenesPrincipalLista"
+                                      var="imagenPrincipal" 
+                                      value="#{renovacionesBean.listaImagenLogotipos}" 
+                                      selection="#{renovacionesBean.logotipoImagenObjetoSelecciona}" 
+                                      rowKey="#{imagenPrincipal.idSMLogotipo.nombreArchivo}"
+                                      scrollable="true" 
+                                      scrollHeight="250"
+                                      selectionMode="single" 
+                                      style="width: 500px">
+                            <p:ajax event="rowSelect" listener="#{renovacionesBean.selecionaImagenPrincipal(e)}" update="imagenesPrincipalLista"/>
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresDialogoListaImagenes}
+                            </f:facet>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoColumnaPrincipal}" style="width: 10px"/>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" 
+                                      footerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" style="width: 40px">
+                                <p:graphicImage value="/temp/#{imagenPrincipal.idSMLogotipo.nombreArchivo}" width="40%"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="#{msgs.pestaniaTresDialogoGuardaryVolver}"
+                                                 action="#{renovacionesBean.guardaLogoTipoSellecionadoPrincipal()}"
+                                                 onclick="PF('principalImagenDialog').hide();"
+                                                 icon="ui-icon-arrowreturnthick-1-w"/>
+
+                                <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                                 onclick="PF('principalImagenDialog').hide();"
+                                                 icon="ui-icon-arrowreturnthick-1-w"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="adiconaArchivoTXT" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="adiconaArchivoTXT" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center">
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{renovacionesBean.cargaArchivoTXT}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresDialogoAdicionaArchivoInvalidaMensaje}"
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresDialogoAdicionaArchivoMessageTemplate}"
+                                  update="nombreArchivoText,mensajeCargaArchivoTxtDialogo " style="width: 80%"/>
+                </div>
+                <div align="center">
+                    <p:outputLabel value="#{msgs.pestaniaTresDialogoAdicionaArchivoNombreArchivo}"/>
+                    <p:inputText id="nombreArchivoText" value="#{renovacionesBean.nombreArchivo}"/>
+                    <p:messages id="mensajeCargaArchivoTxtDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="finalizaCargaArchivoTXT" 
+                                     value="#{msgs.pestaniaTresFinalizar}"
+                                     onclick="PF('adiconaArchivoTXT').hide();"
+                                     update=":form"
+                                     disabled="#{renovacionesBean.habilitaCargarArchivoFinalizarDialogo}"
+                                     icon="ui-icon-disk"/>
+                    <p:commandButton value="#{msgs.pestaniaTresCancelar}"
+                                     onclick="PF('adiconaArchivoTXT').hide();"
+                                     icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="adiconaArchivoTXTNiza" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="adiconaArchivoTXTNiza" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center">
+                    <h3>ARCHIVO NIZA RENOVACION</h3>
+                    <p:fileUpload fileUploadListener="#{renovacionesBean.cargaArchivoTXTNiza}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresDialogoAdicionaArchivoInvalidaMensaje}"
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresDialogoAdicionaArchivoMessageTemplate}"
+                                  update="nombreArchivoTextNiza,finalizaCargaArchivoTXTNiza,mensajeCargaArchivoTxtDialogo :form:archivoCargaURL :form:panelCargaArchivoTXTNiza" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresDialogoAdicionaArchivoNombreArchivo}"/>
+                    <p:inputText id="nombreArchivoTextNiza" value="#{renovacionesBean.nombreArchivoTXTNiza}"/>
+                    <p:messages id="mensajeCargaArchivoTxtDialogoNiza" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="finalizaCargaArchivoTXTNiza" 
+                                     value="#{msgs.pestaniaTresFinalizar}"
+                                     onclick="PF('adiconaArchivoTXTNiza').hide();"
+                                     disabled="#{renovacionesBean.habilitaCargarArchivoFinalizarDialogoNiza}"
+                                     icon="ui-icon-disk"/>
+                    <p:commandButton value="#{msgs.pestaniaTresCancelar}"
+                                     onclick="PF('adiconaArchivoTXTNiza').hide();"
+                                     icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+
+
+
+
+
+            <p:dialog header="#{msgs.usuarioNotificacionFormularioCincoListaDireccionesUsuario}" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                      width="98%" height="80%" showEffect="clip" hideEffect="fold" style="text-align: center" modal="true">
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <p:dataTable var="itemDireccion" 
+                                 id="listaDireccion"
+                                 rowKey="#{itemDireccion.zonaBarrio}"
+                                 value="#{renovacionesBean.listadoDeDireccionPorUsuario()}" 
+                                 widgetVar="listaDireccion"
+                                 selectionMode="single"
+                                 scrollable="true"
+                                 selection="#{renovacionesBean.direccionSeleccionadaPopup}"
+                                 style="width: 100%">
+
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoLisDirPop}" />
+                            </p:outputPanel>
+                        </f:facet> 
+
+                        <p:column  filterBy="#{itemDireccion.zonaBarrio}" sortBy="#{itemDireccion.zonaBarrio}" 
+                                   headerText="#{msgs.usuarioNotificacionFormularioCincoBarrioPop}" width="8%">  
+                            <h:outputText value="#{itemDireccion.zonaBarrio}" />
+                        </p:column>
+
+                        <p:column 
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoCallePop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.avenidaCalle}" />
+                        </p:column>
+
+                        <p:column  
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoNumeroPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.numero}" />
+                        </p:column>
+
+                        <p:column  
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoEdificioPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.edificio}" />
+                        </p:column>
+
+                        <p:column 
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoPisoPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.piso}" />
+                        </p:column>
+
+                        <p:column  
+                            headerText="#{msgs.usuarioNotificacionFormularioCincoCiudadPop}" width="11%">  
+                            <h:outputText value="#{itemDireccion.tipoCiudadNotificacion.descripcion}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoSelecPop}" width="8%" 
+                                  style="width:32px;text-align: center">
+                            <p:commandButton
+                                id="botonSeleccionar"
+                                title="#{msgs.usuarioNotificacionFormularioCincoBotonCargarDireccion}"      
+                                update=":form:datosDireccionNotificacionTramite :form:txt_celular"
+                                icon="ui-icon-transfer-e-w"
+                                actionListener="#{renovacionesBean.cargaDatosDireccionDialogo(event,itemDireccion)}"
+                                onclick="PF('buscaDireccion').hide();"> 
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="#{msgs.usuarioNotificacionFormularioCincoCancePop}"
+                            onclick="PF('buscaDireccion').hide();"
+                            icon="ui-icon-arrowreturnthick-1-w">
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:dialog>
+
+
+
+
+
+        </h:form>
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+
+
+
+    </ui:define>
+</ui:composition>            

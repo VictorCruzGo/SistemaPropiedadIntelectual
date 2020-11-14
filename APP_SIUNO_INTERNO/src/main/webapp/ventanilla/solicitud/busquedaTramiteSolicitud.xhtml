@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes" >
+        <ui:define name="content">
+        <h:form>  
+            <p:panel header="Ingreso de Tramite en Ventanilla" style="text-align: center;width: 100%; height: 100% ;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:0em 0em;">     
+
+                    <p:panel style="width: 100%" id="formularioBusquedaRegistro">
+                        <p:separator id="separador0" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+                        <si.componentes:informacion id="mensa" dimension="70%"  mensaje="Introduzca el Código de Barras de la Solicitud"/>
+                        <p:separator id="separador" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+
+                        <h:panelGrid columns="1" style="border-style: ridge; border-color: #AED0EA; width: 30%;padding:0.5em 0.5em;">
+
+                            <p:panel id="panel" style="border-style: solid;width: 100%">
+                                <div align="center">
+                                    <h:panelGrid columns="3" style="text-align: center; padding: 0.5em 0.5em 0.5em">
+                                        <h:outputLabel  value="Escriba el Codigo Día" /> 
+
+                                        <h:inputText id="txtCodigoDia" value="#{busquedaTramiteSolicitudBean.codigoDia}"  style="#{busquedaTramiteSolicitudBean.cambiaColorCampoCodigoDia ==true?'border-color: #C00':''}; width: 80%; text-align: center;text-transform: uppercase" 
+                                                     title="Introduzca el código día del formulario" maxlength="20" required="true"
+                                                     requiredMessage="Debe ingresar el código de barras para iniciar la búsqueda"
+                                                     />
+                                        
+                                    </h:panelGrid>                                        
+                                </div>
+                            </p:panel>
+                            
+                            <p:panel style="border-style: solid;width: 100%">
+                                <div align="center">
+                                <p:commandButton
+                                    value="Buscar trámite"
+                                    process="@this, txtCodigoDia"
+                                    update="@form"
+                                    actionListener="#{busquedaTramiteSolicitudBean.buscarTramitePorCodigoDia()}"
+                                    icon="ui-icon-search">
+                                </p:commandButton>
+                                
+                                <p:separator id="separador8" style="width: 0px ; border: 0px; height: 0px"></p:separator>
+                                <p:commandButton
+                                    value="Limpiar busqueda"
+                                    process="@this"
+                                    update="@form"
+                                    actionListener="#{busquedaTramiteSolicitudBean.reset()}"
+                                    icon="ui-icon-arrowrefresh-1-e"/>
+                                </div>
+                            </p:panel>
+                            </h:panelGrid>
+
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:0em 0em;">
+                    <p:panel id="panelTramiteLista" style="width: 100%" rendered="#{busquedaTramiteSolicitudBean.activaPanelesSiExisteTramite}">
+                        <h:panelGrid id="resultado" columns="2"  style="width: 50%">
+                            <p:graphicImage value="/resources/images/SiEncontrado2X2.png"/>
+                            <h:panelGrid columns="2" id="datosTramite" style="width: 80%">
+                                <p:outputLabel value="Codigo día" style="width: 10%"/>
+                                <h:inputText value="#{busquedaTramiteSolicitudBean.tramite.codigoDia}" style="width:100%; text-align: center" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelTipo}" style="width: 10%"/>
+                                <h:inputText value="#{busquedaTramiteSolicitudBean.tramite.tipoTramite.descripcion}" style="width:140%; text-align: center" disabled="true"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <p:commandButton
+                            value="Ingresar"
+                            action="#{busquedaTramiteSolicitudBean.generarPlantilla()}"
+                            ajax="false"
+                            icon="ui-icon-circle-arrow-e"/>
+                    </p:panel>
+
+                    <p:panel id="panelMensaje" style="width: 100%" rendered="#{busquedaTramiteSolicitudBean.activaPanelesNoExisteTramite}">
+                        <h:panelGrid id="mensaje" columns="2" >
+                            <p:graphicImage value="/resources/images/NoEncontrado2X2.png"/>
+                            <h:outputText value="#{msgs.labelNoEncontrado}" style="font-size:14px;" />
+                        </h:panelGrid>
+                        <div align="center" style="padding:0.5em 0.5em;">
+                            <!--                            <p:commandButton
+                                                            value="# {msgs.botonRegistrar}"
+                                                            
+                                                            ajax="false"
+                                                            icon="ui-icon-circle-arrow-e"/>-->
+                            <h:outputLabel value="Utilice esta opcion solo si, el buscador no encuentra su marca"/>
+                            <br />
+                            <br />
+<!--                            <p:commandButton
+                                value="Ingresar Formulario"
+                                action="# {busquedaTramiteSolicitudBean.generarPlantilla()}"
+                                ajax="false"
+                                icon="ui-icon-circle-arrow-e">
+                            </p:commandButton>-->
+                            <!--                            <p:confirm header="Confirmacion de Ingreso" message="Utilice esta opcion solo si, el buscador no encuentra su marca. Confirma el ingreso" icon="ui-icon-alert"/>-->
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                <div align="center" >
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" ajax="true"/>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" ajax="true"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:panel>
+
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

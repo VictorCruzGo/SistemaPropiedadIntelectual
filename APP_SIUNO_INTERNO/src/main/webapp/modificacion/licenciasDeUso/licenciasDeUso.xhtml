@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:t="http://org.apache.myfaces.custom.fieldset.Fieldset "
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <h:panelGrid columns="1" id="idPanelGrid" width="100%">
+
+                <p:fieldset id="panelToggleableDatos" legend="DATOS DEL SIGNO REGISTRADO" 
+                            toggleable="true" collapsed="false"
+                            toggleSpeed="500" style="height: 100%">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:column>
+                            <h:panelGrid columns="2" width="90%">
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Nombre Titular"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.valorRecuNombreTitular}"
+                                                 style="#{licenciasDeUsoBean.cambiaBordeNombreTitular==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Domicilio Titular"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.valorRecuDomicilioTitular}" 
+                                                 style="#{licenciasDeUsoBean.cambiaBordeDomicilioTitular==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column> 
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Signo Distintivo Titular"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.valorRecuSignoDistintivoTitular}" 
+                                                 style="#{licenciasDeUsoBean.cambiaBordeSignoDistintivoTitular==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Tipo Signo"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:panelGrid columns="3">
+                                        <h:column>
+                                            <h:inputText value="#{licenciasDeUsoBean.valorRecuTipoSignoTitular}" 
+                                                         style="#{licenciasDeUsoBean.cambiaBordeTipoSigno==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                        </h:column>
+                                        <h:column>
+                                            <h:outputLabel value="Clase"></h:outputLabel>
+                                        </h:column>
+                                        <h:column>
+                                            <h:inputText value="#{licenciasDeUsoBean.valorRecuClaseTitular}" 
+                                                         style="#{licenciasDeUsoBean.cambiaBordeClase==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                        </h:column>
+                                    </h:panelGrid>
+                                </h:column>
+                            </h:panelGrid>
+                        </h:column>
+
+                        <h:column>
+                            <h:panelGrid columns="2" width="90%" id="panelDatosIngresados">
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Número de Registro"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.datosIngresadosNumeroDeRegistro}" 
+                                                 style="#{licenciasDeUsoBean.cambiaBordeNumeroRegistro==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="SM"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.datosIngresadosCodigoSM}" 
+                                                 style="#{licenciasDeUsoBean.cambiaBordeSM==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Número de Publicación"></h:outputLabel>
+                                    </div>    
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.datosIngresadosNumeroDePublicacion}" 
+                                                 style="#{licenciasDeUsoBean.cambiaBordeNumeroPublicacion==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <div align="right">
+                                        <h:outputLabel value="Número Última Renovación"></h:outputLabel>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText value="#{licenciasDeUsoBean.datosIngresadosNumeroUltimaRenovacion}" 
+                                                 style="#{licenciasDeUsoBean.cambiaBordeNumUltimaRenovacion==true?'border-color: #C00':' '};width: 100%"></h:inputText>
+                                </h:column>
+                            </h:panelGrid>
+                        </h:column>
+                    </p:panelGrid>
+                </p:fieldset> 
+
+                <p:fieldset id="panelToggleable" legend=" IDENTIFICACION DEL NUEVO TITULAR O LICENCIATARIO" 
+                            toggleable="true" collapsed="false"
+                            toggleSpeed="500" style="height: 100%">
+                    <div align="center">
+                        <p:panelGrid columns="1" style="width: 100%;border-style: hidden">
+                            <div align="center" style="width: 100%">
+                                <h:selectOneRadio value="#{licenciasDeUsoBean.comboTipoModificacion}" style="width: 100%">
+                                    <f:selectItem itemValue="MONO" itemLabel="Cambio de Nombre" />
+                                    <f:selectItem itemValue="MODI" itemLabel="Cambio de Dirección" />
+                                    <f:selectItem itemValue="MOTR" itemLabel="Transferencia" />
+                                    <f:selectItem itemValue="MOFU" itemLabel="Fusión" />
+                                    <f:selectItem itemValue="MOLU" itemLabel="Licencia de Uso" />
+                                    <p:ajax listener="#{licenciasDeUsoBean.activaCambios()}" 
+                                            event="change" update="form" ></p:ajax>
+                                </h:selectOneRadio>                            
+                            </div>
+                        </p:panelGrid>
+                        <p:panelGrid id="panelDatosSolicitante" columns="1" rendered="#{licenciasDeUsoBean.activaModificacionNombre}"
+                                     style="width: 100%">
+                            <h:panelGrid  columns="10" cellpadding="5" style="border-style: hidden" id="tipoSolicitnateVista">
+                                <div align="left">
+                                    <h:outputLabel value="#{msgs.solicitanteTipoSolicitante}"/>
+                                    <h:selectOneMenu id="comboTipoSolicitante" value="#{licenciasDeUsoBean.tipoSolicitante}" style="text-align:left">
+                                        <f:selectItems value="#{licenciasDeUsoBean.listadoTipoSolicitantedPersonaSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        <p:ajax event="change" 
+                                                update="btnBuscaPersonaEmpresa :form:panelGridDocumentos panelGridJuridico" 
+                                                listener="#{licenciasDeUsoBean.activaCamposNaturalJuridicoAction(e)}" />        
+                                    </h:selectOneMenu> 
+                                </div>
+                                <p:separator id="separador" style="width: #{licenciasDeUsoBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                                <h:panelGrid  id="btnBuscaPersonaEmpresa" columns="5" cellpadding="5">
+                                    <p:commandButton id="buscaEmpresaConMismoCi" type="button" value="Lista de Personas con mismo CI" 
+                                                     update=":form2:listaPeronasCi" onclick="PF('BuscaPersonaMismoCi').show()" icon="ui-icon-arrowthickstop-1-s"
+                                                     rendered="#{licenciasDeUsoBean.habilitaBotonCargarListaPersonas}"/>
+                                    <p:commandButton id="buscaPersonaConMismoCi" type="button" value="Lista de Empresas con mismo NIT"
+                                                     onclick="PF('BuscaEmpresaMismoNit').show()" icon="ui-icon-arrowthickslistadoTipoSolicitantedPersonaSDtop-1-s"
+                                                     update=":form2:listadoEmpresasCI"
+                                                     rendered="#{licenciasDeUsoBean.habilitaBotonCargarListaEmpresas}"/>
+                                    <h:commandButton id="limpiaFormulario" 
+                                                     value="#{msgs.solicitanteLimpiaFormulario}" 
+                                                     actionListener="#{licenciasDeUsoBean.limpiaFormularioPersonaEmpresa(event)}">
+                                        <f:ajax execute="@this" render=":form:panelGridDocumentos" event="click"  />
+                                    </h:commandButton>
+                                </h:panelGrid>    
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" id="panelGridDocumentos">
+                                <h:panelGrid columns="6" id="formularioDatosPersonaEmpresa">
+                                    <h:panelGrid columns="3" id="FormularioNroDocumento">
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteNroDocumento}"/>  
+                                        <h:inputText id="nroDocumento" 
+                                                     style="#{licenciasDeUsoBean.cambiaBordeCampoNumeroDocumento==true?'border-color: #C00':' '};" 
+                                                     value="#{licenciasDeUsoBean.numeroDocumento}"
+                                                     disabled="#{licenciasDeUsoBean.campoNumeroDocumentoDisable}"
+                                                     size="20" maxlength="25" autocomplete="off">
+                                        </h:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2"  id="formularioPersonaEmpresa">
+                                        <h:panelGrid columns="3" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.solicitanteTipoDocumento}"/>  
+                                            <h:selectOneMenu id="tipoDocumento" 
+                                                             value="#{licenciasDeUsoBean.tipoDocumentoIdentidad}" 
+                                                             disabled="#{licenciasDeUsoBean.campoTipoDocumentoDisable}"
+                                                             style="#{licenciasDeUsoBean.cambiaBordeCampoTipoDocumento==true?'border-color: #C00':' '}">  
+                                                <f:selectItem   id="Documento" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{licenciasDeUsoBean.listadoTipoDocumentoIdentidadPorTipoSolicitante}" 
+                                                               var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                                <f:ajax event="change" render="formularioPersonaEmpresa" listener="#{licenciasDeUsoBean.activaComboLugarExpedicion(e)}" />
+                                            </h:selectOneMenu>
+                                        </h:panelGrid> 
+                                        <h:panelGrid columns="3" style="text-align: left" rendered="#{licenciasDeUsoBean.campoLugarExpedicionRendered}">
+                                            <h:outputLabel value="*" style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                            <h:selectOneMenu id="lugar" value="#{licenciasDeUsoBean.lugarExpedicion}"
+                                                             disabled="false"
+                                                             rendered="#{licenciasDeUsoBean.campoLugarExpedicionRendered}"
+                                                             style="#{licenciasDeUsoBean.cambiaBordeCampoLugarExpedicion==true?'border-color: #C00':' '}">
+                                                <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItems value="#{licenciasDeUsoBean.listadoCiudadClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            </h:selectOneMenu>
+                                        </h:panelGrid> 
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" id="panelGridJuridico">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"
+                                                       rendered="#{licenciasDeUsoBean.campoRazonSocialRendered}"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteRazonSocial}" rendered="#{licenciasDeUsoBean.campoRazonSocialRendered}"/>
+                                    </h:panelGrid> 
+                                    <h:inputText id="razonSocial" style="#{licenciasDeUsoBean.cambiaBordeCampoRazonSocial==true?'border-color: #C00':' '};"
+                                                 rendered="#{licenciasDeUsoBean.campoRazonSocialRendered}"
+                                                 disabled="#{licenciasDeUsoBean.campoRazonSocialDisable}"
+                                                 value="#{licenciasDeUsoBean.empresa.nombreRepresentante}" size="70" maxlength="60"  
+                                                 autocomplete="off" />                                                                                    
+                                </h:panelGrid>
+                                <h:panelGrid columns="7" id="panelNatural">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"
+                                                       rendered="#{licenciasDeUsoBean.campoNombreRendered}"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteNombre}" rendered="#{licenciasDeUsoBean.campoNombreRendered}"/>
+                                    </h:panelGrid> 
+                                    <h:inputText id="nombre" style="#{licenciasDeUsoBean.cambiaBordeCampoNombre==true?'border-color: #C00':' '};" 
+                                                 value="#{licenciasDeUsoBean.persona.nombres}" 
+                                                 disabled="#{licenciasDeUsoBean.campoNombreDisable}"
+                                                 rendered="#{licenciasDeUsoBean.campoNombreRendered}"
+                                                 size="42" maxlength="50" autocomplete="off"/>
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"
+                                                   rendered="#{licenciasDeUsoBean.campoApellidoPaternoRendered}"/>  
+                                    <h:outputLabel value="#{msgs.solicitanteApellidoPaterno}" rendered="#{licenciasDeUsoBean.campoApellidoPaternoRendered}"/>
+                                    <h:inputText id="apellidoPaterno" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoPaterno==true?'border-color: #C00':' '};" 
+                                                 value="#{licenciasDeUsoBean.persona.apellidoPaterno}" 
+                                                 disabled="#{licenciasDeUsoBean.campoApellidoPaternoDisable}"
+                                                 rendered="#{licenciasDeUsoBean.campoApellidoPaternoRendered}"
+                                                 size="35" maxlength="30" autocomplete="off"/>
+                                    <h:outputLabel value="#{msgs.solicitanteApellidoMaterno}" rendered="#{licenciasDeUsoBean.campoApellidoMaternoRendered}"/>
+                                    <h:inputText id="apellidoMaterno" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                                 value="#{licenciasDeUsoBean.persona.apellidoMaterno}" 
+                                                 disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                                 rendered="#{licenciasDeUsoBean.campoApellidoMaternoRendered}"
+                                                 size="35" maxlength="30" autocomplete="off"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" style="width: 50%" id="paisGenero">
+                                    <h:panelGrid columns="3">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.solicitantePais}"/>
+                                        <h:selectOneMenu id="pais" value="#{licenciasDeUsoBean.paisNacionalidad}" 
+                                                         style="#{licenciasDeUsoBean.cambiaBordeCampoPais==true?'border-color: #C00':' '};">
+                                            <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{licenciasDeUsoBean.listadoPaisesClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                                        </h:selectOneMenu> 
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2" id="GeneroPersona">
+                                        <h:outputLabel value="#{msgs.solicitanteGenero}" rendered="#{licenciasDeUsoBean.campoGeneroRendered}"/>
+                                        <h:selectOneRadio id="genero" value="#{licenciasDeUsoBean.genero}" 
+                                                          disabled="false"
+                                                          rendered="#{licenciasDeUsoBean.campoGeneroRendered}">
+                                            <f:selectItems value="#{licenciasDeUsoBean.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </h:selectOneRadio>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panelGrid>
+                        <p:panelGrid id="panelDatosDireccion" columns="1" rendered="#{licenciasDeUsoBean.activaModificacionNombreDatosContacto}"
+                                     style="width: 100%">
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="*" 
+                                               style="color: #C00"/>  
+                                <h:outputLabel value="#{msgs.solicitanteDatosContacto}" style="color: #{licenciasDeUsoBean.colorLabel}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" id="Pdomicilio">
+                                <h:outputLabel value="Domicilio:"/>
+                                <h:inputText id="direccionUno" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.domicilio}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="120" maxlength="120" autocomplete="off"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="6" id="panelDatosContacto">
+                                <h:outputLabel value="Telefono Uno:"/>
+                                <h:inputText id="telUno" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.telefonoUno}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+                                <h:outputLabel value="Telefono Dos:" />
+                                <h:inputText id="telDos" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.telefonoDos}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+                                <h:outputLabel value="Telefono Tres:" />
+                                <h:inputText id="telTres" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.telefonoTres}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+                                <h:outputLabel value="Celular Uno:" />
+                                <h:inputText id="celUno" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.celUno}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+
+                                <h:outputLabel value="Celular Dos:" />
+                                <h:inputText id="celDos" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.celDos}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+
+                                <h:outputLabel value="Celular Tres:"/>
+                                <h:inputText id="celTres" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.celTres}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="35" maxlength="30" autocomplete="off"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" id="correo">
+                                <h:outputLabel value="Correo Electronico:"/>
+                                <h:inputText id="mailUno" style="#{licenciasDeUsoBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                             value="#{licenciasDeUsoBean.correoSolicitante}"
+                                             disabled="#{licenciasDeUsoBean.campoApellidoMaternoDisable}"
+                                             size="60" maxlength="60" autocomplete="off"/>
+                            </h:panelGrid>
+                        </p:panelGrid>
+                        <p:panelGrid id="panelBotonesGuardaSolicitante" columns="1" rendered="#{licenciasDeUsoBean.activaModificacionNombreBotones}"
+                                     style="width: 100%">
+                            <div align="center">
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                    <div align="center" >
+                                        <h:panelGrid columns="2">
+                                            <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </h:panelGrid>
+                                    </div>
+                                </p:confirmDialog>
+                            </div>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:commandButton id="adicionaRegistroPersonaEmpresa"
+                                                 value="#{!licenciasDeUsoBean.activaBotonModificarSolicitud?msgs.solicitanteGuarda:msgs.solicitanteModifica}"
+                                                 disabled="#{licenciasDeUsoBean.campoAdicionaRegistroPersonaEmpresaDisable}"
+                                                 actionListener="#{licenciasDeUsoBean.adicionaRegistroPersonaEmpresa()}"
+                                                 update="form"                                
+                                                 icon="ui-icon ui-icon-disk"
+                                                 >
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </div>
+                        </p:panelGrid>
+                        <p:panelGrid id="panelDataTableDatos" columns="1" rendered="#{licenciasDeUsoBean.activaModificacionNombreDataTable}"
+                                     style="width: 100%">
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:dataTable var="itemPersonaEmpresaPojo" 
+                                             id="listaPersonaEmpresaSolicitnate"
+                                             value="#{licenciasDeUsoBean.listaNaturalJuridicoPojo}" 
+                                             class="table"
+                                             style="width: 90%;">
+                                    <f:facet name="header">  
+                                        <p:outputPanel>
+                                            <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}/PERSONAS NATURALES" />
+                                        </p:outputPanel>
+                                    </f:facet> 
+
+                                    <h:column >  
+                                        <f:facet name="header" >No. Doc. </f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneNumeroDeSolicitante(itemPersonaEmpresaPojo)}" />
+                                    </h:column>                            
+
+                                    <h:column>  
+                                        <f:facet name="header">Razon Social | Nombre</f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneNombreDeSolicitante(itemPersonaEmpresaPojo)}" />
+                                    </h:column>
+                                    <h:column>  
+                                        <f:facet name="header">Tipo Solicitante</f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneTipoSolicitante(itemPersonaEmpresaPojo)}" />
+                                    </h:column>
+                                    <h:column>  
+                                        <f:facet name="header">Direccion</f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneDireccionSolicitnate(itemPersonaEmpresaPojo)}" />
+                                    </h:column>
+
+                                    <h:column>  
+                                        <f:facet name="header">Telefono</f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneTelefono(itemPersonaEmpresaPojo)}" />
+                                    </h:column>
+
+                                    <h:column>  
+                                        <f:facet name="header">Celular</f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneCelular(itemPersonaEmpresaPojo)}" />
+                                    </h:column>
+
+                                    <h:column>  
+                                        <f:facet name="header">Correo</f:facet>
+                                        <h:outputText value="#{licenciasDeUsoBean.obtieneCorreoElectronico(itemPersonaEmpresaPojo)}" />
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">#{msgs.mensajeModificar}</f:facet>
+                                        <p:commandButton id="butonModificaEmpresaLista" 
+                                                         update=":form:panelGridDocumentos"  
+                                                         icon="ui-icon-pencil" 
+                                                         title="View" 
+                                                         actionListener="#{licenciasDeUsoBean.cargaDatosSolicitanteParaModificar(itemPersonaEmpresaPojo)}">
+                                            <f:ajax  execute="@this"  event="click" />
+                                        </p:commandButton>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">#{msgs.mensajeQuitar}</f:facet>
+                                        <p:commandButton id="eliminaEmpresa" 
+                                                         update=":form:mensajeGeneral  :form" 
+                                                         icon="ui-icon-circle-minus" 
+                                                         title="#{msgs.mensajeQuitar}" 
+                                                         actionListener="#{licenciasDeUsoBean.eliminaEmpresaPersonaTramite(itemPersonaEmpresaPojo)}">
+                                            <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                        </p:commandButton>                          
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" id="panelDireccion" rendered="#{licenciasDeUsoBean.activaModificacionDireccion}"
+                                     style="width: 100%">
+                            <div align="center">
+                                <h:panelGrid columns="2" width="90%">
+                                    <h:column>
+                                        <div align="right">
+                                            <p:outputLabel value="Nueva Dirección: "></p:outputLabel>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <p:inputText value="#{licenciasDeUsoBean.cambioDireccionNuevaDireccion}" size="90"
+                                                     style="#{licenciasDeUsoBean.cambiaBordeNuevaDireccion==true?'border-color: #C00':' '};"></p:inputText>
+                                    </h:column>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" width="90%">
+                                    <h:column>
+                                        <h:panelGrid columns="2" width="100%">
+                                            <h:column>
+                                                <div align="right">
+                                                    <p:outputLabel value="Nueva Nacionalidad"></p:outputLabel>        
+                                                </div>
+                                            </h:column>
+                                            <h:column>
+                                                <h:selectOneMenu id="paisNacionalidad" value="#{licenciasDeUsoBean.cambioDireccionPaisNacionalidad}" 
+                                                                 style="#{licenciasDeUsoBean.cambiaBordeNuevaNacionalidad==true?'border-color: #C00':' '};width: 100%">
+                                                    <f:selectItem itemLabel="Nacionalidad" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItems value="#{licenciasDeUsoBean.cambioDireccionListadoPaisesClasificadorNacionalidad}" var="rr" itemLabel="#{rr.nombre}" itemValue="#{rr.codigo}" />
+                                                </h:selectOneMenu>
+                                            </h:column>
+                                        </h:panelGrid>
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGrid columns="2" width="100%">
+                                            <h:column>
+                                                <div align="right">
+                                                    <p:outputLabel value="Nuevo Pais Constitucional"></p:outputLabel>        
+                                                </div>
+                                            </h:column>
+                                            <h:column>
+                                                <h:selectOneMenu id="paisConstitucion" value="#{licenciasDeUsoBean.cambioDireccionPaisConstitucional}" 
+                                                                 style="#{licenciasDeUsoBean.cambiaBordeNuevoPaisConstitucional==true?'border-color: #C00':' '};width: 100%">
+                                                    <f:selectItem itemLabel="País Constitucional" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItems value="#{licenciasDeUsoBean.cambioDireccionListadoPaisesClasificadorPaisConstitucional}" var="rrr" itemLabel="#{rrr.nombre}" itemValue="#{rrr.codigo}" />
+                                                </h:selectOneMenu>
+                                            </h:column>
+                                        </h:panelGrid>
+                                    </h:column>
+                                </h:panelGrid>
+                            </div>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" id="panelLicenciaDeUso" rendered="#{licenciasDeUsoBean.activaLicenciasDeUso}"
+                                     style="width: 100%">
+                            <h:panelGrid columns="4" id="fechas" width="100%">                    
+                                <p:column>
+                                    <div align="right">
+                                        <p:outputLabel value="Fecha Inicio Licencia de Uso:"></p:outputLabel>
+                                    </div>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{licenciasDeUsoBean.fechaInicioLicenciaDeUso}" id="fechainicio" locale="es" 
+                                                navigator="true" pattern="dd/MM/yyyy" size="12" disabled="#{licenciasDeUsoBean.habilitarCalendars}"
+                                                style="#{licenciasDeUsoBean.cambiaBordeFechaInicio==true?'border-color: #C00':' '};"/>
+                                </p:column>
+                                <p:column>
+                                    <div align="right">
+                                        <p:outputLabel value="Fecha Fin Licencia de Uso:"></p:outputLabel>
+                                    </div>
+                                </p:column>
+                                <p:column>
+                                    <p:calendar value="#{licenciasDeUsoBean.fechaFinLicenciaDeUso}" id="fechaFin" locale="es" 
+                                                navigator="true" pattern="dd/MM/yyyy" size="12" disabled="#{licenciasDeUsoBean.habilitarCalendars}"
+                                                style="#{licenciasDeUsoBean.cambiaBordeFechaFin==true?'border-color: #C00':' '};"/>
+                                </p:column>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" style="padding-top: 2%;padding-bottom: 2%">
+                                <p:column>
+                                    <p:selectBooleanCheckbox value="#{licenciasDeUsoBean.licenciaIndefinida}" itemLabel="Licencia por tiempo indefinido">
+                                        <p:ajax update="fechainicio,fechaFin" listener="#{licenciasDeUsoBean.activaFechas()}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:column>                                
+                            </h:panelGrid>
+                        </p:panelGrid>
+                    </div>
+                </p:fieldset>
+                <p:commandButton
+                    value="#{msgs.solicitanteGuarda}"
+                    actionListener="#{licenciasDeUsoBean.guardarModificaciones()}"
+                    update="form"                                
+                    icon="ui-icon ui-icon-disk">
+                    <f:ajax execute="@this" event="click"/>
+                </p:commandButton>
+
+                <p:commandButton
+                    value="Guarda Cabecera"
+                    actionListener="#{licenciasDeUsoBean.guardarDatosSignoRegistrado()}"
+                    update="form"                                
+                    icon="ui-icon ui-icon-disk">
+                    <f:ajax execute="@this" event="click"/>
+                </p:commandButton>
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <h:commandButton
+                                value="#{msgs.mensajeAnterior}"
+                                action="#">
+                            </h:commandButton>
+                        </p:toolbarGroup>  
+                        <p:toolbarGroup align="right">  
+                            <h:commandButton
+                                id="botonSiguienteNormal"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{licenciasDeUsoBean.swBoton}"
+                                action="#">
+                            </h:commandButton>
+                            <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{!licenciasDeUsoBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>  
+                    </p:toolbar>  
+                </div>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

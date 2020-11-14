@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes" >                
+    <ui:define name="content">
+        <h:form>  
+            <p:panel header="#{msgs.headerBuscadorRenovacion}" style="text-align: center;width: 100%; height: 100% ;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:0em 0em;"> 
+                    <p:panel style="width: 100%">
+                        <p:separator id="separador0" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+                        <si.componentes:informacion id="mensa" dimension="70%"  mensaje="#{msgs.mensajeBusquedaRenovacion}"/>
+                        <p:separator id="separador" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+                        <h:panelGrid columns="3" id="formularioBusquedaRegistro" style="width: 90%">
+                            <h:panelGrid columns="1" id="panelIzquierdp" style="border-style: ridge; border-color: #AED0EA;;padding:0.5em 0.5em;">
+                                <h:panelGrid columns="9" >
+                                    <h:outputLabel value="#{msgs.labelRegistro}" />  
+                                    <h:inputText size="13" id="nRegistro" value="#{busquedaRenovacionBean.nroRegistro}" onkeyup="return ValNumero(this);" maxlength="10"
+                                                 style="#{busquedaRenovacionBean.cambiaColorCampoNumeroRegistro ==true?'border-color: #C00':''}; text-transform: uppercase" title ="Número de Registro"/>
+                                    <h:outputLabel value="Serie:" />  
+                                    <h:inputText size="6" id="serieRegistro" value="#{busquedaRenovacionBean.serieRegistro}" maxlength="2" title ="Serie de Registro"
+                                                 style="#{busquedaRenovacionBean.cambiaColorCampoSerieRegistro ==true?'border-color: #C00':''}; "/>
+                                    <h:outputLabel value="#{msgs.formModificacionNroResolucion}:" />
+                                    <h:inputText size="13" id="nResolucion" value="#{busquedaRenovacionBean.resolucion}" onkeyup="return ValNumero(this);" maxlength="10"
+                                                 style="#{busquedaRenovacionBean.cambiaColorCampoResolucion ==true?'border-color: #C00':''};" title ="Número de Resulución"/>
+                                    <h:outputLabel value="#{msgs.formModificacionAnio}:" />                                                       
+                                    <h:inputText size="6"  id="idAnio" value="#{busquedaRenovacionBean.gestionResolucion}" onkeyup="return ValNumero(this);" maxlength="4"
+                                                 style="#{busquedaRenovacionBean.cambiaColorCampoGestion ==true?'border-color: #C00':''}; " title ="Año de Resulución"/>
+                                </h:panelGrid>
+                                    <p:spacer width="0" height="10"></p:spacer>
+                                <h:panelGrid  columns="3" style="text-align: center;border-style: hidden;">
+                                    <p:spacer width="160" height="0"></p:spacer>
+                                    <p:commandButton
+                                        value="#{msgs.labelBuscar}"
+                                        update="formularioBusquedaRegistro"
+                                        action="#{busquedaRenovacionBean.irBusqueda()}"
+                                        ajax="false"
+                                        icon="ui-icon-search"/>
+                                    <p:commandButton
+                                        value="#{msgs.labelLimpiar}"
+                                        update="formularioBusquedaRegistro" 
+                                        actionListener="#{busquedaRenovacionBean.reset()}"
+                                        ajax="false"
+                                        icon="ui-icon-arrowrefresh-1-e"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <p:separator id="separador6" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                            <p:panel id="panelBoton" style="border-style: solid;width: 100%">
+                                <h:outputLabel value="#{msgs.formModificacionUtiliceElBuscador1}" style="font-weight: bold;color: #{busquedaRenovacionBean.colorLabel}"/>
+
+                                <h:outputLabel value="#{msgs.formModificacionUtiliceElBuscador2}" style="font-weight: bold;color: #{busquedaRenovacionBean.colorLabel}"/>
+                                <br />
+                                <br />
+                                <div align="center">
+                                    <p:commandButton
+                                        value="#{msgs.formModificacionIngresarFormulario}"
+                                        action="#{busquedaRenovacionBean.irRenovacionesTramiteNOEncontrado()}"
+                                        ajax="false"
+                                        icon="ui-icon-circle-arrow-e">
+                                    </p:commandButton> 
+                                </div>
+                            </p:panel>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:0em 0em;">
+                    <p:panel id="panelTramiteLista" style="width: 100%" rendered="#{busquedaRenovacionBean.activaPanelesSiExisteTramite}">
+                        <h:panelGrid columns="2"  style="width: 50%">
+                            <p:graphicImage value="/resources/images/SiEncontrado2X2.png"/>
+                            <h:panelGrid columns="2" id="datosTramite" style="width: 80%">
+                                <p:outputLabel value="#{msgs.labelTramite}" style="width: 10%"/>
+                                <h:inputText value="#{busquedaRenovacionBean.tramite.tramite}" style="width:100%; text-align: center" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelCodigo}" style="width: 10%"/>
+                                <h:inputText value="#{busquedaRenovacionBean.tramite.codigoDia}" style="width:100%; text-align: center" disabled="true"/>
+                                <p:outputLabel value="#{msgs.labelTipo}" style="width: 10%"/>
+                                <h:inputText value="#{busquedaRenovacionBean.tramite.tipoTramite.descripcion}" style="width:140%; text-align: center" disabled="true"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <p:commandButton
+                            value="Ingresar"
+                            action="#{busquedaRenovacionBean.irRenovacionesTramiteEncontrado()}"
+                            ajax="false"
+                            icon="ui-icon-circle-arrow-e"/>
+                    </p:panel>
+
+                    <p:panel id="panelMensaje" style="width: 100%" rendered="#{busquedaRenovacionBean.activaPanelesNoExisteTramite}">
+                        <h:panelGrid id="mensaje" columns="2" >
+                            <p:graphicImage value="/resources/images/NoEncontrado2X2.png"/>
+                            <h:outputText value="#{msgs.labelNoEncontrado}" style="font-size:14px;" />
+                        </h:panelGrid>
+                        <div align="center" style="padding:0.5em 0.5em;">
+                            <h:outputLabel value="Utilice esta opcion solo si, el buscador no encuentra su marca" style="color: #{busquedaRenovacionBean.colorLabel}"/>
+                            <br />
+                            <br />
+                            <p:commandButton
+                                value="Ingresar Formulario"
+
+                                action="#{busquedaRenovacionBean.irRenovacionesTramiteNOEncontrado()}"
+                                ajax="false"
+                                icon="ui-icon-circle-arrow-e">
+
+                            </p:commandButton>
+                            <!--                            <p:confirm header="Confirmacion de Ingreso" message="Utilice esta opcion solo si, el buscador no encuentra su marca. Confirma el ingreso" icon="ui-icon-alert"/>-->
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                <div align="center" >
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" ajax="true"/>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" ajax="true"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

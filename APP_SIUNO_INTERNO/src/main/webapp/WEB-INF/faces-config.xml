@@ -1,0 +1,643 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+              xmlns="http://java.sun.com/xml/ns/javaee" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+    <application>
+      
+        <locale-config>
+            <default-locale>es</default-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msgs</var>
+        </resource-bundle>
+        
+       
+        <variable-resolver>
+            org.springframework.web.jsf.SpringBeanVariableResolver
+        </variable-resolver>
+        <!-- **************REGLAS DE NAVEGACION****************-->
+        
+    </application>
+    
+    
+    <validator>
+        <validator-class>snp.gob.bo.entidades.bean.validadores.ValidaPasswordRepetido</validator-class>
+        <validator-id>repeatPasswordValidator</validator-id>
+    </validator>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <!-- **************REGLAS DE NAVEGACION****************-->                   
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>registroUsuario</from-outcome>
+            <to-view-id>/usuario/registroUsuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>inicioLoginUsuario</from-outcome>
+            <to-view-id>/usuario/inicioLoginUsuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>confirmacionRegistroUsuario</from-outcome>
+            <to-view-id>/usuario/confirmacionRegistroUsuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+        
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>bandejaExamenDeForma</from-outcome>
+            <to-view-id>/marcasYSignos/bandejaExamenDeForma.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>bandejaTramitesSolicitudUsuario</from-outcome>
+            <to-view-id>/usuario/bandejaTramitesSolicitudUsuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formularioSolicitudRegistroDeSignoDistintivoUsuarioVisual</from-outcome>
+            <to-view-id>/usuario/formularioSolicitudRegistroDeSignoDistintivoUsuarioVisual.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>marcasYSignos</from-outcome>
+            <to-view-id>/marcasYSignos/marcasYSignos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>derechosDeAutor</from-outcome>
+            <to-view-id>/derechosDeAutor/derechosDeAutor.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>patentes</from-outcome>
+            <to-view-id>/patentes/patentes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formularioSolicitudRegistroDeSignoDistintivoPI100</from-outcome>
+            <to-view-id>/formularioRegistroPI100/formularioSolicitudRegistroDeSignoDistintivoPI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formularioSolicitud</from-outcome>
+            <to-view-id>/ventanilla/formularioSolicitud.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>bandejaTramitesSolicitudes</from-outcome>
+            <to-view-id>/ventanilla/bandejaTramitesSolicitudes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>busquedaTramiteCodigoDia</from-outcome>
+            <to-view-id>/ventanilla/solicitud/busquedaTramiteSolicitud.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formularioSolicitudRegistroDeSignoDistintivo(PI100)</from-outcome>
+            <to-view-id>/formularioRegistroPI100/formularioSolicitudRegistroDeSignoDistintivo(PI100).xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>identificacionSolicitantePI100</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100/identificacionSolicitantePI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>identificacionRepresentantePI100</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100/identificacionRepresentantePI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>datosSignoDistintivoPI100</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100/datosSignoDistintivoPI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>prioridadRegistroPI100</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100/prioridadRegistroPI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>direccionNotificacionPI100</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100/direccionNotificacionPI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>recepcionDeDocumentos</from-outcome>
+            <to-view-id>/ventanilla/recepcionDeDocumentos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>bandeja</from-outcome>
+            <to-view-id>/usuarioInterno/bandeja.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>badepositoDeNombreComercialRotulondeja</from-outcome>
+            <to-view-id>/solicitudDepositoDeNombreComercialRotulo/depositoDeNombreComercialRotulo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!--Reglas de Navegacion para los responsables -->
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>bandejaResponsables</from-outcome>
+            <to-view-id>/usuarioInterno/bandejaResponsables.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>listadoExamenesRealizados</from-outcome>
+            <to-view-id>/examenDeFondo/responsables/listadoExamenesRealizados.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>verHistorialTrami••••••••••••te</from-outcome>
+            <to-view-id>/examenDeFondo/responsables/historialTramite.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>buscarTramiteHistorialResponsable</from-outcome>
+            <to-view-id>/examenDeFondo/responsables/buscarTramiteHistorialResponsable.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>examenDeForma</from-outcome>
+            <to-view-id>/examenDeForma/examenDeForma.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>dosificacion</from-outcome>
+            <to-view-id>/recaudaciones/dosificacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>deposito</from-outcome>
+            <to-view-id>/recaudaciones/deposito.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>recibo</from-outcome>
+            <to-view-id>/recaudaciones/recibo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>busquedaRenovacion</from-outcome>
+            <to-view-id>/renovacion/busquedaRenovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>solicitudRenovacion</from-outcome>
+            <to-view-id>/renovacion/solicitudRenovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>identificacionSolicitantePI100Renovacion</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100ParaRenovacion/identificacionSolicitantePI100Renovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>identificacionRepresentantePI100Renovacion</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100ParaRenovacion/identificacionRepresentantePI100Renovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>datosSignoDistintivoPI100Renovacion</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100ParaRenovacion/datosSignoDistintivoPI100Renovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>prioridadRegistroPI100Renovacion</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100ParaRenovacion/prioridadRegistroPI100Renovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>direccionNotificacionPI100Renovacion</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100ParaRenovacion/direccionNotificacionPI100Renovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>registroExistentePI100Renovacion</from-outcome>
+            <to-view-id>/formularioSolicitudRegistroPI100ParaRenovacion/registroExistentePI100Renovacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+        
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>registrabilidad</from-outcome>
+            <to-view-id>/examenDeFondo/registrabilidad.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>relacionRegistrosExistentes</from-outcome>
+            <to-view-id>/examenDeFondo/relacionRegistrosExistentes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>analisisDeDenominaciones</from-outcome>
+            <to-view-id>/examenDeFondo/analisisDeDenominaciones.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>analisisDeConfundibilidad</from-outcome>
+            <to-view-id>/examenDeFondo/analisisDeConfundibilidad.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>conclusion</from-outcome>
+            <to-view-id>/examenDeFondo/conclusion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>identificacionSolicitanteGeneral</from-outcome>
+            <to-view-id>/solicitudGeneral/identificacionSolicitanteGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>identificacionRepresentanteGeneral</from-outcome>
+            <to-view-id>/solicitudGeneral/identificacionRepresentanteGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>datosSignoDistintivoGeneral</from-outcome>
+            <to-view-id>/solicitudGeneral/datosSignoDistintivoGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>prioridadRegistroGeneral</from-outcome>
+            <to-view-id>/solicitudGeneral/prioridadRegistroGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>direccionNotificacionGeneral</from-outcome>
+            <to-view-id>/solicitudGeneral/direccionNotificacionGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>solicitudGeneral</from-outcome>
+            <to-view-id>/solicitudGeneral/solicitudGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>busquedaModificacion</from-outcome>
+            <to-view-id>/modificacion/busquedaModificacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>analisisDeMarcasTridimensionales</from-outcome>
+            <to-view-id>/examenDeFondo/analisisDeMarcasTridimensionales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>analisisDeConexionCompetitiva</from-outcome>
+            <to-view-id>/examenDeFondo/analisisDeConexionCompetitiva.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>administracionMensajes</from-outcome>
+            <to-view-id>/controlMensajes/administracionMensajes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>mensajesPorModulo</from-outcome>
+            <to-view-id>/controlMensajes/mensajesPorModulo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>errorException</from-outcome>
+            <to-view-id>/paginaErrorException/errorException.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>digitalizacionDocumentos</from-outcome>
+            <to-view-id>/digitalizacion/digitalizacionDocumentos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>digitalizacionDocumentosUsuario</from-outcome>
+            <to-view-id>/digitalizacion/digitalizacionDocumentosUsuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>notificacionDocumentosTramite</from-outcome>
+            <to-view-id>/notificacion/notificacionDocumentosTramite.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>solicitudGeneralMenu</from-outcome>
+            <to-view-id>/solicitudGeneral/solicitudGeneralMenu.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>navegaModificarNombre</from-outcome>
+            <to-view-id>/modificacion/formularioModificacionNombre.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formularioModificacionDireccion</from-outcome>
+            <to-view-id>/modificacion/formularioModificacionDireccion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>modificacionDeNombre</from-outcome>
+            <to-view-id>/modificacion/modificacionDeNombre.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>entregaDeDocumentos</from-outcome>
+            <to-view-id>/entregaDocumentos/entregaDocumento.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>publicacionDocumentacion</from-outcome>
+            <to-view-id>/publicacion/publicacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>digitalizacionDocumentacion</from-outcome>
+            <to-view-id>/digitalizacion/digitalizacionBusqueda.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>impresionTitulo</from-outcome>
+            <to-view-id>/impresionTitulos/impresionTitulo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>registro</from-outcome>
+            <to-view-id>/registro/registro.xhtml</to-view-id>
+        </navigation-case>••••••••••••
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>bandejaNotificaciones</from-outcome>
+            <to-view-id>/notificacion/bandejaNotificacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>detalleNotificacion</from-outcome>
+            <to-view-id>/notificacion/detalleNotificacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>irReportePDF</from-outcome>
+            <to-view-id>/listado.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>reportePI100</from-outcome>
+            <to-view-id>/reportes/PI100/reportePI100.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>reportePI100Ventanilla</from-outcome>
+            <to-view-id>/reportes/ventanilla/reportePI100Ventanilla.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>historial</from-outcome>
+            <to-view-id>/usuario/historial.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>patentes</from-outcome>
+            <to-view-id>/patentes/patentes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>aceptarCambioNombre</from-outcome>
+            <to-view-id>/modificacion/aceptarCambioNombre.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <navigation-case>
+            <from-outcome>reporEtapasGene</from-outcome>
+            <to-view-id>/usuario/reporEtapaGenerico.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>digitalizacionBusqueda</from-outcome>
+            <to-view-id>/digitalizacion/digitalizacionBusqueda.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>aceptarCambioDireccion</from-outcome>
+            <to-view-id>/modificacion/aceptarCambioDireccion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>modificarContrasenia</from-outcome>
+            <to-view-id>/usuario/modificarContrasenia.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>modificarContraseniaConfirmacion</from-outcome>
+            <to-view-id>/usuario/modificarContraseniaConfirmacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formularioModificacionFusion</from-outcome>
+            <to-view-id>/modificacion/formularioModificacionFusion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+   
+     <navigation-rule>
+        <navigation-case>
+            <from-outcome>prioridadesModificacion</from-outcome>
+            <to-view-id>/ModificacionGeneral/prioridadModificacionGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+      
+     <navigation-rule>
+        <navigation-case>
+            <from-outcome>modificacionGeneral</from-outcome>
+            <to-view-id>/modificacionGeneral/modificacionGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+     <navigation-rule>
+        <navigation-case>
+            <from-outcome>solicitudGeneralModificacion</from-outcome>
+            <to-view-id>/modificacion/solicitudGeneralModificacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>busquedaModificacionGeneral</from-outcome>
+            <to-view-id>/modificacionGeneral/busquedaModificacionGeneral.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+</faces-config>
+

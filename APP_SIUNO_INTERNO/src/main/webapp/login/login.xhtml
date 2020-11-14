@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 template="#{sessionState.pathTemplateB}">
+    <ui:define name="content">
+        <p:panel header="LOGIN" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panel1">
+            <div align="center" style="padding:1em 2.2em;">
+                <h:form id="form1">
+                </h:form> 
+                <div align="center" style="padding:1em 2.2em;">
+                    <h:form id="Campo">
+                        <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                        <!--<p:outputLabel value="# {msgs.loginAvisoRegistroAnterior}" style="font-size: 50px"/>-->
+
+                        <div align="center" style="padding:1em 2.2em;">
+
+                            <h:panelGrid columns="5"  id="menu" style="text-align: left">
+                                <h:panelGrid columns="1"  id="centro" style="text-align: left"> 
+                                    <h:outputLabel value="1 .- Si esta registrado en el  SIPI introduzca su Usuario y Contraseña." id="labelmensaje"/>  
+                                    <h:panelGrid columns="2"  id="LegueoUsuario" style="text-align: left">
+                                        <h:outputLabel value="#{msgs.loginLabelUsuario}: " id="labelUsuario"/>  
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                    </h:panelGrid>
+                                    <p:inputText id="Login" value="#{loginUsuarioBean.usuario.login}" size="45"/>
+
+                                    <h:panelGrid columns="2"  id="ContraseñaUsuario" style="text-align: left">
+                                        <h:outputLabel value="#{msgs.loginLabelContraseña}: "/>  
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                    </h:panelGrid>  
+                                    <p:password id="Password" value="#{loginUsuarioBean.usuario.password}" size="45" feedback="false" />
+                                    <h:panelGrid columns="3"  id="boton" style="text-align: left">
+                                        <p:spacer width="90" height="0"></p:spacer>
+                                        <p:commandButton
+                                            style="text-align: right"
+                                            value="#{msgs.loginLabelButtonIngresar}"
+                                            action="#{loginUsuarioBean.verificaUsuarioLogueado()}"
+                                            update="mensajeGeneral"
+                                            ajax="false"
+                                            image="ui-icon ui-icon-key"/>
+
+                                        <p:spacer width="10"></p:spacer>
+                                    </h:panelGrid> 
+                                </h:panelGrid>  
+                                <p:spacer width="10"></p:spacer>
+                                <h:panelGrid columns="1"  id="mensajeDeLogueo" style="text-align: left">
+                                    <h:outputLabel value="2.- Si no esta registrado en el SIPI presione el boton Registrar Usuario." id="labelmensajenuevo"/>  
+                                    <p:spacer width="10" height="20"></p:spacer>
+
+                                    <h:panelGrid columns="3"  id="botonnuevo" style="text-align: left">
+                                        <p:spacer width="100" height="20"></p:spacer>
+                                        <p:commandButton
+                                            style="text-align: right"
+                                            value="#{msgs.loginAvisoRegistros}"
+                                            action="#{loginUsuarioBean.irRegistrarUsuario()}"
+                                            update="mensajeGeneral"
+                                            ajax="false"
+                                            image="ui-icon-pencil"/>
+
+                                    </h:panelGrid>
+
+
+
+                                    <p:spacer width="10" height="60"></p:spacer>
+                                </h:panelGrid>
+                                <p:spacer width="10"></p:spacer>
+                                <h:panelGrid columns="2">
+
+                                    <p:panel style="width: #{cc.attrs.dimension};border-style: #{cc.attrs.tipoBorder}">
+                                        <h:panelGrid columns="1">
+                                            
+                                            <p:commandLink id="descargaPDF" actionListener="#{loginUsuarioBean.descargaTuto()}" ajax="false">
+                                                <p:graphicImage value="/resources/images/pdfimagen.jpg"/>
+                                                <!--<h:outputText value="Descarga Tutorial" style="font-weight: bold" />-->
+                                            </p:commandLink>
+                                            <p:outputLabel value="Tutorial de llenado de formularios" style="font-weight: bold; color:#045491"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+
+                                </h:panelGrid>
+
+
+                            </h:panelGrid>
+                            
+
+                        </div>
+                        <!--                        <h:panelGrid  columns="10" cellpadding="1">                            
+                                                    <p:separator id="separador2" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                                </h:panelGrid>
+                                                 <p:commandLink  action="# {loginUsuarioBean.irOlvidoContrasenia()}" style="color: darkorange" ajax="false">
+                                                    <h:outputText value="# {msgs.loginAvisoOlvidoContrasenia}" style="text-align: right"/>
+                                                </p:commandLink>-->
+                        <h:panelGrid columns="2" style="text-align: initial">
+                            <h:outputLabel value="#{msgs.mensajeTemporal}" style="font-size: 10px; color:#045491 "/>
+                            <p:graphicImage value="/resources/images/navegadoresfinal.png" />
+                        </h:panelGrid>
+
+
+
+
+                        <!--                        <h:panelGrid columns="2" style="text-align: initial">
+                                                    <h:outputLink value="https://youtu.be/tTTJS830fOY" target="_blanc">
+                                                        <span style="font-size: 10px; color:#045491">Video Tutorial</span>
+                                                    </h:outputLink>
+                                                    <p:graphicImage value="/resources/images/imageyoutobe.png" />
+                                                </h:panelGrid>                        -->
+                    </h:form>
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+                    </p:dialog>
+
+                </div>
+            </div> 
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporConfundiTodos" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e138575-1349-44c7-8dcb-573dc0374c4d">
+	<property name="ireport.zoom" value="2.5937424601000068"/>
+	<property name="ireport.x" value="174"/>
+	<property name="ireport.y" value="484"/>
+	<parameter name="fechaUltModif" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<field name="codigoDia" class="java.lang.String"/>
+	<field name="fechaIngreso" class="java.lang.String"/>
+	<field name="horaIngreso" class="java.lang.String"/>
+	<field name="tramite" class="java.lang.String"/>
+	<field name="imageEscudoBol" class="java.lang.String"/>
+	<field name="imageSenapi" class="java.lang.String"/>
+	<field name="denom1" class="java.lang.String"/>
+	<field name="figur1" class="java.lang.String"/>
+	<field name="denom2" class="java.lang.String"/>
+	<field name="figur2" class="java.lang.String"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="datosLista" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="obs" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="353">
+			<rectangle>
+				<reportElement x="0" y="83" width="752" height="14" backcolor="#000000" uuid="d1e428f4-a226-41f1-a412-c02e156558ef"/>
+			</rectangle>
+			<componentElement>
+				<reportElement stretchType="RelativeToTallestObject" x="616" y="2" width="133" height="28" uuid="3f096e64-796d-4314-9b67-f5ce86bc5c6d"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Monarch" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{codigoDia}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<image>
+				<reportElement x="347" y="2" width="100" height="63" uuid="6b9f3383-8133-49dd-9cdd-4e56758a6302"/>
+				<imageExpression><![CDATA[$F{imageEscudoBol}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="617" y="57" width="60" height="10" uuid="2c3fbd59-8e18-4538-9f16-87228708dbec"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Hora Ingreso: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="71" width="192" height="15" forecolor="#000080" uuid="71a1a497-96ce-4c56-8dd6-cad0e44d4cfb"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="61" width="180" height="10" forecolor="#000080" uuid="2b84fc59-30c4-47ea-92ea-3d1a9cb08009"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE PROPIEDAD INTELECTUAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="617" y="47" width="60" height="10" uuid="0fe02cc1-70fe-4e68-8355-c2a3aaee3735"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha Ingreso: ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="1" y="2" width="238" height="47" uuid="ace5eb99-c1fd-4191-9c8f-596aeb044e13"/>
+				<imageExpression><![CDATA[$F{imageSenapi}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="79" y="49" width="46" height="11" forecolor="#000080" uuid="6b0f5b55-51b9-4114-b072-0532215b6ae7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PETITORIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="86" width="187" height="13" forecolor="#FDFBFB" uuid="f3326254-535a-41eb-b3c0-a6c5207ce203"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANÁLISIS EXAMEN DE FONDO DE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="99" width="752" height="10" backcolor="#C0C0C0" uuid="6c40caf3-d2d8-43fc-a4fa-3c5ea20f2557"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="100" width="174" height="9" uuid="f44f9821-2f1c-4956-83bb-c1fbd6dfa732"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[ANÁLISIS DE CONFUNDIBILIDAD]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="616" y="29" width="133" height="12" uuid="b540e6f5-b055-48ee-9eff-15e776e96c0a"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoDia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="677" y="47" width="72" height="10" uuid="51c77cb6-c2c8-47ef-9cb2-48c9412b1dfd"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaIngreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="677" y="57" width="72" height="10" uuid="96965350-70b0-4fc0-965d-ef6c4d98646e"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horaIngreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="86" width="100" height="14" forecolor="#FFFFFF" uuid="fd4daf32-e439-4021-aaa2-3f3042e40eb4"/>
+				<textFieldExpression><![CDATA[$F{tramite}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="5">
+				<reportElement x="101" y="114" width="448" height="15" uuid="57099ccd-5bb7-40c2-a5c8-4c4e3f19a9a3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="133" width="214" height="10" uuid="f6be98f5-1024-44d4-aac7-9eb5b68922b4"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[¿Cuál es elemento dominante en el signo mixto?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="114" width="82" height="11" uuid="c2e0f51d-b747-4966-83b1-1eab12ac7d70"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Registro Comparado: ]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="10" y="160" width="741" height="47" uuid="3922f515-e805-40e9-90b9-103fca5535f0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="9" y="6" width="46" height="11" uuid="659c84da-3bce-4413-9b3f-2886f64ecc07"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Solicitante]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="375" y="7" width="142" height="11" uuid="c47a4a16-bce0-4975-b95c-d9265bdcb007"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Registrado o Previamente Solicitado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="197" y="6" width="46" height="11" uuid="7f173abd-28d0-4c85-9ac3-aa81294124a1"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Solicitante]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="569" y="6" width="143" height="11" uuid="b1911c16-923f-4867-bda1-7dbb45aa2af1"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Registrado o Previamente Solicitado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="20" width="51" height="11" uuid="cfd8ed96-5d1e-43fd-9208-dc7f7fce6618"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Denominativo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="375" y="21" width="54" height="11" uuid="5f5a3030-4e70-45b4-8851-0addd8602635"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Denominativo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="197" y="21" width="46" height="11" uuid="0dd01ffd-0fda-494e-8fb0-8e7a0e5ef448"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Figurativo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="570" y="20" width="46" height="11" uuid="5aabfd59-c858-4aba-a064-64d3805c355b"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Figurativo]]></text>
+				</staticText>
+				<rectangle radius="5">
+					<reportElement stretchType="RelativeToTallestObject" x="66" y="19" width="110" height="15" uuid="0a7f82f6-a098-4cc4-8ff5-0948b5fa7adb"/>
+				</rectangle>
+				<rectangle radius="5">
+					<reportElement stretchType="RelativeToTallestObject" x="246" y="19" width="110" height="15" uuid="31c6e491-c306-4aaf-9836-4bb4d3ab5157"/>
+				</rectangle>
+				<rectangle radius="5">
+					<reportElement stretchType="RelativeToTallestObject" x="439" y="19" width="110" height="15" uuid="76c873d1-494d-4fd0-9574-90f8b9395512"/>
+				</rectangle>
+				<rectangle radius="5">
+					<reportElement stretchType="RelativeToTallestObject" x="622" y="19" width="110" height="15" uuid="d68c3721-61b1-4e15-a7dc-2c57602ac34a"/>
+				</rectangle>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="69" y="22" width="106" height="11" uuid="365e44e0-4741-4e66-ba9f-d4bc82455955"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{denom1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="250" y="22" width="100" height="9" uuid="c8c6b90b-f41b-49ec-9703-21909d0b0444"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{figur1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="444" y="22" width="100" height="10" uuid="eddee566-ea00-4ee2-b4db-3e93be3d43ff"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{denom2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="629" y="22" width="100" height="11" uuid="ff971818-09d3-4058-9bb3-7fe6a3cdcb61"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{figur2}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="116" width="434" height="13" uuid="7aa899b9-97f8-42ae-bd19-2fc1c88f0ed6"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="10" y="214" width="742" height="34" uuid="a3b569db-523a-4f24-9fb0-4f7c0d9a52fa"/>
+				<dataSourceExpression><![CDATA[$F{datosLista}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporAnalisisConfundibilidad_DatosSemejanza.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="19" y="268" width="63" height="9" uuid="e445a397-6449-4e15-915d-31dd45520e62"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement positionType="Float" x="108" y="268" width="634" height="72" uuid="3ceb39d5-8d4a-439a-9d14-6f44ca8276b5"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="111" y="272" width="628" height="68" uuid="ce089d3b-a7c8-4599-a8e1-11996d77c0c4"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obs}]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement x="0" y="352" width="100" height="1" uuid="b39ffecb-92be-4241-ba7b-c567a86d00fb"/>
+			</break>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="661" y="35" width="45" height="9" uuid="2790704c-807a-4b46-b7c6-87b54af78450"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Fecha Ult. Modif. :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="706" y="35" width="45" height="10" uuid="6415f639-a44a-4b9d-a3cf-9ad958e33118"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaUltModif}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="576" y="35" width="23" height="10" uuid="6436e5ba-dcba-49d2-8041-0b8ccafb7353"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="600" y="35" width="61" height="10" uuid="68df0b8d-d74e-47c3-9255-7f40911d8de3"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="662" y="25" width="26" height="8" uuid="81d93fb8-173f-4797-bca8-3199685178e1"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

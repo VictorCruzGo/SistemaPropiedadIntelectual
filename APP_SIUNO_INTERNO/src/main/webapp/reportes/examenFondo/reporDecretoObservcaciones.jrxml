@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporDecretoObservcaciones" language="groovy" pageWidth="612" pageHeight="792" columnWidth="520" leftMargin="72" rightMargin="20" topMargin="99" bottomMargin="28" uuid="ee2d2a8b-fa1e-4adc-9e1e-f6820830fe2b">
+	<property name="ireport.zoom" value="1.464100000000004"/>
+	<property name="ireport.x" value="75"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tramite" class="java.lang.String"/>
+	<parameter name="fechaActual" class="java.lang.String"/>
+	<parameter name="numeroDecreto" class="java.lang.String"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="imageEscudoBol" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="textoUsuario" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="fechaModificacion" class="java.lang.String"/>
+	<parameter name="usuarioRepor" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<title>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="139" y="2" width="114" height="20" uuid="07f47070-d8fc-47e3-85fc-17e0b96f3011"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuarioRepor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="2" width="66" height="20" uuid="89b5132c-4c51-4f89-bba0-47c2a70836af"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="258" y="2" width="68" height="20" uuid="4062e3d7-ba9d-4612-b97a-3a9262dc9d05"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha Ult. Modif.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="326" y="2" width="68" height="20" uuid="192ed74b-f0a2-423c-967d-223eba11d5a5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaModificacion}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="466" y="2" width="40" height="20" uuid="8f91f809-444b-430e-9e04-4d91b36fcc46"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="109" y="2" width="31" height="20" uuid="126a2a0d-567f-415e-a5f2-6fdd2428bc2d"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="13" y="2" width="35" height="20" uuid="6fee83b9-b31b-441b-837b-442585a98fd5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroDecreto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="2" width="12" height="20" uuid="caf027da-139e-4d06-b91c-0eb9d530b9cd"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Cc.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="51">
+			<subreport>
+				<reportElement x="0" y="0" width="520" height="50" uuid="8cf71f93-3ba0-44db-b1c4-bc3357f1bdd5"/>
+				<dataSourceExpression><![CDATA[$P{textoUsuario}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reportDecretoSinObservaciones_subrepTextousuario.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="9">
+			<staticText>
+				<reportElement x="492" y="0" width="24" height="8" uuid="fbd27dc8-325e-433f-9165-092a5911c6dc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

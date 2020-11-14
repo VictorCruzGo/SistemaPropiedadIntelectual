@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportDecretoSinObservaciones_subrepTextousuario" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="07ec6ede-9307-492a-b6a5-891518a4359d">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="texto" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="numeroDecreto" class="java.lang.String"/>
+	<field name="tramite" class="java.lang.String"/>
+	<field name="fechaActual" class="java.lang.String"/>
+	<field name="codigoDia" class="java.lang.String"/>
+	<field name="responsable" class="java.lang.String"/>
+	<title>
+		<band height="266">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="108" width="470" height="20" uuid="e074928a-01c8-4402-8968-776330b0c715"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{texto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="61" height="20" uuid="0fbf9e4c-87cd-4f2f-b530-4f87c6a62592"/>
+				<text><![CDATA[Expediente:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="2" width="100" height="20" uuid="26027f77-5a5f-41fe-ac6d-b3a654beecce"/>
+				<textFieldExpression><![CDATA[$F{tramite}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="197" y="71" width="273" height="20" uuid="36f5875c-c91a-4903-9db8-c437c5a28640"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{fechaActual}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="0" y="26" width="55" height="15" uuid="fa1f687f-fa00-465a-ac41-6de663579239"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Monarch" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{codigoDia}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="41" width="55" height="12" uuid="593d774e-9fc1-4437-8c14-2a2aab2a51d0"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoDia}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="0" y="128" width="470" height="138" uuid="3bbbbe9a-6333-4aa8-ae96-88b00b9a64a4"/>
+				<staticText>
+					<reportElement x="124" y="102" width="226" height="15" uuid="d2010f53-e716-487e-823b-a0589fc002b1"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[RESPONSABLE DE SIGNOS DISTINTIVOS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="215" y="117" width="47" height="20" uuid="0ee7c05d-0bbd-425c-8b94-0b846c08a481"/>
+					<text><![CDATA[SENAPI]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="124" y="86" width="226" height="15" uuid="9fb5d3bd-2370-4ed8-9836-9cf42d967096"/>
+					<textElement textAlignment="Center">
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{responsable}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporExamenFondoTodo_AnalisisiDenomi" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d123ce9d-0835-4540-88d2-52619628a5ce">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<title>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="2" width="575" height="10" backcolor="#C0C0C0" uuid="8af92be6-927b-40e4-8330-9a93a25e1f53"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="3" width="177" height="9" uuid="87e32c35-f245-4ac7-a9c9-ba5a9e32ee55"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[2. Análisis de Denominaciones]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="0" width="40" height="10" uuid="074d2f99-58c3-4a6c-a195-f49e63d09eee"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Tramite]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="7" y="12" width="100" height="20" uuid="4d399e18-2c57-428a-a5f6-5a9a2002ad61"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="131" y="2" width="41" height="10" uuid="dc3478d2-bb3f-4ae4-b7fe-d7a20967e1ad"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="128" y="12" width="310" height="20" uuid="6da727f3-796f-4b00-9f3b-42764b399c46"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="458" y="2" width="41" height="10" uuid="b5eb1b02-d1bc-4fa1-b06d-c18d072d3cde"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Visual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="535" y="2" width="41" height="10" uuid="8c5ae46c-9cf2-4998-9348-c0175ecbb4e2"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fonética]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="455" y="12" width="54" height="20" uuid="af49f79b-51f2-4476-b066-346441a726e9"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="531" y="12" width="45" height="20" uuid="314177d6-9434-4fc9-b2bc-7fce68a717bf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="38" width="40" height="10" uuid="2cd00b92-aa0a-4beb-bb51-af48807b86e5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Solicitado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="38" width="143" height="10" uuid="7106b16a-c51d-4706-b358-7e6ba68e6cd1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Registado oPreviamente Solicitado]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="7" y="48" width="154" height="20" uuid="65e22144-b3ab-474a-9f0b-9d7a3e0cbfaa"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="176" y="48" width="179" height="20" uuid="ceb5a7d8-6602-4326-b1bb-f7988d69e310"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="373" y="48" width="103" height="20" uuid="9a7c790c-5443-4393-add4-2905e0173fc2"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="491" y="48" width="85" height="20" uuid="c7c87e0f-5633-48a6-9a57-b00012771c47"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="76" width="119" height="10" uuid="55d783eb-7620-42ab-8d55-8f3eae3b4896"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Es confundible la partícula?]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="9" y="86" width="152" height="20" uuid="20ba941d-5c37-47e8-bc1d-412c315dd1a2"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="177" y="86" width="103" height="20" uuid="4dbe7e23-da79-415d-a794-d964ef32408e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="16" width="76" height="10" uuid="a43124b8-276c-4b9e-acc9-1b8a5aefb301"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[SM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="16" width="286" height="10" uuid="0cda984c-d32b-472f-929c-c2d65af715da"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Pollos copacabana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="464" y="17" width="23" height="10" uuid="efc2c120-7e15-4794-a756-7a32475bb630"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[SI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="17" width="23" height="10" uuid="61d01ad0-ae90-4100-8c34-4904492d5bcd"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="53" width="76" height="10" uuid="0850140f-d7e8-42f5-a6fa-6f32d989f6ae"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Signo Marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="54" width="155" height="10" uuid="a5191279-0149-4f66-989e-cb360e200600"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Signo Marca Modificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="382" y="53" width="82" height="10" uuid="154bd701-5134-4749-a1bd-f9100d0dd0a0"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Descriptivo - Generico - Evocativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="499" y="54" width="76" height="10" uuid="05033f12-5686-4d3b-a4de-19caa18a7fd2"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Dibujo- Dévil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="91" width="149" height="10" uuid="38f24689-b1c2-44d3-98a2-4826e51d3bfa"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Ortográfica/Visual - Fónetica/Auditiva]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="196" y="91" width="23" height="10" uuid="6eb1721f-478b-459c-bdb4-6a12fa0d2fe6"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[SI]]></text>
+			</staticText>
+			<line>
+				<reportElement x="12" y="115" width="564" height="1" uuid="43ed3c6b-d85a-47b3-96b7-2d292584204d"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

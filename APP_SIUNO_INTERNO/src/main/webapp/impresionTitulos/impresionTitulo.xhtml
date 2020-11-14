@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+           <p:growl id="mensajeGeneral" showDetail="true" life="5000" autoUpdate="true"/>     
+            <p:panel header="IMPRESION DE TITULOS" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelRegistro">
+                             
+                <p:panel id="panelUno" style="border-style: hidden">             
+                    <div align="left">
+                        <p:fieldset id="panelToggleable" legend="FORMULARIO PARA GENERAR DATOS DE TITULO" 
+                                    style="margin-bottom:20px; height: 100%">  
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid  id="panelMensaje" columns="2" cellpadding="5">                            
+                                    <si.componentes:informacion id="mensaje"  dimension="100%" rendered="#{impresionTituloBean.impresion}" mensaje="#{msgs.mensajeImpresion}"/>
+                                    <si.componentes:informacion id="mensaje2" dimension="100%" rendered="#{impresionTituloBean.noImpresion}" mensaje="#{msgs.mensajeNoImpresion}"/>
+                                    <p:separator id="separador9" style="width: 30px ; border: 0px; height: 0px"></p:separator>
+                                    <p:panel id="pabelDatos" style="border-style: solid;width: 115%">
+                                        <h:panelGrid columns="3" style="width: 100%">
+                                            <p:outputLabel value="Tramite"/>
+                                            <p:outputLabel value=":"/>
+                                            <p:outputLabel value="#{impresionTituloBean.codigoSM}"/>
+
+                                            <p:outputLabel value="Nombre solicitante"/>
+                                            <p:outputLabel value=":"/>
+                                            <p:outputLabel value="#{impresionTituloBean.nombre}" />
+
+                                            <p:outputLabel value="Nacionalidad"/>
+                                            <p:outputLabel value=":"/>
+                                            <p:outputLabel value="#{impresionTituloBean.nacionalidad}" />
+
+                                            <p:outputLabel value="Numero de Identificación"/>
+                                            <p:outputLabel value=":"/>
+                                            <p:outputLabel value="#{impresionTituloBean.identificacion}" />
+
+                                            <p:outputLabel value="Nombre Apoderado"/>
+                                            <p:outputLabel value=":"/>
+                                            <p:outputLabel value="#{impresionTituloBean.nombreApoderado}"/>
+
+                                            <p:outputLabel value="Nombre de la Marca Solicitada"/>
+                                            <p:outputLabel value=":"/>
+                                            <p:outputLabel value="#{impresionTituloBean.nombreMarca}" />
+
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                </h:panelGrid>
+                                <p:separator id="separador15" style="width: 0px ; border: 0px; height: 15px"></p:separator>
+
+                                <h:panelGrid columns="7" cellpadding="5">
+                                    <p:commandButton
+                                        value="Imprimir Título"
+                                        ajax="false"
+                                        action="#{impresionTituloBean.botonGenerar()}"
+                                        update="descripcion,mensaje,mensaje2"
+                                        icon="ui-icon-print"     >
+                                    </p:commandButton>
+                                    <p:separator id="separador10" style="width: 0px ; border: 0px; height: 0px"></p:separator>
+                                    <p:commandButton
+                                        value="Imprimir Resolución"
+                                        icon="ui-icon-print"
+                                        ajax="false"
+                                        action = "#{impresionTituloBean.botonImprimir()}"
+                                        update="descripcion,mensaje,mensaje2"
+                                        >
+                                    </p:commandButton>
+                                    <h:outputLabel value="Reasignar "/>
+                                    <p:selectBooleanCheckbox id="reasignar" 
+                                                             value="#{impresionTituloBean.reasignar}">
+                                        <p:ajax update=":form:panelbuscaSM" listener="#{impresionTituloBean.habilitaReasignar()}" />
+                                    </p:selectBooleanCheckbox>
+                                    <p:panel id="panelbuscaSM" style="width: 100%;border-style: hidden;padding:0em 0em 0em;" >
+                                        <h:panelGrid columns="4" id="panelSM" style="width: 90%;padding:0em 0em 0em;" rendered="#{impresionTituloBean.reasignarRendered}">                                                                                
+                                            <p:outputLabel value="N° Registro y Serie:"/>
+                                            <h:inputText id="numero" value="#{impresionTituloBean.nroRegistro}" size="7" style="text-align: center"/>                                        
+                                            <h:inputText id="serie" value="#{impresionTituloBean.serie}" size="5" style="text-align: center" />                                                                                                                                      
+                                            <p:separator id="separador11" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                            <p:commandButton
+                                                value="#{msgs.labelBuscar}"
+                                                process="@this,numero,serie,botonSi"                                                
+                                                update=":form:codigoSM,:form:registroD,:form:serieD,form:resolucionD,:form:fechaD,:form:codigoSM2,:form:botonSi, :form:gestionD"
+                                                actionListener="#{impresionTituloBean.reasignarRegistroDialogo()}"
+                                                onclick="PF('reporte').show()" 
+                                                icon="ui-icon-search"
+                                                />                                                                                                                                                                   
+                                        </h:panelGrid>
+
+
+                                    </p:panel>
+
+                                </h:panelGrid>
+                            </div>
+                            <!--                            <h:panelGrid columns="5" cellspacing="5">
+                                                            <h:outputLabel value="# {impresionTituloBean.informacion}" />
+                                                        </h:panelGrid>-->
+
+                            <p:separator id="separador5" style="width: #{impresionTituloBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                            <div align="right" style="padding:1em 2.2em;">
+                                <p:commandButton value="Digitalizar Documentos" action="#{impresionTituloBean.abrirBandejaDigitalizacion()}"/>
+                            </div>
+                            <p:dialog id="dialogo" header="REASIGNAR TITULO - RESOLUCION" widgetVar="reporte" closable="false" height="50%" width="35%" resizable="false" modal="true" footer="Revise los datos cuidadosamente.">
+
+                                <div align="center">
+                                    <p:outputLabel value="LOS DATOS CORRESPONDEN A:"/>
+                                    <p:separator id="separador1" style="width: #{impresionTituloBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>                                    
+                                    <h:panelGrid columns="2" cellspacing="2">
+                                        <p:outputLabel value="Codigo Tramite:"/>
+                                        <h:inputText id="codigoSM" value="#{impresionTituloBean.tramiteAux.tramite}" size="22" disabled="true" style="text-align: center"/> 
+                                        <p:outputLabel value="Registro:"/>
+                                        <h:inputText id="registroD" value="#{impresionTituloBean.registroAux.registro}" size="22" disabled="true" style="text-align: center"/>
+                                        <p:outputLabel value="Serie:"/>
+                                        <h:inputText id="serieD" value="#{impresionTituloBean.registroAux.serieRegistro}" size="22" disabled="true" style="text-align: center"/>
+                                        <p:outputLabel value="Resolucion:"/>
+                                        <h:inputText id="resolucionD" value="#{impresionTituloBean.registroAux.resolucion}" size="22" disabled="true" style="text-align: center"/>
+                                        <p:outputLabel value="Gestion:"/>
+                                        <h:inputText id="gestionD" value="#{impresionTituloBean.registroAux.gestionResolucion}" size="22" disabled="true" style="text-align: center"/>
+                                        <p:outputLabel value="Fecha Registro:"/>                                        
+                                        <h:inputText id="fechaD" value="#{impresionTituloBean.registroAux.fechaResolucionRegistro}" size="22" disabled="true" style="text-align: center">
+                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                        </h:inputText>
+                                    </h:panelGrid>
+                                    <p:separator id="separador4" style="width: #{impresionTituloBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>   
+                                    
+                                    <p:outputLabel value="SE ASIGNARA EL REGISTRO AL TRAMITE:"/>
+                                    <p:separator id="separador6" style="width: #{impresionTituloBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                                    <h:panelGrid columns="2" cellspacing="1">
+                                         <p:outputLabel value="Codigo Tramite:"/>
+                                        <h:inputText id="codigoSM2" value="#{impresionTituloBean.tramite.tramite}" size="22" disabled="true" style="text-align: center"/>                                        
+                                    </h:panelGrid>
+                                </div>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <!--                                    <p:commandButton id="ori"
+                                                                                         value="Imprimir Registro"
+                                                                                         icon="ui-icon-print"
+                                                                                         actionListener="# {impresionTituloBean.botonImprimir()}"
+                                                                                         disabled="# {impresionTituloBean.original}"
+                                                                                         update=":form:ori,:form:mensaje,:form:mensaje2,:form:panelMensaje,:form:descripcion"
+                                                                                         onclick="PF('reporte').hide();"
+                                                                                         />-->
+                                    <!--                                    <p:commandButton id="cop"
+                                                                                         value="Imprimir Copia Registro"
+                                    update=":form:mensaje,:form:mensaje2,:form:panelMensaje,:form:descripcion"
+                                                                                         icon="ui-icon-print"
+                                                                                         />-->
+                                     <si.componentes:informacion id="mensaje3" dimension="90%" mensaje="Esta seguro de completar la reasignacion del Registro"/>
+                                    <p:commandButton
+                                        id="botonSi"
+                                        value="Si"
+                                        onclick="PF('reporte').hide();"
+                                        icon="ui-icon ui-icon-disk"
+                                        update=":form:numero, :form:serie,:form:reasignar,:form:panelbuscaSM"
+                                        action="#{impresionTituloBean.completarReasignarRegistro()}"
+
+                                        />
+                                    <p:commandButton
+                                        value="No"
+                                        onclick="PF('reporte').hide();"
+                                        icon="ui-icon-close"
+                                        action="#{impresionTituloBean.reset()}"
+                                        update=":form:numero, :form:serie,:form:reasignar,:form:panelbuscaSM"
+
+                                        />
+                                </div>
+                            </p:dialog>
+                            <div align="right" style="padding:1em 2.2em;">
+                                <p:commandButton
+                                    value="Finalizar"
+                                    action="#{impresionTituloBean.derivarImpresionTituloSiguienteEtapa()}"
+                                    ajax="true"
+                                    icon="ui-icon-circle-triangle-e">
+                                    <p:confirm header="Confirmación Finalizar" message="Se dará por concluida la etapa, no podrá digitalizar mas documentos posteriormente. ¿Esta seguro de continuar?" icon="ui-icon-alert" >
+                                    </p:confirm>
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" closable="false" style="text-align: center; font-weight: bold; color: #045491" >
+                                    <div align="center">
+
+                                        <h:panelGrid columns="3" style="text-align: left">
+                                            <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:separator id="separador20" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                            <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </h:panelGrid>
+                                    </div>
+                                </p:confirmDialog>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                </p:panel>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>                    

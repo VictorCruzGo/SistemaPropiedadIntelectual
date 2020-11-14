@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+
+        <p:panel header="#{msgs.headerAceptarCambioNombre}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden;alignment-adjust: middle" id="panelRegistro">
+            <div align="left">
+                <p:fieldset id="panelToggleable" legend="#{aceptarCambioBean.tramite.tramite}" 
+                            style="height: 100%">
+
+                    <h:form id="form" >
+                        <div align="center">
+                            <p:growl id="msgs" showDetail="true" />
+                        </div>
+
+                        <h:panelGrid columns="3" style="text-align: center">
+
+                            <p:panel style="width: 100%" header="#{msgs.datosSolVigente}">
+                                 <h4><h:outputLabel value=" *  " style="color: #C00"/> <p:outputLabel id="labelA" value="#{msgs.labelListadoA}" ></p:outputLabel></h4>
+                                <div align="center" style="padding:1em 0em">
+                                    <p:dataTable var="itemEmpresa" value="#{aceptarCambioNombreBean.listadoEmpresaOficial}" style="width: 100%"
+                                                 scrollable="true" scrollHeight="100"
+                                                 resizableColumns="true" emptyMessage="#{msgs.listaVacia}">
+                                        <f:facet name="header">  
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}"/>
+                                            </p:outputPanel>
+                                        </f:facet>     
+                                        <p:column  headerText="#{msgs.solicitantelabelRazonSocial}" width="30%">  
+                                            <h:outputText value="#{itemEmpresa.nombreRepresentante}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="35%">  
+                                            <h:outputText value="#{itemEmpresa.numeroDocumento}" />
+                                        </p:column>  
+                                        <p:column headerText="#{msgs.solicitanteTipoDocumento}" width="35%">  
+                                            <h:outputText value="#{itemEmpresa.tipoDocumentoEmpresa.descripcion}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitantePais}" width="20%">  
+                                            <h:outputText value="#{itemEmpresa.tipoPais.descripcion}" />
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>  
+                                    </p:dataTable>
+                                </div>
+                                <div align="center" style="padding:1em 0em">
+                                    <p:dataTable var="persona" value="#{aceptarCambioNombreBean.listadoPersonaOficial}" style="width: 100%"
+                                                 scrollable="true" scrollHeight="100"
+                                                 resizableColumns="true" emptyMessage="#{msgs.listaVacia}">             
+                                        <f:facet name="header">  
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.solicitantelabelTituloPersona}"/>
+                                            </p:outputPanel>
+                                        </f:facet>                 
+                                        <p:column  headerText="#{msgs.solicitantelabelNombres}" width="25%" >  
+                                            <h:outputText value="#{persona.nombres}" />
+                                        </p:column>
+                                        <p:column   headerText="#{msgs.solicitantelabelApellidoPaterno}" width="25%">  
+                                            <h:outputText value="#{persona.apellidoPaterno}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.solicitantelabelApellidoMaterno}" width="25%">  
+                                            <h:outputText value="#{persona.apellidoMaterno}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="25%">  
+                                            <h:outputText value="#{persona.numeroDocumento}" />
+                                        </p:column> 
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>  
+                                    </p:dataTable>
+
+                                </div>
+                            </p:panel> 
+
+                            <p:separator id="separador9" style="width: 1px ; border: 0px; height: 0px"></p:separator>
+
+                            <p:panel style="width: 100%" header="#{msgs.datosSolModificacion}">
+                                <h4><h:outputLabel value=" *  " style="color: #C00"/> <p:outputLabel id="labelB" value="#{msgs.labelListadoB}" ></p:outputLabel></h4>
+                                <div align="center" style="padding:1em 0em">
+                                    <p:dataTable var="itemEmpresa" value="#{aceptarCambioNombreBean.listadoEmpresaOficialModificacion}" style="width: 100%"
+                                                 scrollable="true" scrollHeight="100"
+                                                 resizableColumns="true" emptyMessage="#{msgs.listaVacia}">
+                                        <f:facet name="header">  
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.solicitantelabelTituloEmpresa}"/>
+                                            </p:outputPanel>
+                                        </f:facet>     
+                                        <p:column  headerText="#{msgs.solicitantelabelRazonSocial}" width="30%">  
+                                            <h:outputText value="#{itemEmpresa.nombreRepresentante}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="35%">  
+                                            <h:outputText value="#{itemEmpresa.numeroDocumento}" />
+                                        </p:column>  
+                                        <p:column headerText="#{msgs.solicitanteTipoDocumento}" width="35%">  
+                                            <h:outputText value="#{itemEmpresa.tipoDocumentoEmpresa.descripcion}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitantePais}" width="20%">  
+                                            <h:outputText value="#{itemEmpresa.tipoPais.descripcion}" />
+                                        </p:column>
+
+
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>  
+                                    </p:dataTable>
+                                </div>
+                                <div align="center" style="padding:1em 0em">
+                                    <p:dataTable id="lista" var="persona" value="#{aceptarCambioNombreBean.listadoPersonaOficialModificacion}" style="width: 100%"
+                                                 scrollable="true" scrollHeight="100"
+                                                 resizableColumns="true" emptyMessage="#{msgs.listaVacia}">             
+                                        <f:facet name="header">  
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.solicitantelabelTituloPersona}"/>
+                                            </p:outputPanel>
+                                        </f:facet>                 
+                                        <p:column  headerText="#{msgs.solicitantelabelNombres}" width="30%" >  
+                                            <h:outputText value="#{persona.nombres}" />
+                                        </p:column>
+                                        <p:column  headerText="#{msgs.solicitantelabelApellidoPaterno}" width="30%">  
+                                            <h:outputText value="#{persona.apellidoPaterno}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.solicitantelabelApellidoMaterno}" width="30%">  
+                                            <h:outputText value="#{persona.apellidoMaterno}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitantelabelNumeroDocumentoEmpresa}" width="30%">  
+                                            <h:outputText value="#{persona.numeroDocumento}" />
+                                        </p:column> 
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>  
+                                    </p:dataTable>
+
+                                </div>
+                            </p:panel>
+
+                        </h:panelGrid>
+
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="3" style="text-align: center">
+                                <p:commandButton
+                                    value="Volver"
+                                    ajax="false"
+                                    action="#{aceptarCambioNombreBean.volverExamenForma()}"
+                                    icon="ui-icon-arrowreturnthick-1-w"
+                                    />
+                                <p:separator id="separador10" style="width: 1px ; border: 0px; height: 0px"></p:separator>
+                                <p:commandButton
+                                    value="Realizar Cambio de Nombre"
+
+                                    action="#{aceptarCambioNombreBean.aceptarCambioNombre}"
+                                    icon="ui-icon-disk"
+                                    >
+                                    <p:confirm header="Confirmación Cambio de Nombre" message="Se aplicaran los cambios. ¿Esta seguro de completar la acccion?" icon="ui-icon-alert" >
+                                    </p:confirm>
+                                </p:commandButton>
+
+
+
+                                <!--                                <div align="center" style="padding:1em 2.2em;">
+                                                                    <p:commandButton
+                                                                        value="Generar"
+                                                                        
+                                                                        ajax ="false"
+                                                                        icon="ui-icon-newwin"
+                                                                        >
+                                                                    </p:commandButton>
+                                                                </div>-->
+                            </h:panelGrid>
+                            <p:confirmDialog global="true" showEffect="fade" closable="false" style="text-align: center; font-weight: bold; color: #045491" >
+                                <div align="center">
+
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:separator id="separador20" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+
+                        </div>
+                    </h:form>
+                </p:fieldset>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>     

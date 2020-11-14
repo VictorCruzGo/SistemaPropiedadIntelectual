@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_subreHojaBlanco" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7ce7adb3-1849-44ac-b8c6-92ef7a891ef2">
+	<property name="ireport.zoom" value="1.2100000000000029"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="contRenov" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="207" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="6" width="540" height="12" backcolor="#000000" uuid="49a05e88-7e1a-4829-945f-e84b5ed129eb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="203" y="7" width="139" height="11" forecolor="#FFFFFF" uuid="ba8ee3a1-5aca-4512-b572-3e9bd104a6b9"/>
+				<textElement>
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ANEXO SIGNO DISTINTIVO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="4" y="36" width="536" height="65" uuid="06d62c37-5582-4fcb-a4fe-49abee4525bc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="25" width="39" height="9" uuid="bd6cdf95-ad6d-4afb-b057-2275cead8542"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[NULIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="48" width="56" height="12" uuid="6bd10b87-8aed-4c42-b87f-8ff59170d5cb"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Resolución N°]]></text>
+			</staticText>
+			<line>
+				<reportElement x="78" y="61" width="462" height="1" uuid="c06d2b29-a50e-4f02-a82e-dae0613dff65"/>
+			</line>
+			<staticText>
+				<reportElement x="17" y="78" width="41" height="12" uuid="00ee9725-e115-4d0e-a1b1-16b31bd9f131"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="58" y="84" width="484" height="1" uuid="92d0cf79-a4e3-45c9-9336-27f80ef72dc1"/>
+			</line>
+			<staticText>
+				<reportElement x="4" y="106" width="74" height="9" uuid="27865e20-00fd-4b62-9594-66cf75656af0"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[CANCELACION]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="4" y="119" width="536" height="65" uuid="16dfce77-2f0a-4265-8e7f-941bace5aa14"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="134" width="56" height="12" uuid="7bb3bb35-9371-4fd1-9be1-67c206c824e0"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Resolución N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="161" width="41" height="12" uuid="0a6b0965-7667-4904-a6f2-672fd3cff1fd"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="78" y="146" width="462" height="1" uuid="c3f3e2f5-dcb7-43db-b843-639148083790"/>
+			</line>
+			<line>
+				<reportElement x="65" y="168" width="477" height="1" uuid="5482392c-6b43-4ae9-a32d-46d69525339a"/>
+			</line>
+			<staticText>
+				<reportElement x="7" y="190" width="74" height="9" uuid="f0c4287c-9861-495b-b2c5-cb9b1d39074c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[RENOVACION]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="63" splitType="Stretch">
+			<rectangle>
+				<reportElement x="4" y="1" width="536" height="62" uuid="33657372-7fa8-42eb-8f87-1f8541d75e79"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="14" y="10" width="63" height="12" uuid="7d9f3b19-1b80-4a67-b9db-ac3d04df7348"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Por Resolución N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="194" y="10" width="35" height="12" uuid="9ef3a232-bfda-42f1-9470-3d4b36e7f9ff"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[de fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="10" width="47" height="12" uuid="1b58b8da-7a00-4e2a-b3cc-b557a4173da8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[se aprobó la]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="30" width="234" height="12" uuid="a6cc4891-826a-46e7-ae0e-573928352645"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[renovación de la marca indicada con Número de Certificado]]></text>
+			</staticText>
+			<line>
+				<reportElement x="76" y="17" width="118" height="1" uuid="ed264ac4-fb8d-4070-9f79-ed2332a6c261"/>
+			</line>
+			<line>
+				<reportElement x="230" y="18" width="121" height="1" uuid="136c4d84-f68c-4f80-963e-02c42d8332b9"/>
+			</line>
+			<line>
+				<reportElement x="397" y="18" width="143" height="1" uuid="dd7ab700-0728-4aa5-90d4-a51fa3cebdac"/>
+			</line>
+			<line>
+				<reportElement x="249" y="36" width="291" height="1" uuid="de839139-9048-4078-99f9-c2ffb27ac973"/>
+			</line>
+			<textField>
+				<reportElement x="570" y="22" width="26" height="20" forecolor="#FFFFFF" uuid="c149244a-c894-4dba-bac4-d91b9e0d62fe"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contRenov}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

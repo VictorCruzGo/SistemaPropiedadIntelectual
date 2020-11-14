@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <p:panel header="#{msgs.notificacionesDetalleTitulo}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" 
+                 id="panelNotificaciones">
+            <div align="center" >
+                <h:form id="formNotificaciones">
+                    <p:panelGrid columns="1" id="mipanel">
+                        <p:column>
+                            <center>
+                                <h:panelGrid columns="1" id="panelNot">
+                                    <p:column>
+                                        <center>
+                                            <p:fieldset legend="#{msgs.notificacionesDetalleGrupoUno}" style="width: 80%">
+                                                <h:panelGrid columns="2">
+                                                    <p:column>
+                                                        <p:outputLabel for="numeroTramite" value="#{msgs.notificacionesDetalleGrupoUnoNumeroTramite}: " 
+                                                                       style="float: right"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:outputLabel id="numeroTramite" style="float: left; font-weight: bold; font-size: large" 
+                                                                       value="#{detalleNotificacionBean.numeroTramite}">
+                                                        </p:outputLabel>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:outputLabel value="#{msgs.notificacionesDetalleGrupoUnoDenominacion}: " style="float: right"></p:outputLabel>
+                                                    </p:column>
+                                                    <p:column>  
+                                                        <p:outputLabel id="denominacion" style="float: left; font-weight: bold; font-size: large" 
+                                                                       value="#{detalleNotificacionBean.denominacion}">
+                                                        </p:outputLabel>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:outputLabel value="#{msgs.notificacionesDetalleGrupoDosFechaNotificacion}: " style="float: right"></p:outputLabel>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:outputLabel id="fechaSolicitud" style="float: left; font-weight: bold; font-size: large" 
+                                                                       value="#{detalleNotificacionBean.fechaSolicitudNotificacion}">
+                                                            <f:convertDateTime pattern="#{sessionState.formatoFechaHora}"/>
+                                                        </p:outputLabel>
+                                                    </p:column>
+                                                </h:panelGrid>
+                                                <p:dataTable var="nd" value="#{detalleNotificacionBean.listaNotificacionDocumento}"
+                                                             style="margin-top: 30px;margin-bottom: 30px;width: 95%" id="dataT">
+                                                    <p:column headerText="Documento / Descripción"
+                                                              style="width: 20%">
+                                                        <h:outputText value="#{nd.documento.nombreArchivo} / #{nd.documento.descripcion}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="#{msgs.notificacionesDetalleGrupoUnoPanelColumnaDos}"
+                                                              style="width: 20%">
+                                                        <h:outputText value="#{nd.observacionNotificacionDocumento}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="#{msgs.notificacionesDetalleGrupoUnoPanelColumnaTres}"
+                                                              style="width: 10%">
+                                                        <div align="center">
+                                                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" ajax="false" 
+                                                                             actionListener="#{detalleNotificacionBean.descargarArchivo(actionEvent,nd.documento)}"
+                                                                             value="#{msgs.notificacionesDetalleGrupoUnoPanelDescargar}"
+                                                                             validateClient="false">
+                                                                <p:fileDownload value="#{detalleNotificacionBean.archivo}" />
+                                                            </p:commandButton>
+                                                        </div>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:fieldset>
+                                        </center>
+                                    </p:column>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" width="80%">
+                                    <p:column width="80%">
+                                        <center>
+                                            <p:fieldset legend="#{msgs.notificacionesDetalleGrupoDos}" style="width: 80%">
+                                                <center>
+                                                    <p:growl showDetail="true" />
+                                                    <h:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px;">
+                                                        <p:column>
+                                                            <p:outputLabel value="#{msgs.notificacionesDetalleGrupoDosFechaNotificacion}" 
+                                                                           style="float: right"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:calendar id="popupfecha" value="#{detalleNotificacionBean.fechaNotificacion}" 
+                                                                        label="Fecha y hora" style="#{detalleNotificacionBean.cambiaBordeCampoFechaNotificacion==true?'border-color: #C00':''}"/>
+                                                            <p:outputLabel value="     Hora "></p:outputLabel>
+                                                            <p:selectOneMenu value="#{detalleNotificacionBean.horaSeleccionada}" 
+                                                                             style="#{detalleNotificacionBean.cambiaBordeCampoHoraNotificacion==true?'border-color: #C00':''}">
+                                                                <f:selectItem itemLabel="Hora" itemValue="#{null}" 
+                                                                              noSelectionOption="true"></f:selectItem>
+                                                                <f:selectItems 
+                                                                    value="#{detalleNotificacionBean.listaHoras}" var="h" itemLabel="#{h}"
+                                                                    itemValue="#{h}"></f:selectItems>
+                                                            </p:selectOneMenu>
+                                                            <p:selectOneMenu value="#{detalleNotificacionBean.minutoSeleccionado}" style="#{detalleNotificacionBean.cambiaBordeCampoMinutoNotificacion==true?'border-color: #C00':''}">
+                                                                <f:selectItem itemLabel="Minuto" itemValue="#{null}" 
+                                                                              noSelectionOption="true"></f:selectItem>
+                                                                <f:selectItems value="#{detalleNotificacionBean.listaMinutos}" var="m" itemLabel="#{m}" itemValue="#{m}"></f:selectItems>
+                                                            </p:selectOneMenu>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:outputLabel value="#{msgs.notificacionesDetalleGrupoDosPersonaNotificada}" style="float: right">
+                                                            </p:outputLabel>
+                                                        </p:column>
+                                                        <p:column>  
+                                                            <p:inputText id="personaNotificada" size="40" 
+                                                                         value="#{detalleNotificacionBean.personaNotificada}"
+                                                                         label="Persona Notificada"
+                                                                         style="#{detalleNotificacionBean.cambiaBordeCampoPersonaNotificada==true?'border-color: #C00':''};float: left"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:outputLabel value="#{msgs.notificacionesDetalleGrupoDosObservaciones}" style="float: right">
+                                                            </p:outputLabel>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:inputTextarea id="observacionNotificacion" rows="4" cols="30"
+                                                                             style="float: left" value="#{detalleNotificacionBean.observaciones}">
+                                                            </p:inputTextarea>
+                                                        </p:column>
+                                                        <p:column>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:selectBooleanCheckbox id="checked" value="#{detalleNotificacionBean.activaNotificado}" itemLabel="Notificado" >
+                                                                <p:ajax update="formNotificaciones:botonGuardar" listener="#{detalleNotificacionBean.actualizaBotones()}" />
+                                                            </p:selectBooleanCheckbox>
+                                                        </p:column>
+                                                        <br></br>
+                                                        <p:column style="margin-top: 20px" id="botones">
+                                                            <p:commandButton value="Guardar" action="#{detalleNotificacionBean.actualizarInfoNotificaciones()}"
+                                                                             style="margin-right: 50px;margin-top: 5%" icon="ui-icon-disk" ajax="false" id="botonGuardar"
+                                                                             disabled="#{detalleNotificacionBean.activaBotonGuardar}">
+                                                            </p:commandButton>
+                                                            <p:commandButton
+                                                                value="Guardar y Finalizar"
+                                                                disabled="#{detalleNotificacionBean.activaBotonFinalizar}"
+                                                                onclick="PF('ConfirmacionOBSV').show()"                                                            
+                                                                icon="ui-icon-circle-triangle-e">
+                                                                <f:ajax render="@none" />
+                                                            </p:commandButton>
+
+                                                            <p:dialog header="Advertencia" showEffect="fade" widgetVar="ConfirmacionOBSV" id="ConfirmacionOBSV" modal="true" resizable="false" closable="false">
+                                                                <div align="center">
+                                                                    <br></br>
+                                                                    <h:outputLabel value="Se eliminará la Notificación de su Bandeja. ¿Esta seguro(a) que desea finalizar la notificación?"/>
+                                                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                                                    <h:panelGrid columns="3" style="text-align: left">
+                                                                        <p:commandButton value="Aceptar" styleClass="ui-confirmdialog-yes"
+                                                                                         action="#{detalleNotificacionBean.finalizarInfoNotificaciones()}" icon="ui-icon-check"
+                                                                                         ajax="false"/>
+                                                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                                                        <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('ConfirmacionOBSV').hide()" />
+                                                                    </h:panelGrid>
+                                                                </div>
+                                                            </p:dialog>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:outputLabel value="*" style="float: right; color: #C00"></p:outputLabel>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:outputLabel value="Debe presionar (Guardar y Finalizar) para que la Notificación se borre de su Bandeja."></p:outputLabel>
+                                                        </p:column>
+
+                                                    </h:panelGrid>
+                                                </center>
+                                            </p:fieldset>
+                                        </center>
+                                    </p:column>
+                                </h:panelGrid>
+                            </center>
+                        </p:column>
+                    </p:panelGrid>
+                    <div align="center" style="padding:0.5em 0em;">
+                        <p:toolbar style="width: 99%;">
+                            <p:toolbarGroup align="left">
+                                <p:commandButton value="Volver a Bandeja" action="#{detalleNotificacionBean.regresaBandeja}" ajax="false"></p:commandButton>
+                            </p:toolbarGroup>  
+                        </p:toolbar>  
+                    </div>
+                </h:form>
+                <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+                </p:dialog>
+            </div>       
+        </p:panel>
+    </ui:define>
+</ui:composition>

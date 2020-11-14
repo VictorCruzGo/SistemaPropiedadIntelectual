@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="formExamenDeForma">
+            <p:panel header="MARCAS Y SIGNOS" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:wizard flowListener="#{marcasYSignos.onFlowProcess}" nextLabel="GUARDAR SIGUIENTE" backLabel="ATRAS" >
+                        <p:tab id="identificacionSolicitante" title="Identificacion del Solicitante">
+                            <p:panel>
+                                <h:panelGrid columns="1">
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Tipo de Solicitantes: "/>  
+                                        <p:selectOneMenu value="#{marcasYSignos.tipoSolicitante}">  
+                                            <f:selectItems value="#{marcasYSignos.listadoTipoSolicitantedPersonaSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update="razonSocial,nombre,apellidoPaterno,apellidoMaterno,nroDocumento,lugar,genero" listener="#{marcasYSignos.activaCamposNaturalJuridicoAction(e)}" />        
+                                        </p:selectOneMenu>  
+                                    </h:panelGrid>
+                                    <h:outputLabel value="* En caso de ser el solicitante una persona Jurica llene el siguiente campo" style="color: #C00"/>  
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Razon Social:"/>
+                                        <p:inputText id="razonSocial" value="#{marcasYSignos.empresa.nombreRepresentante}" size="120" disabled="#{!marcasYSignos.activaCamposNaturalJuridico}">
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:outputLabel value="* En caso de ser el solicitante una persona Natural llene el siguiente campo" style="color: #C00"/>  
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Nombre: " />  
+                                        <p:inputText id="nombre" value="#{marcasYSignos.persona.nombres}" size="120" disabled="#{marcasYSignos.activaCamposNaturalJuridico}">
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="4">
+                                        <h:outputLabel value="Apellido Paterno: " />  
+                                        <p:inputText id="apellidoPaterno" value="#{marcasYSignos.persona.apellidoPaterno}" size="50" disabled="#{marcasYSignos.activaCamposNaturalJuridico}">
+                                        </p:inputText>
+                                        <h:outputLabel value="Apellido Materno: " />  
+                                        <p:inputText id="apellidoMaterno" value="#{marcasYSignos.persona.apellidoMaterno}" size="50" disabled="#{marcasYSignos.activaCamposNaturalJuridico}">
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="6">
+                                        <h:outputLabel value="Nro. Documento: " />  
+                                        <p:inputText id="nroDocumento" value="#{marcasYSignos.numeroDocumento}" size="50" >
+                                        </p:inputText>
+                                        <h:outputLabel value="Tipo Documento: " />  
+                                        <p:selectOneMenu value="#{marcasYSignos.tipoDocumentoIdentidad}" >  
+                                            <f:selectItems value="#{marcasYSignos.listadoTipoDocumentoIdentidadSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu> 
+                                        <h:outputLabel value="Lugar: " />  
+                                        <p:selectOneMenu value="#{marcasYSignos.lugarExpedicion}" id="lugar" disabled="#{marcasYSignos.activaCamposNaturalJuridico}">  
+                                            <f:selectItems value="#{marcasYSignos.listadoCiudadClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>  
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="Genero: " />
+                                        <p:selectOneRadio id="genero" value="#{marcasYSignos.genero}" disabled="#{marcasYSignos.activaCamposNaturalJuridico}">
+                                            <f:selectItems value="#{marcasYSignos.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneRadio>
+                                    </h:panelGrid>
+                                    <h:outputLabel value="* Datos de contacto " style="color: #C00"/>  
+                                    <h:panelGrid columns="6">
+                                        <p:selectOneMenu value="#{marcasYSignos.tipoContacto}" >  
+                                            <f:selectItems value="#{marcasYSignos.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update="notificar" listener="#{marcasYSignos.activaCheckNotificacion(e)}" />        
+                                        </p:selectOneMenu> 
+                                        <p:inputText id="dato" value="#{marcasYSignos.dato}" size="70"/>
+                                        <p:watermark for="dato" value="Introduzca dato de contacto" id="watermark" />
+                                        <p:selectBooleanCheckbox id="notificar" value="#{marcasYSignos.notificar}" disabled="#{marcasYSignos.habilitaNotificacionCheck}"/>
+                                        <h:outputText value="¿Notificar con este correo?" />
+                                        <p:commandButton
+                                            value="Adicionar"
+                                            action="#{marcasYSignos.adicionaDatoDeContacto()}"
+                                            update="listaDatosDeContacto,dato"
+                                            ajax="false"
+                                            image="ui-icon ui-icon-disk"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:dataTable var="item" 
+                                                 id="listaDatosDeContacto"
+                                                 rowKey="#{item.tipoContacto}"
+                                                 value="#{marcasYSignos.listaDatosDeContacto}" 
+                                                 widgetVar="listaDatosDeContacto"
+                                                 selectionMode="single" 
+                                                 editable="true"
+                                                 selection="#{marcasYSignos.datoscontactoSelect}"
+                                                 style="width: 60%;height: 10%"
+                                                 scrollable="true" scrollHeight="90" resizableColumns="true" 
+                                                 emptyMessage="Lista de datos de contacto esta vacia.">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="Lista de Datos de Contacto" />
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <p:ajax event="rowEdit" listener="#{marcasYSignos.onEdit}"/>  
+                                        <p:ajax event="rowEditCancel" listener="#{marcasYSignos.onCancel}"/>  
+
+
+                                        <p:column filterBy="#{item.tipoContacto.codigo}" sortBy="#{item.tipoContacto.codigo}" headerText="Tipo de Contacto" footerText="" filterMatchMode="contains" width="20%">
+                                            <f:facet name="filter">
+                                                <p:selectOneMenu onchange="PF('listaDatosDeContacto').filter()" >
+                                                    <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItems value="#{marcasYSignos.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tipoContacto.descripcion}"/>
+                                        </p:column>
+
+                                        <p:column filterBy="#{item.dato}" sortBy="#{item.dato}" headerText="Dato" footerText="" filterMatchMode="contains" width="60%">
+                                            <p:cellEditor>  
+                                                <f:facet name="output">  
+                                                    <h:outputText value="#{item.dato}"/>  
+                                                </f:facet>  
+                                                <f:facet name="input">  
+                                                    <p:inputText value="#{item.dato}" style="width:95%"/>  
+                                                </f:facet>  
+                                            </p:cellEditor>  
+                                        </p:column>
+                                        <p:column headerText="Eliminar" style="text-align: center" width="10%">
+                                            <p:commandButton update="listaDatosDeContacto" icon="ui-icon-trash" action="#{marcasYSignos.eliminaDatoDeContacto()}">
+                                                <f:setPropertyActionListener value="#{item}" target="#{marcasYSignos.datoscontactoSelect}" />
+                                                <p:confirm header="Confirmacion Eliminar" message="Esta seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="Modificar" style="text-align: center" width="5%">
+                                            <p:rowEditor />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <h:panelGrid columns="2">
+                                                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </h:panelGrid>
+                                        </div>
+                                    </p:confirmDialog>
+                                </div>
+
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton
+                                        value="Guardar"
+                                        action="#{marcasYSignos.generaXML()}"
+                                        update="salidaXML"
+                                        ajax="false"
+                                        image="ui-icon ui-icon-disk"/>
+                                    <h:outputText id="salidaXML" value="#{marcasYSignos.salidaXML}"/>
+                                </div>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="identifiacionRepresentante" title="Identificacion del Representante">
+                            <p:panel header="Identificacion del Representante">
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="datosSignoDistintivo" title="Datos del Signo Distintivo">
+                            <p:panel header="Datos del Signo Distintivo">
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="prioridades" title="Prioridades">
+                            <p:panel header="Prioridades">
+
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="direccionNotificacion" title="Direccion de Notificacion">
+                            <p:panel header="Direccion de Notificacion">
+
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </div>   
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

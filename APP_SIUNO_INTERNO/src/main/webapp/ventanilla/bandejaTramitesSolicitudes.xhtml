@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+
+            <p:panel header="BANDEJA TRAMITES SOLICITUDES"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">                             
+                <div align="left" style="padding:1em 2.2em;">
+                    <div align="left" style="padding:1em 2.2em;">
+                        <p:fieldset legend="Busqueda Especial" toggleable="true" toggleSpeed="500" style="height: 50%">
+                            <h:panelGrid columns="8" id="panelBusqueda">
+                                <p:outputLabel value="Codigo: "/>
+                                <p:inputText value="#{bandejaDeTramitesVentanillaBean.codigo}"/>
+                                <p:outputLabel value="Tipo Persona: "/>                                        
+                                <p:selectOneMenu value="#{bandejaDeTramitesVentanillaBean.tipoSolicitante}">
+                                    <f:selectItem itemLabel="Todos" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{bandejaDeTramitesVentanillaBean.comboTipoSolicitante}" var="tipoSolicitante" itemLabel="#{tipoSolicitante.nombre}" itemValue="#{tipoSolicitante.codigo}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Tipo Tramite: "/>
+                                <p:selectOneMenu value="#{bandejaDeTramitesVentanillaBean.tipoTramite}">
+                                    <f:selectItem itemLabel="Todos" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{bandejaDeTramitesVentanillaBean.comboTipoTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Ciudad de Notificacion: "/>
+                                <p:selectOneMenu value="#{bandejaDeTramitesVentanillaBean.tipoCiudad}">
+                                    <f:selectItem itemLabel="Todos" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{bandejaDeTramitesVentanillaBean.comboTipoCiudadNotificacion}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel />
+                                <h:outputLabel />
+                                <h:outputLabel />
+                                <h:outputLabel />
+                                <h:outputLabel />
+                                <h:outputLabel />
+                                <p:commandButton
+                                    value="Buscar"
+                                    action="#{bandejaDeTramitesVentanillaBean.buscaTramite()}"
+                                    update=":form:tramiteWebList"
+                                    ajax="false"
+                                    image="ui-icon-search"/>
+                                <p:commandButton
+                                    value="Limpiar"
+                                    action="#{bandejaDeTramitesVentanillaBean.limpiarGrillaBusqueda()}"
+                                    update=":form:panelBusqueda :form:tramiteWebList"
+                                    image="ui-icon-refresh"/>
+                            </h:panelGrid>
+                            <div align="center">
+                                <p:outputLabel value="#{bandejaDeTramitesVentanillaBean.cantidadDeRegistrosEncontrados} registros encontrados " style="color: #{bandejaDeTramitesVentanillaBean.colorMensaje}" />                                
+                            </div>
+
+                        </p:fieldset>
+                    </div>   
+                    <div align="center" style="padding:1em 2.2em;">   
+                        <p:dataTable var="item" liveScroll="true" scrollRows="100"
+                                     id="tramiteWebList"
+                                     rowKey="#{item.idPersonaSolicitud}"
+                                     value="#{bandejaDeTramitesVentanillaBean.listaSolicitudesDeTramite}" 
+                                     widgetVar="tramiteList"
+                                     scrollable="true" 
+                                     scrollHeight="350"
+                                     emptyMessage="No existen registros de Solicitudes">
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Lista de Solicitudes" />
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column filterBy="#{item.tramite.codigoDia}" sortBy="#{item.tramite.codigoDia}" headerText="Codigo" footerText="" filterMatchMode="contains" style="width: 20%">
+                                <h:outputText value="#{item.tramite.codigoDia}" />
+                            </p:column>                            
+                            <p:column headerText="Tipo Persona" footerText="" filterMatchMode="contains" style="width: 20%">
+                                <h:outputText value="#{item.persona == null?'Juridico':'Natural'}" />
+                            </p:column>
+                            <p:column filterBy="#{item.tramite.tipoTramite.codigo}" sortBy="#{item.tramite.tipoTramite.codigo}" headerText="Tipo Tramite" footerText="" filterMatchMode="exact" style="width: 44%">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('tramiteList').filter()" >
+                                        <f:selectItem itemLabel="Elija un tipo de Tramite" itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems value="#{bandejaDeTramitesVentanillaBean.comboTipoTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <!--                                <h:outputText value="# {item.tramite.tipoTramite.descripcion}" />-->
+                                <h:outputText value="#{bandejaDeTramitesVentanillaBean.encuentraTipoTramite(item.tramite)}" />
+                            </p:column>
+                            <p:column headerText="Ver" style="width:4%;text-align: center; width: 8%" >
+                                <p:commandButton 
+                                    id="idVer"
+                                    icon="ui-icon-pencil" 
+                                    action="#{bandejaDeTramitesVentanillaBean.irImpresion(item.tramite.idTramite)}"
+                                    ajax="false"
+                                    />                                                                      
+                            </p:column>
+                            <p:column headerText="Ingresa" style="width:4%;text-align: center; width: 8%" >
+                                <p:commandButton 
+                                    id="idRevisa"
+                                    icon="ui-icon-check" 
+                                    action="#{bandejaDeTramitesVentanillaBean.revisaFormularioPI100Ventanilla(item.tramite)}" 
+                                    ajax="false"/>                                                                         
+                            </p:column>
+                        </p:dataTable>    
+                        
+                    </div>
+                </div>
+            </p:panel>
+        </h:form>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

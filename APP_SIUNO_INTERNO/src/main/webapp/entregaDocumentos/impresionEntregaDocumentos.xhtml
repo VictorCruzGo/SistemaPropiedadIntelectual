@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 >
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajes" showDetail="true" life="2000" />
+            <p:panel header="IMPRESION DE ENTREGAS" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelRegistro">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>               
+
+                <h:panelGrid columns="9" style="margin: 20px">
+                    <h:outputLabel value="Fecha Inicio:"/>
+                    <p:calendar value="#{impresionEntregaDocumentos.fechaInicial}" id="fechainicio" locale="es" 
+                                navigator="true" pattern="dd/MM/yyyy" size="12"/>
+                    <h:outputLabel value="Fecha Fin"/>
+                    <p:calendar value="#{impresionEntregaDocumentos.fechaFinal}" id="fechafin" locale="es" 
+                                navigator="true" pattern="dd/MM/yyyy" size="12"/>
+                    <h:outputLabel value="Código Trámite: "/>
+                    <p:inputText value="#{impresionEntregaDocumentos.smValor}"></p:inputText>
+                    <p:commandButton
+                        value="#{msgs.bandejaPrincipalBotonBuscar}"
+                        ajax="false"
+                        update="form"
+                        icon="ui-icon-search"
+                        action="#{impresionEntregaDocumentos.buscaEntregasPorFecha()}" />
+                    <p:commandButton
+                        value="#{msgs.bandejaPrincipalBotonLimpiar}"
+                        ajax="true"                    
+                        update="form"
+                        icon="ui-icon-refresh"
+                        disabled="#{impresionEntregaDocumentos.activaLimpiar}"
+                        action="#{impresionEntregaDocumentos.inicializarValores()}" />
+                    <p:commandLink actionListener="#{impresionEntregaDocumentos.imprimeReportePorFecha()}" target="_blank" ajax="false">
+                        <p:commandButton
+                            value="Imprimir"
+                            icon="ui-icon-print"
+                            disabled="#{impresionEntregaDocumentos.activaImprimir}"
+                            />
+                        <p:ajax event="click" listener="#{impresionEntregaDocumentos.cambiaValor()}" update=":form:panelRegistro"/>
+                    </p:commandLink>
+
+                </h:panelGrid>
+                <p:dataTable value="#{impresionEntregaDocumentos.entregaList}" var="dent" liveScroll="true" scrollRows="20"
+                             rowsPerPageTemplate="5,10,15,20,30,50,100"
+                             paginator="true" rows="10" paginatorPosition="bottom"                             
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+                    <p:column headerText="Documento" style="width: 10%;" filterBy="#{dent.documento.nombreArchivo}">
+                        <p:outputLabel value="#{dent.documento.nombreArchivo}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Tipo Documento" style="width: 6%" filterBy="#{dent.documento.tipoDocumentacion.nombre}">
+                        <p:outputLabel value="#{dent.documento.tipoDocumentacion.nombre}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Entregado a" style="width: 10%" filterBy="#{dent.recibidoPor}"> 
+                        <p:outputLabel value="#{dent.recibidoPor}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Fecha entrega" style="width: 13%" filterBy="#{dent.fechaEntrega}">
+                        <p:outputLabel value="#{dent.fechaEntrega}">
+                            <f:convertDateTime pattern="#{sessionState.formatoFechaHoraSinSegundo}"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Observaciones" style="width: 10%">
+                        <p:outputLabel value="#{dent.observacion}"></p:outputLabel>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>                    

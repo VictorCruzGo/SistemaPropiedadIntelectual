@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PI100_subReportSolicitante" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="37412588-faba-4832-b44c-2ac078800e8d">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="domicilio" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="fax" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="4" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="90">
+			<staticText>
+				<reportElement x="244" y="2" width="100" height="14" uuid="821b6c75-2f92-4c8c-af44-f4351242443c"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dato de Contacto]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="429" y="34" width="111" height="11" isRemoveLineWhenBlank="true" uuid="49c3c5cd-6c45-40b1-bdeb-030e452b1dea">
+					<printWhenExpression><![CDATA[new Boolean($F{fax} != null)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="288" y="35" width="122" height="11" isRemoveLineWhenBlank="true" uuid="767cfc91-0dd7-443c-8135-8966bd5c4297">
+					<printWhenExpression><![CDATA[new Boolean($F{email} != null)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="148" y="36" width="124" height="11" isRemoveLineWhenBlank="true" uuid="82026d13-838c-4f25-b362-a664e8c8af19">
+					<printWhenExpression><![CDATA[new Boolean($F{telefono} != null)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="16" y="35" width="122" height="10" isRemoveLineWhenBlank="true" uuid="5d847c56-7a51-4536-be75-53fefbf2739d">
+					<printWhenExpression><![CDATA[new Boolean($F{celular} != null)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="13" y="60" width="527" height="10" isRemoveLineWhenBlank="true" uuid="bd9c336c-e9f2-4b09-a7c2-20c61b6b17d9">
+					<printWhenExpression><![CDATA[new Boolean($F{domicilio} != null)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="18" y="60" width="475" height="10" isRemoveLineWhenBlank="true" uuid="d47fe973-707f-4ead-8638-5ac74b6646f9">
+					<printWhenExpression><![CDATA[new Boolean($F{domicilio} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{domicilio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="50" width="56" height="10" isRemoveLineWhenBlank="true" uuid="da109992-906c-4bdd-be53-ddce7ae863be">
+					<printWhenExpression><![CDATA[new Boolean($F{domicilio} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Domicilio: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="18" y="35" width="125" height="10" uuid="88101d46-bb47-4389-92a4-c40e5db06bed">
+					<printWhenExpression><![CDATA[new Boolean($F{celular} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="23" width="56" height="8" isRemoveLineWhenBlank="true" uuid="dd85d509-2ce2-42a2-aae0-4bc4680e8a54">
+					<printWhenExpression><![CDATA[new Boolean($F{celular} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Celular:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="36" width="70" height="10" isRemoveLineWhenBlank="true" uuid="fa0e6c06-e5a6-4f36-8eb8-6fc301e2fa4f">
+					<printWhenExpression><![CDATA[new Boolean($F{telefono} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="21" width="33" height="10" isRemoveLineWhenBlank="true" uuid="fe2c971b-8796-48b5-a98a-6c31797a1b51">
+					<printWhenExpression><![CDATA[new Boolean($F{telefono} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Telefono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="293" y="35" width="123" height="12" isRemoveLineWhenBlank="true" uuid="2f50ca7b-0a51-403f-9a70-ab7ef9c95dcb">
+					<printWhenExpression><![CDATA[new Boolean($F{email} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="288" y="21" width="56" height="11" isRemoveLineWhenBlank="true" uuid="a70d7647-6f60-4d7b-9b3f-7faed6a58899">
+					<printWhenExpression><![CDATA[new Boolean($F{email} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="433" y="35" width="105" height="10" isRemoveLineWhenBlank="true" uuid="afe88048-121d-41ff-9536-b9386dc79b6a">
+					<printWhenExpression><![CDATA[new Boolean($F{fax} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fax}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="447" y="21" width="57" height="9" isRemoveLineWhenBlank="true" uuid="0b4d1e46-18ca-46f6-a12b-335407ce43bd">
+					<printWhenExpression><![CDATA[new Boolean($F{fax} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fax:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="344" y="6" width="196" height="1" uuid="f456f721-0e3b-4296-8e23-e31f1b9363fa"/>
+			</line>
+			<line>
+				<reportElement x="13" y="7" width="197" height="1" uuid="899cdb1a-9468-4d82-b2d5-478992ceff5f"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

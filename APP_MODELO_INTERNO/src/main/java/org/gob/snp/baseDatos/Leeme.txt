@@ -1,0 +1,99 @@
+
+
+
+--previamente ejecutar los comandos en ese orden, en la consola mysql
+>> source tablas.sql;
+>> source param.sql;
+>> source plsql.sql;
+>> source vistas.sql;
+>> source usuarios.sql;
+>> source usuarioe.sql;
+
+
+El detalle del contenido de los Archivos es el siguiente:
+
+1. tablas.sql: Archivo generado por el Embarcadero, que contiene la creacion de tablas y relaciones de la Base de Datos.
+2. param.sql: Archivo de insercion de registros a las tablas parametricas principales.
+3. plsql.sql: Archivo de creación de funciones, procedimientos y planificación de tareas
+4. vistas.sql: creación de vistas
+5. usuarios.sql: inserción del usuario de la base de datos, y los usuarios de prueba del sistema
+6. usuarioe.sql: inserción del usuario externo de pruebas.
+
+
+Listado de usuarios de prueba habilitados en la Aplicacion
+
+            La Paz
+            -------
+
+                    1 Ventanilla
+                            usuario             password
+                            -------             --------
+                            ventanilla          12345
+                            xantelo		12345
+                    2 Examen de Forma
+                            usuario             password
+                            -------             --------
+                            jmamani		12345
+                            pfer		12345
+                            jquispe		12345
+                    3 Tecnico Digitalización
+                            usuario             password
+                            -------             --------
+                            gmamani		12345
+                    4 Técnico de Recaudaciones
+                            usuario             password
+                            -------             --------
+                            gdarlin             12345
+                    5 Tecnico de Examen de Fondo (Analisis de Registrabilidad Marcas y Signos)
+                            usuario             password
+                            -------             --------
+                            gasin               12345
+                    6 Responsable de Signos Distintivos
+                            usuario             password
+                            -------             --------
+                            bquisbert           12345
+                    7 Director de Signos Distintivos
+                            usuario             password
+                            -------             --------
+                            jdaza               12345
+                    8 Tecnico de Entregas
+                            usuario             password
+                            -------             --------
+                            uentre               12345
+
+                    9 Tecnico de Publicacion
+                            usuario             password
+                            -------             --------
+                            upubli               12345
+
+                    10 Tecnico de Notificacion
+                            usuario             password
+                            -------             --------
+                            unoti               12345
+
+                    11 Tecnico de ImpresionesTitulo
+                            usuario             password
+                            -------             --------
+                            utitu               12345
+
+
+            Cochabamba
+            ----------
+                    1 Ventanilla
+                            usuario             password
+                            -------             --------
+                            mdaza		12345
+                            gduran		12345
+                    2 Examen de Forma
+                            usuario             password
+                            -------             --------
+                            bcuevas		12345
+                            rramos		12345
+
+            (*) Usuario externo, solo si se ejecuta el script usuarioe.sql
+                    1 Usuario Externo
+                            usuario             password
+                            -------             --------
+                            invitado            Invitado12345
+
+

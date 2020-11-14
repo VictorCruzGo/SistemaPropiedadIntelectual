@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporExamenFondoAnalisisDenomi_SegundaImpresion" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7fa387c9-ccdf-4dd6-bd56-39427216a79c">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="556"/>
+	<property name="ireport.y" value="0"/>
+	<field name="solicitado" class="java.lang.String"/>
+	<field name="registrado" class="java.lang.String"/>
+	<field name="chek1" class="java.lang.String"/>
+	<field name="chek2" class="java.lang.String"/>
+	<field name="chek3" class="java.lang.String"/>
+	<field name="comboBox" class="java.lang.String"/>
+	<title>
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="751" height="10" backcolor="#C0C0C0" uuid="46ec1a26-09e7-45b0-84be-a89fbd9e36f0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="2" width="449" height="10" uuid="d8a906ee-a02f-4452-9778-f67f7183f571"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[PARTICULARIZAR  Y/O DESCOMPONER SIGNO POR SEMEJANZA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="10">
+			<staticText>
+				<reportElement x="8" y="0" width="45" height="9" uuid="16bf390b-43e9-484f-8ce2-ff1c264c1c63"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Solicitado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="0" width="147" height="9" uuid="76c57f47-7699-4758-ab37-c0eaf7f97545"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Registrado o Previamente Solicitado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="525" y="0" width="197" height="9" uuid="9ceb3d25-254d-4bba-a642-0685557873b0"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[¿Es confundible la partícula?]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="7" y="0" width="148" height="12" uuid="7ce140c1-dd11-4677-b96e-998e49ec8086"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="168" y="1" width="168" height="12" uuid="149ead30-8e43-461d-810c-9920f64478ff"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="351" y="1" width="76" height="12" uuid="13817738-a07c-4710-827e-8e9ddf132df1"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="439" y="1" width="76" height="12" uuid="19b8af35-d071-4208-b5e4-6c5296a4bbd9"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="525" y="1" width="123" height="12" uuid="1d6fcfa1-fef6-4221-a970-f5dadccf84a0"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="670" y="0" width="76" height="12" uuid="4aeaebf5-4052-4813-9edb-36365f2dced7"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="8" y="1" width="147" height="11" uuid="f8865c3c-5ca2-4aa5-b84c-956f6507a0b1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{solicitado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="170" y="3" width="166" height="10" uuid="18e8fd46-c01d-491f-b1bb-b48ccf86f7d1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registrado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="356" y="3" width="68" height="10" uuid="5261388c-af6d-47e0-968f-aed023ea0624"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chek1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="442" y="3" width="70" height="9" uuid="a67d899e-1f4b-4d83-805b-936febd1a996"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chek2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="530" y="3" width="115" height="9" uuid="4e7f4d52-4f5f-4d52-bb99-5ceb285cb7d2"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chek3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="673" y="2" width="62" height="10" uuid="cf2c8a40-f6ef-436e-a3db-e79e5ff2c248"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comboBox}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

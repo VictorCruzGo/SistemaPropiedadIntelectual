@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi103_EmpresasAntiguos" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0c3227e1-c6c5-4bc5-a47c-f71f95444d84">
+	<property name="ireport.zoom" value="1.9487171000000025"/>
+	<property name="ireport.x" value="345"/>
+	<property name="ireport.y" value="0"/>
+	<field name="empresa" class="java.lang.String"/>
+	<field name="nroDocumento" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="12" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="569" height="10" backcolor="#C0C0C0" uuid="5aceaaeb-cc03-45d8-8e5e-752203d51848"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="1" width="229" height="9" uuid="78b37664-01a9-4ef2-8cd3-bc05586a1ccc"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[EMPRESAS TITULAR(ES)  ANTIGUOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="11" splitType="Stretch">
+			<staticText>
+				<reportElement x="13" y="2" width="184" height="9" uuid="0ac7c85d-bdb6-4e30-83d2-1290ea617102"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre o Razón Social]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="2" width="58" height="9" uuid="bfe59b06-9271-43a5-858f-e4e0df40b755"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nro. Documento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="3" width="300" height="11" uuid="8a8bb6c5-ec40-46ac-b596-06977cec9115"/>
+				<box topPadding="1" leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="1" width="127" height="11" uuid="637a97d5-11de-4b91-bd3a-c4835510827c"/>
+				<box topPadding="1" leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroDocumento}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="468" y="10" width="100" height="1" uuid="8f98e231-bef4-4873-ade9-ce4f906f3056"/>
+			</line>
+			<staticText>
+				<reportElement x="511" y="13" width="26" height="11" uuid="ab7422e8-739b-40f3-bbef-e011f5843554"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

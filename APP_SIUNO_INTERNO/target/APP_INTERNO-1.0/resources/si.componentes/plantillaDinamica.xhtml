@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    <composite:interface>
+        <composite:attribute name="idCompuesto" type="java.lang.String"/>
+        <composite:attribute name="listaFormularioVentanillaMinimos" type="java.util.List"/>
+        <composite:attribute name="listaFormularioVentanillaOpcionales" type="java.util.List"/>
+        <composite:attribute name="listaFormularioVentanillaOtros" type="java.util.List"/>
+        <composite:attribute name="tituloFormulario" type="java.lang.String"/>/>
+        <composite:attribute name="listaTitulosPorPrioridad" type="java.util.List"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+        <h2>#{cc.attrs.tituloFormulario}</h2>
+        <div align="left" style="padding:0.0em 0.0em;">
+            <p:dataTable var="plantillaMinimos" value="#{cc.attrs.listaFormularioVentanillaMinimos}" style="width: 100%" rendered="#{cc.attrs.listaFormularioVentanillaMinimos.size()>0}"> 
+                <p:column width="180"  headerText="#{plantillaDinamicaVentanillaBean.tituloPrimero}" style="text-align:left">
+                     <p:selectBooleanCheckbox value="#{plantillaMinimos.datoTramiteVentanillaEForma.presento}" />
+                    <p:spacer width="10" height="0"/>
+                    <h:outputText value="#{plantillaMinimos.datoTramiteVentanillaEForma.descripcion}"/>
+                </p:column>
+                <p:column width="60" style="border-left-style: hidden;text-align:left">
+                    <p:selectManyCheckbox value="#{plantillaMinimos.valorTramiteVentanillaEFormaRespuestaLista}" layout="grid" columns="1" >
+                        <f:selectItems value="#{plantillaMinimos.valorTramiteVentanillaEFormaLista}" var="h" itemLabel="#{h.tipoFormularioVentanillaEForma.descripcion}" itemValue="#{h.tipoFormularioVentanillaEForma.codigo}"/>
+                    </p:selectManyCheckbox>
+                </p:column>
+                <p:column width="100" style="border-left-style: hidden">
+                    <h:inputText value="#{plantillaMinimos.datoTramiteVentanillaEForma.observacion}" style="width: 85%"  />
+                </p:column>
+            </p:dataTable>
+        </div>
+        <div align="center" style="padding:0.7em 0.0em;">
+            <p:dataTable var="plantillaOpcionales" value="#{cc.attrs.listaFormularioVentanillaOpcionales}" style="width: 100%" rendered="#{cc.attrs.listaFormularioVentanillaOpcionales.size()>0}"> 
+                <p:column width="180"  headerText="#{plantillaDinamicaVentanillaBean.tituloSegundo}" style="text-align:left">
+                    <p:selectBooleanCheckbox value="#{plantillaOpcionales.datoTramiteVentanillaEForma.presento}" />
+                    <p:spacer width="10" height="0"/>
+                    <h:outputText value="#{plantillaOpcionales.datoTramiteVentanillaEForma.descripcion}"/>
+                </p:column>
+                <p:column width="60" style="border-left-style: hidden;text-align:left">
+                    <p:selectManyCheckbox value="#{plantillaOpcionales.valorTramiteVentanillaEFormaRespuestaLista}" layout="grid" columns="1" >
+                        <f:selectItems value="#{plantillaOpcionales.valorTramiteVentanillaEFormaLista}" var="h" itemLabel="#{h.tipoFormularioVentanillaEForma.descripcion}" itemValue="#{h.tipoFormularioVentanillaEForma.codigo}"/>
+                    </p:selectManyCheckbox>
+                </p:column>
+                <p:column width="100" style="border-left-style: hidden">
+                    <h:inputText value="#{plantillaOpcionales.datoTramiteVentanillaEForma.observacion}" style="width: 85%"  />
+                </p:column>
+            </p:dataTable>
+        </div>
+        <div align="center" style="padding:0.5em 0.0em;">
+            <p:dataTable var="plantillaOtros" value="#{cc.attrs.listaFormularioVentanillaOtros}" style="width: 100%" rendered="#{cc.attrs.listaFormularioVentanillaOtros.size()>0}"> 
+                <p:column width="180"  headerText="#{plantillaDinamicaVentanillaBean.tituloTercero}" style="text-align:left">
+                    <p:selectBooleanCheckbox value="#{plantillaOtros.datoTramiteVentanillaEForma.presento}" />
+                    <p:spacer width="10" height="0"/>
+                    <h:outputText value="#{plantillaOtros.datoTramiteVentanillaEForma.descripcion}"/>
+                </p:column>
+                <p:column width="60" style="border-left-style: hidden;text-align:left"/>
+                <p:column width="100" style="border-left-style: hidden">
+                    <h:inputText value="#{plantillaOtros.datoTramiteVentanillaEForma.observacion}" style="width: 85%"  />
+                    <p:spacer width="5" />
+                    <p:commandButton
+                        actionListener="#{plantillaDinamicaVentanillaBean.eliminaFormularioVentanillaPojo(cc.attrs.listaFormularioVentanillaOtros, plantillaOtros)}"
+                        update="#{cc.attrs.idCompuesto}"
+                        image="ui-icon-trash">
+                        <f:ajax execute="@this" render="@form" event="click"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </div>
+        <div align="center" style="padding:0.7em 0.0em;">
+            <p:panel>
+                <h:panelGrid columns="1" style="width: 100%">
+                    <p:outputLabel value="Otros Documentos" styleClass="colorLabelSenapi"/>
+                    <h:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2">
+                            <p:selectBooleanCheckbox value="#{plantillaDinamicaVentanillaBean.checkAdiciona}">
+                                <p:ajax update="#{cc.attrs.idCompuesto}"/>
+                            </p:selectBooleanCheckbox>
+                            <p:outputLabel value="Otros"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" style="width: 100%">
+                            <h:inputText value="#{plantillaDinamicaVentanillaBean.padreAdiciona}" style="width: 90%" disabled="#{!plantillaDinamicaVentanillaBean.checkAdiciona}"/>
+                            <h:inputText value="#{plantillaDinamicaVentanillaBean.observacionAdiciona}" style="width: 90%" disabled="#{!plantillaDinamicaVentanillaBean.checkAdiciona}"/>
+                            <p:commandButton
+                                value="Adiciona Registro"
+                                actionListener="#{plantillaDinamicaVentanillaBean.adicionaRegistroNuevoPlantillaActionListener(cc.attrs.listaFormularioVentanillaOtros)}"
+                                disabled="#{!plantillaDinamicaVentanillaBean.checkAdiciona}"
+                                update="#{cc.attrs.idCompuesto}"
+                                image="ui-icon ui-icon-disk">
+                                <f:ajax execute="@this" render="@form" event="click"/>
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:panel> 
+        </div>
+    </composite:implementation>
+</html>

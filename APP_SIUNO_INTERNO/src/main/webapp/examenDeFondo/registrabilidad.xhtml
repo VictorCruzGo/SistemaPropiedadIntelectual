@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <div id="componenteDatosGenerales" style="padding:0.5em 0em;">
+            <si.componentes:datosGeneralesExpediente tramite="#{registrabilidadBean.tramite}" listaTramiteSolicitado="#{registrabilidadBean.listaTramiteSolicitado}" />
+        </div>                                        
+        <p:spacer width="15" height="0"/><p:outputLabel value="EXAMEN " style="font-weight: bold"/>
+        <div id="componenteNavegacional" style="padding:0.5em 0em;">
+            <si.componentes:menuBotonesWizardExamenDeFondo numeroDeBotonActivado="1" tramite="#{registrabilidadBean.tramite}"/>
+        </div>
+        <h:form id="form">  
+            <p:panel style="border-style: hidden">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>                 
+                <div align="center" >
+                    <p:panel id="panelRegistrabilidad" style="border-style: hidden">
+                        <p:panel>                                                        
+                            <p:dataTable id="registrabilidad" var="pojo" value="#{registrabilidadBean.listaExamenDeFondo}" style="width: 100%" emptyMessage="No Existen Registros">          
+
+                                <p:column style="border-style: hidden;text-align: left" headerText="#{pojo.examenDeFondoPojo1.texto.pestania}">          
+                                    <!--los componentes se dibujarán según el tipo de componente que muestre el listado-->
+                                    <h:outputText style="font-weight: bold" value="#{pojo.examenDeFondoPojo1.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH2' ? 'true':'false'}"/>                                    
+                                    <p:selectBooleanCheckbox value="#{pojo.examenDeFondoPojo1.texto.opcionRespuesta}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH7' ? 'true':'false'}">
+                                        <p:ajax event="change" update="cajaDeTexto" />        
+                                    </p:selectBooleanCheckbox>                                    
+                                    <p:spacer width="15" height="0"/>
+                                    <h:outputText value="#{pojo.examenDeFondoPojo1.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH7' ? 'true':'false'}"/>                                    
+                                </p:column>                                
+                                <p:column style="text-align: left; border-style: hidden"  headerText="Observaciones específicas">          
+                                    <h:inputText id="cajaDeTexto" value="#{pojo.examenDeFondoPojo1.texto.respuesta}" style="width: 99%" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH7' ? 'true':'false'}" 
+                                                 disabled="#{pojo.examenDeFondoPojo1.texto.opcionRespuesta == 'true'? 'false': 'true'}"/>                                                                    
+                                </p:column>                                
+                            </p:dataTable>  
+                            <h4><h:outputLabel value=" *  " style="color: #C00"/> <p:outputLabel id="labelA" value=" Para imprimir debe guardar el formulario." ></p:outputLabel></h4>
+                            <p:commandButton action="#{registrabilidadBean.guarda()}" ajax="false" value="Guardar"/>
+                            <p:commandButton action="#{registrabilidadBean.guardaRegistrabilidad()}" ajax="false" value="Guardar y Siguiente"/>  
+                            <p:commandButton action="#{registrabilidadBean.imprime()}" ajax="false" value="Imprimir" icon="ui-icon-print" disabled="#{!registrabilidadBean.imprimeRegistrabilidad}"/>                                                        
+                            <p:commandButton value="Terminar Análisis" type="button" onclick="PF('concluyeExamen').show()"/>
+
+                            <p:dialog header="Concluirá el Examen" widgetVar="concluyeExamen" resizable="false" closable="false"  
+                                      width="40%" height="50%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:outputLabel value="¿Esta seguro que desea Terminar el Análisis del Trámite?" style="size: 20px"></p:outputLabel>
+                                </div>                                
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton
+                                        id="finalizaCargaImagen"
+                                        value="Sí"
+                                        onclick="PF('concluyeExamen').hide();"
+                                        action="#{registrabilidadBean.terminarAnalisis()}"
+                                        icon="ui-icon-check"
+                                        ajax="false"/>
+                                    <p:commandButton
+                                        id="cancela"
+                                        value="No"
+                                        onclick="PF('concluyeExamen').hide();"
+                                        icon="ui-icon-closethick"/>
+                                </div>
+                            </p:dialog>
+
+                        </p:panel>
+                    </p:panel>                    
+                </div>
+            </p:panel>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

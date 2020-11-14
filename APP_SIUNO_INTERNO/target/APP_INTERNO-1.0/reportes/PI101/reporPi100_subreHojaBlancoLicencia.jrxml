@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi100_subreHojaBlancoLicencia" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="913f0403-6cd0-478b-8a26-4aec7ce66fda">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="contRenov" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="13" width="139" height="9" uuid="c35909b0-65c7-4dda-a39e-e4594ccf35dc"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[LICENCIA DE USO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="83" splitType="Stretch">
+			<rectangle>
+				<reportElement x="6" y="1" width="536" height="74" uuid="973ff7e1-67f5-4aff-aefa-e24906139489"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="194" y="5" width="27" height="10" uuid="273f67d8-a787-4ea2-a427-f691bd31283b"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="35" width="125" height="10" uuid="ae2a2698-54c2-43b4-8e98-84fbc97ed68b"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[En favor de la firma (Licenciatario):]]></text>
+			</staticText>
+			<line>
+				<reportElement x="77" y="12" width="110" height="1" uuid="5d94b65f-29f0-478d-8c39-9ef3e16ef520"/>
+			</line>
+			<line>
+				<reportElement x="145" y="31" width="397" height="1" uuid="f41705d1-276e-4393-85ed-94d0252300ed"/>
+			</line>
+			<staticText>
+				<reportElement x="386" y="5" width="151" height="10" uuid="882ca112-2c6b-4833-9f73-46677cea79b5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Se aprobó la Licencia de Uso de la Marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="5" width="74" height="10" uuid="f21da4a8-43b7-41c3-b29f-9f5fa5f79baf"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Por Resolución N°]]></text>
+			</staticText>
+			<line>
+				<reportElement x="221" y="12" width="162" height="1" uuid="0cd9b6c4-ea0e-4731-8fba-d2270e6d05bc"/>
+			</line>
+			<staticText>
+				<reportElement x="12" y="54" width="39" height="10" uuid="2106ef72-b444-4f88-b7a8-670fd48bc64c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="145" y="45" width="397" height="1" uuid="b7a3ef92-6ab3-43ed-aeac-bc019efa561c"/>
+			</line>
+			<line>
+				<reportElement x="53" y="62" width="489" height="1" uuid="acd36b9b-6c8b-47d8-a1ef-faeae8552d5d"/>
+			</line>
+			<staticText>
+				<reportElement x="12" y="21" width="133" height="10" uuid="ae78d61a-c203-46a9-b474-8fda1c1914fa"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[otorgada por la firma (Licenciante):]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="582" y="18" width="27" height="20" forecolor="#FFFFFF" uuid="56fb219c-e042-4ae9-aaeb-b4d6ea62ac75"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contRenov}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

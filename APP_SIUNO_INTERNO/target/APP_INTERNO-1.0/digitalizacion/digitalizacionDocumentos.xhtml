@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="formulario">
+            <p:panel header="#{msgs.digitalizacionDocumentosSeleccionaTitulo}  TRAMITE: #{digitalizacionDocumentosBean.tramite.tramite}"  
+                     style="text-align: center;width: 99%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>                  
+                <p:panelGrid columns="2" >
+
+                    <h:panelGroup>
+                        <p:panel header="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoTitulo}"  style="text-align: center;width: 100%">
+                            <div align="left" style="padding:1.5em 0em;">
+                                <si.componentes:informacion dimension="100%" mensaje="Solo puede adjuntar archivos de tipo GIF, JPG, JPEG, PNG y PDF"/>
+                                <p:separator style="width: 2px; border: 0px;height: 10px"></p:separator>
+                                <p:inputText id="nombreArchivo" value="#{digitalizacionDocumentosBean.nombreArchivo}" disabled="true" size="25"/>                            
+                                <p:commandButton value="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoBotonExaminar}" id="addButton" type="button"
+                                                 onclick="PF('archivoDocumentoDialog').show()"                                             
+                                                 icon="ui-icon-circle-zoomin"
+                                                 title="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoBotonExaminarTitle}" >              
+                                </p:commandButton><br/><br/>
+                                <h:panelGroup>
+                                    <h:outputLabel value="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoTipoDocumento}: "/>
+                                    <p:selectOneMenu value="#{digitalizacionDocumentosBean.tipoDocumentacion}" 
+                                                     style="text-align:left" id="seleccionOpcion">
+                                        <f:selectItem itemLabel="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoSelectElegirUnaOpcion}" 
+                                                      itemValue="#{null}" noSelectionOption="true" itemDisabled="false"/>
+                                        <f:selectItems value="#{digitalizacionDocumentosBean.listaTipoDocumentacion}" var="r" 
+                                                       itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    </p:selectOneMenu> <br/><br/>
+                                    <p:outputLabel value="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoNumeroDeFolios}: " />
+                                    <p:inputText id="nroFolios" value="#{digitalizacionDocumentosBean.numeroFolios}" 
+                                                 size="5" style="text-align: right"/><br/><br/>
+                                    <p:outputLabel value="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoDescripcion}: "/><br/><br/>
+                                    <p:inputTextarea id="descripcion" value="#{digitalizacionDocumentosBean.descripcion}" cols="40"/>
+                                </h:panelGroup>
+                            </div>
+                            <p:commandButton value="#{msgs.digitalizacionDocumentosSeleccionaPanelUnoBotonGuardar}" action="#{digitalizacionDocumentosBean.guardarDocumentoDigitalizado()}" 
+                                             update="seleccionOpcion, tablaListaDeDocumentos, descripcion, nroFolios, mensajeGeneral, nombreArchivo" icon="ui-icon-disk">
+                            </p:commandButton>
+
+                        </p:panel>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:panel header="#{msgs.digitalizacionDocumentosSeleccionaPanelDosTitulo}"  style="text-align: center;width: 100%">                        
+                            <div align="center">                        
+                                <p:dataTable id="tablaListaDeDocumentos" liveScroll="true" scrollRows="20"
+                                             scrollable="true" scrollHeight="390"
+                                             var="item" 
+                                             value="#{digitalizacionDocumentosBean.listaDocumentos}" 
+                                             style="width: 95%"
+                                             emptyMessage="#{msgs.digitalizacionDocumentosSeleccionaPanelDosEmptyMensaje}">
+                                    <p:column headerText="#{msgs.digitalizacionDocumentosSeleccionaPanelDosColumnaUno}" width="20%">
+                                        <p:outputLabel value="#{item.nombreArchivo}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.digitalizacionDocumentosSeleccionaPanelDosColumnaDos}" width="6%">
+                                        <p:outputLabel value="#{item.tipoArchivo.codigo}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.digitalizacionDocumentosSeleccionaPanelDosColumnaTres}" width="40%">
+                                        <p:outputLabel value="#{item.descripcion}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.digitalizacionDocumentosSeleccionaPanelDosColumnaCuatro}" width="5%">
+                                        <div align="right">                                            
+                                            <p:outputLabel value="#{item.nroFolios}" />
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.digitalizacionDocumentosSeleccionaPanelDosColumnaCinco}" width="5%">
+                                        <div align="center">                                            
+                                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" ajax="false" 
+                                                             actionListener="#{digitalizacionDocumentosBean.guardar(actionEvent, item)}" 
+                                                             disabled="#{item.idDocumento == null?true:false}">
+                                                <p:fileDownload value="#{digitalizacionDocumentosBean.archivo}" />
+                                            </p:commandButton>
+                                        </div>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.digitalizacionDocumentosSeleccionaPanelDosColumnaSeis}" width="5%">
+                                        <div align="center">                                            
+                                            <p:commandButton icon="ui-icon-trash" 
+                                                             action = "#{digitalizacionDocumentosBean.eliminaDocumentoDigitalizado(item)}" 
+                                                             update="tablaListaDeDocumentos" disabled="#{item.usuarioModificador == digitalizacionDocumentosBean.usuario.idUsuario?false:true}">
+                                                <p:confirm header="Eliminar Documento" message="Se eliminará el documento ¿desea continuar?" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+
+                            <p:confirmDialog global="true" showEffect="fade" >
+                                <div align="center">
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:separator id="separador9" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:confirmDialog>
+                        </p:panel>                    
+                    </h:panelGroup>
+                </p:panelGrid>
+                <p:commandButton
+                    value="Volver Bandeja"
+                    ajax="false"
+                    action="bandeja"
+                    icon="ui-icon-arrowreturnthick-1-w">
+                </p:commandButton>
+
+                <p:commandButton
+                    value="#{msgs.digitalizacionDocumentosSeleccionaBotonFinalizar}"
+                    action="#{digitalizacionDocumentosBean.derivarDigitalizacionSiguienteEtapa()}"
+                    ajax="false"
+                    icon="ui-icon-circle-triangle-e">
+                </p:commandButton>
+
+            </p:panel>
+
+            <p:dialog header="#{msgs.digitalizacionDocumentosSeleccionaDialogoTitulo}" widgetVar="archivoDocumentoDialog"
+                      position="center" resizable="false" id="archivoDocumentoDlg" showEffect="fade"
+                      hideEffect="fade" modal="true" width="60%" height="30%">
+                <div align="center">
+                    <!--<si.componentes:informacion dimension="100%" mensaje="# {msgs.digitalizacionDocumentosSeleccionaDialogoMensaje}"/>-->
+                    <h:panelGrid id="infoFoto" columns="2" style="margin-bottom: 10px;margin-top: 15px">
+                        <h:outputText value="#{msgs.digitalizacionDocumentosSeleccionaDialogoDocumento}" />
+                        <p:fileUpload fileUploadListener="#{digitalizacionDocumentosBean.procesoDeAdjuntarArchivo}"
+                                      mode="advanced"
+                                      label="#{msgs.digitalizacionDocumentosSeleccionaDialogoBotonBuscarDocumento}" 
+                                      cancelLabel="#{msgs.digitalizacionDocumentosSeleccionaDialogoBotonBuscarDocumentoCancelar}"
+                                      invalidSizeMessage="#{msgs.digitalizacionDocumentosSeleccionaDialogoBotonBuscarDocumentoSize}"
+                                      auto="true"
+                                      invalidFileMessage="#{msgs.digitalizacionDocumentosSeleccionaDialogoBotonBuscarDocumentoFile}"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/"
+                                      />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <p:messages id="mensajeCargadoPdf" autoUpdate="true" showDetail="true" style="width: 100%" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" style="margin-bottom: 10px;margin-top: 10px">
+                        <p:commandButton value="Cancelar" 
+                                         icon="ui-icon-arrowreturnthick-1-w"
+                                         onclick="PF('archivoDocumentoDialog').hide()"
+                                         actionListener="#{digitalizacionDocumentosBean.cerrarDialogCargadoArchivoPDF()}"
+                                         ajax="false"
+                                         />
+                        <p:commandButton value="Adjuntar documento" icon="ui-icon-document"
+                                         action="#{digitalizacionDocumentosBean.guardaArchivoDocumento()}"
+                                         update="infoFoto, form" ajax="false" />
+                    </h:panelGrid>
+                </div>
+            </p:dialog>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

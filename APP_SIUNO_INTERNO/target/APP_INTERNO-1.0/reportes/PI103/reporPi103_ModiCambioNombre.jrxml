@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporPi103_ModiCambioNombre" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8bdf047e-2c3e-416c-8037-00a41b533280">
+	<property name="ireport.zoom" value="2.8531167061100042"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nombreSolicitante" class="java.lang.String"/>
+	<field name="nacionalidad" class="java.lang.String"/>
+	<title>
+		<band height="14" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="2" width="540" height="10" backcolor="#C0C0C0" uuid="8222b90b-61dc-4a00-bd97-8fc1c7514181"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="3" width="229" height="9" uuid="a8a4b595-ce33-4066-9f20-856ac2fc6014"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[4. IDENTIFICACIÓN DEL NUEVO TITULAR(ES) O LICENCIATARIO(S)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="70">
+			<rectangle>
+				<reportElement x="1" y="4" width="540" height="10" backcolor="#C0C0C0" uuid="f815eeff-0aab-46af-a5b1-3d16fdfeda4c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="20" width="69" height="7" uuid="bceb354b-522d-4f62-a03c-685d766896b1"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre del Titular]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="10" y="28" width="531" height="11" uuid="09aaa857-22fe-4e4d-a537-aef73fa0cd5b"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="44" width="52" height="7" uuid="8525155f-a14e-4494-9f63-a4ee8e41ba7c"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nacionalidad]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="10" y="51" width="531" height="11" uuid="0dfb555b-6e7d-41cb-85a7-781d25a42500"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="29" width="527" height="10" uuid="f8729d88-5591-4e2b-a60b-ef075a01b52e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreSolicitante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="13" y="53" width="526" height="11" uuid="2e74db18-772a-4e60-bc65-2d8e6f9c6f73"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="5" width="229" height="9" uuid="6a83918b-524b-42be-b043-a38f7b150152"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[TITULAR]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

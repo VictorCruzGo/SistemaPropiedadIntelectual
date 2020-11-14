@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+
+        <div id="componenteNavegacional">
+            <si.componentes:menuBotonesWizardSolicitud numeroDeBotonActivado="5"/>
+        </div>
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel id="panelCinco"  style="border-style: hidden">
+                <p:panel  id="panelDirecciones">
+                    <div align="right" style="padding:0.0em 0.0em;">
+                        <h:panelGrid id="botonDireccion" columns="7" cellpadding="5">
+                            <p:outputLabel for="FechaUltima" value="#{msgs.usuarioNotificacionFormularioCincoFecUltMod}" />
+                            <p:inputText id="FechaUltima" required="false" label="FechaUltima" disabled="true" value="#{direccionNotificacionPI100Bean.direccion.fechaUltimaModificacion}">
+                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                            </p:inputText>
+                            <p:message for="FechaUltima" display="icon" />
+                            <p:commandButton id="BuscaDireccion" type="button" value="#{msgs.usuarioNotificacionFormularioCincoObtDir}" onclick="PF('buscaDireccion').show()" ajax="false" update="listaDireccion" icon="ui-icon-arrowthickstop-1-s"/>
+                        </h:panelGrid>
+                    </div>
+                    <h:panelGrid columns="1" id="panelDireccionNotificacion">
+                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoDirNot}" style="color: #{direccionNotificacionPI100Bean.colorLabel}"/>
+                        <h:panelGrid columns="4" id="datosDireccionNotificacionTramite">
+                            <h:outputLabel value="" /> 
+                            <h:panelGrid columns="3">
+                                <si.componentes:informacion dimension="100%" mensaje="#{msgs.mensajeCiudadNotificacionInformacion}"/>
+                                <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                <p:selectOneMenu value="#{direccionNotificacionPI100Bean.tipoCiudadNotificacion}" style="#{direccionNotificacionPI100Bean.cambiaBordeCampoCiudadNotificacion==true?'border-color: #C00':''}" >
+                                    <f:selectItem itemLabel="#{msgs.usuarioNotificacionFormularioCincoElegir}" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{direccionNotificacionPI100Bean.listaCiudadNotificaciones}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+
+
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoZona}" />  
+                            <p:inputText id="txt_zona" value="#{direccionNotificacionPI100Bean.direccion.zona}" autocomplete="off"
+                                         maxlength="78" style="#{direccionNotificacionPI100Bean.cambiaBordeCampoDatoZona==true?'border-color: #C00':''}; width: 90%" />
+
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoBarrio}" />  
+                            <p:inputText id="txt_barrio" value="#{direccionNotificacionPI100Bean.direccion.barrio}" autocomplete="off"
+                                         maxlength="78" style="#{direccionNotificacionPI100Bean.cambiaBordeCampoDatoBarrio==true?'border-color: #C00':''};width: 110%"/>
+
+
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCalle}" />  
+                            <p:inputText id="txt_calle" value="#{direccionNotificacionPI100Bean.direccion.calle}"  autocomplete="off"
+                                         maxlength="78" style="#{direccionNotificacionPI100Bean.cambiaBordeCampoDatoCalle==true?'border-color: #C00':''};width: 90%"/>
+
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumero}" />  
+                            <p:inputText id="txt_numero" value="#{direccionNotificacionPI100Bean.direccion.numero}" autocomplete="off"
+                                         maxlength="10" style="#{direccionNotificacionPI100Bean.cambiaBordeCampoDatoNumero==true?'border-color: #C00':''};width: 110%"/>
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoEdificio}" />  
+                            <p:inputText id="txt_edificio" style=";width: 70%" value="#{direccionNotificacionPI100Bean.direccion.edificio}" size="50" autocomplete="off" maxlength="78">
+                            </p:inputText>
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoPiso}" /> 
+                            <h:panelGrid columns="6">
+                                <p:inputText id="txt_piso" style=";width: 70%" value="#{direccionNotificacionPI100Bean.direccion.piso}" size="12" autocomplete="off" onkeyup="return ValNumero(this);" maxlength="10">
+                                </p:inputText>
+                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumDep}" />  
+                                <p:inputText id="txt_depto" style=";width: 70%" value="#{direccionNotificacionPI100Bean.direccion.dpto}" size="12" autocomplete="off" maxlength="10">
+                                </p:inputText>
+                            </h:panelGrid>
+                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCorreoElectronico}" />  
+                            <p:inputText id="txt_correoElectronico" value="#{direccionNotificacionPI100Bean.direccion.correoElectronico}" size="50" autocomplete="off"
+                                         maxlength="50" style="#{direccionNotificacionPI100Bean.cambiaBordeCampoCorreoElectronico==true?'border-color: #C00':''}"/>
+                            <p:outputLabel value=""/>
+                            <p:commandButton id="buscaMapa" type="button" value="Direccion GoogleMaps" onclick="PF('cargaMapaArchivo').show()" icon="ui-icon-circle-zoomout"/>
+                        </h:panelGrid>
+                        <p:commandButton value="#{direccionNotificacionPI100Bean.etiqueta}"
+                                         id="botonadicionamodifica"
+                                         process="@this,datosDireccionNotificacionTramite"
+                                         update="mensajeGeneral,panelDireccionNotificacion"
+                                         action="#{direccionNotificacionPI100Bean.adicionaDatoDeDireccion()}"
+                                         image = "ui-icon-disk">
+                        </p:commandButton>
+
+                        <div align="center" style="padding:1em 2.2em;"> 
+                            <p:dataTable value="#{direccionNotificacionPI100Bean.listaDatosDeDirecciones}"
+                                         var="direccion"
+                                         id="listaDatosDeDireccion"
+                                         rendered="false">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoZonaGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.zona}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoBarrioGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.barrio}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCalleGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.calle}"/>
+                                </p:column>
+                                <p:column style="width: 4%">
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumeroGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.numero}" style="text-align: right"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoEdificioGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.edificio}"/>
+                                </p:column>
+                                <p:column  headerText="#{msgs.usuarioNotificacionFormularioCincoPisoGri} " width="30">
+                                    <div align="reght">
+                                        <h:outputText value="#{direccion.piso}" style="text-align: right"/>
+                                    </div>
+                                </p:column>
+                                <p:column style="width: 4%">
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoDeptoGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.dpto}"  style="text-align: right"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCiudadGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.tipoCiudad.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoFechModGri}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{direccion.fechaUltimaModificacion}" style="text-align: right">
+                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                    </h:outputText>
+                                </p:column>
+
+
+                                <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoModificar}" style="text-align: center" width="5%">
+                                    <p:commandButton  icon="ui-icon-pencil" title="Editar" action="#{direccionNotificacionPI100Bean.modificaDatoDeDireccion()}"
+                                                      update="listaDatosDeDireccion :form:FechaUltima :form:txt_zona :form:txt_barrio  :form:txt_calle :form:txt_numero :form:txt_edificio 
+                                                      :form:txt_piso :form:txt_depto :form:botonadicionamodifica"
+                                                      disabled="#{direccionNotificacionPI100Bean.validaBoton}">
+                                        <f:setPropertyActionListener value="#{direccion}" target="#{direccionNotificacionPI100Bean.direccionSeleccionada}" />
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoEliminar}" style="text-align: center" width="5%">
+                                    <p:commandButton action="#{direccionNotificacionPI100Bean.borrarDireccionDeLaLista()}"
+                                                     image="ui-icon-trash"
+                                                     update="listaDatosDeDireccion"
+                                                     disabled="#{direccionNotificacionPI100Bean.validaBoton}"
+                                                     >
+                                        <f:setPropertyActionListener value="#{direccion}" target="#{direccionNotificacionPI100Bean.direccionSeleccionada}" />
+                                        <p:confirm header="#{msgs.usuarioNotificacionFormularioCincoConfirmacionEliminar}" message="#{msgs.usuarioNotificacionFormularioCincoEstaSeguroQueQuiereEliminarElRegistro} " icon="ui-icon-alert" />
+                                    </p:commandButton>
+
+                                    <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode">
+                                        <p:commandButton value="#{msgs.usuarioNotificacionFormularioCincoSi}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{msgs.usuarioNotificacionFormularioCincoNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable>
+                        </div> 
+
+                    </h:panelGrid>
+
+                </p:panel>     
+
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <p:commandButton id="botonPanelCuatroAnterior"
+                                             value="#{msgs.mensajeAnterior}"
+                                             update="mensajeGeneral"
+                                             image="ui-icon ui-icon-disk"
+                                             action="#{direccionNotificacionPI100Bean.volverSolicitarPrioridad()}">
+                            </p:commandButton>
+                        </p:toolbarGroup>  
+                        <p:toolbarGroup align="right">  
+                            <p:commandButton value="#{msgs.usuarioNotificacionFormularioCincoVerGuar}"
+                                             action="#{direccionNotificacionPI100Bean.guardarDatosPestaniaDireccionAction()}"
+                                             update="mensajeGeneral"
+                                             ajax="false"
+                                             disabled="#{direccionNotificacionPI100Bean.validaBoton}"
+                                             image="ui-icon ui-icon-disk">                     
+                            </p:commandButton>
+                        </p:toolbarGroup>  
+                    </p:toolbar>  
+                </div>  
+            </p:panel>
+        </h:form>
+
+
+        <h:form id="form2">
+
+            <p:dialog header="#{msgs.usuarioNotificacionFormularioCincoListaDireccionesUsuario}" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                      width="100%" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <p:dataTable var="itemDireccion" 
+                                 id="listaDireccion"
+                                 rowKey="#{itemDireccion.barrio}"
+                                 value="#{direccionNotificacionPI100Bean.listadoDeDireccionPorUsuario()}" 
+                                 widgetVar="listaDireccion"
+                                 selectionMode="single" 
+                                 selection="#{direccionNotificacionPI100Bean.direccionSeleccionadaPopup}"
+                                 style="width: 100%">
+
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="#{msgs.usuarioNotificacionFormularioCincoLisDirPop}" />
+                            </p:outputPanel>
+                        </f:facet> 
+
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoZonaPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.zona}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoBarrioPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.barrio}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoCallePop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.calle}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoNumeroPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.numero}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoEdificioPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.edificio}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoPisoPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.piso}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoPaisPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.pais}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoDeptoPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.dpto}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoCiudadPop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.tipoCiudad.descripcion}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="#{msgs.usuarioNotificacionFormularioCincoFechCrePop}" width="5%">  
+                            <h:outputText value="#{itemDireccion.fechaCreacion}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.usuarioNotificacionFormularioCincoSelecPop}" width="5%" style="width:32px;text-align: center">
+                            <p:commandButton update=":form:panelCinco"
+                                             icon="ui-icon-transfer-e-w" 
+                                             title="View"                                                  
+                                             actionListener="#{direccionNotificacionPI100Bean.cargaDatosDireccionDialogo(event,itemDireccion)}"> 
+                                <f:ajax execute="@this" render="@form" event="click"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="#{msgs.usuarioNotificacionFormularioCincoCancePop}"
+                            onclick="PF('buscaDireccion').hide();"
+                            icon="ui-icon-disk"/>
+                    </div>
+                </div>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>            

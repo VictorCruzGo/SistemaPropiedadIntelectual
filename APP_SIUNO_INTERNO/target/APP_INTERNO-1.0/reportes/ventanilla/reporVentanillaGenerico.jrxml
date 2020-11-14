@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporVentanillaGenerico" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59294be2-81e5-4af9-b704-2e059834e256">
+	<property name="ireport.zoom" value="1.2100000000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="imageEscudoBol" class="java.lang.String"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="requisitosMin" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="requisitosMax" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="requisitosOtro" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="Observacion" class="java.lang.String"/>
+	<parameter name="fojas" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="datosObs" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="fechaIngreso" class="java.lang.String"/>
+	<parameter name="horaIngreso" class="java.lang.String"/>
+	<field name="primera" class="java.lang.String"/>
+	<field name="chekeado" class="java.lang.String"/>
+	<title>
+		<band height="86" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="233" height="38" uuid="9cd2ee4f-63f6-45a6-a820-97b68d1500d2"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="244" y="0" width="100" height="54" uuid="3efb6337-43c6-45dd-af7b-11589cba8b79"/>
+				<imageExpression><![CDATA[$P{imageEscudoBol}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="210" y="54" width="167" height="14" forecolor="#000080" uuid="10b41e0b-5b2a-4002-9441-820b898aa33d"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="52" width="202" height="20" forecolor="#000080" uuid="c9845d73-b6df-4622-abff-39b747ce69d7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE PROPIEDAD INDUSTRIAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="71" width="572" height="14" backcolor="#000000" uuid="77ee515b-3177-4dc3-9286-6bfb7a0d99b0"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="72" width="572" height="13" forecolor="#FFFFFF" uuid="92f71d80-52d6-48f7-abe8-e4d4cd986d1d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="435" y="54" width="55" height="9" forecolor="#FFFFFF" uuid="ea7cfd4b-b222-44ec-9d0d-6f7e4362691f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Hora Ingreso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="43" width="55" height="9" forecolor="#FFFFFF" uuid="d797098e-e571-4f50-a8e3-14c9fd302251"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha Ingreso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="490" y="53" width="80" height="10" forecolor="#FFFFFF" uuid="21b8eefb-dd0b-44e1-bfe2-20cb20dfcf18"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{horaIngreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="43" width="80" height="9" forecolor="#FFFFFF" uuid="54399f7c-43b9-4482-a047-41d46130726b"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaIngreso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="571" height="36" uuid="8eea523c-3d5f-44b6-be71-e3c5b7a56dfa"/>
+				<dataSourceExpression><![CDATA[$P{requisitosMin}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporVentanillaGenerico_ReqMin.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="570" height="50" uuid="bdb96b90-681b-4469-a20f-8e7c40520340"/>
+				<dataSourceExpression><![CDATA[$P{requisitosMax}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporVentanillaGenerico_ReqMin.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="570" height="50" uuid="61b87f8c-972b-416d-9d26-7610189bb208"/>
+				<dataSourceExpression><![CDATA[$P{requisitosOtro}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporVentanillaGenerico_ReqMin.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="39">
+			<subreport>
+				<reportElement positionType="Float" x="-1" y="0" width="571" height="37" uuid="f1ced8a2-7c47-4875-8570-072c9837e2e7"/>
+				<dataSourceExpression><![CDATA[$P{datosObs}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporVentanillaGenerico_Obs.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24">
+			<staticText>
+				<reportElement x="322" y="13" width="25" height="10" uuid="cfd0a514-3d26-4f24-a4c9-8ea4c63608fc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="486" y="13" width="51" height="10" uuid="f074d021-eecb-4bc5-93e3-eaf02c2a3793"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="539" y="13" width="31" height="10" uuid="2154114b-a056-41b5-921a-c099358de285"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="13" width="100" height="10" uuid="d377bace-6d07-49d5-a7dc-705e3e9ba44f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

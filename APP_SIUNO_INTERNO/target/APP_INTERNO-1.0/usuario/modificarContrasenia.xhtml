@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplateB}">
+    <ui:define name="content">
+        <h:form>  
+            <p:panel header="#{msgs.headerCambiarContrasenia}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <div align="center" style="padding:1em 2.2em;">     
+                    <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <p:panel style="width: 80%" id="panelFormulario">
+                        <h2 style="margin-top: 0"><h:outputLabel value="#{msgs.usuarioDatosUsuarioFormulario}"/></h2>
+
+                        <h:panelGrid columns="2" style="width: 60%">
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="#{msgs.usuarioLabelUsuarioFormulario}" />  
+                                <h:outputLabel value="*" style="color: #C00"/> 
+                            </h:panelGrid>
+
+
+                            <h:panelGrid columns="3" style="text-align: left">
+                                <p:inputText id="usuario" 
+                                             value="#{modificarContraseniaBean.login}" 
+                                             disabled="true"
+                                             autocomplete="off">
+                                </p:inputText>
+                            </h:panelGrid>
+                            
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputLabel value="#{msgs.usuariolabelContrasenioActual}" />  
+                                <h:outputLabel value="*" style="color: #C00"/> 
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" style="text-align: left">
+                                <p:password id="passwordActual" 
+                                             value="#{modificarContraseniaBean.passwordActual}" 
+                                             style="#{modificarContraseniaBean.cambiaBordePassActual==true?'border-color: #C00':' '};"
+                                             autocomplete="off">
+                                </p:password>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputText value="#{msgs.usuarioLabelContraseniaNueva}"/>
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                            </h:panelGrid>
+                            <p:password binding="#{pass}" id="password" value="#{modificarContraseniaBean.password}" style="width: 62%" 
+                                        validator="validaEsVacio" autocomplete="off" feedback="true" inline="true" weakLabel="Contraseña no segura"
+                                        promptLabel="Contraseña débil" goodLabel="Contraseña segura"
+                                        strongLabel="Contraseña fuerte">
+                            </p:password>
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.mensajeDeContrasena}"/>
+
+                            <h:panelGrid columns="2" style="text-align: left">
+                                <h:outputText value="#{msgs.usuarioLabelRepitaContraseñaNueva}"/>
+                                <h:outputLabel value="*" style="color: #C00"/>  
+                            </h:panelGrid>
+                            <p:password id="repeatPassword" validator="repeatPasswordValidator" style="width: 62%">
+                                <f:attribute name="password" value="#{pass.value}"/>
+                            </p:password>
+                        </h:panelGrid>  
+                    </p:panel>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <h:panelGrid columns="3" style="width: 20%">
+                        <p:commandButton
+                            value="#{msgs.usuarioLabelCambiarContraseña}"
+                            action="#{modificarContraseniaBean.modificarContrasenia()}"
+                            update="panelFormulario,imagenInf,mensajeInf,mensajeGeneral"
+                            ajax="false"
+                            icon="ui-icon ui-icon-disk"/>
+                        <p:separator id="separador2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                        <p:commandButton
+                            value="#{msgs.usuarioCancelarContraseña}"
+                            action="#{modificarContraseniaBean.volverVentanaLogueo()}"
+                            ajax="false"
+                            immediate="true"
+                            icon="ui-icon-closethick"/>
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+
+
+
+    </ui:define>
+</ui:composition>

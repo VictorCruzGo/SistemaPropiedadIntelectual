@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/context  
+                            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                            http://www.springframework.org/schema/tx 
+                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+    <context:annotation-config/>	
+    <context:component-scan base-package="org.gob.snp.view.ws" />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <!--dni PRODUCCION-->
+   <!--    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="jndiSenapi2015" />
+        <property name="resourceRef" value="true" />
+    </bean>  -->
+    
+    <!--dni PREPRODUCCION-->
+    <!--    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="jndiSenapiPre2015" />
+    <property name="resourceRef" value="true" />    </bean>-->
+     
+    <!--dni MIGRACION-->
+    <!--    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="jndiSenapiMi2015" />
+        <property name="resourceRef" value="true" />
+    </bean>-->
+     
+    <!--DNI LOCAL-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>                   
+        
+        <property name="url" value="jdbc:mysql://192.168.6.73:3306/sistemaintegrado"/>
+        <!--property name="url" value="jdbc:mysql://10.0.139.23:3306/sistemaintegradode"/-->
+        <property name="username" value="root"/>
+        <property name="password" value="Sa_123456"/>
+        <!--property name="password" value="s3n4p1"/-->
+    </bean>
+
+
+    <!-- Inicio manejo de transacciones-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- Fin manejo de transacciones-->
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <!--Entidades-->
+                <value>org.gob.snp.entidades.Persona</value>
+                <value>org.gob.snp.entidades.Menu</value>
+                <value>org.gob.snp.entidades.Rol</value>
+                <value>org.gob.snp.entidades.UsuarioRol</value>
+                <value>org.gob.snp.entidades.Usuario</value>
+                <value>org.gob.snp.entidades.RolMenu</value>
+                <value>org.gob.snp.entidades.Pagina</value>
+                <value>org.gob.snp.entidades.Clasificador</value>
+                <value>org.gob.snp.entidades.Tramite</value>
+                <value>org.gob.snp.entidades.TramiteUsuario</value>
+                <value>org.gob.snp.entidades.Expediente</value>
+                <value>org.gob.snp.entidades.Regional</value>
+                <value>org.gob.snp.entidades.Direccion</value>
+                <value>org.gob.snp.entidades.TramiteFlujoEtapa</value>
+                <value>org.gob.snp.entidades.FlujoEtapa</value>
+                <value>org.gob.snp.entidades.Flujo</value>
+                <value>org.gob.snp.entidades.NoLaboral</value>
+                <value>org.gob.snp.entidades.Empresa</value>
+                <value>org.gob.snp.entidades.DatosContacto</value>                
+                <value>org.gob.snp.entidades.PersonaEmpresaTramite</value>
+                <value>org.gob.snp.entidades.Poder</value>
+                <value>org.gob.snp.entidades.ClaseNiza</value>
+                <value>org.gob.snp.entidades.SMSignoClaseNiza</value>
+                <value>org.gob.snp.entidades.SMSignoMarca</value>
+                <value>org.gob.snp.entidades.SMLogotipo</value>                
+                <value>org.gob.snp.entidades.SMSolicitadoPrioridad</value>
+                <value>org.gob.snp.entidades.Correlativo</value>
+                <value>org.gob.snp.entidades.SMTipoSignoSolicitado</value>
+                <value>org.gob.snp.entidades.RequisitoFlujoEtapaPlantilla</value>
+                <value>org.gob.snp.entidades.AnalisisEtapa</value>
+                <value>org.gob.snp.entidades.RequisitoFlujoEtapa</value>
+                <value>org.gob.snp.entidades.RequisitoFlujoVentanillaEForma</value>
+                <value>org.gob.snp.entidades.DatoTramiteVentanillaEForma</value>
+                <value>org.gob.snp.entidades.ValorTramiteVentanillaEForma</value>
+                <value>org.gob.snp.entidades.Deposito</value>
+                <value>org.gob.snp.entidades.Dosificacion</value>
+                <value>org.gob.snp.entidades.Titulo</value>
+                <value>org.gob.snp.entidades.Tasa</value>
+                <value>org.gob.snp.entidades.ReciboDeposito</value>
+                <value>org.gob.snp.entidades.Recibo</value>
+                <value>org.gob.snp.entidades.FormularioTramite</value>
+                <value>org.gob.snp.entidades.ElementoFormularioTramite</value>                
+                <value>org.gob.snp.entidades.DatoElementoFormulario</value>
+                <value>org.gob.snp.entidades.Registro</value>
+                <value>org.gob.snp.entidades.RegistroExistenteEF</value>
+                <value>org.gob.snp.entidades.OTRenovacion</value>
+                <value>org.gob.snp.entidades.Publicacion</value>
+                <value>org.gob.snp.entidades.PublicacionTramite</value>
+                <value>org.gob.snp.entidades.OTSolicitadoModificacion</value>
+                <value>org.gob.snp.entidades.ModificacionDatosContacto</value>
+                <value>org.gob.snp.entidades.LicenciaUso</value>
+                <value>org.gob.snp.entidades.Modulo</value>
+                <value>org.gob.snp.entidades.MensajeAplicacion</value>
+                <value>org.gob.snp.entidades.Mascara</value>
+                <value>org.gob.snp.entidades.ErrorAplicacion</value>
+                <value>org.gob.snp.entidades.SMColor</value>
+                <value>org.gob.snp.entidades.Notificacion</value>
+                <value>org.gob.snp.entidades.Documento</value>
+                <value>org.gob.snp.entidades.DIGArchivoDocumento</value>
+                <value>org.gob.snp.entidades.SMImagen</value> 
+                <value>org.gob.snp.entidades.Email</value>
+                <value>org.gob.snp.entidades.Pagina</value>
+                <value>org.gob.snp.entidades.FlujoPagina</value>
+                <value>org.gob.snp.entidades.Resolucion</value>
+                <value>org.gob.snp.entidades.Entrega</value>
+                <value>org.gob.snp.entidades.TemporalModificacion</value>
+                <value>org.gob.snp.entidades.DocumentoPublicacion</value>
+                <value>org.gob.snp.entidades.NotificacionDocumento</value>
+                <value>org.gob.snp.entidades.DosificacionTasa</value>
+                <value>org.gob.snp.entidades.ArchivoTxtNiza</value>
+                <value>org.gob.snp.entidades.DetalleTitulo</value>
+                <value>org.gob.snp.entidades.Institucion</value>
+                <value>org.gob.snp.entidades.NotificadorZona</value>
+                <value>org.gob.snp.entidades.ObservacionTramite</value>
+                <value>org.gob.snp.entidades.Auditoria</value>
+                <value>org.gob.snp.entidades.SeccionFormularioSolicitud</value>
+                <value>org.gob.snp.entidades.Modificacion</value>
+                <value>org.gob.snp.entidades.SolicitudPrioridadPreferencia</value>
+                <value>org.gob.snp.entidades.RenovacionTramite</value>
+                <value>org.gob.snp.entidades.RegionalCorrelativo</value>
+                <value>org.gob.snp.entidades.PoderEfectuado</value>
+                <value>org.gob.snp.entidades.PoderDepositado</value>
+                
+                <!--Vistas-->
+                <value>org.gob.snp.entidades.vistas.EtapaTramite</value>
+                <value>org.gob.snp.entidades.vistas.TipoTramite</value>
+                <value>org.gob.snp.entidades.vistas.BandejaUsuario</value>
+                <value>org.gob.snp.entidades.vistas.TipoCiudad</value>
+                <value>org.gob.snp.entidades.vistas.TipoSolicitud</value>
+                <value>org.gob.snp.entidades.vistas.BandejaUsuarioExterno</value>
+                <value>org.gob.snp.entidades.vistas.TipoDocumento</value>
+                <value>org.gob.snp.entidades.vistas.TipoSolicitante</value>
+                <value>org.gob.snp.entidades.vistas.TipoGeneroPersona</value>
+                <value>org.gob.snp.entidades.vistas.TipoGenero</value>
+                <value>org.gob.snp.entidades.vistas.TipoContacto</value>
+                <value>org.gob.snp.entidades.vistas.TipoPersonaSolicitud</value>
+                <value>org.gob.snp.entidades.vistas.TipoProteccionPrioridad</value>
+                <value>org.gob.snp.entidades.vistas.TipoProteccionPrioridadDatos</value>
+                <value>org.gob.snp.entidades.vistas.TipoSolicitudDeposito</value>
+                <value>org.gob.snp.entidades.vistas.TipoSigno</value>
+                <value>org.gob.snp.entidades.vistas.EstadoProceso</value>
+                <value>org.gob.snp.entidades.vistas.TipoRequisito</value>
+                <value>org.gob.snp.entidades.vistas.TipoRespuestaRequisito</value>
+                <value>org.gob.snp.entidades.vistas.EstadoDocumento</value>
+                <value>org.gob.snp.entidades.vistas.EstadoRegistro</value>
+                <value>org.gob.snp.entidades.vistas.TipoDocumento</value>
+                <value>org.gob.snp.entidades.vistas.TipoExamen</value>
+                <value>org.gob.snp.entidades.vistas.TipoFormularioVentanillaEForma</value>
+                <value>org.gob.snp.entidades.vistas.EstadoTarea</value>
+                <value>org.gob.snp.entidades.vistas.EstadoEtapa</value>
+                <value>org.gob.snp.entidades.vistas.TipoAsignacion</value>
+                <value>org.gob.snp.entidades.vistas.TipoCiudadNotificacion</value>
+                <value>org.gob.snp.entidades.vistas.TipoDosificacion</value>
+                <value>org.gob.snp.entidades.vistas.EstadoDeposito</value>
+                <value>org.gob.snp.entidades.vistas.EstadoRecibo</value>             
+                <value>org.gob.snp.entidades.vistas.TipoElementoHtml</value>
+                <value>org.gob.snp.entidades.vistas.GridRegistroExistente</value>
+                <value>org.gob.snp.entidades.vistas.TipoBanco</value>
+                <value>org.gob.snp.entidades.vistas.TipoModificacion</value>
+                <value>org.gob.snp.entidades.vistas.TipoPais</value>
+                <value>org.gob.snp.entidades.vistas.TipoRepresentante</value>
+                <value>org.gob.snp.entidades.vistas.TipoRevision</value>
+                <value>org.gob.snp.entidades.vistas.TipoArchivo</value>
+                <value>org.gob.snp.entidades.vistas.TipoDocumentacion</value>
+                <value>org.gob.snp.entidades.vistas.TipoNotificacion</value>
+                <value>org.gob.snp.entidades.vistas.EstadoNotificacion</value>
+                <value>org.gob.snp.entidades.vistas.BandejaNotificacion</value>
+                <value>org.gob.snp.entidades.vistas.EstadoPublicacion</value>
+                <value>org.gob.snp.entidades.vistas.EstadoPublicacionTramite</value>
+                <value>org.gob.snp.entidades.vistas.TipoRecibo</value>
+                <value>org.gob.snp.entidades.vistas.TipoTasa</value>
+                <value>org.gob.snp.entidades.vistas.HistorialTramite</value>
+                <value>org.gob.snp.entidades.vistas.TipoPrioridad</value>
+                <value>org.gob.snp.entidades.vistas.TipoPreferencia</value>
+                <value>org.gob.snp.entidades.vistas.TipoPreferenciaPrioridad</value>
+                <value>org.gob.snp.entidades.vistas.EstadoProcesoPublicacion</value>
+                <value>org.gob.snp.entidades.vistas.AreaTramite</value>
+                <value>org.gob.snp.entidades.vistas.BusquedaMarcas</value>
+                <value>org.gob.snp.entidades.vistas.BusquedaSmmarca</value>
+                <value>org.gob.snp.entidades.vistas.FechaSistema</value>
+                <value>org.gob.snp.entidades.vistas.TipoColor</value>
+                <value>org.gob.snp.entidades.vistas.TipoSolicitudSigno</value>
+                
+                
+
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <!-- ********************* HIBERNATE CONTEXT ************************* -->        
+    <!--Servicios--> 
+    <bean id="personaService"  class="org.gob.snp.servicios.impl.PersonaServiceImpl"/>                
+    <bean id="menuService" class="org.gob.snp.servicios.impl.MenuServiceImpl"/>                
+    <bean id="usuarioService" class="org.gob.snp.servicios.impl.UsuarioServiceImpl"/>                
+    <bean id="rolService" class="org.gob.snp.servicios.impl.RolServiceImpl"/> 
+    <bean id="clasificadorService" class="org.gob.snp.servicios.impl.ClasificadorServiceImpl"/> 
+    <bean id="bandejaUsuarioService" class="org.gob.snp.servicios.impl.BandejaUsuarioServiceImpl"/> 
+    <bean id="tramiteService" class="org.gob.snp.servicios.impl.TramiteServiceImpl"/> 
+    <bean id="usuarioRolService" class="org.gob.snp.servicios.impl.UsuarioRolServiceImpl"/> 
+    <bean id="bandejaUsuarioExternoService" class="org.gob.snp.servicios.impl.BandejaUsuarioExternoServiceImpl"/> 
+    <bean id="tramiteFlujoEtapaService" class="org.gob.snp.servicios.impl.TramiteFlujoEtapaServiceImpl"/>
+    <bean id="flujoEtapaService" class="org.gob.snp.servicios.impl.FlujoEtapaServiceImpl"/>
+    <bean id="flujoService" class="org.gob.snp.servicios.impl.FlujoServiceImpl"/>
+    <bean id="utilitariosService" class="org.gob.snp.servicios.impl.util.UtilitariosServiceImpl"/>
+    <bean id="noLaboralService" class="org.gob.snp.servicios.impl.NoLaboralServiceImpl"/>
+    <bean id="empresaService" class="org.gob.snp.servicios.impl.EmpresaServiceImpl"/>
+    <bean id="datosContactoService" class="org.gob.snp.servicios.impl.DatosContactoServiceImpl"/>
+    <bean id="expedienteService" class="org.gob.snp.servicios.impl.ExpedienteServiceImpl"/>
+    <bean id="regionalService" class="org.gob.snp.servicios.impl.RegionalServiceImpl"/>
+    <bean id="personaEmpresaTramiteService" class="org.gob.snp.servicios.impl.PersonaEmpresaTramiteServiceImpl"/>
+    <bean id="poderService" class="org.gob.snp.servicios.impl.PoderServiceImpl"/>                     
+    <bean id="claseNizaService" class="org.gob.snp.servicios.impl.ClaseNizaServiceImpl"/>
+    <bean id="smSignoMarcaService" class="org.gob.snp.servicios.impl.SmSignoMarcaServiceImpl"/>
+    <bean id="smLogotipoService" class="org.gob.snp.servicios.impl.SmLogotipoServiceImpl"/>    
+    <bean id="smSolicitadoPrioridadService" class="org.gob.snp.servicios.impl.SmSolicitadoPrioridadServiceImpl"/>
+    <bean id="correlativoService" class="org.gob.snp.servicios.impl.CorrelativoServiceImpl"/>
+    <bean id="smTipoSignoSolicitadoService" class="org.gob.snp.servicios.impl.SmTipoSignoSolicitadoServiceImpl"/> 
+    <bean id="direccionService" class="org.gob.snp.servicios.impl.DireccionServiceImpl"/>
+    <bean id="smSignoClaseNizaService" class="org.gob.snp.servicios.impl.SmSignoClaseNizaServiceImpl"/>
+    <bean id="requisitoFlujoEtapaPlantillaService" class="org.gob.snp.servicios.impl.RequisitoFlujoEtapaPlantillaServiceImpl"/>
+    <bean id="analisisEtapaService" class="org.gob.snp.servicios.impl.AnalisisEtapaServiceImpl"/>        
+    <bean id="requisitoFlujoEtapaService" class="org.gob.snp.servicios.impl.RequisitoFlujoEtapaServiceImpl"/>        
+    <bean id="requisitoFlujoVentanillaEFormaService" class="org.gob.snp.servicios.impl.RequisitoFlujoVentanillaEFormaServiceImpl"/>        
+    <bean id="datoTramiteVentanillaEFormaService" class="org.gob.snp.servicios.impl.DatoTramiteVentanillaEFormaServiceImpl"/>
+    <bean id="valorTramiteVentanillaEFormaService" class="org.gob.snp.servicios.impl.ValorTramiteVentanillaEFormaServiceImpl"/>
+    <bean id="examenFormaPojoService" class="org.gob.snp.servicios.impl.ExamenFormaPojoServiceImpl" />
+    <bean id="tramiteUsuarioService" class="org.gob.snp.servicios.impl.TramiteUsuarioServiceImpl" />
+    <bean id="depositoService" class="org.gob.snp.servicios.impl.DepositoServiceImpl" />
+    <bean id="reciboService" class="org.gob.snp.servicios.impl.ReciboServiceImpl" />
+    <bean id="tasaService" class="org.gob.snp.servicios.impl.TasaServiceImpl" />
+    <bean id="reciboDepositoService" class="org.gob.snp.servicios.impl.ReciboDepositoServiceImpl" />
+    <bean id="tituloService" class="org.gob.snp.servicios.impl.TituloServiceImpl" />
+    <bean id="dosificacionService" class="org.gob.snp.servicios.impl.DosificacionServiceImpl" />
+    <bean id="formularioTramiteService" class="org.gob.snp.servicios.impl.FormularioTramiteServiceImpl" />
+    <bean id="elementoFormularioTramiteService" class="org.gob.snp.servicios.impl.ElementoFormularioTramiteServiceImpl" />    
+    <bean id="examenDeFondoPojoService" class="org.gob.snp.servicios.impl.ExamenDeFondoPojoServiceImpl" />
+    <bean id="datoElementoFormularioService" class="org.gob.snp.servicios.impl.DatoElementoFormularioServiceImpl" />
+    <bean id="gridRegistroExistenteService" class="org.gob.snp.servicios.impl.GridRegistroExistenteServiceImpl" />
+    <bean id="registroService" class="org.gob.snp.servicios.impl.RegistroServiceImpl" />
+    <bean id="registroExistenteEFService" class="org.gob.snp.servicios.impl.RegistroExistenteEFServiceImpl" />
+    <bean id="oTRenovacionService" class="org.gob.snp.servicios.impl.OTRenovacionServiceImpl" />
+    <bean id="publicacionService" class="org.gob.snp.servicios.impl.PublicacionServiceImpl" />
+    <bean id="publicacionTramiteService" class="org.gob.snp.servicios.impl.PublicacionTramiteServiceImpl" />
+    <bean id="modificacionDatosContactoService" class="org.gob.snp.servicios.impl.ModificacionDatosContactoServiceImpl" />
+    <bean id="licenciaUsoService" class="org.gob.snp.servicios.impl.LicenciaUsoServiceImpl" />
+    <bean id="oTSolicitadoModificacionService" class="org.gob.snp.servicios.impl.OTSolicitadoModificacionServiceImpl" />
+    <bean id="mensajeAplicacionService" class="org.gob.snp.servicios.impl.MensajeAplicacionServiceImpl" />
+    <bean id="moduloService" class="org.gob.snp.servicios.impl.ModuloServiceImpl" />
+    <bean id="errorAplicacionService" class="org.gob.snp.servicios.impl.ErrorAplicacionServiceImpl" />
+    <bean id="smColorService" class="org.gob.snp.servicios.impl.SmColorServiceImpl" />
+    <bean id="notificacionService" class="org.gob.snp.servicios.impl.NotificacionServiceImpl" />
+    <bean id="documentoService" class="org.gob.snp.servicios.impl.DocumentoServiceImpl" />
+    <bean id="smImagenService" class="org.gob.snp.servicios.impl.SmImagenServiceImpl" />
+    <bean id="dIGArchivoDocumentoService" class="org.gob.snp.servicios.impl.DIGArchivoDocumentoServiceImpl" />
+    <bean id="paginaService" class="org.gob.snp.servicios.impl.PaginaServiceImpl" />
+    <bean id="flujoPaginaService" class="org.gob.snp.servicios.impl.FlujoPaginaServiceImpl" />
+    <bean id="resolucionService" class="org.gob.snp.servicios.impl.ResolucionServiceImpl" />
+    <bean id="entregaService" class="org.gob.snp.servicios.impl.EntregaServiceImpl" />
+    <bean id="temporalModificacionService" class="org.gob.snp.servicios.impl.TemporalModificacionServiceImpl" />
+    <bean id="documentoObservacionPojoService" class="org.gob.snp.servicios.impl.DocumentoObservacionPojoServiceImpl" />
+    <bean id="bandejaNotificacionService" class="org.gob.snp.servicios.impl.BandejaNotificacionServiceImpl" /> 
+    <bean id="documentoPublicacionService" class="org.gob.snp.servicios.impl.DocumentoPublicacionServiceImpl" /> 
+    <bean id="notificacionDocumentoService" class="org.gob.snp.servicios.impl.NotificacionDocumentoServiceImpl" /> 
+    <bean id="dosificacionTasaService" class="org.gob.snp.servicios.impl.DosificacionTasaServiceImpl" /> 
+    <bean id="archivoTxtNizaService" class="org.gob.snp.servicios.impl.ArchivoTxtNizaServiceImpl" /> 
+    <bean id="detalleTituloService" class="org.gob.snp.servicios.impl.DetalleTituloServiceImpl" /> 
+    <bean id="institucionService" class="org.gob.snp.servicios.impl.InstitucionServiceImpl" /> 
+    <bean id="historialTramiteService" class="org.gob.snp.servicios.impl.HistorialTramiteServiceImpl" /> 
+    <bean id="notificadorZonaService" class="org.gob.snp.servicios.impl.NotificadorZonaServiceImpl"/>
+    <bean id="busquedaMarcasService" class="org.gob.snp.servicios.impl.BusquedaMarcasServiceImpl"/>
+    <bean id="busquedaSmmarcaService" class="org.gob.snp.servicios.impl.BusquedaSmmarcaServiceImpl"/>
+    <bean id="observacionTramiteService" class="org.gob.snp.servicios.impl.ObservacionTramiteServiceImpl"/>
+    <bean id="auditoriaService" class="org.gob.snp.servicios.impl.AuditoriaServiceImpl"/>
+    <bean id="fechaSistemaService" class="org.gob.snp.servicios.impl.FechaSistemaServiceImpl"/>
+    <bean id="seccionFormularioSolicitudService" class="org.gob.snp.servicios.impl.SeccionFormularioSolicitudServiceImpl"/>
+    <bean id="solicitudPrioridadPreferenciaService" class="org.gob.snp.servicios.impl.SolicitudPrioridadPreferenciaServiceImpl"/>
+    <bean id="modificacionService" class="org.gob.snp.servicios.impl.ModificacionServiceImpl"/>
+    <bean id="renovacionTramiteService" class="org.gob.snp.servicios.impl.RenovacionTramiteServiceImpl"/>
+    <bean id="regionalCorrelativoService" class="org.gob.snp.servicios.impl.RegionalCorrelativoServiceImpl"/>
+    <bean id="poderDepositadoService" class="org.gob.snp.servicios.impl.PoderDepositadoServiceImpl"/>
+    <bean id="poderEfectuadoService" class="org.gob.snp.servicios.impl.PoderEfectuadoServiceImpl"/>
+    <bean id="busquedaService" class="org.gob.snp.servicios.impl.util.BusquedaServiceImpl"/>
+    
+    
+</beans>

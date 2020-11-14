@@ -1,0 +1,641 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+
+    <ui:define name="content">
+
+        <h:form id="form">  
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel header="Generar Recibos - Recaudaciones" style="text-align: center;width: 99.5%;overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <div align="center">   
+                    <h:panelGrid id="cBoxCargarTramites" columns="4">
+                        <h:outputLabel id="chekTramite" value="Otros:" />
+                        <p:selectBooleanCheckbox id="chekCargaTramite" value="#{reciboBean.cargaTramitesNoRegistrados}">
+                            <p:ajax update=":form :form:panelBotonGuardado" listener="#{reciboBean.renderizaCamposTramitesRegistrados()}"/>
+                        </p:selectBooleanCheckbox>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="padreListas">
+                        <p:panel header="Tramites" rendered="#{!reciboBean.variableRenderizaTramitesRegistrados}" style="border-style: hidden">
+                            <p:fieldset id="fieldListaTramite">
+                                <p:dataTable id="listaTramiteDataTable" 
+                                             var="tramite" 
+                                             value="#{reciboBean.listaTramite}"
+                                             rows="5"
+                                             paginator="true"
+                                             selectionMode="single"
+                                             selection="#{reciboBean.tramiteSeleccion}"
+                                             rowKey="#{tramite.idTramite}"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10">
+                                    <f:facet name="header">
+                                        <p:outputLabel value="Buscar Tramites por Regional:" />
+                                        <p:selectOneMenu value="#{reciboBean.regionalConbo}">  
+                                            <f:selectItem itemLabel="#{msgs.usuarioNotificacionFormularioCincoElegir}" itemValue="#{null}"></f:selectItem>
+                                            <f:selectItems value="#{reciboBean.listaTipoCiudadNotificacion}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update="listaTramiteDataTable" listener="#{reciboBean.seleccionaRegionalParaCargarLista(e)}"/>   
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <p:ajax event="rowSelect" listener="#{reciboBean.cargaSegunTramite}" update=":form" />
+                                    <p:ajax event="rowUnselect" listener="#{reciboBean.cargaSegunTramieDos}" update=":form" />
+                                    <p:column headerText="Tramite" width="20%" style="text-align:center">
+                                        <h:outputText value="#{tramite.tramite}" />
+                                    </p:column>
+                                    <p:column headerText="Codigo" width="20%">
+                                        <h:outputText value="#{tramite.codigoDia}" />
+                                    </p:column>
+                                    <p:column headerText="Tipo Tramite" width="25%">
+                                        <h:outputText value="#{tramite.tipoTramite.descripcion}" />
+                                    </p:column>
+                                    <p:column headerText="Finalizar" width="25%">
+                                        <p:commandButton id="botonFinalizaTramite"
+                                                         actionListener="#{reciboBean.derivarTramite(tramite)}"
+                                                         update=":form"
+                                                         icon="ui-icon-circle-triangle-e"
+                                                         value="Finalizar"> 
+                                            <p:confirm header="Derivar siguiente Etapa" message="Finalizar el tramite: #{tramite.tramite}" icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:fieldset>
+                        </p:panel>
+                        <p:panel  header="Otros Tramites" rendered="#{reciboBean.variableRenderizaTramitesRegistrados}" style="border-style: hidden">
+                            <h:panelGrid id="cBoxCargarTramitesNoRegistrados" columns="4">
+                                <p:outputLabel value="Codigo:"></p:outputLabel>
+                                <p:inputText style="width: 200px" value="#{reciboBean.recibo.datoRecibo}">
+                                </p:inputText>
+                                <p:commandButton id="botonBuscarTramite"
+                                                 actionListener="#{reciboBean.encuentraTramite(reciboBean.recibo.datoRecibo)}"
+                                                 update=":form"
+                                                 icon="ui-icon-circle-triangle-e"
+                                                 value="Buscar"/> 
+                                <p:commandButton id="botonBuscarTramiteLimpiar"
+                                                 actionListener="#{reciboBean.limpiaTramite()}"
+                                                 update=":form"
+                                                 icon="ui-icon-circle-triangle-e"
+                                                 value="Limpiar"/> 
+                            </h:panelGrid>
+                            <div align="center" style="padding:1.0em 1.0em;">
+                                <p:panel id="panelTramiteLista" style="width: 100%; border-style: hidden" rendered="#{reciboBean.activaPanelesSiExisteTramite}">
+                                    <h:panelGrid columns="2" id="datosTramitesEncontrados" style="width: 100%">
+                                        <p:outputLabel value="#{msgs.labelTramite}" style="width: 10%;padding:1.0em 1.0em;"/>
+                                        <p:outputLabel value="#{reciboBean.tramiteSeleccion.tramite}" style="width:100%"/>
+                                        <p:outputLabel value="#{msgs.labelCodigo}" style="width: 10% ;padding:1.0em 1.0em"/>
+                                        <p:outputLabel value="#{reciboBean.tramiteSeleccion.codigoDia}" style="width:100%"/>
+                                        <p:outputLabel value="#{msgs.labelTipo}" style="width: 10%;padding:1.0em 1.0em"/>
+                                        <p:outputLabel value="#{reciboBean.tramiteSeleccion.tipoTramite.descripcion}" style="width:100%"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:panel id="panelMensaje" style="width: 100%; border-style: hidden" rendered="#{reciboBean.activaPanelesSiExisteTramiteNoEncontrado}">
+                                    <h:panelGrid id="mensaje" columns="2" >
+                                        <h:outputText value="Tramite no registrado en el sistema," style="font-size:14px;" />
+                                    </h:panelGrid>
+                                </p:panel>
+                            </div>
+                        </p:panel>   
+                        <p:fieldset id="fieldListaDeposito">
+                            <div align="center" style="padding:1.0em 1.0em;">
+                                <p:panel id="formDeposito" style="border-style: hidden">
+                                    <p:fieldset legend="Adicionar Depositos" toggleable="true" toggleSpeed="500" collapsed="#{reciboBean.muestraFormularioDeposito}">
+                                        <h:panelGrid id="formularioDeposito" columns="2">
+                                            <h:outputLabel value="Nro. Deposito:"/>  
+                                            <p:inputText id="nroDeposito" value="#{reciboBean.deposito.numeroDeposito}" style="#{reciboBean.cambiaColorNumeroDeposito == true?'border-color: #C00':''}; width: 90%" />
+                                            <h:outputLabel value="Depositante:" style="width: 15%"/>  
+                                            <p:inputText id="personaDeposito" value="#{reciboBean.deposito.personaDeposito}" style="#{reciboBean.cambiaColorPersonaDeposito == true?'border-color: #C00':''}; width: 200%" />
+                                            <h:outputLabel value="Fecha:"/>  
+                                            <p:calendar id="mask" 
+                                                        value="#{reciboBean.deposito.fechaDeposito}"
+                                                        locale="es" 
+                                                        navigator="true" 
+                                                        pattern="dd-MM-yyyy" 
+                                                        mask="true"
+                                                        size="12" 
+                                                        style="#{reciboBean.cambiaColorFechaDeposito==true?'border-color: #C00':''}; width: 90%"/>
+                                            <p:outputLabel value="Banco:" />
+                                            <h:selectOneMenu value="#{reciboBean.tipoBanco}" style="#{reciboBean.cambiaColorBancoDeposito==true?'border-color: #C00':''}; width: 120%">  
+                                                <f:selectItems value="#{canjeDepositoBean.listaTipoBanco}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            </h:selectOneMenu>  
+                                            <h:outputLabel value="Monto Total (Bs.)"/>  
+                                            <p:inputText id="monto" value="#{reciboBean.deposito.monto}" style="#{reciboBean.cambiaColormontoDeposito == true?'border-color: #C00':''}; width: 60%;text-align:right" />
+                                        </h:panelGrid>
+                                        <p:commandButton id="botonDepositoAdicionaBanco"
+                                                         value="Adicionar Deposito"
+                                                         actionListener="#{reciboBean.adicionaDepositoBanco()}"
+                                                         update="form listaDepositoDataTable " 
+                                                         icon="ui-icon ui-icon-disk"
+                                                         rendered="#{!reciboBean.activaBotonDeposito}"
+                                                         >
+                                            <f:ajax execute="@this" event="click"/>
+                                        </p:commandButton>
+                                        <p:commandButton
+                                            id="botonDepositoModifica"
+                                            value="Modificar Deposito"
+                                            actionListener="#{reciboBean.modificaDeposito()}"
+                                            rendered="#{reciboBean.activaBotonDeposito}"
+                                            update="listaDepositoDataTable :form:formDeposito " 
+                                            image="ui-icon-pencil">
+                                            <f:ajax execute="@this" event="click"/>
+                                        </p:commandButton>
+                                        <p:commandButton
+                                            id="botonDepositoCancela"
+                                            value="Cancelar"
+                                            process="@this,formularioDeposito"
+                                            actionListener="#{reciboBean.cancelarDeposito()}"
+                                            update="formDeposito">
+                                            <f:ajax execute="@this" event="click"/>
+                                        </p:commandButton>
+                                    </p:fieldset>
+                                </p:panel>
+                            </div>
+                            <p:dataTable id="listaDepositoDataTable" var="deposito"  value="#{reciboBean.listaDeposito}" 
+                                         rows="5"
+                                         selection="#{reciboBean.listaDepositoSeleccion}"
+                                         rowKey="#{deposito.idDeposito}"
+                                         >
+                                <f:facet name="header">
+                                    Depositos Disponibles
+                                </f:facet>
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center">
+                                </p:column>
+                                <p:column headerText="Nro." width="15%" style="text-align:right">
+                                    <h:outputText value="#{deposito.numeroDeposito}" />
+                                </p:column>
+                                <p:column headerText="Depositante" width="25%">
+                                    <h:outputText value="#{deposito.personaDeposito}" />
+                                </p:column>
+                                <p:column headerText="Fecha" width="14%" style="text-align:center">
+                                    <h:outputText value="#{deposito.fechaDeposito}">
+                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Saldo" width="15%" style="text-align:right">
+                                    <h:outputText value="#{deposito.saldo}" />
+                                </p:column>
+                                <p:column headerText="Elim" style="text-align: center" width="10%">
+                                    <p:commandButton update="listaDepositoDataTable :form:formDeposito" 
+                                                     icon="ui-icon-trash" 
+                                                     action="#{reciboBean.eliminaDeposito(deposito)}" 
+                                                     process="listaDepositoDataTable" disabled="#{reciboBean.activaEliminaModifica(deposito)}">                                           
+                                        <p:confirm header="Eliminar" message="¿Está seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Mod." style="text-align: center" width="10%">
+                                    <p:commandButton update=":form:fieldListaDeposito :form:formDeposito" 
+                                                     icon="ui-icon-pencil" 
+                                                     action="#{reciboBean.seleccionDepositoParaModificar(deposito)}" 
+                                                     process=":form:fieldListaDeposito">                                           
+                                        <p:confirm header="Modificar" message="¿Está seguro que quiere modificar el registro?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:fieldset>
+                    </h:panelGrid>
+                    <div align="center" style="padding:1em 1em;">
+                        <p:panel id="panelEliminados" style="border-style: hidden" >
+                            <h:panelGrid id="cBoxCargarRecibosAnulados" columns="4">
+                                <p:outputLabel value="Recibos Disponibles: #{reciboBean.numeroRecibosModificados}"></p:outputLabel>
+                                <p:spacer width="10"></p:spacer>
+                                <h:outputText id="chekRecibo" value="Restablece Número Recibo" />
+                                <p:selectBooleanCheckbox id="chekCargaRecibo" value="#{reciboBean.cargarNumeroRecibo}">
+                                    <p:ajax update=":form" listener="#{reciboBean.activaCargarRecibo()}"/>
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
+                            <p:panel  id="panelNumeroRecibo" style="border-style: hidden" rendered="#{reciboBean.ocultaCargaDeRecibos}">
+                                <div align="center" style="padding:1em 1em;">
+                                    <h:panelGrid columns="3" id="campoRecibosAnulados">
+                                        <p:commandButton id="buscaRecibosAnulados" type="button" value="Lista Recibos Anulados" 
+                                                         onclick="PF('BuscaRecibos').show()" icon="ui-icon-arrowthickstop-1-s" update=":form2" ajax="false">
+                                        </p:commandButton>
+                                        <p:outputLabel value="Recibo"/>
+                                        <p:inputText value="#{reciboBean.numeroRecibo}" disabled="true"></p:inputText>
+                                    </h:panelGrid>
+                                </div>  
+                            </p:panel>
+                            <h:panelGrid id="cBoxCargarTitulosAnulados" columns="4">
+                                <p:outputLabel value="Titulos Disponibles #{reciboBean.numeroTitulosAnulados}"></p:outputLabel>
+                                <p:spacer width="10"></p:spacer>
+                                <h:outputText id="chekTitulo" value="Restablece Titulo" />
+                                <p:selectBooleanCheckbox id="chekCargaTitulo" value="#{reciboBean.cargarSerieTiulo}">
+                                    <p:ajax update=":form" listener="#{reciboBean.activaCargarTitulo()}"/>
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
+                            <p:panel  id="panelSerie" style="border-style: hidden" rendered="#{reciboBean.ocultaCargaDeTitulos}">
+                                <div align="center" style="padding:1em 1em;">
+                                    <h:panelGrid columns="3" id="campoSeries">
+                                        <p:commandButton id="buscaTitulosAnulados" type="button" value="Lista Titulos Anulados" 
+                                                         onclick="PF('BuscaTitulosAnulados').show()" icon="ui-icon-arrowthickstop-1-s" update=":form2" ajax="false">
+                                        </p:commandButton>
+                                        <p:outputLabel value="Serie:"/>
+                                        <p:inputText value="#{reciboBean.serieRecuperada}" disabled="true"></p:inputText>
+                                    </h:panelGrid>
+                                </div>  
+                            </p:panel>
+                        </p:panel>
+                        <h:panelGrid id="BotondeGuardadoTitulosAnulados" columns="1">
+                            <p:panel id="panelBotonGuardado" style="border-style: hidden">
+                                <div align="center" style="padding:1em 1em;">
+                                    <h:panelGrid columns="4" id="datosTramite">
+                                        <p:outputLabel value="Cantidad:" />
+                                        <p:inputText   value= "#{reciboBean.cantidad}"  style="width:20%; text-align: right" maxlength="3" onkeyup="return ValNumero(this);" autocomplete="off" />
+
+                                        <p:outputLabel value="Tasa:" style="width: 10%"/>
+
+                                        <h:selectOneMenu id="console" value="#{reciboBean.tasa}" >
+                                            <f:selectItems value="#{reciboBean.listaTasa}" var="r" itemLabel="#{r.costo}Bs.- - #{r.descripcion}" itemValue="#{r.idTasa}"/>
+                                        </h:selectOneMenu>
+
+                                    </h:panelGrid>
+                                    <div align="center" style="padding:1.0em 1.0em;">
+                                        <p:commandButton
+                                            id="generaRecibo"
+                                            value="Generar Recibo "
+                                            rendered="#{!reciboBean.variableRenderizaTramitesRegistrados}"
+                                            update="form listaTramiteDataTable listaDepositoDataTable  listaRecibos datosTramite :form:panelRecibos"
+                                            actionListener="#{reciboBean.generaRecibo()}"
+                                            image="ui-icon ui-icon-disk">
+                                            <f:ajax execute="@this" event="click"/>
+                                            <f:ajax render=":form:payment-amount-panel" />
+                                        </p:commandButton>
+                                        <p:commandButton
+                                            rendered="#{reciboBean.variableRenderizaTramitesRegistrados}"
+                                            id="generaReciboTramiteNoRegistrado"
+                                            value="Generar Recibo "
+                                             update="form listaTramiteDataTable listaDepositoDataTable  listaRecibos datosTramite :form:panelRecibos"
+                                            action="#{reciboBean.generaReciboTramiteNoRegistrado()}"
+                                            image="ui-icon ui-icon-disk"
+                                            >
+                                            <f:ajax execute="@this" event="click"/>
+                                            <f:ajax render=":form:payment-amount-panel" />
+                                        </p:commandButton>
+
+                                    </div>
+                                </div>
+                            </p:panel>
+                        </h:panelGrid>
+                    </div>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="No. Recibo: #{reciboBean.numeorSiguienteRecibo}"></p:outputLabel>
+                        <p:outputLabel value="Nro Titulo: #{reciboBean.numeorSiguienteTitulo}"></p:outputLabel>
+                    </h:panelGrid>
+                    <h:panelGrid id="panelRecibos" columns="1">
+                        <div align="center">
+                            <p:fieldset id="fieldListaRecibos" style="margin-bottom:20px; border-style: hidden">
+                                <p:outputPanel id="areaRecibos" style="border-style: hidden">
+                                    <p:dataTable id="listaRecibos" liveScroll="true"
+                                                 var="recibo" 
+                                                 scrollable="true" scrollHeight="200" resizableColumns="true"
+                                                 scrollRows="20"
+                                                 value="#{reciboBean.listaRecibo}" style="width: 96%">
+
+                                        <f:facet name="header">
+                                            <p:outputPanel >
+                                                <h:outputText value="LISTA DE RECIBOS GENERADOS" />
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <p:column headerText="No. Recibo" width="12%" style="text-align:right">
+                                            <h:outputText value=" #{recibo.serie} - #{recibo.nroRecibo}" />
+                                        </p:column>
+
+                                        <p:column headerText="No. Titulo" width="12%" style="text-align:right">
+                                            <h:outputText value=" #{reciboBean.encuentraDetalle(recibo).getSerie()} - #{reciboBean.encuentraDetalle(recibo).getNroTitulo()}" />
+                                        </p:column>
+                                        <p:column headerText="Cant." width="6%" style="text-align:right" >
+                                            <h:outputText  style="text-align:right" value="#{recibo.cantidad}" />
+                                        </p:column>
+                                        <p:column headerText="Descripción Tasa" width="30%">
+                                            <h:outputText value="#{recibo.tasa.descripcion}" />
+                                        </p:column>
+                                        <p:column headerText="Tasa" width="8%" style="text-align:right" >
+                                            <h:outputText  style="text-align:right" value="#{recibo.tasa.costo}" />
+                                        </p:column>
+                                        <p:column headerText="Monto" width="10%" style="text-align:right" >
+                                            <h:outputText  style="text-align:right" value="#{recibo.monto}" />
+                                        </p:column>
+                                        <p:column headerText="Código Trámite" width="15%" style="text-align:right" >
+                                            <h:outputText value="#{recibo.tramite.tramite}" style="text-align:right"/>
+                                        </p:column>
+                                        <p:column headerText="Descripción Tramite" width="25%" style="text-align:right" >
+                                            <h:outputText value="#{recibo.datoRecibo}" style="text-align:right"/>
+                                        </p:column>
+                                        <p:column headerText="No. Deposito" width="12%" style="text-align:right" >
+                                            <h:outputText value="#{reciboBean.muestraNumerosDeposito(recibo)}" style="text-align:right"/>
+                                        </p:column>
+                                        <p:column headerText="Eliminar Recibo" style="text-align: center" width="10%">
+                                            <p:commandButton
+                                                id="modificar"
+                                                icon="ui-icon-minusthick" 
+                                                update=":form"
+                                                actionListener="#{reciboBean.cargaValoresAEliminarRecibo(recibo)}"
+                                                onclick="PF('eliminaTramiteUsar').show()"
+                                                > 
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="Anular Recibo" style="text-align: center" width="10%">
+                                            <p:commandButton
+                                                id="eliminaRecibo"
+                                                icon="ui-icon-minusthick" 
+                                                update=":form :form2:recibosEliminado"
+                                                actionListener="#{reciboBean.cargaValoresAEliminarRecibo(recibo)}"
+                                                onclick="PF('eliminaTramite').show()"
+                                                > 
+                                                <f:ajax execute="@this"  event="click"/>
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="Imprimir" style="text-align: center" width="10%">
+                                            <p:commandButton
+                                                id="derivarRecibo"
+                                                icon="ui-icon-print"
+                                                style="border-image: 0" 
+                                                update=":form:listaDepositoDataTable"
+                                                actionListener="#{reciboBean.imprimirRecibo(recibo)}"
+
+                                                >
+                                                <!--f:ajax render=":form:payment-amount-panel" /-->
+                                            </p:commandButton>
+                                        </p:column>
+<!--                                        <p:column headerText="Imprimir2" style="text-align: center" width="10%">
+                                            <p:commandButton
+                                                id="derivarRecibo1"
+                                                icon="ui-icon-print"
+                                                style="border-image: 0" 
+                                                ajax="true"
+                                                action="# {reciboBean.imprimirRecibo(recibo)}">
+                                                 actionListener="# {reciboBean.imprimirRecibo(recibo)}"
+
+
+                                                <f:ajax render=":form:payment-amount-panel" />
+
+                                            </p:commandButton>
+                                        </p:column>-->
+<!--                                        <p:column headerText="Recuperar" style="text-align: center" width="10%">
+                                            <p:commandButton
+                                                id="derivarRecibo2"
+                                                icon="ui-icon-print"
+                                                style="border-image: 0" 
+                                                ajax="true"
+                                                action="# {reciboBean.recuperaPDF}">
+                                                 actionListener="# {reciboBean.imprimirRecibo(recibo)}"
+
+
+                                                <f:ajax render=":form:payment-amount-panel" />
+
+                                            </p:commandButton>
+                                        </p:column>-->
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>           
+                                    </p:dataTable>
+                                </p:outputPanel>
+                            </p:fieldset>
+                        </div>
+                    </h:panelGrid>
+
+                    <h:panelGroup id="payment-amount-panel">
+                        <p:outputPanel  id="outReporteConciliacion" style="width: 100%; height: 885%;" rendered="#{reciboBean.reporteRecibo}">
+                            <p:media  id="medPdf" value="#{sessionState.streamArchivoContent}" 
+                                      cache="false" width="100%" height="190" player="pdf" rendered="true"  >
+
+                            </p:media>
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+
+
+
+
+                    <h:panelGrid columns="3" cellpadding="10">
+                        <p:fieldset id="reporteXDia" legend="REPORTES X DIA" style="margin-top:20px" >
+                            <div align="center" style="padding:1em 1em;">
+                                <h:outputLabel value="Fecha a imprimir:"/>  
+                                <p:calendar mindate="24/8/15" id="fechaImp" value="#{reciboBean.fechaImpresion}" size="7" autocomplete="off" style="#{reciboBean.cambiaColorFechaDeposito==true?'border-color: #C00':''}; width: 90%" />
+                                <p:commandButton
+                                    value="Reporte Recibos por Dia"    
+                                    id="imprimeReciboxDiaro"
+                                    icon="ui-icon-print"
+                                    style="border-image: 0" 
+                                    ajax="false"
+                                    actionListener="#{reciboBean.imprimeDiarioRecibo(recibo)}">
+                                </p:commandButton>
+                                <p:commandButton
+                                    value="Reporte Depositos por Dia"    
+                                    id="imprimeDepositoxDiaro"
+                                    icon="ui-icon-print"
+                                    style="border-image: 0" 
+                                    ajax="false"
+                                    actionListener="#{reciboBean.imprimeDiarioDeposito(recibo)}">
+                                </p:commandButton>
+                            </div>
+                        </p:fieldset>
+                        <p:spacer width="10"></p:spacer>
+
+                        <p:fieldset id="reporteXMes" legend="REPORTES X MES" style="margin-top:20px">
+                            <div align="center" style="padding:1em 1em;" >
+
+                                <h:outputLabel value="Fecha a imprimir:"/>  
+                                <p:spacer width="20"/> 
+                                <p:selectOneMenu id="selectTipoDocumento"  value="#{reciboBean.anio}" >
+                                    <f:selectItem itemLabel="2015" itemValue="2015" /><f:selectItem itemLabel="2016" itemValue="2016" />          
+                                </p:selectOneMenu>
+
+                                <p:selectOneMenu id="selectTipoDocumentoa" value="#{reciboBean.mes}" >
+                                    <f:selectItem itemLabel="Enero" itemValue="01" /><f:selectItem itemLabel="Febrero" itemValue="02" />          
+                                    <f:selectItem itemLabel="Marzo" itemValue="03" /><f:selectItem itemLabel="Abril" itemValue="04" />          
+                                    <f:selectItem itemLabel="Mayo" itemValue="05" /><f:selectItem itemLabel="Junio" itemValue="06" />          
+                                    <f:selectItem itemLabel="Julio" itemValue="07" /><f:selectItem itemLabel="Agosto" itemValue="08" />
+                                    <f:selectItem itemLabel="Septiembre" itemValue="09" /><f:selectItem itemLabel="Octubre" itemValue="10" />
+                                    <f:selectItem itemLabel="Noviembre" itemValue="11" /><f:selectItem itemLabel="Diciembre" itemValue="12" />
+                                </p:selectOneMenu>
+
+                                <p:commandButton
+                                    value="Reporte Trámite por Agencial Mensual"    
+                                    id="imprimeXConcepto"
+                                    icon="ui-icon-print"
+                                    style="border-image: 0" 
+                                    ajax="false"
+                                    actionListener="#{reciboBean.imprimeResumenConcepto()}">
+
+                                </p:commandButton>
+                                <p:spacer width="20"/> 
+                                <p:commandButton
+                                    value="Reporte Resumen Concepto por Agencia"    
+                                    id="imprimeDepositoxDiaro1"
+                                    icon="ui-icon-print"
+                                    style="border-image: 0" 
+                                    ajax="false"
+                                    actionListener="#{reciboBean.imprimeResumenConceptoDia()}">
+                                </p:commandButton>
+                            </div>
+
+                        </p:fieldset>
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+
+        </h:form>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+            <div align="center" style="padding:1em 2.2em;">
+                <h:panelGrid columns="2">
+                    <p:commandButton value="#{msgs.pestaniaTresSi}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="#{msgs.pestaniaTresNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:panelGrid>
+            </div>
+        </p:confirmDialog>
+        <h:form id="form2">
+            <p:dialog header="Titulo Anulado" widgetVar="BuscaTitulosAnulados" resizable="false" closable="false" modal="true"
+                      width="80%" height="300" showEffect="fade"  style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel id="panelTitulosEliminados">
+                        <p:dataTable var="itemTitulo" 
+                                     id="listaDetalleTiutlo"
+                                     rowKey="#{itemTitulo.idDetalleTitulo}"
+                                     value="#{reciboBean.listaDetalleTitulo}" 
+                                     widgetVar="listaTitulo"
+                                     scrollable="true" scrollHeight="100" 
+                                     resizableColumns="true"
+                                     style="width: 90%">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="Lista de Titulos a Recuperar" /> 
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column sortBy="#{itemTitulo.serie}" headerText="Serie" width="2%">  
+                                <h:outputText value="#{itemTitulo.serie}" />
+                            </p:column>
+                            <p:column  sortBy="#{itemTitulo.nroTitulo}" headerText="Número" width="5%">  
+                                <h:outputText value="#{itemTitulo.nroTitulo}" />
+                            </p:column>  
+
+                            <p:column headerText="#{msgs.solicitantelabelLugarEmpresaSelecciona}" width="5%" style="text-align: center">
+                                <p:commandButton id="botonEmpresa"
+                                                 update=":form"
+                                                 icon="ui-icon-transfer-e-w" 
+                                                 actionListener="#{reciboBean.cargaSerie(itemTitulo)}"
+                                                 onclick="PF('BuscaTitulosAnulados').hide();">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="#{msgs.solicitantelabelSeleccionaEmpresaCancelar}"
+                                onclick="PF('BuscaTitulosAnulados').hide();"
+                                icon="ui-icon-disk"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+            <p:dialog id="recibosDos" header="Numero de Recibos" widgetVar="BuscaRecibos" resizable="false" closable="false" modal="true"
+                      width="80%" height="300" showEffect="fade"  style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel id="recibosEliminado">
+                        <p:dataTable var="itemRecibo" 
+                                     id="listaNumeroRecibo"
+                                     rowKey="#{itemTitulo.idDetalleTitulo}"
+                                     value="#{reciboBean.listaDeRecibosAnulados}" 
+                                     widgetVar="listaNumeroRecibo"
+                                     scrollable="true" scrollHeight="100" 
+                                     resizableColumns="true"
+                                     style="width: 90%">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="Lista de Números de Recibo Eliminados" /> 
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column sortBy="#{itemRecibo.nroRecibo}" headerText="Número de Recibo" width="5%">  
+                                <h:outputText value="#{itemRecibo.nroRecibo}" />
+                            </p:column>
+
+                            <p:column headerText="Lista de Números de Recibo" width="10%" style="width:30%;text-align: center">
+                                <p:commandButton id="botonRecibo"
+                                                 update=":form"
+                                                 icon="ui-icon-transfer-e-w" 
+                                                 actionListener="#{reciboBean.cargaNumeroRecibo(itemRecibo)}"
+                                                 onclick="PF('BuscaRecibos').hide();">
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="#{msgs.solicitantelabelSeleccionaEmpresaCancelar}"
+                                onclick="PF('BuscaRecibos').hide();"
+                                icon="ui-icon-disk"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+
+            <p:dialog header="Anular Recibo" widgetVar="eliminaTramite" resizable="false" closable="false" modal="true"
+                      width="30%" height="200" showEffect="fade"  style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="1">
+                                <p:outputLabel value="Esta seguro que desea anular el recibo? El número asignado a este recibo no se podra recuperar"/>
+                            </h:panelGrid>
+                            <p:commandButton
+                                value="SI"
+                                onclick="PF('eliminaTramite').hide();"
+                                update=":form:panelEliminados :form :form2:recibosDos :form2:recibosEliminado form2:panelTitulosEliminados :form:panelEliminados"
+                                actionListener="#{reciboBean.anularReciboFinal()}"
+                                icon="ui-icon-check">
+                            </p:commandButton>
+                            <p:commandButton
+                                value="NO"
+                                onclick="PF('eliminaTramite').hide();"
+                                icon="ui-icon-close"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+            <p:dialog header="Eliminar Recibo" widgetVar="eliminaTramiteUsar" resizable="false" closable="false" modal="true"
+                      width="30%" height="200" showEffect="fade"  style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="1">
+                                <p:outputLabel value="Esta seguro que desea eliminar el Recibo? El número asignado a este recibo se podra reasignar"/>
+                            </h:panelGrid>
+                            <p:commandButton
+                                value="SI"
+                                onclick="PF('eliminaTramiteUsar').hide();"
+                                update=":form:panelEliminados :form :form2:recibosDos :form2:recibosEliminado form2:panelTitulosEliminados :form:panelEliminados :form:cBoxCargarTitulosAnulados"
+                                actionListener="#{reciboBean.eliminarReciboFinal()}"
+                                icon="ui-icon-check">
+                            </p:commandButton>
+                            <p:commandButton
+                                value="NO"
+                                onclick="PF('eliminaTramiteUsar').hide();"
+                                icon="ui-icon-close"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+
+        </h:form>
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

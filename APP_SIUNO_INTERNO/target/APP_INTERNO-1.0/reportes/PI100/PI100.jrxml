@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PI100" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d537bbed-346d-45bf-93cf-dc303bea644f">
+	<property name="ireport.zoom" value="1.948717100000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="240"/>
+	<subDataset name="dataset1" uuid="38fd41c4-6c0a-41cd-8b97-44561418b387"/>
+	<subDataset name="dataset2" uuid="378f8b06-29e4-4496-b91a-542baf1a2303"/>
+	<subDataset name="dataset3" uuid="c8ccfdd4-3c6a-4a98-88ab-6a096b773e16"/>
+	<subDataset name="dataset4" uuid="be1a120b-a202-45c8-bd6a-cc69d55eafbe"/>
+	<parameter name="NombreSolicitante" class="java.lang.String"/>
+	<parameter name="Telefono" class="java.lang.String"/>
+	<parameter name="DatosSolicitante" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="NumeroPoder" class="java.lang.String"/>
+	<parameter name="NombreApoderado" class="java.lang.String"/>
+	<parameter name="FechaExpiracion" class="java.lang.String"/>
+	<parameter name="DocumentoIdentificacionApoderado" class="java.lang.String"/>
+	<parameter name="TipoDocumento" class="java.lang.String"/>
+	<parameter name="DepartamentoApoderado" class="java.lang.String"/>
+	<parameter name="telefonoSol" class="java.util.Collection"/>
+	<parameter name="TipoSolicitante" class="java.lang.String"/>
+	<parameter name="Nacionalidad" class="java.lang.String"/>
+	<parameter name="Departamento" class="java.lang.String"/>
+	<parameter name="DocumentoIdentificacion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<image>
+				<reportElement x="3" y="10" width="412" height="47" uuid="153304ee-db19-4f3f-9d6d-6a63a6b55020"/>
+				<imageExpression><![CDATA["/home/roco/Documentos/img_SENAPI/Logo senapi.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="61" y="60" width="52" height="13" forecolor="#000080" uuid="571eae11-4eb0-46e8-90a1-0c81cfc585ba"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PETITORIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="73" width="202" height="20" forecolor="#000080" uuid="3b6b8517-2a1b-4a1e-9ba4-66fecf5fe35c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE PROPIEDAD INDUSTRIAL]]></text>
+			</staticText>
+			<image>
+				<reportElement x="253" y="10" width="95" height="63" uuid="03b1e8de-7bcc-4723-9ade-0f160854a4e2"/>
+				<imageExpression><![CDATA["/home/roco/Documentos/img_SENAPI/esc-Bolivia.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="225" y="76" width="167" height="18" forecolor="#000080" uuid="f20abac9-bef5-4466-b669-196aeeeaec70"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="28" width="112" height="16" forecolor="#000080" uuid="8a69017f-d4d8-478c-b7ea-d4c7048bc604"/>
+				<text><![CDATA[FORMULARIO PI100]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="121" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="1" width="572" height="14" backcolor="#000000" uuid="ad30a444-c613-4e8a-87a2-2ac2f1e26a8f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="97" y="4" width="413" height="23" forecolor="#FFFFFF" uuid="6367be14-a40e-43f2-bd2b-026496ff6483"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO DE SOLICITUD DE REGISTRO DE SIGNO DISTINTIVO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="16" width="572" height="11" backcolor="#C0C0C0" uuid="c1b8fe4d-7bfc-4784-a763-58d45c3fc198"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="18" width="184" height="14" uuid="e456b556-6094-4ccc-ab60-35c8a31231a2"/>
+				<textElement>
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[1. IDENTIFICACION DEL SOLICITANTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="30" width="572" height="10" backcolor="#C0C0C0" uuid="c1ffeee3-4aab-4592-bec5-5a4a0bebfecc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="33" width="89" height="14" uuid="a3a5ab30-d1cd-4eae-ba0a-8fece4e4fea7"/>
+				<textElement>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[1.1 SOLICITANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="43" width="65" height="15" uuid="5216106b-aa5f-4bb3-88f3-3faa82aea3b5"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre del Titular]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="3" y="53" width="558" height="14" uuid="e48e2b64-f7b7-49a7-9304-2c5edc929bab"/>
+			</rectangle>
+			<textField>
+				<reportElement x="6" y="56" width="552" height="11" uuid="0f327399-8c14-451e-a039-1bc04a99b02d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NombreSolicitante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="69" width="65" height="12" uuid="6a8091ed-f08b-41dd-8f84-c791fbae1a65"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tipo de Solicitante]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="4" y="78" width="147" height="14" uuid="7e0c4c5b-f1c6-4122-9dc3-4aa3cb4f7378"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="222" y="69" width="85" height="9" uuid="9b4e8b6e-f59f-4fb3-8498-69c935afee72"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Numero de Documento]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="171" y="78" width="167" height="14" uuid="291e1569-36c5-4b1a-afb2-41155c7c93b9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="405" y="69" width="85" height="9" uuid="0a50d375-9254-49d1-89cb-d719392709ef"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tipo de Documento]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="348" y="78" width="196" height="14" uuid="996348d6-c4a0-459e-8bb6-0eb61516fc4d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="232" y="95" width="65" height="12" uuid="31427db2-a4ef-45ef-a504-b770fce5f313"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Ciudad (Bolivia)]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="171" y="104" width="167" height="14" uuid="559dbec3-796c-443c-9dca-ad26974c1815"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="95" width="65" height="12" uuid="1f0e3770-c947-454d-8e35-d4e2426a7e66"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Pais]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="4" y="104" width="147" height="14" uuid="ff4f4bc7-fb69-4268-b655-a8ed77fc2d78"/>
+			</rectangle>
+			<textField>
+				<reportElement x="7" y="80" width="147" height="14" uuid="29fc9eeb-d75c-424d-92f8-49453dc7b401"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TipoSolicitante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="354" y="81" width="190" height="13" uuid="54bd72da-f560-4d7a-90e4-0e8fb5478674"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TipoDocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="7" y="107" width="144" height="14" uuid="89b3a9d4-bcfe-4054-a8d6-d66375a74912"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Nacionalidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="176" y="107" width="168" height="12" uuid="777b4bf9-8f8a-4b95-aa6a-e61f5025b1b7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Departamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="173" y="81" width="165" height="14" uuid="2a51b7ba-cddd-492d-af9a-5990ce46a732"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DocumentoIdentificacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="3" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="47" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="2" y="0" width="570" height="45" uuid="5155b87c-bd06-43b1-a6d4-0102b94a1bb0"/>
+				<dataSourceExpression><![CDATA[$P{DatosSolicitante}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["PI100_subReportSolicitante.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="130"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="47" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="55" splitType="Stretch"/>
+	</summary>
+</jasperReport>

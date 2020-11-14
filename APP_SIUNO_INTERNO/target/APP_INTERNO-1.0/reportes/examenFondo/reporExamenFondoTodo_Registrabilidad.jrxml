@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporExamenFondoTodo_Registrabilidad" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7860c684-3810-463c-a9d1-bcf9114cc026">
+	<property name="ireport.zoom" value="1.3310000000000022"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="item" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="esSector" class="java.lang.String"/>
+	<field name="check" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="15">
+			<rectangle>
+				<reportElement x="0" y="0" width="570" height="10" backcolor="#C0C0C0" uuid="80bf7de4-2b01-4a75-812a-b896614ab4d4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="1" width="177" height="9" uuid="2bdd2dc3-b423-48e7-855c-5fbe1abdd6b2"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[REGISTRABILIDAD]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{esSector}.equals( "si" )]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="257" height="11" uuid="975808a6-563b-46f4-846f-2cc9f1d5d9e2"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="16">
+			<printWhenExpression><![CDATA[$F{esSector}.equals( "no" )]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="18" y="0" width="239" height="10" uuid="66947cb4-ae6b-4812-97fe-b30dc637d18a"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="10" height="10" uuid="98c2012a-0fb0-4b3c-9e00-6f76768bd45e"/>
+				<imageExpression><![CDATA[$F{check}]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="276" y="0" width="294" height="14" uuid="bd84f10f-757d-424b-a165-72e1e5151e87"/>
+				<box topPadding="2" leftPadding="3" bottomPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

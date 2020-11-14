@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel header=" #{msgs.headerModificaciones}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="listado">
+                <p:panel  >
+                    <div align="left">
+                        <p:fieldset id="panelToggleable" legend="#{msgs.headerModificacionNombre}"
+                                    toggleable="false"  
+                                    toggleSpeed="500" style="height: 100%">    
+                            
+                            <h:panelGrid  columns="3" cellpadding="5">                            
+                                <p:separator id="separador" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                <h:panelGrid  id="gridLimpiaFormulario" columns="3" cellpadding="5">
+                                    <p:commandButton id="limpiaFormulario" 
+                                                     value="#{msgs.solicitanteLimpiaFormulario}" 
+                                                     actionListener="#{formularioModificacionNombreBean.limpiaFormularioPersonaEmpresa(event)}" 
+                                                     update="razonSocial, nombre, apellidoMaterno, apellidoPaterno,mensajeGeneral" icon="ui-icon-tag ">                                        
+                                        <f:ajax execute="@this" render="" event="click" />
+                                    </p:commandButton>
+                                </h:panelGrid>   
+                            </h:panelGrid>
+                            <p:separator id="separador1" style="width: 0px ; border: 0px; height: 20px"></p:separator>
+
+                            <h:panelGrid columns="1" id="panelGridDocumentos">
+                                <h:panelGrid columns="6" id="formularioDatosPersonaEmpresa">
+                                    <h:panelGrid columns="2" id="FormularioNroDocumento">
+
+
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.solicitanteNroDocumento}"/>  
+                                        </h:panelGrid> 
+
+                                        <p:inputText id="nroDocumento" 
+                                                      
+                                                     value="#{formularioModificacionNombreBean.persona.numeroDocumento}"
+                                                     disabled="#{formularioModificacionNombreBean.campoNumeroDocumentoDisable}"
+                                                     rendered="#{formularioModificacionNombreBean.campoNumeroDocumentoRendered}"
+                                                     onkeyup="return ValNumero(this);" 
+                                                     size="20" maxlength="15" autocomplete="off"
+                                                     readonly="true"/>
+                                        <p:inputText id="nroDocumentoEmpresa" 
+                                                      
+                                                     value="#{formularioModificacionNombreBean.empresa.numeroDocumento}"
+                                                     disabled="#{formularioModificacionNombreBean.campoNumeroDocumentoDisable}"
+                                                     rendered="#{formularioModificacionNombreBean.campoNumeroDocumentoEmpresaRenderd}"
+                                                     onkeyup="return ValNumero(this);" 
+                                                     size="20" maxlength="15" autocomplete="off"
+                                                     readonly="true"/>
+                                    </h:panelGrid> 
+
+                                    <h:panelGrid columns="6"  id="formularioPersonaEmpresa">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.solicitanteTipoDocumento}"/>  
+                                        </h:panelGrid> 
+
+                                        <p:inputText id="tipoDocumento" 
+                                                      
+                                                     value="#{formularioModificacionNombreBean.persona.tipoDocumento.descripcion}"
+                                                     disabled="#{formularioModificacionNombreBean.campoNumeroDocumentoDisable}"
+                                                     rendered="#{formularioModificacionNombreBean.campoNumeroDocumentoRenderd}"
+                                                     onkeyup="return ValNumero(this);" 
+                                                     size="30" maxlength="15" autocomplete="off"
+                                                     readonly="true"/>
+
+                                        <p:inputText id="tipoDocumentoEmpresa" 
+                                                     
+                                                     value="#{formularioModificacionNombreBean.empresa.tipoDocumentoEmpresa.descripcion}"
+                                                     disabled="#{formularioModificacionNombreBean.campoNumeroDocumentoDisable}"
+                                                     rendered="#{formularioModificacionNombreBean.campoTipoDocumentoEmpresaRenderd}"
+                                                     onkeyup="return ValNumero(this);" 
+                                                     size="50" maxlength="15" autocomplete="off"
+                                                     readonly="true"/>
+
+
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"
+                                                           rendered="#{formularioModificacionNombreBean.campoNumeroDocumentoRenderd}"/>  
+                                            <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"
+                                                           rendered="#{formularioModificacionNombreBean.campoNumeroDocumentoRenderd}"/>  
+                                        </h:panelGrid> 
+                                        <p:inputText id="lugar" 
+                                                    
+                                                     value="#{formularioModificacionNombreBean.persona.lugarExpedicion.nombre}"
+                                                     disabled="#{formularioModificacionNombreBean.campoLugarExpedicionDisable}"
+                                                     rendered="#{formularioModificacionNombreBean.campoLugarExpedicionRenderd}"
+                                                     onkeyup="return ValNumero(this);" 
+                                                     size="30" maxlength="15" autocomplete="off"
+                                                     readonly="true"/>
+<!--                                        <p:inputText id="lugarEmpresa" 
+                                                    
+                                                     value="# {formularioModificacionNombreBean.empresa.lugarExpedicion.descripcion}"
+                                                     disabled="# {formularioModificacionNombreBean.campoLugarExpedicionDisable}"
+                                                     rendered="# {formularioModificacionNombreBean.campoLugarExpedicionEmpresaRendered}"
+                                                     onkeyup="return ValNumero(this);" 
+                                                     size="20" maxlength="15" autocomplete="off"
+                                                     readonly="true"/>-->
+
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                                <p:separator id="separador8" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+
+                                <h:panelGrid columns="2" id="panelGridJuridico">
+                                    
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"
+                                                       rendered="#{formularioModificacionNombreBean.campoRazonSocialRendered}"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteRazonSocial}" rendered="#{formularioModificacionNombreBean.campoRazonSocialRendered}"/>
+                                    </h:panelGrid> 
+                                    <p:inputText id="razonSocial" style="#{formularioModificacionNombreBean.cambiaBordeCampoRazonSocial==true?'border-color: #C00':' '};"
+                                                 rendered="#{formularioModificacionNombreBean.campoRazonSocialRendered}"                          
+                                                 value="#{formularioModificacionNombreBean.empresa.nombreRepresentante}" size="80" maxlength="60"  
+                                                 autocomplete="off" 
+                                                 />
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"
+                                                       rendered="#{formularioModificacionNombreBean.campoNombreRendered}"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteNombre}" rendered="#{formularioModificacionNombreBean.campoNombreRendered}"/>
+                                    </h:panelGrid> 
+                                    <p:inputText id="nombre" style="#{formularioModificacionNombreBean.cambiaBordeCampoNombre==true?'border-color: #C00':' '};" 
+                                                 value="#{formularioModificacionNombreBean.persona.nombres}" 
+                                                 rendered="#{formularioModificacionNombreBean.campoNombreRendered}"
+                                                 size="42" maxlength="50" autocomplete="off"
+                                                 />
+                                </h:panelGrid>
+                                <p:separator id="separador3" style="width: 0px ; border: 0px; height: 4px"></p:separator>
+                                <h:panelGrid columns="4" id="ApellidosPersona">
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"
+                                                       rendered="#{formularioModificacionNombreBean.campoApellidoPaternoRendered}"/>  
+                                        <h:outputLabel value="#{msgs.solicitanteApellidoPaterno}" rendered="#{formularioModificacionNombreBean.campoApellidoPaternoRendered}"/>
+                                    </h:panelGrid> 
+
+                                    <p:inputText id="apellidoPaterno" style="#{formularioModificacionNombreBean.cambiaBordeCampoApellidoPaterno==true?'border-color: #C00':' '};" 
+                                                 value="#{formularioModificacionNombreBean.persona.apellidoPaterno}" 
+                                                 disabled="#{formularioModificacionNombreBean.campoApellidoPaternoDisable}"
+                                                 rendered="#{formularioModificacionNombreBean.campoApellidoPaternoRendered}"
+                                                 size="35" maxlength="30" autocomplete="off"/>
+                                    <h:outputLabel value="#{msgs.solicitanteApellidoMaterno}" rendered="#{formularioModificacionNombreBean.campoApellidoMaternoRendered}"/>
+                                    <p:inputText id="apellidoMaterno" style="#{formularioModificacionNombreBean.cambiaBordeCampoApellidoMaterno==true?'border-color: #C00':' '};" 
+                                                 value="#{formularioModificacionNombreBean.persona.apellidoMaterno}" 
+                                                 disabled="#{formularioModificacionNombreBean.campoApellidoMaternoDisable}"
+                                                 rendered="#{formularioModificacionNombreBean.campoApellidoMaternoRendered}"
+                                                 size="35" maxlength="30" autocomplete="off"/>
+                                </h:panelGrid>
+
+
+
+
+                            </h:panelGrid> 
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:commandButton 
+                                    value="#{msgs.solicitanteModificar}"
+                                    actionListener="#{formularioModificacionNombreBean.guardaTemporalModificacion()}"
+                                    update="form,:form:mensajeGeneral,:form:nombre,:form:apellidoPaterno"
+                                    id="boton"
+                                    icon="ui-icon-disk"
+                                    >
+<!--                                    <f:ajax execute="@this" render="@form" event="click"/>-->
+                                </p:commandButton>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                </p:panel>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <!--                            <p:commandButton
+                                                            value="# {msgs.mensajeAnterior}"
+                                                            action="# {formularioModificacionNombreBean.cancelaIdentificacionSolicitanteGeneral()}"
+                                                            icon="ui-icon-circle-arrow-w"
+                                                            update="mensajeGeneral"
+                                                            ajax="false">
+                                                        </p:commandButton>-->
+                            <h:commandButton
+                                value="#{msgs.mensajeAnterior}"
+                                action="#{formularioModificacionNombreBean.cancelaIdentificacionSolicitanteGeneral()}"
+
+
+                                >
+                            </h:commandButton>
+                        </p:toolbarGroup>  
+                        <p:toolbarGroup align="right">  
+                            <!--                            <p:commandButton
+                                value="# {msgs.mensajeSiguiente}"
+                                action="# {formularioModificacionNombreBean.irIdentificacionRepresentanteGeneralBoton()}"
+                                icon="ui-icon-circle-arrow-e"
+                                update="mensajeGeneral"
+                                ajax="false">
+                            </p:commandButton>-->
+                            <h:commandButton
+                                id="botonSiguienteNormal"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{formularioModificacionNombreBean.swBoton}"
+                                action="#{formularioModificacionNombreBean.irIdentificacionRepresentanteGeneralBoton()}" >
+                            </h:commandButton>
+                            <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{!formularioModificacionNombreBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#{formularioModificacionNombreBean.irIdentificacionRepresentanteGeneralBoton()}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>  
+                    </p:toolbar>  
+                </div>
+            </p:panel> 
+        </h:form>  
+    </ui:define>
+</ui:composition>            

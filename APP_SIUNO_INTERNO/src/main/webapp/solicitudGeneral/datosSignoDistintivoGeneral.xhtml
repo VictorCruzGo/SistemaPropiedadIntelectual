@@ -1,0 +1,759 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplateB}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" >  
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel id="panelTres">
+                <p:panel  style="width: 98%;" header="#{msgs.pestaniaTresNombreDelSigno}">
+                    <h:panelGrid columns="2" >
+                        <h:panelGrid columns="2"  id="NombreSignoPestaliaTres" style="text-align: left">
+                            <h:outputLabel value="*" style="color: #C00"/>  
+                            <h:outputLabel value="#{msgs.pestaniaTresSignoDistintivo}" rendered="true"/>
+                        </h:panelGrid>  
+                        <p:inputText id="marca" 
+                                     value="#{datosSignoDistintivoRegistroGeneralBean.smsignomarca.marca}"  title="#{msgs.ayudaIngresarSignoMarca}"
+                                     size="120" maxlength="100"
+                                     style="#{datosSignoDistintivoRegistroGeneralBean.cambiaBordeMarca==false?'border-color: #C00':''};"/>
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel id="padre" style="border-style: hidden">
+                    <p:panel  style="width: 98%;" header="#{msgs.pestaniaTresTipoDeSigno}">
+                        <div align="center" style="padding:0.0em 0em;">
+                            <h:outputText  id="validaTipoSigno" value="#{msgs.pestaniaTresValdidaTipoSigno}" 
+                                           rendered="#{datosSignoDistintivoRegistroGeneralBean.activaValidaClasificarCambiaColor}" style="color: #C00;font-size:12px;"/>
+                            <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
+                                <p:panel id="panelUnoTipoSigno" style="border-style: hidden" >
+                                    <h:panelGrid columns="12" style="margin-bottom:10px" cellpadding="5" title="#{msgs.ayudaTipoSignoMarca}" >
+                                        <p:selectBooleanCheckbox id="denominativo" 
+                                                                 value="#{datosSignoDistintivoRegistroGeneralBean.denominativo}"  >
+                                            <p:ajax update=":form:padre" listener="#{datosSignoDistintivoRegistroGeneralBean.habilitaPanelImagen()}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresDenominativo}"/>
+                                        
+
+                                        <p:selectBooleanCheckbox id="figurativa" 
+                                                                 value="#{datosSignoDistintivoRegistroGeneralBean.figurativa}">
+                                            <p:ajax update=":form:padre" listener="#{datosSignoDistintivoRegistroGeneralBean.habilitaPanelImagen()}"/>
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresFigurativa}"/>
+                                        <p:selectBooleanCheckbox id="tridimensional" 
+                                                                 value="#{datosSignoDistintivoRegistroGeneralBean.tridimensional}">
+                                            <p:ajax update=":form:padre" listener="#{datosSignoDistintivoRegistroGeneralBean.habilitaPanelImagen()}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresTridimensional}"/>
+                                        <p:selectBooleanCheckbox id="auditivo" 
+                                                                 value="#{datosSignoDistintivoRegistroGeneralBean.auditivo}">
+                                            <p:ajax  update=":form:padre" listener="#{datosSignoDistintivoRegistroGeneralBean.habilitaPanelImagen()}" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresAuditivo}"/>
+                                        <p:selectBooleanCheckbox id="otro" 
+                                                                 value="#{datosSignoDistintivoRegistroGeneralBean.otro}" 
+                                                                 disabled="#{datosSignoDistintivoRegistroGeneralBean.campoCheckOtrosDisable}">
+                                            <p:ajax update="descripcion,cargaImagen,proteccion,tipoSignoOtrosDato,panelImagen,padre" event="change" listener="#{datosSignoDistintivoRegistroGeneralBean.activaCampoTipoSignoOtrosDatoAction(e)}"/>
+                                        </p:selectBooleanCheckbox>
+                                        <p:outputLabel value="#{msgs.pestaniaTresOtro}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="#{msgs.pestaniaTresOtro}" 
+                                                       rendered="#{datosSignoDistintivoRegistroGeneralBean.campoCheckOtrosRendered}"/>
+                                        <p:inputText id="tipoSignoOtrosDato" value="#{datosSignoDistintivoRegistroGeneralBean.tipoSignoOtros}" 
+                                                     style="width: 90%;#{datosSignoDistintivoRegistroGeneralBean.cambiaBordeCampoOtro==true?'border-color: #C00':''}" 
+                                                     rendered="#{datosSignoDistintivoRegistroGeneralBean.campoCheckOtrosRendered}"
+                                                     size="50"/>
+                                        <p:watermark for="tipoSignoOtrosDato" value="#{msgs.pestaniaTresIntroduzcaElValor}" id="watermarkOtro" />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="3"  id="GeneroPestañaTres" style="text-align: left" >
+                                        <h:outputLabel value="*" style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.pestaniaTresGenero}"/>
+                                        <h:selectOneMenu id="generoTramite" value="#{datosSignoDistintivoRegistroGeneralBean.generoTramite}"  title="#{msgs.ayudaIngresoGenero}" >
+                                            <f:selectItems value="#{datosSignoDistintivoRegistroGeneralBean.listadoTipoGeneroTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax update=":form:panelClaseNiza" listener="#{datosSignoDistintivoRegistroGeneralBean.buscaNizaIntervalo()}" />
+                                        </h:selectOneMenu>
+                                    </h:panelGrid>  
+                                </p:panel>
+                                <p:panel id="panelDosTipoSigno" style="border-style: hidden">
+                                    <h:panelGrid columns="1">
+                                        <p:outputLabel value="#{msgs.pestaniaTresDescripcionLogoTipo}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="1">
+                                        <p:inputTextarea id="descripcion" style=" width: 700px;#{datosSignoDistintivoRegistroGeneralBean.activaValidaDescripcionLogoTipoCambiaColor==true?'border-color: #C00':''}"  
+                                                         value="#{datosSignoDistintivoRegistroGeneralBean.smsignomarca.descripcion}" rows="5" cols="60"
+                                                         counter="contadorDesLogo" maxlength="4000" counterTemplate="{0} #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" 
+                                                          title="#{msgs.ayudaDescripcionLogo}"
+                                                         />
+                                        <h:outputText id="contadorDesLogo" style="color: #045491"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage value="/resources/images/informacion3.png" />
+                                        <h:outputText value="#{msgs.pestaniaTresMensajeCargarTXT}" style="font-size:12px;color:#045491 " title="#{msgs.ayudaCargarTxt}"/>
+                                    </h:panelGrid>
+                                    <p:panel id="panelCargaArchivoTXT" style="width: 100%">
+                                        <h:panelGrid columns="3" width="100%">
+                                            <p:commandButton id="cargaArchivoTXT" value="#{msgs.pestaniaTresBotonCargarTXT}"  title="#{msgs.ayudaCargarTxt}"
+                                                             type="button" 
+                                                             onclick="PF('adiconaArchivoTXT').show()" 
+                                                             style="width: 60%"
+                                                             disabled="#{datosSignoDistintivoRegistroGeneralBean.desahabilitaBotonCargarArchivo}"
+                                                             icon="ui-icon-folder-open"/>
+                                            <p:inputText id="archivoTXTCargaURL" value="#{datosSignoDistintivoRegistroGeneralBean.nombreArchivoTXT}" style="width: 95%"/>
+                                            <p:commandButton id="eliminaArchivo" 
+                                                             update=":form:mensajeGeneral, cargaArchivoTXT,panelCargaArchivoTXT" 
+                                                             icon="ui-icon-circle-minus" 
+                                                             title="#{msgs.mensajeQuitar}" 
+                                                             actionListener="#{datosSignoDistintivoRegistroGeneralBean.eliminaArchivoDescripcion()}">
+                                                <p:confirm header="#{msgs.solicitanteConfirmacionEliminacion}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert"/>
+                                            </p:commandButton>    
+
+                                        </h:panelGrid>
+                                    </p:panel>          
+                                </p:panel>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+
+                    <p:panel  id="panelImagen" style="width: 98%" header="#{msgs.pestaniaTresImagen}" 
+                              rendered="#{datosSignoDistintivoRegistroGeneralBean.campoPanelImagenRendered}">
+                        <div align="center" style="padding:0.0em 0em;">
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="1" id="panelGridGaleria">
+                                    <p:commandButton id="cargaImagen" value="#{msgs.pestaniaTresCargaImagen}" title="#{msgs.ayudaCargarImagen}" 
+                                                     type="button" onclick="PF('cargaImagen').show()" icon="ui-icon-image" style="width: 100%"/>
+                                    <p:galleria id="imagenCargadaGaleria" value="#{datosSignoDistintivoRegistroGeneralBean.listaImagenLogotipos}" 
+                                                var="image" panelWidth="200" panelHeight="150" 
+                                                style=" width: 500px;#{datosSignoDistintivoRegistroGeneralBean.activaValidaImagenCargadaGaleriaCambiaColor==true?'border-color: #C00':''}">
+                                        <p:graphicImage id="graphicImagnen" value="/temp/#{image.idSMLogotipo.nombreArchivo}" title="#{image.idSMLogotipo.nombreArchivo}" width="100%"/>
+                                    </p:galleria>
+                                    <p:commandButton id="eliminaImagenBoton" title="#{msgs.ayudaEliminarImagen}"
+                                                     rendered="#{!empty datosSignoDistintivoRegistroGeneralBean.listaImagenLogotipos}"
+                                                     value="#{msgs.pestaniaTresBotonEliminaImagen}" type="button" onclick="PF('eliminaImagenDialog').show()" 
+                                                     icon="ui-icon-trash" style="width: 100%"/>
+                                    <p:commandButton id="prioridadImagenBoton" 
+                                                     rendered="#{!empty datosSignoDistintivoRegistroGeneralBean.listaImagenLogotipos}"
+                                                     value="#{msgs.pestaniaTresBotonPrioridadImagen}" type="button" onclick="PF('principalImagenDialog').show()" 
+                                                     icon="ui-icon-tag" style="width: 100%;#{datosSignoDistintivoRegistroGeneralBean.activaValidaImagenCargadaGaleriaCambiaColor==true?'border-color: #C00':''}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1">
+                                    <h:panelGrid columns="3" id="panelGridColor"> 
+                                        <p:outputLabel for="proteccion" value="#{msgs.pestaniaTresDeseaProtegerElColor}" title="#{msgs.ayudaProtegeColor}"/>
+                                        <p:selectOneRadio id="proteccion" value="#{datosSignoDistintivoRegistroGeneralBean.proteccionColor}">
+                                            <f:selectItem itemLabel="#{msgs.pestaniaTresSi}" itemValue="true" />
+                                            <f:selectItem itemLabel="#{msgs.pestaniaTresNo}" itemValue="false" />
+                                            <p:ajax event="change" update="cargaColoresBoton,panelGridColor" listener="#{datosSignoDistintivoRegistroGeneralBean.activaBotonColorAction(e)}"/>
+                                        </p:selectOneRadio>
+                                        <p:commandButton id="cargaColoresBoton" 
+                                                         rendered="#{datosSignoDistintivoRegistroGeneralBean.campoCargaColoresBotonRendered}"
+                                                         value="#{msgs.pestaniaTresBotonCargaColores}" 
+                                                         update=":form2:panelColorDialogo"
+                                                         type="button" 
+                                                         onclick="PF('colorDialog').show()" 
+                                                         icon="ui-icon-radio-on" />
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel id="panelClaseNiza" style="width: 98%" header="#{msgs.pestaniaTresClaseNiza}">
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:dataTable var="val"
+                                     value="#{datosSignoDistintivoRegistroGeneralBean.listaSignoClaseNizaAux}"
+                                     selection="#{datosSignoDistintivoRegistroGeneralBean.smsignoclasenizaSelect}"
+                                     rowKey="#{val.numeroClaseNiza}"
+                                     style="width: 60%;height: 10%"
+                                     rendered="#{datosSignoDistintivoRegistroGeneralBean.campoListaSignoClaseNizaRendered}">
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresListaDeClaseNizaYArchivos} 
+                            </f:facet>
+
+                            <p:column headerText="#{msgs.pestaniaTresNumeroNiza}" width="10%"
+                                      rendered="#{datosSignoDistintivoRegistroGeneralBean.campoNumeroNizaRendered}">
+                                <h:outputText value="#{val.numeroClaseNiza}"
+                                              rendered="#{datosSignoDistintivoRegistroGeneralBean.campoNumeroNizaRendered}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msgs.pestaniaTresProductos}" width="70%"
+                                      rendered="#{datosSignoDistintivoRegistroGeneralBean.campoProductosRendered}">
+                                <h:outputText value="#{val.listaProducto}"
+                                              rendered="#{datosSignoDistintivoRegistroGeneralBean.campoProductosRendered}"/>
+                            </p:column>
+
+                            <p:column headerText="#{msgs.pestaniaTresURLArchivo}" width="20%"
+                                      rendered="#{datosSignoDistintivoRegistroGeneralBean.campoURLArchivoRendered}">
+                                <h:outputText value="#{val.archivoProducto}"
+                                              rendered="#{datosSignoDistintivoRegistroGeneralBean.campoURLArchivoRendered}"/>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>
+                        </p:dataTable>
+                        <h:panelGrid columns="1" id="panelNizaRegistro">
+                            <h:panelGrid columns="3">
+                                <h:panelGrid columns="2"  id="ClaseNizaPestniaTres" style="text-align: left">
+                                    <h:outputLabel value="*" style="color: #C00"/>  
+                                    <p:outputLabel value="#{msgs.pestaniaTresClaseInternacionalNiza}"/>
+                                </h:panelGrid>  
+                                <h:selectOneMenu id="numeroNiza"
+                                                 value="#{datosSignoDistintivoRegistroGeneralBean.numeroInternacional}" disabled="#{datosSignoDistintivoRegistroGeneralBean.deshabilitaBotonGuardadoNiza}"
+                                                 style="#{datosSignoDistintivoRegistroGeneralBean.activaValidaClaseInternacionalNizaCambiaColor==true?'border-color: #C00':''}"
+                                                 title="#{msgs.ayudaSeleccionaClaseNiza}" >
+                                    <f:selectItem   itemLabel="#{msgs.pestaniaTresElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{datosSignoDistintivoRegistroGeneralBean.listaNumerosClaseNizaProductosServicios}" var="h" itemLabel="#{h}" itemValue="#{h}"/>
+                                    <p:ajax event="change" 
+                                            update="areaProductos,panelClaseNiza " 
+                                            listener="#{datosSignoDistintivoRegistroGeneralBean.cargaCampoDescripcionNiza(e)}" />        
+
+                                </h:selectOneMenu>
+                                <p:commandButton id="buscaNiza" type="button" value="#{msgs.pestaniaTresAbrirClasificadorNiza}" 
+                                                 onclick="PF('BuscaClaseniza').show()" actionListener="#{datosSignoDistintivoRegistroGeneralBean.limpiaBuscadorNiza()}" disabled="#{datosSignoDistintivoRegistroGeneralBean.deshabilitaBotonGuardadoNiza}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="#{msgs.pestaniaTresListaDeProductosYOServicios}"/>
+                                <p:inputTextarea id="areaProductos" style="width: 600px; #{datosSignoDistintivoRegistroGeneralBean.activaValidaListaProductosTextAreaCambiaColor==true?'border-color: #C00':''}" 
+                                                 rows="5" cols="60" value="#{datosSignoDistintivoRegistroGeneralBean.listaProductosTextArea}" disabled="#{datosSignoDistintivoRegistroGeneralBean.deshabilitaBotonGuardadoNiza}" 
+                                                 title="#{msgs.ayudaListaProductos}" counter="contadorDesNiza" maxlength="4000" counterTemplate="{0} #{msgs.pestaniaTresCaracteresRestantes}" autoResize="false" />
+                                <p:spacer height="10" />
+                                <h:outputText id="contadorDesNiza" style="color: #045491"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" id="checkActivaCargarArchivo">
+                                <p:selectBooleanCheckbox value="#{datosSignoDistintivoRegistroGeneralBean.activaCargaDocumento}" disabled="#{datosSignoDistintivoRegistroGeneralBean.deshabilitaBotonGuardadoNiza}">
+                                    <p:ajax event="change" listener="#{datosSignoDistintivoRegistroGeneralBean.activaCargaArchivosAction(e)}" update="panelCargaArchivo,cargaArchivo,archivoCargaURL,panelClaseNiza">
+                                    </p:ajax>
+                                </p:selectBooleanCheckbox>
+                                <h:outputText value="#{msgs.pestaniaTresMarcarEsteRecuadro}"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </div>
+                    <div align="center" style="padding:0.5em 0em;">
+                        <p:panel id="panelCargaArchivo" style="width: 55%" rendered="#{datosSignoDistintivoRegistroGeneralBean.campoPanelCargaArchivoRendered}">
+                            <h:panelGrid columns="3" width="100%">
+                                <p:commandButton id="cargaArchivo" value="#{msgs.pestaniaTresCargaArchivo}" 
+                                                 type="button" 
+                                                 onclick="PF('adiconaArchivoTXTNiza').show()"   title="#{msgs.ayudaCargarTxt}"
+                                                 style="width: 60%"
+                                                 icon="ui-icon-folder-open"/>
+                                <p:inputText id="archivoCargaURL" value="#{datosSignoDistintivoRegistroGeneralBean.nombreArchivoDos}" style="width: 95%"
+                                             disabled="true"/>
+                            </h:panelGrid>
+                        </p:panel> 
+                    </div>
+                    <div align="center" style="padding:0.5em 0em;">
+                        <p:commandButton
+                            id="botonadicionalistaclaseniza" title="#{msgs.ayudaIngresaNizaProductos}"
+                            value="#{datosSignoDistintivoRegistroGeneralBean.etiqueta}"
+                            action="#{datosSignoDistintivoRegistroGeneralBean.adicionaProductos()}"
+                            disabled="#{datosSignoDistintivoRegistroGeneralBean.deshabilitaBotonGuardadoNiza}"
+                            update="listaNizaVista,panelClaseNiza,mensajeGeneral"
+                            icon="ui-icon-disk">
+                            <f:ajax event="click"/>
+                        </p:commandButton>
+                    </div>                                    
+                    <div align="center" style="padding:1em 2.2em;">
+
+                        <p:panel id="listaNizaVista">
+                            <p:dataTable id="multipleDT"
+                                         var="valorPojo"
+                                         value="#{datosSignoDistintivoRegistroGeneralBean.listArchivoPojo}"
+                                         style="width: 90%;height: 10%"
+                                         scrollable="true" scrollHeight="70" resizableColumns="true">
+                                <f:facet name="header">
+                                    #{msgs.pestaniaTresListaDeClaseNizaYArchivos}
+                                </f:facet>
+
+                                <p:column headerText="#{msgs.pestaniaTresNumeroNiza}" width="10%">
+                                    <h:outputText value="#{valorPojo.sMSignoClaseNiza.numeroClaseNiza}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.pestaniaTresProductos}" width="60%">
+                                    <p:inputTextarea value="#{valorPojo.sMSignoClaseNiza.listaProducto}" rows="2" cols="60"/>
+
+                                </p:column>
+
+                                <p:column headerText="#{msgs.pestaniaTresURLArchivo}" width="30%">
+                                    <h:outputText value="#{valorPojo.sMSignoClaseNiza.archivoProducto}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.pestaniaTresEliminar}" width="10%">
+                                    <p:commandButton icon="ui-icon-trash" title="#{msgs.pestaniaTresEliminar}"
+                                                     actionListener="#{datosSignoDistintivoRegistroGeneralBean.borrarDatoListSignoClaseNiza()}"
+                                                     update="multipleDT :form:panelNizaRegistro :form:botonadicionalistaclaseniza"
+                                                     disabled="#{datosSignoDistintivoRegistroGeneralBean.campoEliminaGriDisable}" 
+                                                     >
+                                        <f:setPropertyActionListener value="#{valorPojo}" target="#{datosSignoDistintivoRegistroGeneralBean.archivoPojoSeleccionado}" />
+                                        <f:ajax event="click" execute="@this"/>
+                                    </p:commandButton>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:spacer height="10" />
+                                </f:facet>
+                            </p:dataTable>
+                        </p:panel>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="#{msgs.pestaniaTresSi}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="#{msgs.pestaniaTresNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </h:panelGrid>
+                            </div>
+                        </p:confirmDialog>
+                    </div>
+                </p:panel>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="guardar" title="#{msgs.ayudaGuardarMarcaSigno}"
+                                     value="#{msgs.pestaniaTresBotonGuardarSignosYMarcas}"      
+                                     actionListener="#{datosSignoDistintivoRegistroGeneralBean.guardaSignosYMarcasGeneral()}"
+                                     update="form, mensajeGeneral"
+                                     icon="ui-icon ui-icon-disk">
+                        <f:ajax execute="@this" event="click"/>
+                    </p:commandButton>
+                </div>
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <h:commandButton 
+                                value="#{msgs.mensajeAnterior}"
+                                action="#{datosSignoDistintivoRegistroGeneralBean.cancelarPrioridadesRegistroGeneral()}">
+                            </h:commandButton>
+                        </p:toolbarGroup>
+
+                        <p:toolbarGroup align="right">
+                            <h:commandButton id="siguiente"
+                                             value="#{msgs.mensajeSiguiente}"  
+                                             rendered="#{datosSignoDistintivoRegistroGeneralBean.swBoton}"
+                                             action="#{datosSignoDistintivoRegistroGeneralBean.irPrioridadRegistroGeneral()}">
+                            </h:commandButton> 
+                            <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{!datosSignoDistintivoRegistroGeneralBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.pestaniaTresValidaSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <!--                                        <p:commandButton value="# {msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                                                                 action="# {datosSignoDistintivoRegistroGeneralBean.irPrioridadRegistroGeneral()}"
+                                                                                                 ajax="false"/>-->
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.prioridadAceptar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>
+
+                    </p:toolbar>
+                </div>
+            </p:panel> 
+        </h:form>
+
+        <h:form id="form3" enctype="multipart/form-data">
+            <p:dialog header="#{msgs.pestaniaTresCargaImagen}" widgetVar="cargaImagen" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="50%" height="50%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <si.componentes:informacion  dimension="100%" mensaje="#{msgs.mensajeCargadoImagenInformacion}"/>
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroGeneralBean.cargaImagenProyecto}" 
+                                  mode="advanced"
+                                  sizeLimit="4194304"
+                                  invalidFileMessage="#{msgs.pestaniaTresMensajeFileUploadImagen}"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                  label="#{msgs.pestaniaTresBuscarImagen}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaImagen}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  update="nombreImagenText,finalizaCargaImagen,mensajeCargaImagenDialogo :form:imagenCargadaGaleria :form2:panelImagenDialogo :form2:principalImagenDialog :form:eliminaImagenBoton :form:panelGridGaleria" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresImagenCargada}"/>
+                    <p:inputText id="nombreImagenText" value="#{datosSignoDistintivoRegistroGeneralBean.nombreImagenCargar}"/>
+                    <p:messages id="mensajeCargaImagenDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="finalizaCargaImagen"
+                        value="#{msgs.pestaniaTresFinalizar}"
+                        action="#{datosSignoDistintivoRegistroGeneralBean.actualizaCamposImagen()}"
+                        onclick="PF('cargaImagen').hide();"
+                        update="form3"
+                        disabled="#{datosSignoDistintivoRegistroGeneralBean.habilitaCargarImagenFinalizarDialogo}"
+                        icon="ui-icon-disk"/>
+                    <p:commandButton
+                        id="cancelarCargaImagen"
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('cargaImagen').hide();"
+                        icon="ui-icon-arrowreturnthick-1-w"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="cargarArchivoPopUp" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="cargaArchivo" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <h3>#{msgs.pestaniaTresElegirLogo}</h3>
+                    <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroGeneralBean.cargaArchivoNizaActionListener}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresMensajeFileUploadLogo}"
+                                  allowTypes="/(\.|\/)(txt|doc|docx|pdf)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresMensajeFileUploadLogoError}"
+                                  update="archivoCargaURLDialogo,finalizaCargaArchivo,mensajeCargaArchivoDialogo :form:archivoCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="#{msgs.pestaniaTresArchivoCargado}"/>
+                        <h:inputText id="archivoCargaURLDialogo" value="#{datosSignoDistintivoRegistroGeneralBean.nombreArchivo}" disabled="true" size="60"/>
+                    </h:panelGrid>
+                    <p:messages id="mensajeCargaArchivoDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="finalizaCargaArchivo"
+                        value="#{msgs.pestaniaTresFinalizar}"
+                        onclick="PF('cargaArchivo').hide();"
+                        disabled="#{datosSignoDistintivoRegistroGeneralBean.habilitaCargarArchivoFinalizarDialogo}"
+                        icon="ui-icon-disk"/>
+                    <p:commandButton
+                        id="cancelarCargaArchivo"
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('cargaArchivo').hide();"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+        </h:form>
+
+
+
+
+        <h:form id="form2" enctype="multipart/form-data">
+            <p:dialog header="#{msgs.pestaniaTresListaClaseNIZA}" widgetVar="BuscaClaseniza" resizable="false" closable="false"
+                      width="80%" height="100%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <p:ring id="anillo"  value="#{datosSignoDistintivoRegistroGeneralBean.listadoDeClaseNiza()}" var="itemClaseniza">
+                    <p:outputPanel  style="text-align: center;width: 100%"  layout="block">
+                        #{itemClaseniza.numeroClaseNiza}
+                        <br />
+                        <p:commandButton   update=":form2:descripcionNiza" icon="ui-icon-search"  oncomplete="PF('nizaDescripcion').show();" title="View" >
+                            <f:setPropertyActionListener value="#{itemClaseniza}" target="#{datosSignoDistintivoRegistroGeneralBean.clasenizaSeleccionada}" />
+                        </p:commandButton>
+                    </p:outputPanel>
+                </p:ring>
+                <div align="left" style="padding:1em 2.2em;">
+                    <p:fieldset legend="#{msgs.pestaniaTresBusquedaEspecial}" toggleable="true" toggleSpeed="500" style="height: 50%">
+                        <h:panelGrid columns="4" id="idBuscadorNiza">
+                            <p:outputLabel value="#{msgs.pestaniaTresPalabra}"/>
+                            <p:inputText value="#{datosSignoDistintivoRegistroGeneralBean.palabraBuscar}"/>
+
+                            <p:commandButton
+                                value="#{msgs.pestaniaTresBusqueda}"
+                                action="#{datosSignoDistintivoRegistroGeneralBean.filtroListaClaseNiza()}"
+                                update=":form2:listaClaseNiza"
+                                icon="ui-icon-search"/>
+                            <p:commandButton
+                                value="#{msgs.pestaniaTresLimpiarBusqueda}"
+                                action="#{datosSignoDistintivoRegistroGeneralBean.limpiaBuscador()}"
+                                update=":form2:listaClaseNiza :form2:idBuscadorNiza"
+                                icon="ui-icon-search"/>
+                        </h:panelGrid>
+                        <p:dataTable var="niza"
+                                     id="listaClaseNiza"
+                                     rowKey="#{niza.idClaseNiza}"
+                                     value="#{datosSignoDistintivoRegistroGeneralBean.listadoClasenizaBuscador}"
+                                     widgetVar="listaclaseNizaBuscador"
+                                     style="width: 100%"
+                                     scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="150"  >
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.pestaniaTresListaDeProductoServicio}" />
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column  sortBy="#{niza.numeroClaseNiza}" headerText="#{msgs.pestaniaTresHeaderColumnaUno}" width="1%">
+                                <h:outputText value="#{niza.numeroClaseNiza}" />
+                            </p:column>
+
+                            <p:column   headerText="#{msgs.pestaniaTresProducto}" width="5%">
+                                <h:outputText value="#{niza.tipo==true?'Producto':''}" />
+                            </p:column>
+
+                            <p:column   headerText="#{msgs.pestaniaTresServicio}" width="5%">
+                                <h:outputText value="#{niza.tipo!=true?'Servicio':''}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{niza.notaTipoClaseNiza}" sortBy="#{niza.notaTipoClaseNiza}" 
+                                       headerText="#{msgs.pestaniaTresHeaderColumnaCinco}" width="15%">
+                                <h:outputText value="#{niza.notaTipoClaseNiza}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:fieldset>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        value="#{msgs.pestaniaTresCancelar}"
+                        onclick="PF('BuscaClaseniza').hide();"
+                        action="#{datosSignoDistintivoRegistroGeneralBean.limpiaListadosSeleccionados()}"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="descripcionNiza" header="#{msgs.pestaniaTresCLASENIZAINFORMACION}" widgetVar="nizaDescripcion" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="70%" closable="false">
+                <p:outputPanel id="nizadescripcionlista" style="text-align:center;" layout="block">
+                    <p:panelGrid  columns="2" columnClasses="value">
+                        <f:facet name="header">
+                        </f:facet>
+                        <h:outputText value="#{msgs.pestaniaTresNumero}" />
+                        <h:outputText value="#{datosSignoDistintivoRegistroGeneralBean.clasenizaSeleccionada.idClaseNiza}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresTipo}" />
+                        <h:outputText value="#{datosSignoDistintivoRegistroGeneralBean.clasenizaSeleccionada.numeroClaseNiza==false?'Producto':'Servicio'}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresDescripcion}" />
+                        <h:outputText value="#{datosSignoDistintivoRegistroGeneralBean.listadoProductosPorClaseNiza()}" />
+
+                        <h:outputText value="#{msgs.pestaniaTresNotaExplicativa}" />
+                        <h:outputText value="#{datosSignoDistintivoRegistroGeneralBean.clasenizaSeleccionada.tiposClaseNiza}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        id="uno"
+                        value="#{msgs.pestaniaTresCerrar}"
+                        onclick="PF('nizaDescripcion').hide();"
+                        action="#{datosSignoDistintivoRegistroGeneralBean.limpiaListadosSeleccionados()}"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+            <p:dialog id="colorDialog" header="#{msgs.pestaniaTresDialogoColorHeader}" widgetVar="colorDialog" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="40%" height="40%" closable="false">
+                <p:panel id="panelColorDialogo">
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h:outputText value="#{msgs.pestaniaTresSiDeseaPuedeSelecionarUnColor}"/>
+                        <p:colorPicker value="#{datosSignoDistintivoRegistroGeneralBean.colorPopup}"/>  
+                        <p:commandButton value="#{msgs.pestaniaTresDialogoColorBotonAddColor}"
+                                         action="#{datosSignoDistintivoRegistroGeneralBean.adicionaColor()}"
+                                         icon="ui-icon-disk"
+                                         update="colorLista,mensaje,logoInfo,mensajeInfo"/>
+                        <p:panel style="width: 90%">
+                            <h:panelGrid id="mensaje" columns="2">
+                                <p:graphicImage id="logoInfo" value="/resources/images/informacion3.png" 
+                                                rendered="#{datosSignoDistintivoRegistroGeneralBean.mensajeColorRendered}"/>
+                                <h:outputText id="mensajeInfo" value="#{datosSignoDistintivoRegistroGeneralBean.mensajeColor}" style="font-size:12px;color:#045491 " 
+                                              rendered="#{datosSignoDistintivoRegistroGeneralBean.mensajeColorRendered}"/>
+                            </h:panelGrid>
+                            <p:dataTable id="colorLista"
+                                         var="color" 
+                                         value="#{datosSignoDistintivoRegistroGeneralBean.listaColores}" 
+                                         scrollable="true" 
+                                         scrollHeight="150"
+                                         style="width: 400px"
+                                         >
+                                <f:facet name="header">
+                                    #{msgs.pestaniaTresFacetListaColores}
+                                </f:facet>
+                                <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaUno}" 
+                                          footerText="#{msgs.pestaniaTresDialogoColorColumnaUno}" style="text-align:center; width: 60px">
+                                    <div align="right">
+                                        <h:outputText value="##{color}" />
+                                    </div>
+                                </p:column>
+                                <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaDos}" 
+                                          footerText="#{msgs.pestaniaTresDialogoColorColumnaDos}" style="text-align:center; width: 80px">
+                                    <div align="center">
+                                        <h:panelGroup layout="block"
+                                                      style="width:16px;height:16px;border:thin;border-style:solid;border-color:black;background-color:##{color};text-align:center" />
+                                    </div>
+                                </p:column>
+                                <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" 
+                                          footerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" style="text-align:center; width: 80px">
+                                    <p:commandButton process="colorLista" 
+                                                     icon="ui-icon-circle-minus" 
+                                                     update="colorLista"
+                                                     action="#{datosSignoDistintivoRegistroGeneralBean.quitaColorDeLaLista(color)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                    <div align="center" style="padding:1.0em 1.0em;">
+                        <p:commandButton id="adicionaMensaje"
+                                         value="#{msgs.pestaniaTresDialogoBotonGuardaListaColores}"
+                                         actionListener="#{datosSignoDistintivoRegistroGeneralBean.adicionaColorListado()}"
+                                         onclick="PF('colorDialog').hide();"
+                                         icon="ui-icon-disk"/>
+
+                        <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                         onclick="PF('colorDialog').hide();"
+                                         icon="ui-icon-arrowreturnthick-1-w"/>
+
+                    </div>
+                </p:panel>
+            </p:dialog>
+            <p:dialog id="eliminaImagenDialog" header="#{msgs.pestaniaTresDialogoEliminaHeader}" widgetVar="eliminaImagenDialog" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false" width="50%" height="40%" closable="false">
+                <div align="center" >
+                    <p:panel id="panelImagenDialogo">
+                        <h:panelGrid id="mensajeImagenElimina" columns="2">
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.pestaniaTresDialogoMensajeGraphics}" 
+                                          style="font-size:12px;color:#045491 "/>
+                        </h:panelGrid>
+                        <p:dataTable  id="imagenesLista"
+                                      var="imagen" 
+                                      value="#{datosSignoDistintivoRegistroGeneralBean.listaImagenLogotipos}" 
+                                      scrollable="true" 
+                                      scrollHeight="200"
+                                      style="width: 400px"
+                                      >
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresDialogoListaImagenes}
+                            </f:facet>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" 
+                                      footerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" style="text-align:center; width: 80px">
+                                <p:graphicImage value="/temp/#{imagen.idSMLogotipo.nombreArchivo}" width="40%" />
+                            </p:column>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" 
+                                      footerText="#{msgs.pestaniaTresDialogoColorColumnaQuitar}" style="text-align:center; width: 80px">
+                                <p:commandButton process="imagenesLista" 
+                                                 icon="ui-icon-trash" 
+                                                 update="imagenesLista :form2:panelImagenPrincipalDialogo  :form:imagenCargadaGaleria :form:panelGridGaleria :form:graphicImagnen"
+                                                 action="#{datosSignoDistintivoRegistroGeneralBean.quitaImagenDeLaListaOriginal(imagen)}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                             onclick="PF('eliminaImagenDialog').hide();"
+                                             icon="ui-icon-arrowreturnthick-1-w"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+            <p:dialog id="principalImagenDialog" header="#{msgs.pestaniaTresDialogoImagenPrincipal}" widgetVar="principalImagenDialog" 
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="60%" height="40%" closable="false">
+                <div align="center" >
+                    <p:panel id="panelImagenPrincipalDialogo">
+                        <h:panelGrid id="mensajeImagenPrincipal" columns="2" >
+                            <p:graphicImage value="/resources/images/informacion3.png" />
+                            <h:outputText value="#{msgs.pestaniaTresDialogoImagenPrincipalSeleccione}" style="font-size:12px;color:#045491 "/>
+                        </h:panelGrid>
+                        <p:dataTable  id="imagenesPrincipalLista"
+                                      var="imagenPrincipal" 
+                                      value="#{datosSignoDistintivoRegistroGeneralBean.listaImagenLogotipos}" 
+                                      selection="#{datosSignoDistintivoRegistroGeneralBean.logotipoImagenObjetoSelecciona}" 
+                                      rowKey="#{imagenPrincipal.idSMLogotipo.nombreArchivo}"
+                                      scrollable="true" 
+                                      scrollHeight="250"
+                                      selectionMode="single" 
+                                      style="width: 500px">
+                            <p:ajax event="rowSelect" listener="#{datosSignoDistintivoRegistroGeneralBean.selecionaImagenPrincipal(e)}" update="imagenesPrincipalLista"/>
+                            <f:facet name="header">
+                                #{msgs.pestaniaTresDialogoListaImagenes}
+                            </f:facet>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoColumnaPrincipal}" style="width: 10px"/>
+                            <p:column headerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" 
+                                      footerText="#{msgs.pestaniaTresDialogoEliminaColumnaUno}" style="width: 40px">
+                                <p:graphicImage value="/temp/#{imagenPrincipal.idSMLogotipo.nombreArchivo}" width="40%"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="#{msgs.pestaniaTresDialogoGuardaryVolver}"
+                                                 action="#{datosSignoDistintivoRegistroGeneralBean.guardaLogoTipoSellecionadoPrincipal()}"
+                                                 onclick="PF('principalImagenDialog').hide();"
+                                                 icon="ui-icon-arrowreturnthick-1-w"/>
+
+                                <p:commandButton value="#{msgs.pestaniaTresDialogoBotonVolver}"
+                                                 onclick="PF('principalImagenDialog').hide();"
+                                                 icon="ui-icon-arrowreturnthick-1-w"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+
+            <p:dialog id="adiconaArchivoTXT" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="adiconaArchivoTXT" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroGeneralBean.cargaArchivoTXT}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresDialogoAdicionaArchivoInvalidaMensaje}"
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresDialogoAdicionaArchivoMessageTemplate}"
+                                  update="nombreArchivoText,finalizaCargaArchivoTXT,mensajeCargaArchivoTxtDialogo :form:archivoTXTCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresDialogoAdicionaArchivoNombreArchivo}"/>
+                    <p:inputText id="nombreArchivoText" value="#{datosSignoDistintivoRegistroGeneralBean.nombreArchivo}"/>
+                    <p:messages id="mensajeCargaArchivoTxtDialogo" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="finalizaCargaArchivoTXT" 
+                                     value="#{msgs.pestaniaTresFinalizar}"
+                                     onclick="PF('adiconaArchivoTXT').hide();"
+                                     update=":form:cargaArchivoTXT"
+                                     disabled="#{datosSignoDistintivoRegistroGeneralBean.habilitaCargarArchivoFinalizarDialogo}"
+                                     icon="ui-icon-disk"/>
+                    <p:commandButton value="#{msgs.pestaniaTresCancelar}"
+                                     onclick="PF('adiconaArchivoTXT').hide();"
+                                     icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+
+
+
+
+
+            <p:dialog id="adiconaArchivoTXTNiza" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="adiconaArchivoTXTNiza" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <div align="center" style="padding:1em 2.2em;">
+                    <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+                    <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroGeneralBean.cargaArchivoTXTNiza}" 
+                                  sizeLimit="11534336"
+                                  invalidFileMessage="#{msgs.pestaniaTresDialogoAdicionaArchivoInvalidaMensaje}"
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  label="#{msgs.pestaniaTresBuscarArchivo}"
+                                  uploadLabel="#{msgs.pestaniaTresCargaArchivo}"
+                                  cancelLabel="#{msgs.pestaniaTresCancelar}"
+                                  messageTemplate="#{msgs.pestaniaTresDialogoAdicionaArchivoMessageTemplate}"
+                                  update="nombreArchivoTextNiza,finalizaCargaArchivoTXTNiza,mensajeCargaArchivoTxtDialogo :form:archivoCargaURL" style="width: 80%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:outputLabel value="#{msgs.pestaniaTresDialogoAdicionaArchivoNombreArchivo}"/>
+                    <p:inputText id="nombreArchivoTextNiza" value="#{datosSignoDistintivoRegistroGeneralBean.nombreArchivoTXTNiza}"/>
+                    <p:messages id="mensajeCargaArchivoTxtDialogoNiza" showDetail="true" style="width: 50%"/>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton id="finalizaCargaArchivoTXTNiza" 
+                                     value="#{msgs.pestaniaTresFinalizar}"
+                                     onclick="PF('adiconaArchivoTXTNiza').hide();"
+                                     disabled="#{datosSignoDistintivoRegistroGeneralBean.habilitaCargarArchivoFinalizarDialogoNiza}"
+                                     icon="ui-icon-disk"/>
+                    <p:commandButton value="#{msgs.pestaniaTresCancelar}"
+                                     onclick="PF('adiconaArchivoTXTNiza').hide();"
+                                     icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>            

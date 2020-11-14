@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="repor2SolicitudRegistroSigno" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="06c28c25-0a4c-4305-834a-529583ee4794">
+	<property name="ireport.zoom" value="1.210000000000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NombreSigno" class="java.lang.String"/>
+	<parameter name="DescripcionSigno" class="java.lang.String"/>
+	<parameter name="SignosDistintivos" class="java.lang.String"/>
+	<parameter name="GeneroSigno" class="java.lang.String"/>
+	<parameter name="ClaseNiza" class="java.lang.String"/>
+	<parameter name="ListaProducto" class="java.lang.String"/>
+	<parameter name="foto" class="java.lang.Object"/>
+	<parameter name="CodigoDia" class="java.lang.String"/>
+	<parameter name="datosPreferencia" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DireccionNotifica" class="java.lang.String"/>
+	<parameter name="correoNotifica" class="java.lang.String"/>
+	<parameter name="Solicitantes" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="Apoderados" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosClases" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosNotificador" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="datosSolApo" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="imageSenapi" class="java.lang.String"/>
+	<parameter name="imageEscudoBol" class="java.lang.String"/>
+	<parameter name="FechaUltModif" class="java.lang.String"/>
+	<parameter name="UsuarioReporte" class="java.lang.String"/>
+	<title>
+		<band height="367" splitType="Stretch">
+			<staticText>
+				<reportElement x="56" y="49" width="52" height="13" forecolor="#000080" uuid="7d5514d5-6729-461c-bea5-22a0b39cd29e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PETITORIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="62" width="202" height="20" forecolor="#000080" uuid="9709810e-b00e-4967-b23c-394564e100bc"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DIRECCION DE PROPIEDAD INDUSTRIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="17" width="112" height="16" forecolor="#000080" uuid="48bb0cf8-d3b1-4505-9055-f4c90658c0cb"/>
+				<text><![CDATA[FORMULARIO PI100]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="216" y="65" width="167" height="18" forecolor="#000080" uuid="25080439-6488-4de5-9880-c53682b2a910"/>
+				<text><![CDATA[Estado Plurinacional de Bolivia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="461" y="65" width="100" height="20" uuid="c357f1f8-7789-498d-ba28-f04a608e66bc"/>
+				<textFieldExpression><![CDATA[$P{CodigoDia}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement stretchType="RelativeToTallestObject" x="422" y="33" width="146" height="32" uuid="8eb7aab7-8315-4dec-935b-e771834bb9b5"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Monarch" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{CodigoDia}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement x="416" y="1" width="154" height="16" forecolor="#000080" uuid="9e5c5b09-bb59-4984-86fb-81fbf8fed9d5"/>
+				<text><![CDATA[S - NPI/SERV/P/301 - -PI - 100]]></text>
+			</staticText>
+			<image>
+				<reportElement x="244" y="-1" width="95" height="63" uuid="066c8eb5-1e0b-48ce-94d0-5ea7ff74bff2"/>
+				<imageExpression><![CDATA[$P{imageEscudoBol}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="1" y="-1" width="412" height="47" uuid="ae30c52b-6d5b-43ab-9873-901967394c2e"/>
+				<imageExpression><![CDATA[$P{imageSenapi}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="0" y="78" width="572" height="14" backcolor="#000000" uuid="97a88cab-89b4-48c6-ae80-bceeac446669"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="88" y="80" width="413" height="23" forecolor="#FFFFFF" uuid="4f9f9323-e24d-40d4-94fb-06647c49352b"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO DE SOLICITUD DE REGISTRO DE SIGNO DISTINTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="107" width="89" height="10" uuid="6b63a452-d560-4520-83ff-9787458b9c01"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nombre del Signo DIstintivo]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="93" width="572" height="10" backcolor="#C0C0C0" uuid="5dff27f4-3582-496e-b7ee-66b698f3615c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="95" width="184" height="14" uuid="dac64118-d9d9-4646-a5fe-b92a33cde68b"/>
+				<textElement>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[1. DATOS DEL SIGNO SOLICITADO]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="6" y="150" width="431" height="36" uuid="69f53991-2d42-42cd-bc11-ddcb1c0d3102"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="189" width="81" height="10" uuid="c66c0fac-ed69-4796-90dd-0ea7d9725ab3"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tipo de Signo Distintivo :]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="6" y="118" width="431" height="21" uuid="73747dd9-b814-4939-a954-f5a1b6f1a94c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="140" width="100" height="10" uuid="d3671081-28ea-45ff-a2fc-a83551859dbd"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Descripción del Signo Distintivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="248" width="116" height="10" uuid="5a66f18c-29d0-4dc3-9bf8-4447fe1e25dc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Lista de Productos o Servicios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="217" width="94" height="10" uuid="9042aabf-605b-4740-aa6c-584fa72b9c9c"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Género del Signo Distintivo : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="217" width="94" height="10" uuid="65742f97-a930-4d1d-805a-9e0242b5c6b1"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Clase Internacional de Niza]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="6" y="199" width="430" height="14" uuid="70d819ec-fe40-4eb7-9299-3ea6a845a036"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="6" y="229" width="215" height="14" uuid="920f39c4-89a4-4430-aa69-ff4f4b9ba38a"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="6" y="258" width="555" height="66" uuid="8feda34f-04ed-4a3f-8425-d799ffc3ef9f"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="285" y="229" width="105" height="14" uuid="1dc62bf6-9dca-4af5-aed3-8ff9c38ead7f"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="9" y="120" width="426" height="20" uuid="9d62e53b-f18b-4e63-a7fc-0eb1bf676b53"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NombreSigno}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="9" y="150" width="426" height="36" uuid="9768ee4b-0bf5-4fbd-b09a-be69688273d3"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DescripcionSigno}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="12" y="202" width="423" height="13" uuid="e8bfff60-5253-410a-9c7b-d634cab1228f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SignosDistintivos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="11" y="232" width="205" height="11" uuid="1f5064ee-f62e-439f-b0a3-073e6fa60019"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{GeneroSigno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="326" y="232" width="33" height="11" uuid="2241e139-c4d6-4a7f-97c3-8fbdb3748080"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ClaseNiza}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="258" width="551" height="66" uuid="9f2c0d75-302c-4466-ac65-7e1759bb412c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ListaProducto}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="445" y="118" width="125" height="130" uuid="af0cf421-537c-4742-a623-1990bb2b1000"/>
+				<imageExpression><![CDATA[$P{foto}]]></imageExpression>
+			</image>
+			<subreport>
+				<reportElement x="0" y="330" width="572" height="37" uuid="59038a54-2bd1-4a84-a35c-68f137bde412"/>
+				<dataSourceExpression><![CDATA[$P{datosPreferencia}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["repor2Preferencias.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="572" height="38" uuid="de402465-fd9a-43e0-a7c9-4d2f3280aa07"/>
+				<dataSourceExpression><![CDATA[$P{datosNotificador}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporNotificador.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="46">
+			<subreport>
+				<reportElement x="0" y="0" width="572" height="46" uuid="d982ec78-8899-40cb-9411-d0ca8f0fd31b"/>
+				<dataSourceExpression><![CDATA[$P{datosSolApo}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporSolicitaApodera.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="35">
+			<subreport>
+				<reportElement x="0" y="0" width="572" height="34" uuid="2935ac3a-d58c-47d4-9475-3a3da2122dcc"/>
+				<dataSourceExpression><![CDATA[$P{datosClases}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reporClases.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24">
+			<staticText>
+				<reportElement x="340" y="4" width="56" height="18" uuid="b34f422f-0f8a-41a1-bb3b-708e7f074209"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fecha Ult. Modif.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="396" y="4" width="56" height="20" uuid="11544921-1e32-44e7-b382-5cf7812ab127"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaUltModif}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="172" y="4" width="29" height="20" uuid="e32d1fbc-4b96-4948-ade6-2e4636fcf4ab"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="201" y="4" width="122" height="20" uuid="4d211f5a-0557-416c-a45d-3216bd179892"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{UsuarioReporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="487" y="4" width="56" height="20" uuid="83892727-d1ac-4d2c-838f-32b86fbb93ed"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="546" y="4" width="22" height="20" uuid="5b56ca0a-1a64-4a13-8118-2da101ab7d9c"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

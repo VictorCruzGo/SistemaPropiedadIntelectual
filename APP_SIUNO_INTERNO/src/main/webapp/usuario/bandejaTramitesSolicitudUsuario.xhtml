@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    
+    <ui:define name="content">
+       
+        <h:form id="form"> 
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel header="#{msgs.bandejaUsuarioExBandejaTramiteUsuarios}"  style="text-align: left;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <p:tabView style="text-align: left;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                    <p:tab title="#{msgs.bandejaUsuarioExPestaniaUnoListaTramiteSolicitud}">
+                        <div align="left" style="padding:1em 0.0em;">
+                            <p:fieldset legend="#{msgs.bandejaUsuarioExPestaniaUnoBusquedaEspecial}" toggleable="true" collapsed="true" toggleSpeed="500" style="height: 100%">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="#{msgs.bandejaUsuarioExPestaniaUnoFechaInicioSolicitud}"/>
+                                    <p:calendar id="fecInicioSolicitud" value="#{bandejaDeTramitesUsuarioBean.fechaInicioSolicitud}" showOn="button" />
+                                    <p:outputLabel value="#{msgs.bandejaUsuarioExPestaniaUnoFechaFinSolicitud}"/>
+                                    <p:calendar id="fecFinSolicitud" value="#{bandejaDeTramitesUsuarioBean.fechaFinSolicitud}" showOn="button" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="6">                                        
+                                    <p:outputLabel value="#{msgs.bandejaUsuarioExPestaniaUnoCodigo}"/>
+                                    <p:inputText value="#{bandejaDeTramitesUsuarioBean.codigo}"/>
+                                    <p:outputLabel value="#{msgs.bandejaUsuarioExPestaniaUnoTipoTramite}"/>
+                                    <p:selectOneMenu value="#{bandejaDeTramitesUsuarioBean.tipoTramiteSolicitud}">
+                                        <f:selectItem itemLabel="#{msgs.bandejaUsuarioExPestaniaUnoSeleccioneTipoTramite}" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{bandejaDeTramitesUsuarioBean.comboTipoTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    </p:selectOneMenu>
+                                    <p:commandButton
+                                        value="#{msgs.bandejaUsuarioExPestaniaUnoBuscar}"
+                                        action="#{bandejaDeTramitesUsuarioBean.filtroListaTramiteSolicitudUsuario()}"
+                                        update=":form:tramiteWebList"
+                                        ajax="false"
+                                        icon="ui-icon-search"
+                                        />
+                                    <p:commandButton
+                                        value="#{msgs.bandejaUsuarioExPestaniaUnoLimpiarDatosBusqueda}"
+                                        action="#{bandejaDeTramitesUsuarioBean.limpiaFiltroListaTramiteSolicitudUsuario()}"
+                                        ajax="false"
+                                        icon="ui-icon-search"/>
+                                </h:panelGrid>
+
+                                <h:panelGrid id="registrosEncontrados" rendered="#{bandejaDeTramitesUsuarioBean.renderizaBusqueda}">
+                                    <div align="left">
+                                        <p:outputLabel value="#{bandejaDeTramitesUsuarioBean.cantidadDeRegistrosEncontrados} #{msgs.bandejaUsuarioExPestaniaUnoRegistrosEncontrados}" style="color: #{bandejaDeTramitesUsuarioBean.colorMensaje}" />                                
+                                    </div>
+                                </h:panelGrid>
+                            </p:fieldset>
+                        </div>
+                        <p:dialog id="cargarMapaPopUp" header="#{msgs.pestaniaTresAtencion}" widgetVar="cargaMapaArchivo" resizable="false" closable="false"  modal="true"
+                                  width="50%" height="70%"  style="text-align: center">
+                            <div align="center" style="padding:1em 0.0em;">
+                                <p:panel id="panelnuevo" style="width: 90%;height: 50%">
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage value="/resources/images/informacionAzul.png"/>
+                                        <p:outputLabel value="#{msgs.modificarSigno}" rendered="#{!bandejaDeTramitesUsuarioBean.activalabelDialogoModificar}" style="font-weight: bold"/>
+                                        <p:outputLabel value="#{msgs.modificarModificacion}" rendered="#{bandejaDeTramitesUsuarioBean.activalabelDialogoModificar}" style="font-weight: bold"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <h:panelGrid columns="2">
+                                    <p:commandButton 
+                                        value="#{msgs.solicitanteSiAcepta}"
+                                        icon=" ui-icon-check " 
+                                        action="#{bandejaDeTramitesUsuarioBean.irFormularioPI100Usuario()}" 
+                                        ajax="false">
+                                    </p:commandButton>
+                                    <p:commandButton 
+                                        styleClass="ui-confirmdialog-yes" 
+                                        icon="ui-icon-closethick" 
+                                        value="#{msgs.solicitanteNoRechaza}" 
+                                        action="#{bandejaDeTramitesUsuarioBean.irBandeja()}" 
+                                        onclick="PF('cargaMapaArchivo').hide();">
+
+                                    </p:commandButton>                                      
+                                </h:panelGrid>
+                            </div>
+                        </p:dialog>
+                        <p:dataTable var="item" liveScroll="true" scrollRows="20" 
+                                     id="tramiteWebList"
+                                     rowKey="#{item.idTramite}"
+                                     value="#{bandejaDeTramitesUsuarioBean.listaBandejaUsuarioExternoEtapaUSU}" 
+                                     widgetVar="tramiteWebList"
+                                     style="width: 99%"
+                                     scrollable="true" scrollHeight="250" 
+                                     selection="#{bandejaDeTramitesUsuarioBean.tramiteSelect}"
+                                     emptyMessage="#{msgs.bandejaUsuarioExPestaniaUnoListaDeTramitesEstaVacia}">
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.bandejaUsuarioExPestaniaUnoListaDeTramiteSolicitud}" />
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column filterBy="#{item.codigoDia}" sortBy="#{item.codigoDia}" headerText="#{msgs.bandejaUsuarioExPestaniaUnoCodigo}" footerText="" filterMatchMode="contains" style="width: 15%">
+                                <h:outputText value="#{item.codigoDia}"/>
+                            </p:column>
+                            <p:column headerText="#{msgs.bandejaUsuarioExPestaniaUnoNombreMarca}" style="text-align: center;width:28%">
+                                <h:outputText value="#{bandejaDeTramitesUsuarioBean.encuentraNombreMarca(item)}"/>
+                            </p:column>
+                            <p:column filterBy="#{item.tipoTramite.descripcion}" sortBy="#{item.tipoTramite.descripcion}" headerText="#{msgs.bandejaUsuarioExPestaniaUnoTipoTramite}" footerText="" filterMatchMode="contains" style="width: 35%">
+                                <h:outputText value="#{bandejaDeTramitesUsuarioBean.encuentraTipoTramite(item)} "/>
+                            </p:column>
+                            <p:column filterBy="#{item.estadoProceso.descripcion}" sortBy="#{item.estadoProceso.descripcion}" headerText="#{msgs.bandejaUsuarioExPestaniaUnoEstado}" footerText="" filterMatchMode="contains" style="width: 20%">
+                                <h:outputText value="#{item.estadoProceso.descripcion}" />
+                            </p:column>
+                            <!--                            <p:column filterBy="# {item.fechaIngreso}" sortBy="# {item.fechaIngreso}" headerText="# {msgs.bandejaUsuarioExPestaniaUnoFechaDeIngreso}" footerText="" filterMatchMode="contains" style="width: 20%">
+                                                            <h:outputText value="# {item.fechaIngreso}" >
+                                                                <f:convertDateTime pattern="# {sessionState.formatoFecha}"/>
+                                                            </h:outputText>
+                                                        </p:column>-->
+                            <p:column headerText="#{msgs.bandejaUsuarioExPestaniaUnoImprimir}" style="text-align: center;width:8%">
+                                <p:commandButton actionListener="#{bandejaDeTramitesUsuarioBean.irImpresion(item.idTramite)}"
+                                                 icon="ui-icon-print" 
+                                                 style="border-image: 0" 
+                                                 ajax="false"             
+                                                 />  
+                            </p:column>
+                            <p:column headerText="#{msgs.bandejaUsuarioExPestaniaUnoModificar}" style="text-align: center;width: 8%">
+                                <p:commandButton 
+                                    id="modificaFormularioConfirmacion" 
+                                    oncomplete="PF('cargaMapaArchivo').show()"
+                                    icon="ui-icon-pencil" 
+
+                                    actionListener="#{bandejaDeTramitesUsuarioBean.cargaTramiteDeBandejaParaModificacion(item)}">
+                                </p:commandButton>                                                        
+                            </p:column>
+
+                            <p:column headerText="#{msgs.bandejaUsuarioExPestaniaUnoEliminar}" style="text-align: center;width: 8%">
+                                <p:commandButton update="tramiteWebList" icon="ui-icon-trash" action="#{bandejaDeTramitesUsuarioBean.eliminaRegistroTramiteEtapaUSU(item)}">
+                                    <f:setPropertyActionListener value="#{item}" target="#{bandejaDeTramitesUsuarioBean.tramiteSelect}" />
+                                    <p:confirm header="#{msgs.bandejaUsuarioExPestaniaUnoConfirmacionEliminar}" message="#{msgs.bandejaUsuarioExPestaniaUnoEstaSeguroQueQuiereEliminarElRegistro}" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:confirmDialog global="true"  closable="false" width="30%" height="50%" style="text-align: center; font-weight: bold; color: #045491" >
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid columns="3">
+                                    <p:commandButton value="#{msgs.bandejaUsuarioExPestaniaUnoSi}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:separator id="separador20" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                    <p:commandButton value="#{msgs.bandejaUsuarioExPestaniaUnoNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </h:panelGrid>
+                            </div>
+                        </p:confirmDialog>
+                    </p:tab>
+                    <!--                    <p:tab title="# {msgs.bandejaUsuarioExPestaniaDosListaTramiteProceso}">
+                                            <div align="left" style="padding:1em 0.0em;">
+                                                <p:fieldset legend="# {msgs.bandejaUsuarioExPestaniaDosBusquedaEspecial}" toggleable="true" collapsed="true" toggleSpeed="500" style="height: 50%">
+                    
+                                                    <h:panelGrid columns="1" id="busquedaEspecialfechas" style="width: 99%">
+                                                        <h:panelGrid columns="2" >
+                                                            <p:outputLabel value="# {msgs.bandejaUsuarioExPestaniaDosFechaInicio}"/>
+                                                            <p:calendar id="fecInicio" value="# {bandejaDeTramitesUsuarioBean.fechaInicio}" showOn="button" />
+                                                            <p:outputLabel value="# {msgs.bandejaUsuarioExPestaniaDosFechaFin}"/>
+                                                            <p:calendar id="fecFin" value="# {bandejaDeTramitesUsuarioBean.fechaFin}" showOn="button" />
+                                                        </h:panelGrid>   
+                                                        <h:panelGrid columns="6" id="busquedaEspecialfechas1">
+                                                            <p:outputLabel value="Codigo"/>
+                                                            <p:inputText value="# {bandejaDeTramitesUsuarioBean.codigoSegundaBusqueda}"/>
+                                                            <p:outputLabel value="# {msgs.bandejaUsuarioExPestaniaDosTipoSolicitud}"/>
+                                                            <p:selectOneMenu value="# {bandejaDeTramitesUsuarioBean.tipoSolicitud}">
+                                                                <f:selectItem itemLabel="# {msgs.bandejaUsuarioExPestaniaDosSeleccioneTipoSolicitud}" itemValue="" noSelectionOption="true"/>
+                                                                <f:selectItems value="# {bandejaDeTramitesUsuarioBean.comboTipoSolicitud}" var="r" itemLabel="# {r.nombre}" itemValue="# {r.codigo}"/>
+                                                            </p:selectOneMenu>
+                                                            <p:outputLabel value="# {msgs.bandejaUsuarioExPestaniaDosArea}"/>
+                                                            <p:selectOneMenu value="# {bandejaDeTramitesUsuarioBean.area}">
+                                                                <f:selectItem itemLabel="# {msgs.bandejaUsuarioExPestaniaDosSeleccioneArea}" itemValue="" noSelectionOption="true" />
+                                                                <f:selectItems value="# {bandejaDeTramitesUsuarioBean.comboTipoTramite}" var="r" itemLabel="# {r.nombre}" itemValue="# {r.codigo}"/>
+                                                            </p:selectOneMenu>
+                                                            <p:outputLabel value="# {msgs.bandejaUsuarioExPestaniaDosEtapaActual}"/>
+                                                            <p:selectOneMenu value="# {bandejaDeTramitesUsuarioBean.estado}">
+                                                                <f:selectItem itemLabel="# {msgs.bandejaUsuarioExPestaniaDosSeleccioneEstado}" itemValue="" noSelectionOption="true" />
+                                                                <f:selectItems value="# {bandejaDeTramitesUsuarioBean.comboEtapa}" var="r" itemLabel="#  {r.nombre}" itemValue="# {r.codigo}"/>
+                                                            </p:selectOneMenu>
+                                                            <p:outputLabel value="# {msgs.bandejaUsuarioExPestaniaDosNombreDeLaMarca} "/>
+                                                            <p:inputText value="# {bandejaDeTramitesUsuarioBean.nombreMarca}"/>
+                                                            <p:commandButton
+                                                                value="# {msgs.bandejaUsuarioExPestaniaDosBuscar}"
+                                                                action="# {bandejaDeTramitesUsuarioBean.busquedaTramitePorParametros()}"
+                                                                ajax="false"
+                                                                icon="ui-icon-search"/>
+                                                            <p:commandButton
+                                                                value="# {msgs.bandejaUsuarioExPestaniaDosLimpiarDatosBusqueda}"
+                                                                action="# {bandejaDeTramitesUsuarioBean.limpiarBusquedaTramitePorParametros()}"
+                                                                ajax="false"
+                                                                icon="ui-icon-search"/>
+                                                        </h:panelGrid>
+                                                    </h:panelGrid>
+                    
+                    
+                                                    <h:panelGrid id="registrosEncontradosSegundaBandeja" rendered="# {bandejaDeTramitesUsuarioBean.renderizaBusquedaSegundaBandeja}">
+                                                        <div align="left">
+                                                            <p:outputLabel value="# {bandejaDeTramitesUsuarioBean.cantidadDeRegistrosEncontradosSegundaBandeja} registros encontrados " style="color: # {bandejaDeTramitesUsuarioBean.colorMensajeSegundaBandeja}" />                                
+                                                        </div>
+                                                    </h:panelGrid>
+                                                </p:fieldset>
+                                            </div>
+                                            <p:dataTable var="item" 
+                    
+                                                         id="tramiteListProceso"
+                                                         value="# {bandejaDeTramitesUsuarioBean.listaBandejaUsuarioExterno}" 
+                                                         widgetVar="tramiteListProceso"
+                                                         scrollable="true" scrollHeight="250" 
+                                                         emptyMessage="# {msgs.bandejaUsuarioExPestaniaDosListaDeTramitesEstaVacia}"
+                                                         style="width:99%">
+                                                <f:facet name="header">
+                                                    <p:outputPanel>
+                                                        <h:outputText value="# {msgs.bandejaUsuarioExPestaniaDosListaDeTramiteProceso}" />
+                                                    </p:outputPanel>
+                                                </f:facet>
+                                                                            <p:column headerText="Ver" style="text-align: center;width: 3%">
+                                                                                <p:commandButton 
+                                                                                    id="idVer"
+                                                                                    icon="ui-icon-circle-triangle-e" 
+                                                                                    action="# {bandejaDeTramitesUsuarioBean.eligeSolicitud(item.idTramite)}" 
+                                                                                    ajax="false"/>                                                                      
+                                                                            </p:column>
+                                                <p:column headerText="Historial" style="text-align: center;width: 3%">
+                                                    <p:commandButton 
+                                                        icon=" ui-icon-clipboard" 
+                                                        action="# {bandejaDeTramitesUsuarioBean.verHistorial(item.tramiteObjeto.idTramite)}" 
+                                                        ajax="false"/>                                                                      
+                                                </p:column>
+                                          
+                                                <p:column headerText="Imprimir" style="text-align: center;width:8%">
+                                                  
+                                                     <h:commandButton 
+                                                                     action="# {bandejaDeTramitesUsuarioBean.irImpresion(item.tramiteObjeto.idTramite)}"
+                                                                     image="/resources/images/pdfP.png" 
+                                                                     style="border-image: 0" 
+                    
+                                                                     />  
+                                                  
+                                                  
+                                                </p:column>
+                                                <p:column headerText="Editar" style="text-align: center;width: 3%">
+                                                    <p:commandButton 
+                                                        icon="ui-icon-pencil" 
+                                                        disabled="# {bandejaDeTramitesUsuarioBean.activaBotonEditar(item.tramiteObjeto)}"
+                                                        rendered="# {bandejaDeTramitesUsuarioBean.activaBotonEditarTab(item.tramiteObjeto)}"
+                                                        action="# {bandejaDeTramitesUsuarioBean.editaSolicitudTramiteEtapaUSU(item.tramiteObjeto)}" 
+                                                        ajax="false"/>       
+                                                    <p:commandButton 
+                                                        id="modificaFormularioConfirmacionDialog" 
+                                                        rendered="# {!bandejaDeTramitesUsuarioBean.activaBotonEditarTab(item.tramiteObjeto)}"
+                                                        disabled="# {bandejaDeTramitesUsuarioBean.activaBotonEditar(item.tramiteObjeto)}"
+                                                        oncomplete="PF('dialogoModificacion').show()"
+                                                        update=":form"      
+                                                        icon="ui-icon-pencil" 
+                                                        actionListener="# {bandejaDeTramitesUsuarioBean.cargaTramiteDeBandejaParaModificacion(item.tramiteObjeto)}">
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="# {msgs.bandejaUsuarioExPestaniaDosCodigo}" sortBy="# {item.codigoDia}" footerText="" filterMatchMode="contains" style="width: 10%">
+                                                    <h:outputText value="# {item.codigoDia}" />
+                                                </p:column>
+                                                <p:column headerText="# {msgs.bandejaUsuarioExPestaniaDosNombre}" sortBy="# {item.nombreSolicitud}" footerText="" filterMatchMode="contains" style="width: 13%">
+                                                    <h:outputText value="# {item.nombreSolicitud}" />
+                                                </p:column>
+                                                <p:column filterBy="# {item.etapaTramite.codigo}" sortBy="# {item.etapaTramite.codigo}" headerText="# {msgs.bandejaUsuarioExPestaniaDosEtapaActual}" footerText="" filterMatchMode="exact" style="width: 16%">
+                                                    <f:facet name="filter">
+                                                        <p:selectOneMenu onchange="PF('tramiteListProceso').filter()" >
+                                                            <f:selectItem itemLabel="# {msgs.bandejaUsuarioExPestaniaDosSeleccionUnaOpcion}" itemValue="# {null}" noSelectionOption="true" />
+                                                            <f:selectItems value="# {bandejaDeTramitesUsuarioBean.comboEtapa}" var="r" itemLabel="# {r.nombre}" itemValue="# {r.codigo}"/>
+                                                        </p:selectOneMenu>
+                                                    </f:facet>
+                                                    <h:outputText value="# {item.etapaTramite.descripcion}" />
+                                                </p:column>
+                                                <p:column headerText="# {msgs.bandejaUsuarioExPestaniaDosTipoSolicitud}" sortBy="# {item.tipoSolicitud.descripcion}" footerText="" filterMatchMode="contains" style="width: 13%">
+                                                    <h:outputText value="# {item.tipoSolicitud.descripcion}" />
+                                                </p:column>
+                    
+                                                <p:column filterBy="# {item.tipoTramite.codigo}" sortBy="# {item.tipoTramite.codigo}" headerText="&Aacute;rea" footerText="" filterMatchMode="exact" style="width: 32%">
+                                                    <f:facet name="filter">
+                                                        <p:selectOneMenu onchange="PF('tramiteListProceso').filter()" >
+                                                            <f:selectItem itemLabel="# {msgs.bandejaUsuarioExPestaniaDosSeleccionUnaOpcion}"  itemValue="# {null}" noSelectionOption="true" />
+                                                            <f:selectItems value="# {bandejaDeTramitesUsuarioBean.comboTipoTramite}" var="r" itemLabel="# {r.nombre}" itemValue="# {r.codigo}" />
+                                                        </p:selectOneMenu>
+                                                    </f:facet>
+                                                    <h:outputText value="# {item.tipoTramite.descripcion}"/>
+                                                </p:column>
+                    
+                    
+                    
+                                                <p:column headerText="# {msgs.bandejaUsuarioExPestaniaDosFechaDeInicio}" sortBy="# {item.fechaIngreso}" footerText="" filterMatchMode="exact" style="width: 7% " >
+                                                    <h:outputText value="# {item.fechaIngreso}">
+                                                        <f:convertDateTime pattern="# {sessionState.formatoFecha}"/>
+                                                    </h:outputText>
+                                                </p:column>
+                    
+                                            </p:dataTable>
+                                            <p:dialog id="dialogoModificacion" header="# {msgs.pestaniaTresAtencion}" widgetVar="dialogoModificacion" resizable="false" closable="false"  modal="true"
+                                                      width="50%" height="70%"  style="text-align: center">
+                                                <div align="center" style="padding:1em 0.0em;">
+                                                    <p:panel id="panelnuevos" style="width: 90%;height: 50%">
+                                                        <h:panelGrid columns="2">
+                                                            <p:graphicImage value="/resources/images/informacionAzul.png"/>
+                                                            <p:outputLabel value="# {msgs.modificarSigno}" rendered="# {!bandejaDeTramitesUsuarioBean.activalabelDialogoModificar}" style="font-weight: bold"/>
+                                                            <p:outputLabel value="# {msgs.modificarModificacion}" rendered="# {bandejaDeTramitesUsuarioBean.activalabelDialogoModificar}" style="font-weight: bold"/>
+                                                        </h:panelGrid>
+                                                    </p:panel>
+                                                    <h:panelGrid columns="2">
+                                                        <p:commandButton 
+                                                            value="# {msgs.solicitanteSiAcepta}"
+                                                            icon=" ui-icon-check " 
+                                                            action="# {bandejaDeTramitesUsuarioBean.irFormularioPI100Usuario()}" 
+                                                            ajax="false">
+                                                        </p:commandButton>
+                                                        <p:commandButton 
+                                                            styleClass="ui-confirmdialog-yes" 
+                                                            icon="ui-icon-closethick" 
+                                                            value="# {msgs.solicitanteNoRechaza}" 
+                                                            action="# {bandejaDeTramitesUsuarioBean.irBandeja()}" 
+                                                            onclick="PF('dialogoModificacion').hide();"/>  
+                                                    </h:panelGrid>
+                                                </div>
+                                            </p:dialog>
+                                        </p:tab>-->
+
+                </p:tabView>
+                
+                                    
+            </p:panel>
+
+            <p:dialog id="googleMapsSenapi" header="#{msgs.pestaniaTresCargaArchivo}" widgetVar="googleMapsSenapi" modal="true" showEffect="fade" 
+                      hideEffect="fade" resizable="false" width="70%" height="70%" closable="false">
+                <p:gmap center="-15.565986,-54.309782" zoom="15" type="HYBRID" style="width:600px;height:400px">
+                    <p:ajax event="pointSelect" listener="#{direccionNotificacionGeneralBean.pontoSelecionado}" update="mensajeGeneral" />
+                </p:gmap>
+                <div align="center" style="padding: 1em 2.2em">
+                    <p:commandButton value="Volver"
+                                     onclick="PF('googleMapsSenapi').hide();"
+                                     icon="ui-icon-circle-arrow-w"/>
+                </div>
+            </p:dialog>
+            
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

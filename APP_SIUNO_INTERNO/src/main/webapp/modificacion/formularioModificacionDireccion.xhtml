@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel id="panelUno" style="border-style: hidden">
+                <p:panel header=" #{msgs.headerModificaciones}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="listado">
+                    <p:panel  >
+                        <div align="left">
+                            <p:fieldset id="panelToggleable" legend="#{msgs.headerMoodificacionDireccion}"
+                                        toggleable="false"  
+                                        toggleSpeed="500" style="height: 100%">
+                                <h:panelGrid  columns="10" cellpadding="5">                            
+                                    <p:separator id="separador" style="width: #{formularioModificacionDireccionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" id="panelGridDocumentos">
+                                    <h:panelGrid columns="1" style="text-align: center">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.labelDireccionNecesaria}" style="color: #{formularioModificacionDireccionBean.colorLabel}"/>
+                                        </h:panelGrid>
+
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="6">
+                                        <p:selectOneMenu id="tipoContactoClasificadorSolicitante"
+                                                         value="#{formularioModificacionDireccionBean.tipoContacto}">
+                                            <f:selectItems value="#{formularioModificacionDireccionBean.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                                            <p:ajax event="change" update=":form" listener="#{formularioModificacionDireccionBean.activaCheckNotificacion(e)}" />
+                                        </p:selectOneMenu>
+                                        <p:inputText id="dato" value="#{formularioModificacionDireccionBean.dato}" size="60" maxlength="60" 
+                                                     style="#{formularioModificacionDireccionBean.cambiaBordeCampoDato==true?'border-color: #C00':''}"/>
+                                        <p:watermark for="dato" value="#{msgs.solicitanteIntroduzcaDatoContacto}" id="watermark" />
+                                        <p:selectBooleanCheckbox id="notificar" value="#{formularioModificacionDireccionBean.notificar}" rendered="#{formularioModificacionDireccionBean.habilitaNotificacionCheck}"/>
+                                        <h:outputText id="notificarText" value="#{msgs.solicitanteNotificarContactoSeleccionado}" rendered="#{formularioModificacionDireccionBean.habilitaNotificacionCheck}"/>
+                                        <p:commandButton
+                                            value="#{msgs.solicitanteAdicionarContacto}"
+                                            id="btnSurname"
+                                            process="@this,dato,notificar"
+                                            update="listaDatosDeContacto,dato,notificar,mensajeGeneral"
+                                            action="#{formularioModificacionDireccionBean.adicionaDatoDeContacto()}"
+                                            icon="ui-icon-plusthick">
+                                            <p:confirm header="#{msgs.solicitanteConfirmacionAdicion}" message="#{msgs.adicionarALista}" icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                                <p:separator id="separador5" style="width: 0px ; border: 0px; height: 20px"></p:separator>
+
+                                <div align="center" style="padding:1em 2.2em;">
+
+                                    <p:dataTable var="item"                                                 
+                                                 id="listaDatosDeContacto"
+                                                 rowKey="#{item.tipoContacto}"
+                                                 value="#{formularioModificacionDireccionBean.listaDatosDeContacto}"
+                                                 widgetVar="listaDatosDeContacto"
+                                                 selectionMode="single"
+                                                 editable="true"
+                                                 selection="#{formularioModificacionDireccionBean.datoscontactoSelect}"
+                                                 style="width: 80%;background: #E5F0F8"
+                                                 scrollable="true" scrollHeight="110" resizableColumns="true"
+                                                 emptyMessage="#{msgs.solicitanteListaContactosVacia}">
+
+                                        <f:facet name="header">
+                                            <p:outputPanel >
+                                                <h:outputText value="#{msgs.solicitanteListadeContactos}" />
+                                            </p:outputPanel>
+                                        </f:facet>
+
+                                        <p:ajax event="rowEdit" listener="#{formularioModificacionDireccionBean.onRowEdit}" update=":form:listaDatosDeContacto" />
+                                        <p:ajax event="rowEditCancel" listener="#{formularioModificacionDireccionBean.onRowCancel}" update=":form:listaDatosDeContacto" />
+
+                                        <p:column headerText="#{msgs.solicitanteTipoContacto}" width="5%">                                    
+                                            <h:outputText value="#{item.tipoContacto.descripcion}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="#{msgs.solicitanteDato}" width="10%">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{item.dato}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{item.dato}" style="width:95%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitanteDatoNotificar}" width="8">
+                                            <h:outputText value="#{item.notificar==true?'Si':'No'}" />
+                                        </p:column>
+                                        <p:column headerText="#{msgs.solicitanteModificar}" style="text-align: center" width="10"
+                                                  rendered="#{formularioModificacionDireccionBean.campoListaDatosContactoBotonModificaRendered}">
+
+                                            <!--<p:rowEditor rendered="# {item.vigente!=false}"/>-->
+                                            <p:rowEditor rendered="#{formularioModificacionDireccionBean.habilitaEdit(item)}"/>
+                                            
+
+                                        </p:column>
+
+
+                                        <!--                                                                                <p:column headerText="# {msgs.solicitanteModificar}" width="7%">                                    
+                                                                                
+                                                                                                                            <p:commandButton update="listaDatosDeContacto" 
+                                                                                                                                             icon="ui-icon-pencil" 
+                                                                                                                                             process="listaDatosDeContacto" 
+                                                                                                                                             onclick="PF('cargaObjeto').show();">
+                                                                                
+                                                                                
+                                                                                                                                <f:setPropertyActionListener value="# {item}" target="# {formularioModificacionDireccionBean.datoscontactoSelect}" />
+                                                                                
+                                                                                
+                                                                                
+                                                                                                                            </p:commandButton>
+                                                                                                                        </p:column>-->
+                                        <p:column headerText="#{msgs.solicitanteEliminar}" style="text-align: center" width="10"
+                                                  rendered="#{formularioModificacionDireccionBean.campoListaDatosContactoBotonEliminaRendered}">
+                                            <p:commandButton update="listaDatosDeContacto" 
+                                                             icon="ui-icon-circle-minus" 
+                                                             action="#{formularioModificacionDireccionBean.eliminaDatoDeContacto()}" 
+                                                             process="listaDatosDeContacto" 
+                                                             disabled="#{formularioModificacionDireccionBean.campoListaDatosContactoBotonEliminaDisable}">                                           
+
+                                                <f:setPropertyActionListener value="#{item}" target="#{formularioModificacionDireccionBean.datoscontactoSelect}" />
+
+                                                <p:confirm header="#{msgs.solicitanteConfirmacionEliminar}" message="#{msgs.solicitanteSeguroEliminarRegistros}" icon="ui-icon-alert" />
+
+                                            </p:commandButton>
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>                                    
+
+                                    </p:dataTable>
+
+                                </div>
+
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton id="adicionaRegistroPersonaEmpresa"
+                                                     value="#{msgs.solicitanteModificar}"
+                                                     disabled="#{formularioModificacionDireccionBean.campoAdicionaRegistroPersonaEmpresaDisable}"
+                                                     actionListener="#{formularioModificacionDireccionBean.guardaContactoTemporalModificacionDireccion()}"
+                                                     update="form,listaDatosDeContacto,mensajeGeneral,panelUno"
+                                                     icon="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </div>
+
+                            </p:fieldset>
+                        </div>
+                    </p:panel>
+                </p:panel>
+                <p:dialog header="#{msgs.solicitanteDatosContacto}" widgetVar="cargaObjeto" resizable="false"
+                          width="950" height="400" closable="false" modal="true" style="text-align: center">
+                    <p:separator id="separador2" style="width: 20px ; border: 0px; height: 0px"></p:separator>
+
+                    <div align="center">
+                        <h:panelGrid columns="3" style="text-align: left">
+                            <h:outputText value="Dato: "/>
+                            <p:separator id="separador6" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+                            <p:inputText id="nroGaceta"  value="hols" 
+                                         maxlength="100" autocomplete="off" 
+                                         style="width: 100%"/>
+                        </h:panelGrid>
+
+                        <p:separator id="separador3" style="width: #{formularioModificacionDireccionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+
+                        <h:panelGrid columns="2" style="text-align: left">
+                            <p:commandButton
+                                id="botonGuardar"
+                                value="Guardar Datos"
+
+                                icon="ui-icon ui-icon-disk"
+                                onclick="PF('registrarCambios').hide();"
+
+                                >
+                                <!--  disabled="# {publicacionBean.linkSeleccionarDisable}"-->
+                            </p:commandButton>
+                            <p:commandButton
+                                value="Volver"
+                                onclick="PF('registrarCambios').hide();"
+                                immediate="true"
+                                icon="ui-icon-arrowreturnthick-1-w">
+
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </div>
+
+                </p:dialog>
+                <p:confirmDialog global="true" showEffect="fade" >
+                    <div align="center">
+                        <h:panelGrid columns="3" style="text-align: left">
+                            <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:separator id="separador4" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                            <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </h:panelGrid>
+                    </div>
+                </p:confirmDialog>
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <!--                            <p:commandButton
+                                                            value="# {msgs.mensajeAnterior}"
+                                                            action="# {formularioModificacionDireccionBean.cancelaIdentificacionSolicitanteGeneral()}"
+                                                            icon="ui-icon-circle-arrow-w"
+                                                            update="mensajeGeneral"
+                                                            ajax="false">
+                                                        </p:commandButton>-->
+                            <h:commandButton
+                                value="#{msgs.mensajeAnterior}"
+                                action="#{formularioModificacionDireccionBean.cancelaIdentificacionSolicitanteGeneral()}"
+
+
+                                >
+                            </h:commandButton>
+                        </p:toolbarGroup>  
+                        <p:toolbarGroup align="right">  
+                            <!--                            <p:commandButton
+                                                            value="# {msgs.mensajeSiguiente}"
+                                                            action="# {formularioModificacionDireccionBean.irIdentificacionRepresentanteGeneralBoton()}"
+                                                            icon="ui-icon-circle-arrow-e"
+                                                            update="mensajeGeneral"
+                                                            ajax="false">
+                                                        </p:commandButton>-->
+                            <h:commandButton
+                                id="botonSiguienteNormal"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{formularioModificacionDireccionBean.swBoton}"
+                                action="#{formularioModificacionDireccionBean.irIdentificacionRepresentanteGeneralBoton()}" >
+                            </h:commandButton>
+                            <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{!formularioModificacionDireccionBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#{formularioModificacionDireccionBean.irIdentificacionRepresentanteGeneralBoton()}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>  
+                    </p:toolbar>  
+                </div>
+            </p:panel> 
+
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>                    

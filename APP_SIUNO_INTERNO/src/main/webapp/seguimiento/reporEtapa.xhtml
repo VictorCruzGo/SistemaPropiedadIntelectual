@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+   
+    <ui:define name="content">
+        <h:form id="formPick"><br></br><br></br>
+        <p:panel header="Trámites Etapas" 
+                 style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelEntregaDocumentos">
+            <div align="center" >
+                
+                    <h:panelGrid columns="14" style="margin: 20px">
+                    <h:outputLabel value="Regional de Notificación:"/>
+                    <p:selectOneMenu id="selectRegional" value="#{reporEtapaGenericoBean.selectRegional}">
+                        <p:ajax  listener="#{reporEtapaGenericoBean.onComboCambia}"   update=":formPick:selectUsuarios" />                    
+                        <f:selectItem itemLabel="Elige Regional" itemValue="#{null}" ></f:selectItem>
+                        <f:selectItems value="#{reporEtapaGenericoBean.listadoRegional}" var="lr" itemLabel="#{lr.tipoCiudadNotificacion.nombre}"
+                                       itemValue="#{lr.tipoCiudadNotificacion.codigo}.#{lr.tipoCiudadNotificacion.nombre}" id="listaRegionales"></f:selectItems>
+                        
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Estado:"/>   
+                    <p:selectOneMenu id="selectTipoDocumento" value="#{reporEtapaGenericoBean.selectEstado}">
+                       <p:ajax  listener="#{reporEtapaGenericoBean.onComboCambia}"   update=":formPick:selectUsuarios" />                                                             
+                        
+                        <f:selectItems value="#{reporEtapaGenericoBean.listadoEtapaTramite}" var="nn" itemLabel="#{nn.rol.nombre}"
+                                       itemValue="#{nn.rol.codigo}.#{nn.rol.nombre}" id="listaEtapaTramites"></f:selectItems>
+                        
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Usuario:"/>   
+                     <p:selectOneMenu id="selectUsuarios" value="#{reporEtapaGenericoBean.usuarioImprime}">
+                        <f:selectItem itemLabel="Todos" itemValue="#{null}" ></f:selectItem>                       
+                        <f:selectItems value="#{reporEtapaGenericoBean.listadoUsuario}" var="us" itemLabel="#{us.usuario.login}"
+                                       itemValue="#{us.usuario.login}" id="listaUsuarios"></f:selectItems>
+                        
+                    </p:selectOneMenu>
+                    <!--h:outputLabel value="Tipo Tramite:"/>   
+                    <p:selectOneMenu id="selectTipoTramite" value="# {reporEtapaGenericoBean.selectTipoTramite}">
+                        
+                        <f:selectItem itemLabel="Elige Tipo Trámite" itemValue="# {null}" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="# {reporEtapaGenericoBean.listadoTipoTramite}" var="tt" itemLabel="# {tt.nombre}"
+                                       itemValue="# {tt.codigo}" id="listaTipoTramite"></f:selectItems>
+                        
+                    </p:selectOneMenu-->
+                    
+                    
+                    <h:outputLabel value="Fecha Inicio"/>
+                    <p:calendar value="#{reporEtapaGenericoBean.fechaInicio}" id="fechaInicio" locale="es" 
+                                navigator="true" pattern="dd/MM/yyyy" size="12" style="border-color: #C00" mindate="24/8/15"/>
+                    
+                    <h:outputLabel value="Fecha Fin:"/>
+                    <p:calendar value="#{reporEtapaGenericoBean.fechaFin}" id="fechaFin" locale="es" 
+                                navigator="true" pattern="dd/MM/yyyy" size="12" style="border-color: #C00"/>
+                    <p:commandButton
+                        value="Buscar"
+                                          
+                        icon="ui-icon-search"
+                        action="#{reporEtapaGenericoBean.buscaTramites}"
+                        update="formPick"
+                    >
+                     <!--f:ajax execute="@form" render="tabla btnImprimir tabla" /-->
+                     
+                     
+                    </p:commandButton>
+                        
+                    <p:commandButton
+                        value="#{msgs.bandejaPrincipalBotonLimpiar}"
+                        ajax="true"                    
+                        update="formPick"
+                        icon="ui-icon-refresh"
+                        action="#{reporEtapaGenericoBean.inicializarValores()}" />
+                    <p:commandButton
+                        value="Imprimir"
+                        icon="ui-icon-print"
+                        disabled="#{reporEtapaGenericoBean.deshabiImprimir}"
+                        action="#{reporEtapaGenericoBean.imprimeReporte()}"
+                        ajax="false"
+                        id="btnImprimir"
+                        />
+                    
+                    </h:panelGrid>
+                <p:dataTable id="tabla" value="#{reporEtapaGenericoBean.listaDatosReporEtapa}" var="dent" liveScroll="true" scrollRows="500"
+                             rowsPerPageTemplate="30,40,50,60,70,80,100"
+                             paginator="true" rows="20" paginatorPosition="bottom"                             
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         
+                             >
+                                
+                    <p:column headerText="Trámite" style="width: 10%;" filterBy="#{dent.tramite}">
+                        <p:outputLabel value="#{dent.tramite}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Marca" style="width: 10%;" filterBy="#{dent.marca}">
+                        <p:outputLabel value="#{dent.marca}"></p:outputLabel>
+                    </p:column>
+                    
+                    <p:column headerText="Fecha Asignación" style="width: 13%" filterBy="#{dent.fechaAsignacion}">
+                        <p:outputLabel value="#{dent.fechaAsignacion}">
+                            <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Fecha Conclusión" style="width: 13%" filterBy="#{dent.fechaConclusion}">
+                        <p:outputLabel value="#{dent.fechaConclusion}">
+                            <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Días entre fechas" style="width: 10%" filterBy="#{(dent.dias)}">
+                        <p:outputLabel value="#{(dent.dias)}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Usuario" style="width: 10%" filterBy="#{(dent.usuario)}">
+                        <p:outputLabel value="#{(dent.usuario)}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Etapa Siguiente" style="width: 10%" filterBy="#{(dent.etapaSiguiente)}">
+                        <p:outputLabel value="#{(dent.etapaSiguiente)}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Usuario Siguiente" style="width: 10%" filterBy="#{(dent.usuarioSiguiente)}">
+                        <p:outputLabel value="#{(dent.usuarioSiguiente)}"></p:outputLabel>
+                    </p:column>
+                </p:dataTable>
+            </div>                
+        </p:panel>
+            </h:form>
+    </ui:define>
+</ui:composition>

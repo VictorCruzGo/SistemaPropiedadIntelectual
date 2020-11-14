@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporExamenFondoAnalisisDenomi_PrimeraImpresion" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="09547035-0121-4a18-83c6-35787b49d044">
+	<property name="ireport.zoom" value="1.7715610000000022"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="registrado" class="java.lang.String"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="visual" class="java.lang.String"/>
+	<field name="fonetica" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="5" width="751" height="10" backcolor="#C0C0C0" uuid="ee8a718f-f1fc-4a22-83f2-a3fa82c919ec"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="6" width="351" height="9" uuid="ce8c446e-b3fe-4418-b4e4-87cbd29c5eb9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[EN CONJUNTO, A PRIMERA VISTA LE PRODUCEN LA MISMA IMPRESIÓN]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="100" height="10" uuid="db8ec123-b903-473c-b0fe-18117abc67b1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Registrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="254" y="0" width="100" height="10" uuid="26e6874b-6cb8-4334-b286-b89010ff174c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="534" y="0" width="100" height="10" uuid="a8796af3-69ec-4e6b-8ec1-56490057abd7"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Visual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="655" y="0" width="77" height="10" uuid="a511f027-c924-4f2a-8bd7-9b60cceab2ec"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fonética]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="7" y="0" width="220" height="12" uuid="7fbebbef-345d-4014-adff-48ea82ffe9b8"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="12" y="2" width="209" height="10" uuid="ca863589-d0e8-4219-9922-8eda6cc0ef4f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registrado}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="5">
+				<reportElement stretchType="RelativeToTallestObject" x="251" y="1" width="220" height="12" uuid="f66b8f1e-76ee-4ed8-801f-5be980821ea0"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="531" y="2" width="100" height="12" uuid="1a51ae43-1558-4e4b-a390-be49086e5c81"/>
+			</rectangle>
+			<rectangle radius="5">
+				<reportElement x="653" y="2" width="100" height="12" uuid="49e8f5ce-0281-4666-9ba2-aca8912b518c"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="257" y="2" width="214" height="10" uuid="a9080f2e-bae3-4050-8163-8615b250680f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="536" y="4" width="83" height="11" uuid="e391c72d-303a-4bcf-81dd-8e91a785e0b1"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{visual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="657" y="4" width="96" height="10" uuid="390fa28f-027e-4d40-ad4b-8710e6e4c7f9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fonetica}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

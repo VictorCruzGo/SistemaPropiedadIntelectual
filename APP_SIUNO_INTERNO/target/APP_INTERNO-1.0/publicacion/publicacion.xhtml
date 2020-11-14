@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+
+        <p:panel header="PUBLICACIONES" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelRegistro">
+            <div align="left">
+                <p:fieldset id="panelToggleable" legend="FORMULARIO PUBLICACION" 
+                            style="height: 100%">
+                    <h:panelGrid  columns="10" cellpadding="1">                            
+                        <p:separator id="separador" style="width: 1px ; border: 0px; height: 0px"></p:separator>
+                    </h:panelGrid>
+                    <h:form id="form">
+                        <div align="center">
+                            <p:growl id="msgs" showDetail="true"  life="3000"/>
+                            <p:dataTable  id="listadoPublicacion"
+                                          var="publicacion" 
+                                          selectionMode="single"
+                                          rowKey="#{publicacion.idPublicacion}"
+                                          value="#{publicacionBean.listaPublicacion}" 
+                                          widgetVar="listaPubli"
+                                          style="width: 87%"
+                                          scrollable="true" scrollHeight="170"
+                                          resizableColumns="true" 
+                                          selection="#{publicacionBean.publicacionSeleccionada}"
+                                          emptyMessage="No se encontraron registros."
+                                          liveScroll="true" scrollRows="20"
+                                          >             
+                                <f:facet name="header">  
+                                    <p:outputPanel>
+                                        <h:outputText value="Listado de Publicacion"/>
+                                    </p:outputPanel>
+                                </f:facet>    
+                                <p:ajax event="rowSelect" listener="#{publicacionBean.onRowSelect}" update=":form:msgs,:form:listadoTramite,:form,:form:botonDevolver,:form:botonPDF" />
+                                <p:ajax event="rowUnselect" listener="#{publicacionBean.onRowUnselect}" update=":form:msgs,:form:botonPDF" />
+                                <!--                                <p:column filterBy="# {publicacion.idPublicacion}" sortBy="# {publicacion.idPublicacion}" headerText="N° Publicacion" width="9%" >  
+                                                                    <h:outputText value="# {publicacion.idPublicacion}" />
+                                                                </p:column>-->
+                                <p:column filterBy="#{publicacion.nroGaceta}" sortBy="#{publicacion.nroGaceta}" headerText="N° Gaceta" width="8%" >  
+                                    <h:outputText value="#{publicacion.nroGaceta}" />
+                                </p:column>
+                                <p:column  filterBy="#{publicacion.estadoPublicacion.descripcion}" sortBy="#{publicacion.estadoPublicacion.descripcion}" headerText="Estado Publicacion" width="11%">  
+                                    <h:outputText value="#{publicacion.estadoPublicacion.descripcion}" />
+                                </p:column>
+                                <p:column  filterBy="#{publicacion.fechaCreacionRegistro}" sortBy="#{publicacion.fechaCreacionRegistro}" headerText="Fecha Creacion" width="12%">  
+                                    <h:outputText value="#{publicacion.fechaCreacionRegistro}" >
+                                        <f:convertDateTime pattern="#{sessionState.formatoFechaHora}"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column  filterBy="#{publicacion.inicioNumeroPublicacion}" sortBy="#{publicacion.inicioNumeroPublicacion}" headerText="N° Incio" width="9%">  
+                                    <h:outputText value="#{publicacion.inicioNumeroPublicacion}" />
+                                </p:column>
+                                <p:column  filterBy="#{publicacion.finNumeroPublicacion}" sortBy="#{publicacion.finNumeroPublicacion}" headerText="N° Fin" width="9%">  
+                                    <h:outputText value="#{publicacion.finNumeroPublicacion}" />
+                                </p:column>
+                                <p:column  filterBy="#{publicacion.observacion}" sortBy="#{publicacion.observacion}" headerText="Observacion" width="15%">  
+                                    <h:outputText value="#{publicacion.observacion}" />
+                                </p:column>
+
+
+                                <!--                                <p:column headerText="Imprimir Documento" width="10%" style="text-align: center">
+                                                                    <p:commandButton  
+                                                                        icon="ui-icon-document" 
+                                                                        title="Imprimir Documento " 
+                                                                        onclick="PF('verDocumento').show();"
+                                                                        actionListener="# {publicacionBean.cargaPublicacion(event, publicacion)}"
+                                                                        update=":form:listadoDocumento,:form:dialogoImpresion"
+                                
+                                                                        > 
+                                                                        <f:ajax execute="@this" event="click"/>
+                                                                    </p:commandButton>
+                                                                </p:column> -->
+                                <p:column headerText="Ver Publicación" width="10%" style="text-align: center">
+                                    <p:commandButton  
+
+                                        icon="ui-icon-document"
+                                        title="Imprimir Documento " 
+                                        onclick="PF('verDocumento').show();"
+                                        actionListener="#{publicacionBean.cargaPublicacion(event, publicacion)}"
+                                        update=":form:listadoDocumento"
+                                        >
+
+                                        <f:ajax execute="@this" event="click"/>
+                                    </p:commandButton> 
+
+                                </p:column>
+
+
+
+                                <p:column headerText="Finalizar Publicación" id="seleccionar" style="width: 8%" >
+                                    <p:commandLink  
+                                        value="Seleccione" 
+                                        onclick="PF('registrarCambios').show();"
+                                        actionListener="#{publicacionBean.cargaPublicacion(event, publicacion)}"
+                                        update=":form:nroGaceta,:form:Observacion,:form:Fecha, :form:Fechaweb, :form:botonGuardar,:form:estado,:form:numeroTramites,:form:botonFinalizar"
+
+                                        >                                                                         
+                                    </p:commandLink>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:spacer height="10" />
+                                </f:facet>  
+                            </p:dataTable>
+
+                        </div>
+
+
+                        <h:panelGrid  columns="10" cellpadding="5">                            
+                            <p:separator id="separador2" style="width: #{publicacionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                        </h:panelGrid>
+
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="Generar"
+                                action="#{publicacionBean.generarPublicacion()}"
+                                ajax ="false"
+                                icon="ui-icon-newwin"
+                                update=":form:listadoPublicacion,;form:listadoTramite,:form:botonDevolver,:form:botonPDF">
+                            </p:commandButton>
+                        </div>
+                        <h:panelGrid  columns="10" cellpadding="5">                            
+                            <p:separator id="separador3" style="width: #{publicacionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                        </h:panelGrid>
+
+                        <div align="center">
+                            <p:growl id="msgs1" showDetail="true" />
+                            <p:dataTable id="listadoTramite" 
+                                         var="tramite" 
+                                         selectionMode="single"
+                                         rowKey="#{tramite.idPublicacionTramite}"
+                                         value="#{publicacionBean.listaPublicacionTramitePorPublicacion}"
+                                         widgetVar="listaTrami"
+                                         style="width: 80%"
+                                         scrollable="true" scrollHeight="170"
+                                         resizableColumns="true" 
+                                         emptyMessage="No se encontraron Registros"                                  
+                                         selection="#{publicacionBean.tramiteSeleccionado}"
+                                         liveScroll="true" scrollRows="20"
+                                         >
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Listado de Tramites Por Publicacion"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column headerText="Codigo Día" width="2%">
+                                    <h:outputText value="#{tramite.tramite.codigoDia}" />
+                                </p:column>
+                                <p:column headerText="Tipo Tramite" width="7%" >
+                                    <h:outputText value="#{tramite.tramite.tipoTramite.descripcion}" />
+                                </p:column>
+                                <p:column filterBy="#{tramite.tramite.tramite}" sortBy="#{tramite.tramite.tramite}" headerText="Tramite" width="4%">
+                                    <h:outputText value="#{tramite.tramite.tramite}" />
+                                </p:column>
+                                <p:column headerText="N° Publicación" width="4%">
+                                    <h:outputText value="#{tramite.numeroPublicacion}" />
+                                </p:column>
+                                <!--                                <p:column headerText="Publicado" width="5%">
+                                                                    <h:outputText value="# {tramite.publicado==true?'Si':'No'}" />
+                                                                </p:column>-->
+                                <p:column headerText="Nombre de: Marca / Patente / Derecho de Autor"  width="12%" >
+                                    <h:outputText value="#{publicacionBean.mostrarMarca(tramite.tramite)}" />
+                                </p:column>
+
+
+                                <p:column headerText="Devolver" style="text-align: center" width="6%"   >
+                                    <p:commandButton  
+                                        id="botonDevolver"
+                                        icon="ui-icon-circle-minus" 
+                                        title="Devolver este Tramite" 
+                                        onclick="PF('dialogo').show();"
+                                        actionListener="#{publicacionBean.cargaTramiteDevolover(event, tramite)}" 
+                                        update=":form:listadoTramite,:form:listadoPublicacion,:form:labelD,:form:botonPDF"
+                                        disabled="#{publicacionBean.botonDevolverDisable}" >
+                                        <f:ajax execute="@this" event="click"/>
+                                    </p:commandButton> 
+
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:spacer height="10" />
+                                </f:facet>
+                            </p:dataTable>
+                            <p:dialog id="dialogo"  resizable="false" closable="false" modal="true" width="340" height="90"
+                                      header="Confirmación Devolver" 
+                                      showEffect="fade"  
+                                      widgetVar="dialogo"
+                                      >
+
+                                <h3>Tramite: <p:outputLabel id="labelD" value="#{publicacionBean.labelDevolver}" ></p:outputLabel></h3>
+                                <p:outputLabel value="Se enviara el tramite a la etapa anterior. ¿Esta seguro de devolverlo?" ></p:outputLabel>
+                                <p:separator id="separador8" style="width: #{publicacionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                                <h:panelGrid columns="3" style="text-align: left">
+                                    <p:commandButton value="Si" 
+                                                     id="botonDevolver"
+                                                     icon="ui-icon-check"
+                                                     update=":form:listadoTramite,msgs,:form:listadoPublicacion,:form:botonPDF,:form:cargaPDF"
+                                                     actionListener="#{publicacionBean.devolverTramite()}" 
+                                                     onclick="PF('dialogo').hide();"
+                                                     >
+                                        <!--                                    <f:ajax execute="@this" event="click"/>-->
+                                    </p:commandButton>
+                                    <p:separator id="separador9" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                    <p:commandButton
+                                        value="No"
+                                        onclick="PF('dialogo').hide();"
+                                        immediate="true"
+                                        icon="ui-icon-closethick">
+
+                                    </p:commandButton>
+                                </h:panelGrid>
+
+
+                            </p:dialog>
+
+                        </div>
+
+
+                        <p:dialog id="dialogoImpresion" header="IMPRESION DE DOCUMENTOS" widgetVar="verDocumento" closable="false" height="260" width="850" resizable="false" showEffect="explode" modal="true" footer="Descargue el documento que necesite imprimir.">
+                            <h:panelGrid  columns="10" cellpadding="5">                            
+                                <p:separator id="separador4" style="width: #{publicacionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                            </h:panelGrid>
+                            <div align="center">
+                                <p:dataTable id="listadoDocumento" 
+                                             var="documento" style="width: 80%"
+                                             scrollable="true" scrollHeight="100"
+                                             resizableColumns="true"                                                  
+                                             rowKey="#{documento.idDocumentoPublicacion}"
+                                             value="#{publicacionBean.listaDocumentoPublicacionPorPublicacion}" 
+                                             widgetVar="listaDocu"
+                                             selectionMode="single" 
+                                             selection="#{publicacionBean.documentoPublicacionSeleccionado}"
+                                             > 
+                                    <f:facet name="header">  
+                                        <p:outputPanel>
+                                            <h:outputText value="Listado de Documentos de Publicacion"/>
+                                        </p:outputPanel>
+                                    </f:facet>  
+                                    <p:column headerText="N° Publicacion" width="3%" >  
+                                        <h:outputText value="#{documento.publicacion.idPublicacion}" />
+                                    </p:column>
+                                    <p:column headerText="Estado Publicacion" width="5%" >  
+                                        <h:outputText value="#{documento.estadoPublicacion.descripcion}" />
+                                    </p:column>
+                                    <p:column headerText="N° Documento" width="5%" >  
+                                        <h:outputText value="#{documento.idDocumentoPublicacion}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre Documento" width="10%" >  
+                                        <h:outputText value="#{documento.nombreArchivo}" />
+                                    </p:column>
+
+                                    <p:column headerText="Descargar" width="4%" style="text-align: center">
+                                        <p:commandButton  
+                                            icon="ui-icon-print" 
+                                            title="Descargar este documento"  ajax="false"
+                                            actionListener="#{publicacionBean.guardar(actionEvent, documento)}"
+                                            >
+                                            <p:fileDownload value="#{publicacionBean.archivoRescatado}" />
+                                            <!--                                            <f:ajax execute="@this" event="click"/>-->
+                                        </p:commandButton>   
+
+                                    </p:column> 
+                                    <f:facet name="footer">
+                                        <p:spacer height="10" />
+                                    </f:facet>
+                                </p:dataTable>
+                            </div>
+                            <h:panelGrid  columns="10" cellpadding="5">                            
+                                <p:separator id="separador10" style="width: #{publicacionBean.valorSeparador}px ; border: 0px; height: 0px"></p:separator>
+                            </h:panelGrid>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:commandButton
+                                    value="Volver"
+                                    onclick="PF('verDocumento').hide();"
+                                    icon="ui-icon-arrowreturnthick-1-w"
+                                    action ="#{publicacionBean.reset()}"
+                                    update=":form:listadoPublicacion, :form:botonPDF,:form:cargaPDF"
+                                    >
+                                </p:commandButton>
+                            </div>
+                        </p:dialog>  
+
+                        <p:dialog id="dialogoRegistro" header="ACTUALIZAR DATOS DE PUBLICACION" widgetVar="registrarCambios" closable="false" height="260" width="620" resizable="false" showEffect="fade" modal="true" footer="Cambie el estado de la Publicación a: Enviado o Publicado.">
+
+                            <p:separator id="separador5" style="width: 0px ; border: 0px; height: 1px"></p:separator>
+
+                            <div align="center">
+                                <p:panel  style="width: 90%">
+                                    <h:panelGrid columns="2" style="width: 60%">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="Número de Gaceta" />  
+                                            <h:outputLabel value="" style="color: #C00"/> 
+                                        </h:panelGrid>
+                                        <p:inputText id="nroGaceta"  value="#{publicacionBean.publicacion.nroGaceta}" 
+                                                     onkeyup="return ValNumero(this);" maxlength="11" autocomplete="off" 
+                                                     style="#{publicacionBean.cambiaBordeCampoNumero==true?'border-color: #C00':' '};width: 60%"/>
+
+                                        <h:panelGrid columns="2" style="text-align: left" >
+                                            <h:outputLabel value="Estado Publicación" />  
+                                            <h:outputLabel value="" style="color: #C00"/> 
+                                        </h:panelGrid>
+                                        <p:selectOneMenu id="estado"  value="#{publicacionBean.estado}"  
+                                                         style="#{publicacionBean.cambiaBordeCampoEstado==true?'border-color: #C00':' '};width: 60%"
+                                                         >  
+                                            <!--  valueChangeListener="# {publicacionBean.activaCombos}"-->
+                                            <f:selectItem   id="estadoselect" itemLabel="#{msgs.solicitanteElegir}" itemValue="#{publicacionBean.estadoDialogo}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{publicacionBean.listadoEstadoPublicacion}" 
+                                                           var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update=":form:estado" listener="#{publicacionBean.activaCombo(e)}" />
+                                        </p:selectOneMenu>
+
+                                        <h:panelGrid columns="2" style="width: 50%">
+                                            <h:outputLabel value="Observación" />  
+                                            <h:outputLabel value="" style="color: #C00"/> 
+                                        </h:panelGrid>
+                                        <p:inputText id="Observacion"  style="width: 150%" maxlength="200" value="#{publicacionBean.publicacion.observacion}" />
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel id="fecha" value="Fecha Publicación Gaceta" />
+                                            <h:outputLabel value="" style="color: #C00"/> 
+                                        </h:panelGrid>
+                                        <p:calendar id="Fecha" 
+                                                    value="#{publicacionBean.publicacion.fechaPublicacionGaceta}" 
+                                                    style="#{publicacionBean.cambiaBordeCampoFecha==true?'border-color: #C00':' '}; width: 60%"
+                                                    locale="es" 
+                                                    navigator="true" 
+                                                    pattern="dd/MM/yyyy" 
+                                                    size="15" 
+                                                    >
+                                        </p:calendar>
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel id="fechaweb" value="Fecha Publicación Web" />
+                                            <h:outputLabel value="" style="color: #C00"/> 
+                                        </h:panelGrid>
+                                        <p:calendar id="Fechaweb" 
+                                                    value="#{publicacionBean.publicacion.fechaPublicacionWeb}" 
+                                                    style="#{publicacionBean.cambiaBordeCampoFecha==true?'border-color: #C00':' '}; width: 60%"
+                                                    locale="es" 
+                                                    navigator="true" 
+                                                    pattern="dd/MM/yyyy" 
+                                                    size="15" 
+                                                    />
+
+
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel id="cantidad" value="Cantidad Tramites" />
+                                            <h:outputLabel value="" style="color: #C00"/> 
+                                        </h:panelGrid>
+                                        <p:inputText id="numeroTramites"  style="width: 40%" value="#{publicacionBean.cantidad}" disabled="true"/>
+                                    </h:panelGrid>
+
+                                    <p:separator id="separador15" style="width: 0px ; border: 0px; height: 5px"></p:separator>
+
+                                    <div align="center">
+                                        <h:panelGrid columns="3" style="text-align: left">
+                                            <p:commandButton
+                                                id="botonGuardar"
+                                                value="Guardar Datos"
+                                                action="#{publicacionBean.registrarOtrosDatos()}"
+                                                icon="ui-icon ui-icon-disk"
+                                                onclick="PF('registrarCambios').hide();"
+                                                update=":form:listadoPublicacion,:form:msgs,:form:listadoTramite,:form:nroGaceta,:form:Fecha, :form:Fechaweb, :form:estado2,:form:botonDevolver,:form:cargaPDF,:form:botonPDF"
+                                                disabled="#{publicacionBean.botonFinalizarDisable}" >
+                                                <!--  disabled="# {publicacionBean.linkSeleccionarDisable}"-->
+                                            </p:commandButton>
+                                            <p:commandButton
+                                                id="botonFinalizar"
+                                                value="Finalizar"
+                                                action="#{publicacionBean.finalizarPublicacion()}"
+                                                icon="ui-icon-circle-triangle-e"
+                                                onclick="PF('registrarCambios').hide();"
+                                                update=":form:listadoPublicacion,:form:msgs,:form:listadoTramite,:form:nroGaceta,:form:Fecha, :form:Fechaweb, :form:estado2,:form:botonDevolver,:form:cargaPDF,:form:botonPDF"
+                                                disabled="#{publicacionBean.botonFinalizarDisable}" >
+                                                <p:confirm header="Confirmación Finalizar - Verifique los datos" message="Se dará por concluida la Publicación con los datos actuales, no podrá realizar modificaciones posteriores. ¿Esta seguro de completar la acccion?" icon="ui-icon-alert" >
+                                                </p:confirm>
+                                                <!--  disabled="# {publicacionBean.linkSeleccionarDisable}"-->
+                                            </p:commandButton>
+
+                                            <p:commandButton
+                                                value="Volver"
+                                                onclick="PF('registrarCambios').hide();"
+                                                immediate="true"
+                                                icon="ui-icon-arrowreturnthick-1-w">
+                                            </p:commandButton>
+                                        </h:panelGrid>
+                                        <p:confirmDialog global="true" showEffect="fade" closable="false" style="text-align: center; font-weight: bold; color: #045491" >
+                                            <div align="center">
+
+                                                <h:panelGrid columns="3" style="text-align: left">
+                                                    <p:commandButton value="#{msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                    <p:separator id="separador20" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                                    <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                </h:panelGrid>
+                                            </div>
+                                        </p:confirmDialog>
+                                    </div>
+                                    <h4><h:outputLabel value=" *  " style="color: #C00"/> <p:outputLabel id="labelA" value=" No podrá volver al Estado Prepublicado" ></p:outputLabel></h4>
+
+                                </p:panel></div>
+
+                        </p:dialog>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="3" style="text-align: center">
+                                <!--                                <p:commandButton
+                                                                    id="botonAsignar"
+                                                                    value="Asignar N° Publicación"
+                                                                    ajax="false"
+                                                                    icon="ui-icon-circle-check"
+                                                                    disabled="# {publicacionBean.botonAsignardisable}"
+                                                                    action ="# {publicacionBean.asinarNumeroPublicacion()}"
+                                                                    update="listadoTramite,listadoPublicacion"
+                                                                    >
+                                
+                                                                </p:commandButton>-->
+
+                                <p:commandButton
+                                    id="botonPDF"
+                                    value="Imprimir Gaceta"
+                                    ajax="false"
+                                    icon="ui-icon-document"
+                                    disabled="#{publicacionBean.botonCargaPDFDisable}"
+                                    action="#{publicacionBean.botonPDF()}"
+                                    >
+                                </p:commandButton>
+
+                                <p:commandButton 
+                                    id="cargaPDF" value="Cargar Publicación" 
+                                    type="button" 
+                                    disabled="#{publicacionBean.botonCargaPDFDisable}"
+                                    onclick="PF('cargaImagen').show()" 
+                                    icon="ui-icon-image" style="width: 100%"
+                                    />
+                            </h:panelGrid>
+                        </div>
+
+                        <p:dialog id="dialogoPDF" header="#{publicacionBean.labelNumero}" widgetVar="cargaImagen" closable="false" 
+                                  height="30%" width="32%" resizable="false"  modal="true" 
+                                  footer="Por favor espere a que el documento se cargue.">
+                            <div align="center" style="padding:1em 2.2em;">
+                                <si.componentes:informacion  dimension="100%" mensaje="#{msgs.digitalizacionDocumentosUsuarioSeleccionarDialogoComponente}"/>
+                                <h3>#{msgs.pestaniaTresElegirArchivo}</h3>
+
+
+                                <p:fileUpload fileUploadListener="#{publicacionBean.procesoDeAdjuntarArchivo}"
+                                              mode="advanced"
+                                              label="#{msgs.digitalizacionDocumentosUsuarioSeleccionarDialogoExaminar}" 
+                                              cancelLabel="#{msgs.digitalizacionDocumentosUsuarioSeleccionarDialogoCancelar}"
+                                              invalidSizeMessage="#{msgs.digitalizacionDocumentosUsuarioSeleccionarDialogoSize}" auto="true"
+                                              invalidFileMessage="#{msgs.digitalizacionDocumentosUsuarioSeleccionarDialogoFile}"
+                                              allowTypes="/(\.|\/)(pdf)$/" />  
+                            </div>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <h:panelGrid columns="3" style="text-align: left">
+                                    <h:outputLabel value=" Estado Publicacion: " style="width: 200%"/>  
+                                    <p:separator id="separador13" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                    <p:selectOneMenu id="estado2"  value="#{publicacionBean.estadoDocumento}"  
+                                                     style=" width: 140%">  
+                                        <f:selectItems value="#{publicacionBean.listadoEstadoPublicacionCarga}" 
+                                                       var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+                                        <p:ajax event="change" update=":form:estado2" listener="#{publicacionBean.activaComboDocumento(e)}" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                            </div>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:commandButton value="#{msgs.digitalizacionDocumentosUsuarioSeleccionarDialogoAdicionar}" icon="ui-icon-arrowthick-1-n"
+                                                 action="#{publicacionBean.guardaDocumentoPublicacion()}"
+                                                 update=":form:msgs,:form:botonDevolver,:form:listadoPublicacion,:form:cargaPDF,:form:botonPDF"
+                                                 onclick="PF('cargaImagen').hide()" 
+                                                 />
+                                <p:commandButton
+                                    id="cancelarCarga"
+                                    value="#{msgs.pestaniaTresCancelar}"
+
+                                    update="form"
+                                    onclick="PF('cargaImagen').hide();"
+                                    icon="ui-icon-arrowreturnthick-1-w"/><!--action ="# {publicacionBean.reset()}"-->
+                            </div>
+                        </p:dialog>
+
+                    </h:form>
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+                    </p:dialog>
+                </p:fieldset>
+            </div>
+        </p:panel>
+        <div align="center" style="padding:1em 2.2em;">
+            <!--            <h:form id="paraDerivar">
+                                    
+                            <p:commandButton
+                                value="Derivar"
+                                action="# {publicacionBean.derivarPublicacionSiguienteEtapa()}"
+                                ajax="false"
+                                icon="ui-icon-circle-triangle-e">
+                            </p:commandButton>
+            
+                        </h:form>-->
+        </div>
+    </ui:define>
+</ui:composition>                    

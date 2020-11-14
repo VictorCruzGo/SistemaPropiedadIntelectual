@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+
+        <p:panel header="#{msgs.headerHistorial}" style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden" id="panelRegistro">
+            <div align="left">
+                <p:fieldset id="panelToggleable" legend="#{historialBean.tramite.tramite}" 
+                            style="height: 100%">
+                    <h:panelGrid  columns="10" cellpadding="1">                            
+                        <p:separator id="separador" style="width: 1px ; border: 0px; height: 0px"></p:separator>
+                    </h:panelGrid>
+                    <h:form id="form">
+                        <div align="center">
+                            <p:growl id="msgs" showDetail="true" />
+                        </div>
+
+                        <h:panelGrid  columns="10" cellpadding="5">                            
+                            <p:separator id="separador2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                        </h:panelGrid>
+
+                        <div align="center">
+                            <p:growl id="msgs1" showDetail="true" />
+                            <p:dataTable id="listadoTramite" liveScroll="true" scrollRows="20"
+                                         value="#{historialBean.listadoHistorialTramitePorTramite}" 
+                                         var="historial" 
+                                         style="width: 50%"
+                                         scrollable="true" scrollHeight="320"
+                                         resizableColumns="true" 
+                                         emptyMessage="#{msgs.listaVacia}"  >
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="#{msgs.tituloTabla}"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column headerText="#{msgs.columnaEtapa}" width="16%">
+                                    <h:outputText value="#{historial.descripcionEtapa}"  />
+                                </p:column>
+                                <p:column headerText="#{msgs.columnaFecha}" width="16%">
+
+                                    <h:outputText value="#{historial.fechaAsignacion}">
+                                        <f:convertDateTime pattern="#{sessionState.formatoFechaHora}"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="#{msgs.columnaEstado}" width="16%">
+                                    <h:outputText value="#{historial.descripcionEstado}" >
+                                    </h:outputText>
+                                </p:column>
+                                
+
+<!--                                <p:column headerText="Observacion"  width="15%" >
+                                    <h:outputText value="" />
+                                </p:column>-->
+                                <f:facet name="footer">
+                                    <p:spacer height="10" />
+                                </f:facet>
+                            </p:dataTable>
+                        </div>
+                        <h:panelGrid  columns="10" cellpadding="5">                            
+                            <p:separator id="separador3" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                        </h:panelGrid>
+                        
+
+                        <div align="center" style="padding:1em 2.2em;">
+                            <h:panelGrid columns="3" style="text-align: center">
+                                <p:commandButton
+                                    value="#{msgs.regresarBandeja}"
+                                    ajax="false"
+                                    action="#{historialBean.volverBandeja()}"
+                                    icon="ui-icon-arrowreturnthick-1-w"
+                                    />
+
+                                <!--                                <div align="center" style="padding:1em 2.2em;">
+                                                                    <p:commandButton
+                                                                        value="Generar"
+                                                                        
+                                                                        ajax ="false"
+                                                                        icon="ui-icon-newwin"
+                                                                        >
+                                                                    </p:commandButton>
+                                                                </div>-->
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+                </p:fieldset>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>                    

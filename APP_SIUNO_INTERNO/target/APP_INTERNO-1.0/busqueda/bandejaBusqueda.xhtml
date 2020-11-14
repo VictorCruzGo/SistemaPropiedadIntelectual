@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+
+
+        <h:form id="form">  
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <div align="center" style="padding:1em 2.2em;">
+                <h:panelGrid columns="16">
+
+                    <p:outputLabel value="Codigo: "/>
+                    <p:inputText value="#{bandejaBusquedaBean.codigoSM}" />
+
+                    <p:outputLabel value="Marca: "/>
+                    <p:inputText value="#{bandejaBusquedaBean.marca}" />
+
+                    <p:outputLabel value="Clase: "/>
+                    <p:inputText value="#{bandejaBusquedaBean.claseNiza}" />
+
+                    <p:outputLabel value="Solicitante: "/>
+                    <p:inputText value="#{bandejaBusquedaBean.solicitante}" />
+
+                    <p:outputLabel value="Apoderado: "/>
+                    <p:inputText value="#{bandejaBusquedaBean.apoderado}" />
+                    <p:commandButton
+                        value="Buscar"
+                        icon="ui-icon-search"
+                        actionListener="#{bandejaBusquedaBean.busquedaCriterios}"
+                        update=":form"
+                        >
+                    </p:commandButton>
+                    <p:commandButton
+                        value="Limpiar"
+                        icon="ui-icon-arrowrefresh-1-e"
+                        actionListener="#{bandejaBusquedaBean.limpiaValores}"
+                        update=":form"
+                        >
+                    </p:commandButton>
+                </h:panelGrid>
+                <p:outputLabel value="Registros Encontrados: "/>
+                <p:outputLabel value="#{bandejaBusquedaBean.numeroRegistrosEncontrados}" />
+            </div>
+
+
+            <div align="center" style="padding:1em 2.2em;">
+                <p:dataTable var="lista" liveScroll="true" scrollRows="10000"
+                             id="tramiteWebList"
+                             value="#{bandejaBusquedaBean.listaBusquedaMarcas}" 
+                             widgetVar="tramiteList"
+                             scrollable="true" 
+                             scrollHeight="300"
+                             style="width: 90%"
+                             selection="#{bandejaBusquedaBean.tramiteSeleccionado}"
+                             emptyMessage="No existen registros de Solicitudes">
+                    <f:facet name="header">
+                        LISTA DE TRAMITES
+                    </f:facet>
+
+                    <p:column style="width: 6%">
+                        <!-- column header -->
+                        <f:facet name="header">No.</f:facet>
+                        <!-- row record -->
+                        #{bandejaBusquedaBean.correlativoTabla(lista.idTramite)}
+                    </p:column>
+
+                    <p:column style="width: 12%">
+                        <!-- column header -->
+                        <f:facet name="header">Codigo</f:facet>
+                        <!-- row record -->
+                        #{lista.codigoSM}
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Marca</f:facet>
+                            #{lista.marca}
+                    </p:column>
+
+                    <p:column style="width: 8%">
+                        <f:facet name="header">Clase</f:facet>
+                            #{lista.clase}
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Solicitante</f:facet>
+                            #{lista.solicitante}
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Apoderado</f:facet>
+                            #{lista.apoderado}
+                    </p:column>
+                    <p:column style=" width: 8%">
+                        <f:facet name="header">Selecc.</f:facet>
+                        <p:commandButton 
+                            id="idVer"
+                            icon="ui-icon-pencil" 
+                            action="#{bandejaBusquedaBean.irImpresionBusqueda(lista.idTramite)}"
+                            ajax="false"
+                            />                                                                      
+
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+
+
+        </h:form>
+
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+
+
+    </ui:define>
+</ui:composition>

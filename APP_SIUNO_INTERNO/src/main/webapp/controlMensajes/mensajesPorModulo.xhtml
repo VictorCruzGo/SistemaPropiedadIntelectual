@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}">
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="Administrador de Mensajes" style="text-align: center;width: 99.5%;height: 99%; overflow-y:auto ; overflow-x: auto;border-style: hidden" styleClass="colorLabelSenapi">
+                <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+                <div align="center" style="padding:1.0em 1.0em;">
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Codigo Modulo:"/>
+                        <p:inputText value="#{mensajeAplicacionBean.modulo.codigoModulo}"/>
+                        <p:outputLabel value="Descripcion:"/>
+                        <p:inputText value="#{mensajeAplicacionBean.modulo.descripcion}"/>
+                    </h:panelGrid>
+                    <div align="center" style="padding:1.0em 1.0em;">
+                        <p:commandButton id="adicionaMensajeBoton"
+                                         process="mensajesLista" 
+                                         icon="ui-icon-disk" 
+                                         update=":form:panelModuloDialogo"
+                                         action="#{mensajeAplicacionBean.muestraDialogo()}"
+                                         value="Adicionar Mensaje" 
+                                         oncomplete="PF('moduloDialog').show()" />
+                    </div>
+                    <p:dataTable id="mensajesLista" var="mensaje" 
+                                 value="#{mensajeAplicacionBean.mensajeAplicacionLista}" 
+                                 selectionMode="single" 
+                                 selection="#{mensajeAplicacionBean.mensajeAplicacionSeleccion}" 
+                                 rowKey="#{mensaje.idMensajeAplicacion}"
+                                 scrollable="true" 
+                                 scrollHeight="200">
+                        <f:facet name="header">
+                            Listas de Mensajes
+                        </f:facet>
+                        <p:column headerText="Orden">
+                            <h:outputText value="#{mensaje.orden}" />
+                        </p:column>
+                        <p:column headerText="Mensaje">
+                            <h:outputText value="#{mensaje.descripcion}" />
+                        </p:column>
+                        <f:facet name="footer">
+
+                        </f:facet>
+                    </p:dataTable>
+                    <p:inputTextarea id="scriptGenerado" value="#{mensajeAplicacionBean.scriptGenerado}" style="width: 600px"/>
+                </div>
+
+                <p:dialog header="MENSAJE" widgetVar="moduloDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="panelModuloDialogo" style="text-align:center;">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Elegir Idioma:"/>
+                            <p:selectOneMenu id="idioma" 
+                                             value="#{mensajeAplicacionBean.mensajeAplicacion.idioma}">
+                                <f:selectItem   itemLabel="Español" itemValue="ES"/>
+                                <f:selectItem   itemLabel="Ingles" itemValue="EN"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:inputTextarea value="#{mensajeAplicacionBean.mensajeAplicacion.descripcion}" style="width: 600px"/>
+                    </p:outputPanel>
+                    <div align="center" style="padding:1.0em 1.0em;">
+                        <p:commandButton
+                            id="adicionaMensaje"
+                            value="ADICIONA MENSAJE"
+                            action="#{mensajeAplicacionBean.adicionaMensajePorModulo()}"
+                            ajax="false"
+                            update="moduloLista,scriptGenerado"
+                            icon="ui-icon-disk">
+                        </p:commandButton>  
+                    </div>
+                </p:dialog>
+                <p:commandButton
+                    value="Volver Modulo"
+                    action="#{mensajeAplicacionBean.retornarModulo()}"
+                    ajax="false"
+                    icon="ui-icon-arrowthick-1-w">
+                </p:commandButton>  
+
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

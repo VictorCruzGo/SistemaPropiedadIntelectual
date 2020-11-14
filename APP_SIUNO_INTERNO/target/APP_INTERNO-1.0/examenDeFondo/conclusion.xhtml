@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplateB}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <div id="componenteDatosGenerales" style="padding:0.5em 0em;">
+            <si.componentes:datosGeneralesExpediente tramite="#{conclusionBean.tramite}" listaTramiteSolicitado="#{conclusionBean.listaTramiteSolicitado}" listaTramitesElegidos="#{conclusionBean.listaTramitesImagenes}"/>
+        </div>     
+        <div id="componenteNavegacional">
+            <si.componentes:menuBotonesWizardExamenDeFondo numeroDeBotonActivado="7" tramite="#{conclusionBean.tramite}" />
+        </div>
+        <p:panel style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+            <h:form id="form">                                 
+                <div style="padding:0.5em 0em;">
+                    <p:dataTable id="observaciones" var="pojo" value="#{conclusionBean.listaExamenDeFondo}" style="width: 100%" emptyMessage="No Existen Registros">                                                                        
+                        <p:column style="border-style: hidden;text-align: left" headerText="#{pojo.examenDeFondoPojo1.texto.pestania}" width="20%">          
+                            <h:outputText style="font-weight: bold" value="#{pojo.examenDeFondoPojo1.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH1' ? 'true':'false'}"/>                                                                                                                                                
+                            <h:outputText style="font-weight: bold" value="#{pojo.examenDeFondoPojo1.texto.nombreElemento}" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH6' ? 'true':'false'}"/>                                                                                                            
+                        </p:column>                                                                
+                        <p:column style="text-align: left; border-style: hidden"  headerText="#{pojo.examenDeFondoPojo1.texto.pestania}" width="80%">          
+                            <h:inputText id="cajaDeTexto" value="#{pojo.examenDeFondoPojo1.texto.respuesta}" style="width: 70%" rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH1' ? 'true':'false'}" />                                                                    
+                            <p:inputTextarea id="areaDeTexto" value="#{pojo.examenDeFondoPojo1.texto.respuesta}" style="width: 70%"  rendered="#{pojo.examenDeFondoPojo1.texto.tipoElemento.codigo == 'TEH6' ? 'true':'false'}" />                                                                    
+                        </p:column>
+                    </p:dataTable>        
+                </div>
+                <div align="center" style="padding:1em 0em;">
+                    <p:panel id="panelMenuNotificacion" >
+                        <h:panelGrid columns="9">
+                            <!--                            <p:commandButton value="Generar Decreto"  id="btnGenerarDecreto" onclick="PF('ppGenerarDecreto').show()"
+                                                                         icon="ui-icon-arrowthickstop-1-s"
+                                                                         actionListener="# {conclusionBean.generarDecreto()}"
+                                                                         update=":formDialog:descripcion"/>-->
+                            <!--                            <p:commandButton value="Generar Decreto con Observaciones"  id="btnGenerarDecreto" onclick="PF('ppGenerarDecreto').show()"
+                                                                         icon="ui-icon-arrowthickstop-1-s"
+                                                                         actionListener="# {conclusionBean.generarDecreto()}"
+                                                                         update=":formDialog:descripcion"/>-->
+                            <p:commandButton value="Generar Decreto sin Observaciones"  id="btnGenerarDecretoSin" onclick="PF('ppGenerarDecretoSin').show()"
+                                             icon="ui-icon-print"
+                                             actionListener="#{conclusionBean.generarDecretoSinObservacion()}"
+                                             update=":formDialogSin:descripcionSin"/>
+
+                            <p:commandButton value="Digitalizar Documentos" action="#{conclusionBean.abrirBandejaDigitalizacion()}"
+                                             icon="ui-icon-folder-open
+                                             "/>
+
+                            <!--                            <p:commandButton value="Notificar" action="# {conclusionBean.abrirPaginaNotificacion()}">
+                                                            <p:confirm header="Confirmacion Notificar" message="Se creara una tarea de Notificacion, ¿esta seguro de completar la acccion?" icon="ui-icon-alert"/>
+                                                        </p:commandButton>-->
+                            <p:commandButton value="Notificar" onclick="PF('dialogoNotificar').show();" title="Notificar este Tramite" icon="ui-icon-suitcase
+                                             ">
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton> 
+
+                            <p:dialog id="dialogoNotificar"  resizable="false" closable="false" modal="true" width="340" height="90"
+                                      header="Confirmación Notificación" 
+                                      showEffect="fade"  
+                                      widgetVar="dialogoNotificar"
+                                      >
+                                <p:outputLabel value="Se creará una tarea de Notificación,  ¿esta seguro de completar la acccion?" ></p:outputLabel>
+
+                                <div align="center">
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="Si" 
+                                                         id="botonDevolver"
+                                                         icon="ui-icon-check"
+                                                         action="#{conclusionBean.abrirPaginaNotificacion()}"
+                                                         onclick="PF('dialogo').hide();"
+                                                         >
+                                        </p:commandButton>
+                                        <p:separator id="separador9" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton
+                                            value="No"
+                                            onclick="PF('dialogo').hide();"
+                                            immediate="true"
+                                            icon="ui-icon-closethick">
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </div>
+
+
+                            </p:dialog>
+
+
+                            <p:selectBooleanCheckbox value="#{conclusionBean.observacionUsuario}"  id="observacionUsuario"
+                                                     disabled="#{!conclusionBean.paraNotificacion}">                                                                            
+                            </p:selectBooleanCheckbox>
+                            <h:outputLabel value="Observación Usuario"/>
+                        </h:panelGrid>    
+
+
+
+
+                        <!--                        <p:confirmDialog global="true" showEffect="fade" >
+                                                    <div align="center">
+                                                        <h:panelGrid columns="3" style="text-align: left">
+                                                            <p:commandButton value="# {msgs.solicitanteSiAcepta}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                            <p:separator id="separador9" style="width: 5px ; border: 0px; height: 0px"></p:separator>
+                                                            <p:commandButton value="# {msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                        </h:panelGrid>
+                                                    </div>
+                                                </p:confirmDialog>-->
+
+
+                    </p:panel>
+
+                    <!--                    <h:panelGrid columns="4">                                
+                                            <p:selectBooleanCheckbox value="# {conclusionBean.paraNotificacion}">                                        
+                                                <p:ajax event="change" update="observacionUsuario" />        
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputLabel value="Para Notificación"/>
+                                            <p:selectBooleanCheckbox value="# {conclusionBean.observacionUsuario}" disabled="#{!conclusionBean.paraNotificacion}" id="observacionUsuario">                                                                            
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputLabel value="Observación Usuario"/>
+                                        </h:panelGrid>-->
+                </div>                
+                <!--                <p:commandButton ajax="false" value="Imprimir Decreto"/>
+                                <div align="center">
+                                    <p:editor id="editor" widgetVar="editorWidget" value="# {conclusionBean.decreto}" width="600" />                                        
+                                </div>-->
+                <p:commandButton action="#{conclusionBean.atras()}" ajax="false" value="Atrás" icon="ui-icon-arrowreturnthick-1-w"/>
+                <p:commandButton action="#{conclusionBean.observar()}" ajax="false" value="Observar Trámite"/>                    
+                <p:commandButton action="#{conclusionBean.conceder()}" ajax="false" value="Aprobar" icon="ui-icon-circle-triangle-e"/>
+                <p:commandButton action="#{conclusionBean.denegar()}" ajax="false" value="Denegar" icon="ui-icon-circle-triangle-e"/>                        
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                    <div align="center" style="padding:1em 2.2em;">
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </h:panelGrid>
+                    </div>
+                </p:confirmDialog>
+            </h:form>
+        </p:panel>
+        <h:form id="formDialog">
+            <p:dialog header="IMPRESIÓN DECRETO" widgetVar="ppGenerarDecreto" resizable="false" closable="false" modal="true"
+                      width="70%" height="30%" showEffect="fade" style="text-align: center">
+                <div align="center">
+                    <h:panelGrid columns="1">
+                        <p:inputTextarea id="descripcion"  rows="8" cols="150" style="height: 100px; overflow:auto;"
+                                         counterTemplate="{0}  #{msgs.pestaniaTresCaracteresRestantes}"
+                                         autoResize="true" 
+                                         value="#{conclusionBean.textoNotificacion}"
+                                         />
+                    </h:panelGrid>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        value="Imprimir Decreto"
+                        icon="ui-icon-print"
+                        action = "#{conclusionBean.imprimirDecreto()}"
+                        ajax="false"
+                        >
+                    </p:commandButton>
+                    <p:commandButton
+                        value="Volver"
+                        onclick="PF('ppGenerarDecreto').hide();"
+                        icon="ui-icon-arrowreturnthick-1-w"/>
+                </div>
+            </p:dialog>  
+        </h:form>
+        <h:form id="formDialogSin">
+            <p:dialog header="IMPRESION DECRETO" widgetVar="ppGenerarDecretoSin" resizable="false" closable="false" modal="true"
+                      width="70%" height="30%" showEffect="fade" style="text-align: center">
+                <!--                <div align="center" style="padding:1em 2.2em;">
+                                    <si.componentes:informacion  dimension="100%" mensaje="Se debe tomar en cuenta que al realizar la seleccion del botón Imprimir Decreto se asigna un numero de Decreto."/>
+                                </div>-->
+                <div align="center">
+                    <h:panelGrid columns="1">
+                        <p:inputTextarea id="descripcionSin"  rows="8" cols="150" style="height: 100px; width: 100%;overflow:auto;"
+                                         counterTemplate="{0}  #{msgs.pestaniaTresCaracteresRestantes}"
+                                         autoResize="false"
+                                         value="#{conclusionBean.textoNotificacion}"
+                                         />
+                    </h:panelGrid>
+                </div>
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:commandButton
+                        value="Imprimir Decreto"
+                        icon="ui-icon-print"
+                        action = "#{conclusionBean.imprimirDecretoSinObs()}"
+                        ajax="false"
+                        >
+                    </p:commandButton>
+                    <p:commandButton
+                        value="Volver"
+                        onclick="PF('ppGenerarDecretoSin').hide();"
+                        icon="ui-icon-arrowreturnthick-1-w"/>
+                </div>
+            </p:dialog>  
+        </h:form>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage  value="/resources/images/ajaxloadingbar.gif" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

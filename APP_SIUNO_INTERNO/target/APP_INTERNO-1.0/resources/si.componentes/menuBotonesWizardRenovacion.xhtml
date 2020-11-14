@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <composite:interface>
+        <composite:attribute name="renderPestaniaUno" type="java.lang.Boolean"/>
+        <composite:attribute name="renderPestaniaDos" type="java.lang.Boolean"/>
+        <composite:attribute name="renderPestaniaTres" type="java.lang.Boolean"/>
+        <composite:attribute name="renderPestaniaCuatro" type="java.lang.Boolean"/>
+        <composite:attribute name="renderPestaniaCinco" type="java.lang.Boolean"/>
+        <composite:attribute name="renderPestaniaSeis" type="java.lang.Boolean"/>
+        <composite:attribute name="disablePestaniaUno" type="java.lang.Boolean"/>
+        <composite:attribute name="disablePestaniaDos" type="java.lang.Boolean"/>
+        <composite:attribute name="disablePestaniaTres" type="java.lang.Boolean"/>
+        <composite:attribute name="disablePestaniaCuatro" type="java.lang.Boolean"/>
+        <composite:attribute name="disablePestaniaCinco" type="java.lang.Boolean"/>
+        <composite:attribute name="disablePestaniaSeis" type="java.lang.Boolean"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <div align="left">
+            <h:panelGrid columns="6" style="width: 90%">
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatSol}" 
+                                 style="width: 100%;height: 35px;#{!cc.attrs.disablePestaniaUno?'background: #3DABE3':''} ;#{!cc.attrs.disablePestaniaUno?'color: #FFFFFF':''}" 
+                                 disabled="#{cc.attrs.disablePestaniaUno}" 
+                                 rendered="#{cc.attrs.renderPestaniaUno}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatRep}" 
+                                 style="width: 100%;height: 35px;#{!cc.attrs.disablePestaniaDos?'background: #3DABE3':''} ;#{!cc.attrs.disablePestaniaDos?'color: #FFFFFF':''}" 
+                                 disabled="#{cc.attrs.disablePestaniaDos}"
+                                 rendered="#{cc.attrs.renderPestaniaDos}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatSigDis}" 
+                                 style="width: 100%;height: 35px;#{!cc.attrs.disablePestaniaTres?'background: #3DABE3':''} ;#{!cc.attrs.disablePestaniaTres?'color: #FFFFFF':''}" 
+                                 disabled="#{cc.attrs.disablePestaniaTres}"
+                                 rendered="#{cc.attrs.renderPestaniaTres}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuPrio}" 
+                                 style="width: 100%;height: 35px;#{!cc.attrs.disablePestaniaCuatro?'background: #3DABE3':''} ;#{!cc.attrs.disablePestaniaCuatro?'color: #FFFFFF':''}" 
+                                 disabled="#{cc.attrs.disablePestaniaCuatro}"
+                                 rendered="#{cc.attrs.renderPestaniaCuatro}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatNot}" 
+                                 style="width: 100%;height: 35px;#{!cc.attrs.disablePestaniaCinco?'background: #3DABE3':''} ;#{!cc.attrs.disablePestaniaCinco?'color: #FFFFFF':''}" 
+                                 disabled="#{cc.attrs.disablePestaniaCinco}"
+                                 rendered="#{cc.attrs.renderPestaniaCinco}"/>
+                <p:commandButton value="#{msgs.usuarioFormularioNombresMenuDatRegExist}" 
+                                 style="width: 100%;height: 35px;#{!cc.attrs.disablePestaniaSeis?'background: #3DABE3':''} ;#{!cc.attrs.disablePestaniaSeis?'color: #FFFFFF':''}" 
+                                 disabled="#{cc.attrs.disablePestaniaSeis}"
+                                 rendered="#{cc.attrs.renderPestaniaSeis}"/>
+            </h:panelGrid>
+        </div>
+    </composite:implementation>
+
+</html>

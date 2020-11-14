@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporCaratula2PrePublicacion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="37d35de6-16ea-4c50-87c6-8e89e78457b5">
+	<property name="ireport.zoom" value="1.0000000000000022"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="116"/>
+	<field name="numeroSeccion" class="java.lang.Integer"/>
+	<field name="tipoSeccion" class="java.lang.String"/>
+	<field name="tiposSignos" class="java.lang.String"/>
+	<field name="datosTipoSigno" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="datosTipoSignoMixto" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<detail>
+		<band height="591">
+			<line>
+				<reportElement x="114" y="250" width="413" height="1" uuid="95519c0e-ec0d-4b91-809d-a48250b1ef44"/>
+			</line>
+			<rectangle radius="10">
+				<reportElement x="114" y="320" width="418" height="259" uuid="b99e1aa1-d686-4c61-9cfe-6d2e22e43c38"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="217" y="333" width="255" height="12" uuid="dd4e1713-9700-4308-877b-d8531483bf83"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECISION 486  de la Comunidad Andina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="209" y="347" width="296" height="20" uuid="95c1a9c6-071c-4531-8486-611977cd9435"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Régimen Común sobre Propiedad industrial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="367" width="73" height="20" uuid="72a1ac55-64b6-46ff-8d26-e51b23634902"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAPITULO II]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="387" width="186" height="20" uuid="c139b0f2-df8b-4268-b776-01981cd6a502"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Del Procedimiento de Registro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="421" width="380" height="127" uuid="68de8bcc-eddc-4a41-9426-8e462ea1cca8"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Artículo 146.- Dentro del plazo de treinta días siguientes a la fecha de la publicación, quien tenga legítimo interés, podrá presentar, por una sola vez, oposición fundamentada que pueda desvirtuar el registro de la marca.
+
+A solicitud de parte, la oficina nacional competente otorgará, por una sola vez un plazo adicional de treinta días para presentar las pruebas que sustenten la oposición.
+
+Las oposiciones temerarias podrán ser sancionadas si así lo disponen las normas nacionales.
+
+No procederán oposiciones contra la solicitud presentada, dentro de los seis meses posteriores al vencimiento del plazo de gracia a que se refiere el artículo 153, si tales oposiciones se basan en marcas que hubiesen coexistido con la solicitada.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="87" width="136" height="29" uuid="896fc3ce-5838-403a-b3a5-147f834cd915"/>
+				<textElement textAlignment="Center">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[SECCION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="188" y="219" width="263" height="32" uuid="81026f21-34e0-4ad4-9d75-9c0aeb010c11"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoSeccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="257" width="413" height="37" uuid="48419a2f-e2cf-4280-b984-1074e2f3538e"/>
+				<textElement textAlignment="Center">
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tiposSignos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="116" width="34" height="39" uuid="f5d12d26-89bf-4b62-a9b1-c6d55c6164b3"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroSeccion}]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement x="0" y="3" width="100" height="1" uuid="74c1fd08-b6f1-4950-bc41-07756387050c"/>
+			</break>
+		</band>
+		<band height="17">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="610" height="17" uuid="079f9d9a-ad80-43f4-8317-58b2d9addd97"/>
+				<dataSourceExpression><![CDATA[$F{datosTipoSigno}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["repordatosTipoSignoDenominativo.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1" width="610" height="49" uuid="8ba6a77d-720b-4dcf-94d5-c46e492896d7"/>
+				<dataSourceExpression><![CDATA[$F{datosTipoSignoMixto}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["repordatosTipoSignoMixtos.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

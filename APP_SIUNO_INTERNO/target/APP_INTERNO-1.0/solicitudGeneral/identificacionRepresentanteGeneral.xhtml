@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="mensajeGeneral" showDetail="true" life="5000"/>  
+            <p:panel id="panelDos"  style="border-style: hidden;width: 100%">
+                <div align="center">
+                    <p:panel>
+
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="#{msgs.apoderadoPreguntaTramitePersonal}"/>
+                            <h:selectOneRadio id="esTramiteUnipersonal" value="#{identificacionRepresentanteModificacionBean.esTramiteUnipersonal}">
+                                <f:selectItem itemLabel="#{msgs.apoderadoRespuestaNo}" itemValue="true" />
+                                <f:selectItem itemLabel="#{msgs.apoderadoRespuestaSi}" itemValue="false" />
+                                <p:ajax event="change" update="panelDos,panelRepre,idPanelGridBotonesGuardado" 
+                                        listener="#{identificacionRepresentanteModificacionBean.limpiaDatosRepresentanteAction(e)}"/>
+                            </h:selectOneRadio>
+                        </h:panelGrid>
+
+
+                        <h:panelGrid columns="2" style="text-align: initial">
+                            <h:panelGrid columns="1" style="text-align: initial">
+                                <p:graphicImage value="/resources/images/informacion3.png" />
+                            </h:panelGrid> 
+                            <h:panelGrid columns="1" style="text-align: initial">
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoMensajeSiUnipersonal}" style="font-size: 10px; color:#045491 "/>
+                                </h:panelGrid>     
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoMensajeNoUnipersonal}" style="font-size: 10px; color:#045491 "/>
+                                </h:panelGrid>     
+                            </h:panelGrid> 
+                        </h:panelGrid>
+                        <div align="center" style="padding:1em 2.2em;" id="unipersonal">
+                            <p:commandButton id="botonRegistrarUnipersonal"
+                                             value="#{msgs.apoderadoRegistrarApoderadoAceptar}"
+                                             actionListener="#{identificacionRepresentanteModificacionBean.guardaSegundaParteRadioButtonGeneral()}"
+                                             rendered="#{identificacionRepresentanteModificacionBean.activaGuardadoUnipersonal}"
+                                             update="form"
+                                             icon="ui-icon ui-icon-disk">
+                                <f:ajax execute="@this" event="click"/>
+                            </p:commandButton>
+
+                        </div>
+                    </p:panel>
+                    <h:panelGrid  columns="1" id="panelRepre">
+                        <p:panel id="panelRepresentante" rendered="#{identificacionRepresentanteModificacionBean.campoPanelRepresentante}">
+                            <div align="right" style="padding:1em 2.2em;">
+                                <p:commandButton id="limpiaFormularioRepresentante" 
+                                                 value="#{msgs.solicitanteLimpiaFormulario}" 
+                                                 icon="ui-icon-battery-0"
+                                                 actionListener="#{identificacionRepresentanteModificacionBean.limpiaFormularioApoderado(event)}" 
+                                                 update="mensajeGeneral,panelRepresentante">                                        
+                                    <f:ajax execute="@this" event="click" />
+                                </p:commandButton>
+                                <p:commandButton id="buscaApoderado" 
+                                                 type="button" 
+                                                 icon="ui-icon-newwin"
+                                                 value="#{msgs.apoderadoCargarApoderado}" 
+                                                 onclick="PF('buscaApoderado').show()" ></p:commandButton>
+                            </div>
+                            <h:panelGrid columns="1">
+                                <h:panelGrid columns="7">
+                                    <h:panelGrid columns="2" style="text-align: left">
+
+                                        <h:outputLabel value="#{msgs.apoderadoNumeroPoder}"/>
+                                    </h:panelGrid>
+                                    <h:inputText id="Numero_Poder" 
+                                                 value="#{identificacionRepresentanteModificacionBean.apoderado.numeroPoder}" 
+                                                 size="28" maxlength="30" autocomplete="off" 
+                                                 style="#{identificacionRepresentanteModificacionBean.cambiaBordeCampoNumeroDePoder==true?'border-color: #C00':' '}"/>
+                                    <h:outputLabel value="#{msgs.apoderadoFechaExpiracion}"/>
+                                    <h:panelGrid columns="2">
+                                        <p:calendar id="mask" 
+                                                    value="#{identificacionRepresentanteModificacionBean.apoderado.fechaExpiracionPoder}" 
+                                                    locale="es" 
+                                                    navigator="true" 
+                                                    pattern="dd-MM-yyyy" 
+                                                    mask="true"
+                                                    size="12"/> 
+                                        <h:outputLabel value="dd-mm-aaaa" style="color: #5178D0"/> 
+                                    </h:panelGrid>
+
+                                    <p:outputLabel value="#{identificacionRepresentanteModificacionBean.apoderado.fechaExpiracionPoder==null?'':''}" />
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="7"> 
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.apoderadoNombre}"/>
+                                    </h:panelGrid>
+                                    <h:inputText id="Nombre" style="#{identificacionRepresentanteRegistroGeneralBean.cambiaBordeCampoNombreApoderado==true?'border-color: #C00':' '}" 
+                                                 value="#{identificacionRepresentanteRegistroGeneralBean.personaApoderado.nombres}" 
+                                                 disabled="#{identificacionRepresentanteRegistroGeneralBean.campoNombreDisable}"
+                                                 size="50" maxlength="40" autocomplete="off"/> 
+                                    <h:panelGrid columns="2" style="text-align: left">
+                                        <h:outputLabel value="*" 
+                                                       style="color: #C00"/>  
+                                        <h:outputLabel value="#{msgs.apoderadoApellidoPaterno}"/>
+                                    </h:panelGrid>
+                                    <h:inputText id="ApellidoPaterno"  style="#{identificacionRepresentanteRegistroGeneralBean.cambiaBordeCampoApellidoPaternoApoderado==true?'border-color: #C00':' '}" 
+                                                 value="#{identificacionRepresentanteRegistroGeneralBean.personaApoderado.apellidoPaterno}" 
+                                                 disabled="#{identificacionRepresentanteRegistroGeneralBean.campoApellidoPaternoDisable}"
+                                                 size="30" maxlength="30" autocomplete="off" />
+
+                                    <h:outputLabel value="#{msgs.apoderadoApellidoMaterno}"/>
+
+                                    <h:inputText id="ApellidoMaterno" style="#{identificacionRepresentanteRegistroGeneralBean.cambiaBordeCampoApellidoMaternoApoderado==true?'border-color: #C00':' '}"
+                                                 disabled="#{identificacionRepresentanteRegistroGeneralBean.campoApellidoMaternoDisable}"
+                                                 value="#{identificacionRepresentanteRegistroGeneralBean.personaApoderado.apellidoMaterno}" size="30" maxlength="30" autocomplete="off" >
+                                    </h:inputText>
+                                </h:panelGrid>
+                                <h:panelGrid columns="6">
+                                    <h:panelGrid columns="2">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.apoderadoNroDocumento}"/>
+                                        </h:panelGrid>
+                                        <h:inputText id="nroDocumentoApoderado" 
+                                                     style="#{identificacionRepresentanteModificacionBean.cambiaBordeCampoNumeroDocumentoApoderado==true?'border-color: #C00':' '}" 
+                                                     value="#{identificacionRepresentanteModificacionBean.numeroDocumentoApoderado}" 
+                                                     disabled="#{identificacionRepresentanteModificacionBean.campoNumeroDeDocumentoDisable}"
+                                                     size="15" maxlength="15" autocomplete="off"/>   
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="4"  id="panelTipoDocumentoRepresentante">
+                                        <h:panelGrid columns="2" style="text-align: left">
+                                            <h:outputLabel value="*" 
+                                                           style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.apoderadoTipoDocumento}" />
+                                        </h:panelGrid>
+                                        <h:selectOneMenu id="TipoDocumento" style="#{identificacionRepresentanteModificacionBean.cambiaBordeCampoTipoDocumentoApoderado==true?'border-color: #C00':' '}" 
+                                                         value="#{identificacionRepresentanteModificacionBean.tipoDocumentoIdentidadApoderado}"
+                                                         disabled="#{identificacionRepresentanteModificacionBean.campoTipoDeDocumentoDisable}">
+                                            <f:selectItem   itemLabel="#{msgs.apoderadoElegir}" itemValue="#{null}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{identificacionRepresentanteModificacionBean.listadoTipoDocumentoIdentidadSD}" var="tdi" itemLabel="#{tdi.nombre}" itemValue="#{tdi.codigo}"/>
+                                            <p:ajax event="change" update="lugarRepresentante, panelTipoDocumentoRepresentante" listener="#{identificacionRepresentanteModificacionBean.activaComboLugarExpedicionApoderado(e)}" />
+                                        </h:selectOneMenu>
+
+                                        <h:panelGrid columns="2" style="text-align: left" rendered="#{identificacionRepresentanteModificacionBean.campoLugarExpedicionRendered}">
+                                            <h:outputLabel value="*" style="color: #C00"/>  
+                                            <h:outputLabel value="#{msgs.solicitanteLugarExpedicion}"/>  
+                                        </h:panelGrid> 
+                                        <h:selectOneMenu id="lugarRepresentante" style="#{identificacionRepresentanteModificacionBean.cambiaBordeCampoLugarExpedicionApoderado==true?'border-color: #C00':' '}" 
+                                                         value="#{identificacionRepresentanteModificacionBean.lugarExpedicionRepresentante}" 
+                                                         disabled="#{identificacionRepresentanteModificacionBean.campoLugarExpedicionDisable}"
+                                                         rendered="#{identificacionRepresentanteModificacionBean.campoLugarExpedicionRendered}">
+                                            <f:selectItem itemLabel="#{msgs.solicitanteElegirLugarExpedicion}" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{identificacionRepresentanteModificacionBean.listadoCiudadClasificadorRepresentante}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </h:selectOneMenu>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="#{msgs.apoderadoGenero}"/>
+                                    <p:selectOneRadio id="generoRepresentante" value="#{identificacionRepresentanteModificacionBean.generoRepresentante}"
+                                                      disabled="#{identificacionRepresentanteModificacionBean.campoGeneroDisable}">
+                                        <f:selectItems value="#{identificacionRepresentanteModificacionBean.listadoTipoGeneroPersona}" var="gRepr" itemLabel="#{gRepr.nombre}" itemValue="#{gRepr.codigo}"/>
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" style="text-align: center">
+                                <h:panelGrid columns="2" style="text-align: left">
+                                    <h:outputLabel value="*" 
+                                                   style="color: #C00"/>  
+                                    <h:outputLabel value="#{msgs.apoderadoDatosContacto}" style="color: #{identificacionRepresentanteModificacionBean.colorLabel}"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:panelGrid columns="6">
+                                <p:commandButton
+                                    value="#{msgs.apoderadoAdicionar}"
+                                    update="listaDatosDeContactoRepresentante,datoRepresentante,mensajeGeneral,notificarRepresentante"
+                                    process="@this,datoRepresentante,notificarRepresentante"
+                                    action="#{identificacionRepresentanteModificacionBean.adicionaDatoDeContactoDeRepresentante()}"
+                                    icon="ui-icon-plusthick"/>                                                                                                                                    
+                                <h:selectOneMenu value="#{identificacionRepresentanteModificacionBean.tipoContactoRepresentante}">
+                                    <f:selectItems value="#{identificacionRepresentanteModificacionBean.listadoDatosContactoSD}" var="rRepre" itemLabel="#{rRepre.nombre}" itemValue="#{rRepre.codigo}"/>
+                                    <p:ajax event="change" update="notificarRepresentante" listener="#{identificacionRepresentanteModificacionBean.activaCheckNotificacionRepresentante(e)}" />
+                                </h:selectOneMenu>
+                                <h:inputText id="datoRepresentante" value="#{identificacionRepresentanteModificacionBean.datoRepresentante}" 
+                                             size="70" maxlength="200" style="#{identificacionRepresentanteModificacionBean.cambiaBordeCampoDatoRepresentante==true?'border-color: #C00':''}"/>
+                                <p:watermark for="datoRepresentante" value="#{msgs.apoderadoIntroduceDatoContacto}" id="watermarkRepresentante" />
+                                <h:selectBooleanCheckbox id="notificarRepresentante" value="#{identificacionRepresentanteModificacionBean.notificarRepresentante}" 
+                                                         disabled="#{identificacionRepresentanteModificacionBean.campoDatosContactoCheckDisable}"/>
+                                <h:outputText value="#{msgs.apoderadoNotificarCorreo}"/>
+                            </h:panelGrid>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:dataTable var="itemRepresentante"
+                                             id="listaDatosDeContactoRepresentante"
+                                             rowKey="#{itemRepresentante.tipoContacto}"
+                                             value="#{identificacionRepresentanteModificacionBean.listaDatosDeContactoRepresentante}"
+                                             widgetVar="listaDatosDeContactoRepresentante"
+                                             editable="true"
+                                             selection="#{identificacionRepresentanteModificacionBean.datoscontactoRepresentanteSelect}"
+                                             style="width: 70%;height: 10%;background: #E5F0F8;"
+                                             scrollable="true" scrollHeight="90" resizableColumns="true"
+                                             emptyMessage="#{msgs.apoderadoListaContactoVacia}">
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="#{msgs.apoderadoListaContacto}" />
+                                        </p:outputPanel>
+                                    </f:facet>
+                                    <p:ajax event="rowEdit" listener="#{identificacionRepresentanteModificacionBean.onEdit}"/>
+                                    <p:ajax event="rowEditCancel" listener="#{identificacionRepresentanteModificacionBean.onCancel}"/>
+                                    <p:column headerText="#{msgs.apoderadoTipoContacto}" width="20">
+                                        <h:outputText value="#{itemRepresentante.tipoContacto.descripcion}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.apoderadoDato}" width="60">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <h:outputText value="#{itemRepresentante.dato}"/>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{itemRepresentante.dato}" style="width:95%"/>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.solicitanteDatoNotificar}" width="8">
+                                        <h:outputText value="#{identificacionRepresentanteModificacionBean.muestraMensajeNotificar(itemRepresentante.notificar)}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.apoderadoEliminar}" style="text-align: center" width="10" 
+                                              rendered="#{identificacionRepresentanteModificacionBean.campoListaDatosContactoBotonEliminaRendered}">
+                                        <p:commandButton update="listaDatosDeContactoRepresentante" 
+                                                         icon="ui-icon-trash" 
+                                                         action="#{identificacionRepresentanteModificacionBean.eliminaDatoDeContactoRepresentante()}"
+                                                         process="listaDatosDeContactoRepresentante"
+                                                         disabled="#{identificacionRepresentanteModificacionBean.habilitaEditaEliminaDatoContactoRepresentante(itemRepresentante)}">                                           
+                                            <f:setPropertyActionListener value="#{itemRepresentante}" 
+                                                                         target="#{identificacionRepresentanteModificacionBean.datoscontactoRepresentanteSelect}" />
+
+                                            <p:confirm header="#{msgs.apoderadoConfirmarEliminar}" 
+                                                       message="#{msgs.apoderadoConfirmarEliminarRegistro}" 
+                                                       icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                    </p:column>
+
+
+                                    <p:column headerText="#{msgs.apoderadoModificar}" style="text-align: center" width="10" 
+                                              rendered="#{identificacionRepresentanteModificacionBean.campoListaDatosContactoBotonModificaRendered}">
+                                        <p:rowEditor rendered="#{!identificacionRepresentanteModificacionBean.habilitaEditaEliminaDatoContactoRepresentante(itemRepresentante)}"/>
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:spacer height="10" />
+                                    </f:facet>
+
+                                </p:dataTable>
+                                <div align="center" style="padding:1em 2.2em;">
+
+                                    <p:commandButton id="adicionaRegistroPersonaEmpresa"
+                                                     value="#{!identificacionRepresentanteModificacionBean.activaBotonModificarSolicitud?msgs.apoderadoRegistrarApoderado:msgs.solicitanteModifica}"
+                                                     actionListener="#{identificacionRepresentanteModificacionBean.guardaApoderadoGeneral()}"
+                                                     update=":form,  :form:adicionaRegistroPersonaEmpresa"
+                                                     icon="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" event="click"/>
+                                    </p:commandButton>
+                                </div>
+                                <si.componentes:informacion id="informacionPersonaApoderado"
+                                                            dimension="70%"
+                                                            mensaje="#{msgs.mensajeDeComponenteDeInformacion}"
+                                                            rendered="#{identificacionRepresentanteModificacionBean.activaDialogoCargaDatosRepresentante}"/>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <h:panelGrid columns="3" id="idPanelGridBotonesGuardado">
+                                        <p:commandButton
+                                            id="botonCargaDatosPersonaApoderado"
+                                            value="#{msgs.apoderadoCargaDatos}"
+                                            rendered="#{identificacionRepresentanteModificacionBean.activaDialogoCargaDatosRepresentante}"
+                                            actionListener="#{identificacionRepresentanteModificacionBean.cargaPersonaApoderadoActionListener(event)}"
+                                            update="panelRepresentante,mensajeGeneral"
+                                            icon="ui-icon ui-icon-disk">
+                                            <f:ajax execute="@this" event="click"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </div>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:dataTable var = "itemRepresentante"
+                                                 id="listaRepresentante"
+                                                 rowKey="#{itemRepresentante.idPersonaSolicitud}"
+                                                 value="#{identificacionRepresentanteModificacionBean.listaPersonaEmpresaTramite}"
+                                                 widgetVar="listaRepresentante"
+                                                 scrollable="true"
+                                                 scrollHeight="100"
+                                                 resizableColumns="true"
+                                                 style="width: 100%;background: #E5F0F8;">
+                                        <f:facet name="header">
+
+                                            <p:outputPanel>
+                                                <h:outputText value="#{msgs.apoderadoListaRepresentanteGrilla}"/>
+                                            </p:outputPanel>
+                                        </f:facet>
+
+                                        <p:column headerText="#{msgs.apoderadoNroPoderGrilla}" width="50">
+                                            <h:outputText value="#{itemRepresentante.apoderado.numeroPoder}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoNroDocumentoGrilla}" width="60">
+                                            <h:outputText value="#{itemRepresentante.persona.numeroDocumento}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoNombresGrilla}" width="100">
+                                            <h:outputText value="#{itemRepresentante.persona.nombres}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoPrimerApellidoGrilla}" width="100">
+                                            <h:outputText value="#{itemRepresentante.persona.apellidoPaterno}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoSegundoApellidoGrilla}" width="100">
+                                            <h:outputText value="#{itemRepresentante.persona.apellidoMaterno}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoSeleccionesGrilla}" width="10" style="text-align: center">
+                                            <p:commandButton id="buton"
+                                                             update=":form:panelRepresentante"
+                                                             icon="ui-icon-pencil"
+                                                             title="ver"
+                                                             actionListener="#{identificacionRepresentanteModificacionBean.cargaDatosApoderadoDialogo(itemRepresentante)}">
+                                                <f:ajax execute="@this" event="click"/>
+                                            </p:commandButton>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs.apoderadoQuitarGrilla}" width="10" style="text-align: center">
+
+                                            <p:commandButton id="quitaRepresentante"
+                                                             title="#{msgs.apoderadoQuitarGrilla}"
+                                                             icon="ui-icon-circle-minus" 
+                                                             actionListener="#{identificacionRepresentanteModificacionBean.borrarApoderadoDeLaLista(itemRepresentante)}"
+                                                             update=":form:panelRepresentante">
+
+                                                <p:confirm header="#{msgs.apoderadoQuitaRepresentante}" message="#{msgs.apoderadoConfirmarQuitarRepresentante}" icon="ui-icon-alert"/>
+                                            </p:commandButton>
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>
+                                    </p:dataTable>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                        <div align="center">
+                                            <p:commandButton value="#{msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="#{msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog>
+                                </div>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                    <div align="center">
+                                        <p:commandButton value="#{msgs.apoderadoAceptaModificar}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="#{msgs.apoderadoRechazaModificar}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </div>
+                        </p:panel>
+                    </h:panelGrid>
+                </div>
+
+                <div align="center" style="padding:0.5em 0em;">
+                    <p:toolbar style="width: 99%;">
+                        <p:toolbarGroup align="left">
+                            <h:commandButton id="atras"
+                                             value="#{msgs.mensajeAnterior}"    
+                                             action="#{identificacionRepresentanteModificacionBean.cancelarIdentificacionRepresentanteRegistroGeneral()}">
+                            </h:commandButton>     
+                        </p:toolbarGroup>                                                                                                        
+                        <p:toolbarGroup align="right">
+                            <h:commandButton id="Siguiente"
+                                             value="#{msgs.mensajeSiguiente}"            
+                                             rendered="#{identificacionRepresentanteModificacionBean.swBoton}"
+                                             action="#{identificacionRepresentanteModificacionBean.irDatosSignoDistintivoGeneral()}">
+                            </h:commandButton>   
+                            <h:commandButton
+                                id="botonSiguiente"
+                                value="#{msgs.mensajeSiguiente}"
+                                rendered="#{!identificacionRepresentanteModificacionBean.swBoton}"
+                                onclick="PF('Confirmacion').show()">
+                                <f:ajax render="@none" />
+                            </h:commandButton>
+                            <p:dialog header="#{msgs.pestaniaTresAtencion}" showEffect="fade" widgetVar="Confirmacion" id="Confirmacion" modal="true" resizable="false" closable="false">
+                                <div align="center">
+                                    <h:outputLabel value="#{msgs.solicitanteValidacionSgte}"/>
+                                    <p:separator id="separadorDialogo1" style="width: 0px ; border: 0px; height: 10px"></p:separator>
+                                    <h:panelGrid columns="3" style="text-align: left">
+                                        <p:commandButton value="#{msgs.solicitanteSiAcepta}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                         action="#{identificacionRepresentanteModificacionBean.irDatosSignoDistintivoGeneral()}"
+                                                         ajax="false"/>
+                                        <p:separator id="separadorDialogo2" style="width: 10px ; border: 0px; height: 0px"></p:separator>
+                                        <p:commandButton value="#{msgs.solicitanteNoRechaza}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('Confirmacion').hide()" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:dialog>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </div>
+            </p:panel>     
+            <p:dialog id="eliminaImagenDialog" header="#{msgs.apoderadoPanelApoderadoNombrePanel}" widgetVar="buscaApoderado" closable="false"
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="90%" height="100%">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel style="width: 100%">
+                        <p:dataTable var="itempersonaEmpresa" 
+                                     id="listaApoderado"
+                                     rowKey="#{itempersonaEmpresa}"
+                                     value="#{identificacionRepresentanteModificacionBean.listadoPersonaEmpresaApoderadoFinal}" 
+                                     widgetVar="listapersonaEmpresa"
+                                     scrollable="true" scrollHeight="250" 
+                                     resizableColumns="true"
+                                     style="width: 100%">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="#{msgs.apoderadoPanelApoderadoListaApoderados}" />
+                                </p:outputPanel>
+                            </f:facet> 
+
+                            <p:column  headerText="#{msgs.apoderadoPanelApoderadoNombres}" width="6%">  
+                                <h:outputText value="#{itempersonaEmpresa.nombres}" />
+                            </p:column>
+
+                            <p:column  headerText="#{msgs.apoderadoPanelApoderadoApellidoPaterno}" width="6%">  
+                                <h:outputText value="#{itempersonaEmpresa.apellidoPaterno}" />
+                            </p:column>
+
+                            <p:column headerText="#{msgs.apoderadoPanelApoderadoApellidoMaterno}" width="6%">  
+                                <h:outputText value="#{itempersonaEmpresa.apellidoMaterno}" />
+                            </p:column>
+
+                            <p:column headerText="#{msgs.apoderadoPanelApoderadoNroDocumento}" width="5%">  
+                                <h:outputText value="#{itempersonaEmpresa.numeroDocumento}" />
+                            </p:column>
+                            <p:column  headerText="#{msgs.apoderadoPanelApoderadoDescripcion}" width="5%">  
+                                <h:outputText value="#{itempersonaEmpresa.tipoDocumento.descripcion}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.apoderadoPanelApoderadoSeleccione}" width="4%" style="width:32px;text-align: center">
+                                <p:commandButton 
+                                    update=":form"
+                                    icon="ui-icon-transfer-e-w" 
+                                    actionListener="#{identificacionRepresentanteModificacionBean.cargaDatosApoderadoPersonaDialogo(itempersonaEmpresa)}"
+                                    onclick="PF('buscaApoderado').hide();"
+                                    >
+                                    <f:ajax execute="@this" event="click"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:spacer height="10" />
+                            </f:facet>  
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="#{msgs.apoderadoPanelApoderadoCancelar}"
+                                onclick="PF('BuscaApoderado').hide();"                                  
+                                icon="ui-icon-arrowreturnthick-1-w"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog> 
+        </h:form>
+        <p:ajaxStatus  style="display:block;margin-bottom:2em;height:24px;" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>            

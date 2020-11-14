@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+
+    <ui:define name="content">
+        <h:form id="form">  
+            <p:panel header="FORMULARIO SOLICITUD REGISTRO DE SIGNOS DISTINTIVOS PI100 #{identificacionSolicitanteRegistroPI100Bean.objetoTramite}"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <div align="left">
+                    <h:panelGrid columns="5">
+                        <p:commandButton id="botonPanel1" value="Identificaci&oacute;n del Solicitante" 
+                                         style="width: 150px;height: 35px; background: #{wizardVentanillaBean.colorFondoPestana1}; color: #{wizardVentanillaBean.colorLetrasPestana1}" 
+                                         actionListener="#{wizardVentanillaBean.navegaPestaniaElegidaActionListener(1)}"
+                                         update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco,botonPanel1,botonPanel2,botonPanel3,botonPanel4,botonPanel5">
+                            <f:ajax execute="@this" render="@form" event="click"/>
+                        </p:commandButton>
+                        <p:commandButton id="botonPanel2" value="Identificaci&oacute;n del Representante" 
+                                         style="width: 150px;height: 35px; background: #{wizardVentanillaBean.colorFondoPestana2}; color: #{wizardVentanillaBean.colorLetrasPestana2}" 
+                                         actionListener="#{wizardVentanillaBean.navegaPestaniaElegidaActionListener(2)}" 
+                                         update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco,botonPanel1,botonPanel2,botonPanel3,botonPanel4,botonPanel5">
+                            <f:ajax execute="@this" render="@form" event="click"/>
+                        </p:commandButton>
+                        <p:commandButton id="botonPanel3" value="Datos del Signo Distintivo" 
+                                         style="width: 150px;height: 35px; background: #{wizardVentanillaBean.colorFondoPestana3}; color: #{wizardVentanillaBean.colorLetrasPestana3}" 
+                                         actionListener="#{wizardVentanillaBean.navegaPestaniaElegidaActionListener(3)}" 
+                                         update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco,botonPanel1,botonPanel2,botonPanel3,botonPanel4,botonPanel5">
+                            <f:ajax execute="@this" render="@form" event="click"/>
+                        </p:commandButton>
+                        <p:commandButton id="botonPanel4" value="Prioridades" 
+                                         style="width: 150px;height: 35px; background: #{wizardVentanillaBean.colorFondoPestana4}; color: #{wizardVentanillaBean.colorLetrasPestana4}" 
+                                         actionListener="#{wizardVentanillaBean.navegaPestaniaElegidaActionListener(4)}" 
+                                         update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco,botonPanel1,botonPanel2,botonPanel3,botonPanel4,botonPanel5">
+                            <f:ajax execute="@this" render="@form" event="click"/>
+                        </p:commandButton>
+                        <p:commandButton id="botonPanel5" value="Direcci&oacute;n de Notificaci&oacute;n" 
+                                         style="width: 150px;height: 35px; background: #{wizardVentanillaBean.colorFondoPestana5}; color: #{wizardVentanillaBean.colorLetrasPestana5}" 
+                                         actionListener="#{wizardVentanillaBean.navegaPestaniaElegidaActionListener(5)}" 
+                                         update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco,botonPanel1,botonPanel2,botonPanel3,botonPanel4,botonPanel5">
+                            <f:ajax execute="@this" render="@form" event="click"/>
+                        </p:commandButton>
+                    </h:panelGrid>
+                </div>
+                <div align="center">
+                    <p:panel id="panelUno" rendered="#{wizardVentanillaBean.panelUno}" style="border-style: hidden">
+
+                        <p:panel>
+                            <div align="right" style="padding:1em 2.2em;">
+                                <h:panelGrid id="botonPersona" columns="4" cellpadding="5">
+                                    <p:outputLabel value="Fecha Creacion:"/>
+                                    <p:inputText value="#{identificacionSolicitanteRegistroPI100VentanillaBean.fechaAdicion}" style="text-align:right;width: 50%">
+                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                    </p:inputText>
+                                </h:panelGrid>
+                            </div>
+                            <h:panelGrid columns="1">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Tipo de Solicitantes: "/>
+                                    <h:inputText value="#{identificacionSolicitanteRegistroPI100VentanillaBean.tipoSolicitante}" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Razon Social:" rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposJuridico}"/>
+                                    <p:inputText id="razonSocial" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.empresa.nombreRepresentante}" size="120" rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposJuridico}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="Nombre: " />
+                                    <p:inputText id="nombre" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.persona.nombres}" size="120" rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="4">
+                                    <h:outputLabel value="Apellido Paterno: " rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}"/>
+                                    <p:inputText id="apellidoPaterno" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.persona.apellidoPaterno}" size="50" rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}"/>
+                                    <h:outputLabel value="Apellido Materno: " rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}"/>
+                                    <p:inputText id="apellidoMaterno" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.persona.apellidoMaterno}" size="50" rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="6">
+                                    <h:outputLabel value="Nro. Documento: " />  
+                                    <p:inputText id="nroDocumento" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.numeroDocumento}" size="50" />
+                                    <h:outputLabel value="Tipo Documento: " />  
+                                    <p:inputText id="tipoDocumento" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.tipoDocumentoIdentidad}" />  
+                                    <h:outputLabel value="Lugar: " />
+                                    <p:inputText value="#{identificacionSolicitanteRegistroPI100VentanillaBean.lugarExpedicion}" id="lugar" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="Genero: " rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}"/>
+                                    <p:selectOneRadio id="genero" value="#{identificacionSolicitanteRegistroPI100VentanillaBean.genero}" rendered="#{!identificacionSolicitanteRegistroPI100VentanillaBean.activaCamposNatural}">
+                                        <f:selectItems value="#{identificacionSolicitanteRegistroPI100VentanillaBean.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <div align="center" style="padding:1em 2.2em;">
+                                <p:dataTable var="item"
+                                             id="listaDatosDeContacto"
+                                             rowKey="#{item.tipoContacto}"
+                                             value="#{identificacionSolicitanteRegistroPI100VentanillaBean.listaDatosDeContacto}"
+                                             widgetVar="listaDatosDeContacto"
+                                             style="width: 80%;height: 10%"
+                                             scrollable="true" scrollHeight="90" resizableColumns="true"
+                                             emptyMessage="Lista de datos de contacto esta vacia.">
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="Lista de Datos de Contacto" />
+                                        </p:outputPanel>
+                                    </f:facet>
+                                    <p:column sortBy="#{item.tipoContacto.codigo}" headerText="Tipo de Contacto" footerText="" filterMatchMode="contains" width="20%">
+                                        <p:outputLabel value="#{item.tipoContacto.descripcion}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{item.dato}" headerText="Dato" footerText="" filterMatchMode="contains" width="60%">
+                                        <p:outputLabel value="#{item.dato}" style="width:95%"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </p:panel>
+                        <div align="center" style="padding:0.5em 0em;">
+                            <p:toolbar style="width: 99%;">
+                                <p:toolbarGroup align="left">
+                                    <p:spacer height="17" />
+                                </p:toolbarGroup>  
+                                <p:toolbarGroup align="right">  
+                                    <p:commandButton id="botonPanelUnoSiguiente"
+                                                     value="Siguiente"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(2)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                            </p:toolbar>  
+                        </div>
+                    </p:panel> 
+
+                    <p:panel id="panelDos" rendered="#{wizardVentanillaBean.panelDos}" style="border-style: hidden">
+                        <p:panel>
+                            <h:panelGrid  columns="1" id="panelRepre">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="¿Es tr&aacute;mite Unipersonal?"/>
+                                    <p:selectOneRadio id="esTramiteUnipersonal" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.esTramiteUnipersonal}" disabled="true">
+                                        <f:selectItem itemLabel="Si" itemValue="false" />
+                                        <f:selectItem itemLabel="No" itemValue="true" />
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                                <p:panel id="panelRepresentante" rendered="#{identificacionRepresentanteRegistroPI100VentanillaBean.esTramiteUnipersonal}">
+                                    <h:outputLabel value="Fecha &uacute;ltima modificaci&oacute;n "/>
+                                    <p:calendar value="#{identificacionRepresentanteRegistroPI100VentanillaBean.apoderado.fechaUltimaModificacion}"/>
+                                    <h:panelGrid columns="4" style="text-align: center">
+                                        <h:outputLabel id="Numero_Poder" value="(*)Número de Poder: "/>
+                                        <p:inputText value="#{identificacionRepresentanteRegistroPI100VentanillaBean.apoderado.numeroPoder}" size="50"/>
+                                        <h:outputLabel value="(*)Fecha de Expiraci&oacute;n: "/>
+                                        <p:calendar value="#{identificacionRepresentanteRegistroPI100VentanillaBean.apoderado.fechaExpiracionPoder}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2" style="text-align: center">
+                                        <h:outputLabel value="(*)Nombre:"/>
+                                        <p:inputText id="idNombre" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.personaApoderado.nombres}" size="130"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="4" style="text-align: center">
+                                        <h:outputLabel value="Apellido Paterno:"/>
+                                        <p:inputText id="idApellidoPaterno" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.personaApoderado.apellidoPaterno}" size="50"/>
+                                        <h:outputLabel value="Apellido Materno:"/>
+                                        <p:inputText id="idApellidoMaterno" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.personaApoderado.apellidoMaterno}" size="50"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="4" style="text-align: center">
+                                        <h:outputLabel value="Nro. Documento: " />
+                                        <p:inputText id="nroDocumentoApoderado" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.numeroDocumentoApoderado}" size="50"/>
+                                        <h:outputLabel value="Tipo Documento: " />
+                                        <p:inputText id="idTipoDocumento" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.tipoDocumentoIdentidadApoderado}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2" style="text-align: center">
+                                        <p:outputLabel value="G&eacute;nero: " />
+                                        <p:selectOneRadio id="generoRepresentante" value="#{identificacionRepresentanteRegistroPI100VentanillaBean.generoRepresentante}">
+                                            <f:selectItems value="#{identificacionRepresentanteRegistroPI100VentanillaBean.listadoTipoGeneroPersona}" var="gRepr" itemLabel="#{gRepr.nombre}" itemValue="#{gRepr.codigo}"/>
+                                        </p:selectOneRadio>
+                                    </h:panelGrid>
+                                    <div align="center" style="padding:1em 2.2em;">
+                                        <p:dataTable var="itemRepresentante"
+                                                     id="listaDatosDeContactoRepresentante"
+                                                     rowKey="#{itemRepresentante.tipoDatosContacto}"
+                                                     value="#{identificacionRepresentanteRegistroPI100VentanillaBean.listaDatosDeContactoRepresentante}"
+                                                     widgetVar="listaDatosDeContactoRepresentante"
+                                                     style="width: 60%;height: 10%"
+                                                     scrollable="true" scrollHeight="90" resizableColumns="true"
+                                                     emptyMessage="Lista de datos de contacto esta vacia.">
+                                            <f:facet name="header">
+                                                <p:outputPanel>
+                                                    <h:outputText value="Lista de Datos de Contacto" />
+                                                </p:outputPanel>
+                                            </f:facet>
+                                            <p:column sortBy="#{itemRepresentante.tipoDatosContacto.codigo}" headerText="Tipo de Contacto" footerText="" filterMatchMode="contains" width="20%">
+                                                <h:outputText value="#{itemRepresentante.tipoDatosContacto.descripcion}"/>
+                                            </p:column>
+                                            <p:column sortBy="#{itemRepresentante.dato}" headerText="Dato" footerText="" filterMatchMode="contains" width="60%">
+                                                <h:outputText value="#{itemRepresentante.dato}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </p:panel>
+                            </h:panelGrid>
+
+                        </p:panel>
+                        <div align="center" style="padding:0.5em 0em;">
+                            <p:toolbar style="width: 99%;">
+                                <p:toolbarGroup align="left">  
+                                    <p:commandButton id="botonPanelDosAnterior"
+                                                     style="left: inherit"
+                                                     value="Anterior"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(1)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+
+                                </p:toolbarGroup>  
+                                <p:toolbarGroup align="right">  
+                                    <p:commandButton id="botonPanelDosSiguiente"
+                                                     style="right: inherit"
+                                                     value="Siguiente"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(3)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                            </p:toolbar>  
+                        </div>
+                    </p:panel>                     
+
+                    <p:panel id="panelTres" rendered="#{wizardVentanillaBean.panelTres}" style="border-style: hidden">
+                        <p:panel style="width: 100%">
+                            <h:panelGrid columns="1" style="width: 100%">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="*Signo Distintivo:"/>
+                                    <p:inputText id="marca" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.smsignomarca.marca}" size="100"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" style="width: 100%">
+                                    <p:panel  style="height: 450px;width: 98%;" header="Tipo de Signo">
+                                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                            <p:selectBooleanCheckbox id="denominativo" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.denominativo}"/>
+                                            <p:outputLabel value="Denominativo" />
+                                            <p:selectBooleanCheckbox id="denominativoGrafia" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.denominativoConGrafia}"/>
+                                            <p:outputLabel value="Denominativo Grafia" />
+                                            <p:selectBooleanCheckbox id="figurativa" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.figurativa}"/>
+                                            <p:outputLabel value="Figurativa" />
+                                            <p:selectBooleanCheckbox id="tridimensional" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.tridimensional}"/>
+                                            <p:outputLabel value="Tridimensional" />
+                                            <p:selectBooleanCheckbox id="auditivo" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.auditivo}"/>
+                                            <p:outputLabel value="Auditivo" />
+                                            <p:selectBooleanCheckbox id="otro" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.otro}">
+                                            </p:selectBooleanCheckbox>
+                                            <p:outputLabel value="Otro" />
+                                        </h:panelGrid>
+                                        <p:inputText id="tipoSignoOtrosDato" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.tipoSignoOtros}" size="70"/>
+                                        <p:watermark for="tipoSignoOtrosDato" value="Introduzca un valor si selecciono Otro." id="watermarkOtro" />
+                                        <h:panelGrid columns="2">
+                                            <h:outputLabel value="(*)Genero " />
+                                            <p:selectOneMenu id="generoTramite" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.generoTramite}">
+                                                <f:selectItems value="#{datosSignoDistintivoRegistroPI100VentanillaBean.listadoTipoGeneroTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    <p:panel style="width: 98%" header="Imagen">
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="Nombre Imagen:"/>
+                                                <h:inputText id="imagenCargaURL" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.nombreImagen}" size="40"/>
+                                            </h:panelGrid>
+                                            <p:galleria id="imagenCargadaGaleria" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.images}" var="image" panelWidth="200" panelHeight="150" showCaption="true" >
+                                                <p:graphicImage value="/resources/images/#{image}" title="#{image}" width="100%"/>
+                                            </p:galleria>
+                                        </div>
+                                        <h:panelGrid columns="1">
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel for="proteccion" value="Desea proteger el color o colores como parte de la marca" />
+                                                <p:selectOneRadio id="proteccion" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.proteccionColor}">
+                                                    <f:selectItem itemLabel="Si" itemValue="true" />
+                                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                                </p:selectOneRadio>
+                                            </h:panelGrid>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="(*)Descripcion del Logotipo:" />
+                                                <h:panelGrid columns="1">
+
+                                                    <p:outputLabel value="(llenar solo cuando la solicitud del registro"/>
+                                                    <p:outputLabel value="(es mixta, figurativa o tridimensional)" />
+                                                </h:panelGrid>
+                                            </h:panelGrid>
+                                            <p:inputTextarea id="descripcion" value="#{datosSignoDistintivoRegistroPI100VentanillaBean.smslogotipo.descripcion}" rows="5" cols="60"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <p:panel style="width: 98%" header="Clase ">
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:dataTable id="multipleDT"
+                                                 var="val"
+                                                 value="#{datosSignoDistintivoRegistroPI100VentanillaBean.listaSignoClaseNiza}"
+                                                 rowKey="#{val.numeroClaseNiza}"
+                                                 style="width: 90%;height: 10%"
+                                                 scrollable="true" scrollHeight="70" resizableColumns="true">
+                                        <p:column headerText="Numero Niza" width="10%">
+                                            <h:outputText value="#{val.numeroClaseNiza}" />
+                                        </p:column>
+                                        <p:column headerText="Productos" width="30%">
+                                            <h:outputText value="#{val.listaProducto}"/>
+                                        </p:column>
+                                        <p:column headerText="URL Archivo" width="40%">
+                                            <h:outputText value="#{val.archivoProducto}"/>
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:spacer height="10" />
+                                        </f:facet>
+                                    </p:dataTable>
+                                </div>
+                            </p:panel>
+                        </p:panel>
+
+
+
+
+                        <div align="center" style="padding:0.5em 0em;">
+
+                            <p:toolbar style="width: 99%;">
+                                <p:toolbarGroup align="left">  
+                                    <p:commandButton id="botonPanelTresAnterior"
+                                                     value="Anterior"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(2)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                                <p:toolbarGroup align="right">  
+                                    <p:commandButton id="botonPanelTresSiguiente"
+                                                     value="Siguiente"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(4)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+
+                                </p:toolbarGroup>  
+                            </p:toolbar>  
+                        </div>
+                    </p:panel> 
+
+                    <p:panel id="panelCuatro" rendered="#{wizardVentanillaBean.panelCuatro}" style="border-style: hidden">
+                        <p:panel header="PRIORIDADES">
+                            <h:panelGrid columns="1" id="panelPrimeraPrioridad">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel value="¿Tiene Prioridad?"/>
+                                    <p:selectOneRadio id="tienePrioridad" value="#{prioridadesRegistroPI100VentanillaBean.activaPrioridad}">
+                                        <f:selectItem itemLabel="Si" itemValue="true" />
+                                        <f:selectItem itemLabel="No" itemValue="false" />
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                                <p:panel id="panelPrioridad" rendered="#{prioridadesRegistroPI100VentanillaBean.activaPrioridad}">
+                                    <p:dataTable id="listadoSolicitadoPrioridad"
+                                                 var="itemPrioridad" 
+                                                 value="#{prioridadesRegistroPI100VentanillaBean.listadoSolicitadoPrioridad}"
+                                                 rowKey="#{itemPrioridad.tipoProteccionPrioridad}"
+                                                 widgetVar="listaDatosDeContactoRepresentante"
+                                                 scrollable="true" scrollHeight="90" 
+                                                 resizableColumns="true"
+                                                 style="margin-bottom:20px"
+                                                 emptyMessage="Lista de Prioridades Adicionales esta vacia.">
+                                        <f:facet name="header">
+                                            LISTA DE PRIORIDADES
+                                        </f:facet>
+                                        <p:column headerText="Tipo de Prioridad">
+                                            <h:outputText value="#{itemPrioridad.tipoProteccionPrioridad.descripcion}" style="width:8%" />
+                                        </p:column>
+                                        <p:column headerText="N&uacute;mero de Prioridad" style="width:8%">
+                                            <h:outputText value="#{itemPrioridad.numeroPrioridad}" />
+                                        </p:column>
+                                        <p:column headerText="Entidad/Oficina">
+                                            <h:outputText value="#{itemPrioridad.oficinaPrioridad}" />
+                                        </p:column>
+                                        <p:column headerText="Fecha de Emisi&oacute;n" style="width:10%">
+                                            <h:outputText value="#{itemPrioridad.fechaEmision}" >
+                                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Lugar de Emisi&oacute;n">
+                                            <h:outputText value="#{itemPrioridad.lugar}" style="width:30%"/>
+                                        </p:column>
+                                        <p:column headerText="Observaciones">
+                                            <h:outputText value="#{itemPrioridad.observacion}" style="width:60%"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <div align="center" style="padding:0.5em 0em;">
+                            <p:toolbar style="width: 99%;">
+                                <p:toolbarGroup align="left">  
+                                    <p:commandButton id="botonPanelCuatroAnterior"
+                                                     value="Anterior"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(3)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                                <p:toolbarGroup align="right">  
+                                    <p:commandButton id="botonPanelCuatroSiguiente"
+                                                     value="Siguiente"
+                                                     actionListener="#{wizardVentanillaBean.navegaSegunPantallaElegida(5)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                            </p:toolbar>  
+                        </div>
+                    </p:panel>
+
+                    <p:panel id="panelCinco" rendered="#{wizardVentanillaBean.panelCinco}" style="border-style: hidden">
+                        <p:panel header="Direcci&oacute;n de Notificaci&oacute;n">
+                            <h:panelGrid id="botonDireccion" columns="5" cellpadding="5">
+                                <p:outputLabel for="FechaUltima" value="Fecha Ultima Modificacion:" />
+                                <p:inputText id="FechaUltima" required="false" label="FechaUltima" disabled="true" value="#{direccionNotificacionPI100VentanillaBean.direccion.fechaUltimaModificacion}">
+                                    <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                </p:inputText>
+                                <p:message for="FechaUltima" display="icon" />
+                            </h:panelGrid>
+                            
+                            <h:panelGrid columns="1" id="panelDireccionNotificacion">    
+                                <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoDirNot}" style="color: #{direccionNotificacionPI100VentanillaBean.colorLabel}"/>
+                                    <h:panelGrid columns="4" id="datosDireccionNotificacionTramite">
+                                        <h:outputLabel value="" /> 
+                                        <h:panelGrid columns="3">
+                                            <si.componentes:informacion dimension="100%" mensaje="#{msgs.mensajeCiudadNotificacionInformacion}"/>
+                                            <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                            <p:selectOneMenu value="#{direccionNotificacionPI100VentanillaBean.tipoCiudadNotificacion}">
+                                                <f:selectItem itemLabel="#{msgs.usuarioNotificacionFormularioCincoElegir}" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItems value="#{direccionNotificacionPI100Bean.listaCiudadNotificaciones}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                        <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+                                        <p:separator style="width: 2px; border: 0px;height: 0px"></p:separator>
+
+
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoZona}" />  
+                                        <p:inputText id="txt_zona" value="#{direccionNotificacionPI100VentanillaBean.direccion.zona}" autocomplete="off"
+                                                     maxlength="78" />
+
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoBarrio}" />  
+                                        <p:inputText id="txt_barrio" value="#{direccionNotificacionPI100VentanillaBean.direccion.barrio}" autocomplete="off"
+                                                     maxlength="78" />
+
+
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCalle}" />  
+                                        <p:inputText id="txt_calle" value="#{direccionNotificacionPI100VentanillaBean.direccion.calle}"  autocomplete="off"
+                                                     maxlength="78" />
+
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumero}" />  
+                                        <p:inputText id="txt_numero" value="#{direccionNotificacionPI100VentanillaBean.direccion.numero}" autocomplete="off"
+                                                     maxlength="10" />
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoEdificio}" />  
+                                        <p:inputText id="txt_edificio" style="text-transform: capitalize;;width: 70%" value="#{direccionNotificacionPI100VentanillaBean.direccion.edificio}" size="50" autocomplete="off" maxlength="78">
+                                        </p:inputText>
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoPiso}" /> 
+                                        <h:panelGrid columns="6">
+                                            <p:inputText id="txt_piso" style="text-transform: capitalize;;width: 70%" value="#{direccionNotificacionPI100VentanillaBean.direccion.piso}" size="12" autocomplete="off" onkeyup="return ValNumero(this);" maxlength="10">
+                                            </p:inputText>
+                                            <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoNumDep}" />  
+                                            <p:inputText id="txt_depto" style="text-transform: capitalize;;width: 70%" value="#{direccionNotificacionPI100VentanillaBean.direccion.dpto}" size="12" autocomplete="off" maxlength="10">
+                                            </p:inputText>
+                                        </h:panelGrid>
+                                        <h:outputLabel value="#{msgs.usuarioNotificacionFormularioCincoCorreoElectronico}" />  
+                                        <p:inputText id="txt_correoElectronico" value="#{direccionNotificacionPI100VentanillaBean.direccion.correoElectronico}" size="50" autocomplete="off"
+                                                     maxlength="50" />
+                                        <p:outputLabel value=""/>
+                                        <p:commandButton id="buscaMapa" type="button" value="Direccion GoogleMaps" onclick="PF('cargaMapaArchivo').show()" icon="ui-icon-circle-zoomout"/>
+                                    </h:panelGrid>
+                                    
+
+                                    
+                                
+                                
+                            </h:panelGrid>
+                            
+                            
+
+                            
+                        </p:panel>
+
+                        <div align="center" style="padding:0.5em 0em;">
+
+                            <p:toolbar style="width: 99%;">
+                                <p:toolbarGroup align="left">  
+                                    <p:commandButton id="botonPanelCincoAnterior"
+                                                     value="Anterior"
+                                                     action="#{wizardVentanillaBean.navegaSegunPantallaElegida(4)}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk">
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                                <p:toolbarGroup align="right">  
+                                    <p:commandButton id="finalizado"
+                                                     value="Finalizar"
+                                                     actionListener="#{wizardVentanillaBean.cambiaWizardFinaliza()}"
+                                                     disabled="#{!wizardVentanillaBean.finalizado}"
+                                                     update="form,panelUno,panelDos,panelTres,panelCuatro,panelCinco"
+                                                     image="ui-icon ui-icon-disk"
+                                                     type="button"
+                                                     onclick="PF('ingresotramite').show()"
+                                                     >
+                                        <f:ajax execute="@this" render="@form" event="click"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>  
+                            </p:toolbar>  
+                        </div>
+                    </p:panel>
+                    
+                    
+                    <!--                    <h:panelGrid columns="1" id="panelDireccionNotificacion">
+
+                                <div align="center" style="padding:1em 2.2em;"> 
+
+                                    <p:dataTable value="# {direccionNotificacionPI100VentanillaBean.listaDatosDeDirecciones}"
+                                                 var="direccion"
+                                                 id="listaDatosDeDireccion">
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Zona"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.zona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Barrio"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.barrio}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Calle"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.calle}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Nro"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.numero}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Edificio"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.edificio}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Piso"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.piso}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Dpto"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.dpto}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Ciudad"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.tipoCiudad.nombre}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel value="Fecha de Modificación"/>
+                                            </f:facet>
+                                            <h:outputText value="# {direccion.fechaUltimaModificacion}">
+                                                <f:convertDateTime pattern="# {sessionState.formatoFecha}"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </div> 
+                            </h:panelGrid>-->
+                    
+
+                    
+
+                </div>
+            </p:panel>
+        </h:form>
+
+        <h:form id="formularioIngresotramite" >
+            <p:dialog header="Ingreso Tramite" widgetVar="ingresotramite" resizable="false" closable="false"
+                      width="50%" height="100%" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Ingresar Observaci&oacute;n:" />
+                        <p:inputTextarea id="observacionRegistroVentanilla" rows="5" cols="60" value="#{direccionNotificacionPI100VentanillaBean.tramite.expediente.observacion}"/>
+                    </h:panelGrid>
+
+                    <p:commandButton        value="Ingresar Solicitud"
+                                            icon="ui-icon ui-icon-disk" 
+                                            title="Ingresar Registro"
+                                            action="#{direccionNotificacionPI100VentanillaBean.guardarIngresoTramite()}"
+                                            >
+<!--                                <f:setPropertyActionListener value="#{item}" target="#{direccionNotificacionPI100Bean.direccionSeleccionadaPopup}" />-->
+                    </p:commandButton>
+
+                    <p:commandButton
+                        id="uno"
+                        value="CERRAR"
+                        onclick="PF('ingresotramite').hide();"
+                        icon="ui-icon-disk"/>
+                </div>
+            </p:dialog>
+        </h:form>
+
+
+
+    </ui:define>
+</ui:composition>

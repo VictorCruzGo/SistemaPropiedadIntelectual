@@ -1,0 +1,1117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="#{sessionState.pathTemplate}"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes">
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data">  
+
+
+            <p:panel header="FORMULARIO SOLICITUD REGISTRO DE SIGNOS DISTINTIVOS PI100"  style="text-align: center;width: 100%;overflow-y:auto ; overflow-x: auto;border-style: hidden">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:wizard id="wizardSolicitud" flowListener="#{generalSolicitanteRegistroPI100Bean.onFlowProcess}" nextLabel="SIGUIENTE" backLabel="ATRAS" showNavBar="#{sessionState.activaSiguienteWizard}" >
+                        <p:tab id="identificacionSolicitante" title="Identificacion del Solicitante">
+                            <p:panel>
+                                <div align="right" style="padding:1em 2.2em;">
+                                    <h:panelGrid id="botonPersona" columns="4" cellpadding="5">
+                                        <p:outputLabel value="Fecha Creacion:"/>
+                                        <h:inputText value="#{identificacionSolicitanteRegistroPI100Bean.fechaAdicion}" disabled="true" style="text-align:right;width: 50%">
+                                            <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                        </h:inputText>
+                                        <p:commandButton id="buscaEmpresa" type="button" value="Cargar Empresa" onclick="PF('BuscaEmpresa').show()" rendered="#{identificacionSolicitanteRegistroPI100Bean.renderizaBotonEmpresaPersona}" />
+                                        <p:commandButton id="buscaPersonaEmpresa" type="button" value="Cargar Persona" onclick="PF('Busca').show()" rendered="#{!identificacionSolicitanteRegistroPI100Bean.renderizaBotonEmpresaPersona}" />
+                                    </h:panelGrid>
+                                </div>
+                                <h:panelGrid columns="1">
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Tipo de Solicitantes: "/>
+                                        <p:selectOneMenu value="#{identificacionSolicitanteRegistroPI100Bean.tipoSolicitante}">
+                                            <f:selectItems value="#{identificacionSolicitanteRegistroPI100Bean.listadoTipoSolicitantedPersonaSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update="razonSocial,nombre,apellidoPaterno,apellidoMaterno,nroDocumento,tipoDocumento,lugar,genero,notificar :form:listaDatosDeContacto" listener="#{identificacionSolicitanteRegistroPI100Bean.activaCamposNaturalJuridicoAction(e)}" />        
+                                        </p:selectOneMenu>  
+                                    </h:panelGrid>
+                                    <h:outputLabel value="* En caso de ser el solicitante una persona Juridica llene el siguiente campo" style="color: #{identificacionSolicitanteRegistroPI100Bean.colorLabel}"/>
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Razon Social:"/>
+                                        <p:inputText id="razonSocial" value="#{identificacionSolicitanteRegistroPI100Bean.empresa.nombreRepresentante}" size="120" disabled="#{identificacionSolicitanteRegistroPI100Bean.activaCamposJuridico}" autocomplete="off">
+                                            <f:validator validatorId="validaEsVacio"/>
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:outputLabel value="* En caso de ser el solicitante una persona Natural llene el siguiente campo" style="color: #{identificacionSolicitanteRegistroPI100Bean.colorLabel}"/>
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="Nombre: " />
+                                        <p:inputText id="nombre" value="#{identificacionSolicitanteRegistroPI100Bean.persona.nombres}" size="120" disabled="#{identificacionSolicitanteRegistroPI100Bean.activaCamposNatural}" autocomplete="off">
+                                            <f:validator validatorId="validaEsVacio"/>
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="4">
+                                        <h:outputLabel value="Apellido Paterno: " />
+                                        <p:inputText id="apellidoPaterno" value="#{identificacionSolicitanteRegistroPI100Bean.persona.apellidoPaterno}" size="50" disabled="#{identificacionSolicitanteRegistroPI100Bean.activaCamposNatural}" autocomplete="off">
+                                            <f:validator validatorId="validaEsVacio"/>
+                                        </p:inputText>
+                                        <h:outputLabel value="Apellido Materno: " />
+                                        <p:inputText id="apellidoMaterno" value="#{identificacionSolicitanteRegistroPI100Bean.persona.apellidoMaterno}" size="50" disabled="#{identificacionSolicitanteRegistroPI100Bean.activaCamposNatural}" autocomplete="off">
+                                            <f:validator validatorId="validaEsVacio"/>
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="6">
+                                        <h:outputLabel value="Nro. Documento: " />  
+                                        <p:inputText id="nroDocumento" value="#{identificacionSolicitanteRegistroPI100Bean.numeroDocumento}" size="50" autocomplete="off">
+                                            <!--<p:ajax event="keyup" update="razonSocial,nombre,apellidoPaterno,apellidoMaterno,lugar,genero" listener="# {identificacionSolicitanteRegistroPI100Bean.cargaPersonaEmpresa(e)}"/>-->  
+                                            <f:validator validatorId="validaEsVacio"/>
+                                        </p:inputText>
+                                        <h:outputLabel value="Tipo Documento: " />  
+                                        <p:selectOneMenu id="tipoDocumento" value="#{identificacionSolicitanteRegistroPI100Bean.tipoDocumentoIdentidad}">  
+                                            <f:selectItems value="#{identificacionSolicitanteRegistroPI100Bean.listadoTipoDocumentoIdentidadSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputLabel value="Lugar: " />
+                                        <p:selectOneMenu value="#{identificacionSolicitanteRegistroPI100Bean.lugarExpedicion}" id="lugar" disabled="#{identificacionSolicitanteRegistroPI100Bean.activaCamposNatural}">
+                                            <f:selectItems value="#{identificacionSolicitanteRegistroPI100Bean.listadoCiudadClasificador}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="Genero: " />
+                                        <p:selectOneRadio id="genero" value="#{identificacionSolicitanteRegistroPI100Bean.genero}" disabled="#{identificacionSolicitanteRegistroPI100Bean.activaCamposNatural}">
+                                            <f:selectItems value="#{identificacionSolicitanteRegistroPI100Bean.listadoTipoGeneroPersona}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                        </p:selectOneRadio>
+                                    </h:panelGrid>
+                                    <h:outputLabel value="* Datos de contacto " style="color: #{identificacionSolicitanteRegistroPI100Bean.colorLabel}"/>
+                                    <h:panelGrid columns="6">
+                                        <p:selectOneMenu id="tipoContactoClasificadorSolicitante" value="#{identificacionSolicitanteRegistroPI100Bean.tipoContacto}">  
+                                            <f:selectItems value="#{identificacionSolicitanteRegistroPI100Bean.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                            <p:ajax event="change" update="notificar" listener="#{identificacionSolicitanteRegistroPI100Bean.activaCheckNotificacion(e)}" />
+                                        </p:selectOneMenu>
+                                        <p:inputText id="dato" value="#{identificacionSolicitanteRegistroPI100Bean.dato}" size="70" style="#{identificacionSolicitanteRegistroPI100Bean.cambiaBordeCampoDato==true?'border-color: #C00':''}"/>
+                                        <p:watermark for="dato" value="Introduzca dato de contacto" id="watermark" />
+                                        <p:selectBooleanCheckbox id="notificar" value="#{identificacionSolicitanteRegistroPI100Bean.notificar}" disabled="#{identificacionSolicitanteRegistroPI100Bean.habilitaNotificacionCheck}"/>
+                                        <h:outputText value="¿Notificar con este correo?" />
+                                        <p:commandButton
+                                            value="Adicionar"
+                                            id="btnSurname"
+                                            process="@this,dato"
+                                            update="listaDatosDeContacto,dato,notificar"
+                                            action="#{identificacionSolicitanteRegistroPI100Bean.adicionaDatoDeContacto()}"
+                                            image="ui-icon ui-icon-disk">
+                                            <p:confirm header="Confirmacion Adicion" message="Esta seguro de guardar los datos." icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:dataTable var="item"
+                                                 id="listaDatosDeContacto"
+                                                 rowKey="#{item.tipoContacto}"
+                                                 value="#{identificacionSolicitanteRegistroPI100Bean.listaDatosDeContacto}"
+                                                 widgetVar="listaDatosDeContacto"
+                                                 selectionMode="single"
+                                                 editable="true"
+                                                 selection="#{identificacionSolicitanteRegistroPI100Bean.datoscontactoSelect}"
+                                                 style="width: 80%;height: 10%"
+                                                 scrollable="true" scrollHeight="90" resizableColumns="true"
+                                                 emptyMessage="Lista de datos de contacto esta vacia.">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="Lista de Datos de Contacto" />
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <p:ajax event="rowEdit" listener="#{identificacionSolicitanteRegistroPI100Bean.onEdit}"/>
+                                        <p:ajax event="rowEditCancel" listener="#{identificacionSolicitanteRegistroPI100Bean.onCancel}"/>
+                                        <p:column filterBy="#{item.tipoContacto.codigo}" sortBy="#{item.tipoContacto.codigo}" headerText="Tipo de Contacto" footerText="" filterMatchMode="contains" width="20%">
+                                            <f:facet name="filter">
+                                                <p:selectOneMenu onchange="PF('listaDatosDeContacto').filter()" >
+                                                    <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItems value="#{identificacionSolicitanteRegistroPI100Bean.listadoDatosContactoSD}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tipoContacto.descripcion}"/>
+                                        </p:column>
+                                        <p:column filterBy="#{item.dato}" sortBy="#{item.dato}" headerText="Dato" footerText="" filterMatchMode="contains" width="60%">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{item.dato}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{item.dato}" style="width:95%"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="Eliminar" style="text-align: center" width="8%">
+                                            <p:commandButton update="listaDatosDeContacto" icon="ui-icon-trash" action="#{identificacionSolicitanteRegistroPI100Bean.eliminaDatoDeContacto()}" process="listaDatosDeContacto" disabled="#{item.idContacto!=null?true:false}">
+                                                <f:setPropertyActionListener value="#{item}" target="#{identificacionSolicitanteRegistroPI100Bean.datoscontactoSelect}" />
+                                                <p:confirm header="Confirmacion Eliminar" message="Esta seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                        </p:column>
+                                        <p:column headerText="Modificar" style="text-align: center" width="8%">
+                                            <p:rowEditor rendered="#{item.idContacto!=null?false:true}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <h:panelGrid columns="2">
+                                                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </h:panelGrid>
+                                        </div>
+                                    </p:confirmDialog>
+                                </div>
+                                <si.componentes:informacion id="informacion"
+                                                            dimension="70%"
+                                                            mensaje="Presione el boton Carga Datos para obtener los datos de manera automatica."
+                                                            rendered="#{identificacionSolicitanteRegistroPI100Bean.activaDialogoCargaDatos}"/>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton
+                                        value="Verificar y Guardar"
+                                        action="#{identificacionSolicitanteRegistroPI100Bean.guardaPrimeraParte()}"
+                                        update="salidaXML,botonCargaDatosPersonaEmpresa,informacion,wizardSolicitud"
+                                        ajax="false"
+                                        image="ui-icon ui-icon-disk">
+                                    </p:commandButton>
+                                    <p:commandButton
+                                        id="botonCargaDatosPersonaEmpresa"
+                                        value="Cargar Datos"
+                                        rendered="#{identificacionSolicitanteRegistroPI100Bean.activaDialogoCargaDatos}"
+                                        action="#{identificacionSolicitanteRegistroPI100Bean.cargaPersonaEmpresa()}"
+                                        ajax="false"
+                                        update="razonSocial,nombre,apellidoPaterno,apellidoMaterno,nroDocumento,genero,listaDatosDeContacto"
+                                        image="ui-icon ui-icon-disk"/>
+                                </div>
+                            </p:panel>
+                            <p:dialog header="lista Apoderado" widgetVar="cargaObjeto" resizable="false"
+                                      width="950" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                                <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" />
+                            </p:dialog>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:tab>
+
+
+
+                        <p:tab id="identifiacionRepresentante" title="Identificaci&oacute;n del Representante">      
+                            <p:panel>
+                                <h:panelGrid  columns="1" id="panelRepre">
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="¿Es tr&aacute;mite Unipersonal?"/>
+                                        <p:selectOneRadio id="esTramiteUnipersonal" value="#{identificacionRepresentanteRegistroPI100Bean.esTramiteUnipersonal}">
+                                            <f:selectItem itemLabel="Si" itemValue="false" />
+                                            <f:selectItem itemLabel="No" itemValue="true" />
+                                            <p:ajax event="change" update="panelRepre,wizardSolicitud,botonRepresentanteVerificaGuarda" listener="#{identificacionRepresentanteRegistroPI100Bean.limpiaDatosRepresentanteAction(e)}"/>
+                                        </p:selectOneRadio>
+                                    </h:panelGrid>
+                                    <p:panel id="panelRepresentante" rendered="#{identificacionRepresentanteRegistroPI100Bean.esTramiteUnipersonal}">
+                                        <h:panelGrid id="botonApoderadoPersona" columns="2" cellpadding="5">
+                                            <p:commandButton id="buscaApoderado" type="button" value="Cargar Apoderado" onclick="PF('BuscaApoderado').show()" />
+                                        </h:panelGrid>
+                                        <h:outputLabel value="Fecha &uacute;ltima modificaci&oacute;n "/>
+                                        <p:calendar value="#{identificacionRepresentanteRegistroPI100Bean.apoderado.ultimaModificacion}" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}"/>
+                                        <h:panelGrid columns="4" style="text-align: center">
+                                            <h:outputLabel value="(*)Número de Poder: "/>
+                                            <p:inputText value="#{identificacionRepresentanteRegistroPI100Bean.apoderado.numeroPoder}" size="50" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}">
+                                                <f:validator validatorId="validaEsVacio"/>
+                                            </p:inputText>
+                                            <h:outputLabel value="(*)Fecha de Expiraci&oacute;n: "/>
+                                            <p:calendar value="#{identificacionRepresentanteRegistroPI100Bean.apoderado.fechaExpiracionPoder}" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2" style="text-align: center">
+                                            <h:outputLabel value="(*)Nombre:"/>
+                                            <p:inputText id="idNombre" value="#{identificacionRepresentanteRegistroPI100Bean.personaApoderado.nombres}" size="130" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}">
+                                                <f:validator validatorId="validaEsVacio"/>
+                                            </p:inputText>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="4" style="text-align: center">
+                                            <h:outputLabel value="Apellido Paterno:"/>
+                                            <p:inputText id="idApellidoPaterno" value="#{identificacionRepresentanteRegistroPI100Bean.personaApoderado.apellidoPaterno}" size="50" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}">
+                                                <f:validator validatorId="validaEsVacio"/>
+                                            </p:inputText>
+                                            <h:outputLabel value="Apellido Materno:"/>
+                                            <p:inputText id="idApellidoMaterno" value="#{identificacionRepresentanteRegistroPI100Bean.personaApoderado.apellidoMaterno}" size="50" autocomplete="off" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}">
+                                                <f:validator validatorId="validaEsVacio"/>
+                                            </p:inputText>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="4" style="text-align: center">
+                                            <h:outputLabel value="Nro. Documento: " />
+                                            <p:inputText id="nroDocumentoApoderado" value="#{identificacionRepresentanteRegistroPI100Bean.numeroDocumentoApoderado}" size="50" autocomplete="off">
+                                                <f:validator validatorId="validaEsVacio"/>
+                                            </p:inputText>
+                                            <h:outputLabel value="Tipo Documento: " />
+                                            <p:selectOneMenu id="idTipoDocumento" value="#{identificacionRepresentanteRegistroPI100Bean.tipoDocumentoIdentidadApoderado}"  disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}">
+                                                <f:selectItems value="#{identificacionRepresentanteRegistroPI100Bean.listadoTipoDocumentoIdentidadSD}" var="tdi" itemLabel="#{tdi.nombre}" itemValue="#{tdi.codigo}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2" style="text-align: center">
+                                            <p:outputLabel value="G&eacute;nero: " />
+                                            <p:selectOneRadio id="generoRepresentante" value="#{identificacionRepresentanteRegistroPI100Bean.generoRepresentante}" disabled="#{identificacionRepresentanteRegistroPI100Bean.deshabilitarRepresentante}">
+                                                <f:selectItems value="#{identificacionRepresentanteRegistroPI100Bean.listadoTipoGeneroPersona}" var="gRepr" itemLabel="#{gRepr.nombre}" itemValue="#{gRepr.codigo}"/>
+                                            </p:selectOneRadio>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="1" style="text-align: center">
+                                            <h:outputLabel value="* Datos de contacto " style="color: #{identificacionRepresentanteRegistroPI100Bean.colorLabel}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="6">
+                                            <p:selectOneMenu value="#{identificacionRepresentanteRegistroPI100Bean.tipoContactoRepresentante}">
+                                                <f:selectItems value="#{identificacionRepresentanteRegistroPI100Bean.listadoDatosContactoSD}" var="rRepre" itemLabel="#{rRepre.nombre}" itemValue="#{rRepre.codigo}"/>
+                                                <p:ajax event="change" update="notificarRepresentante" listener="#{identificacionRepresentanteRegistroPI100Bean.activaCheckNotificacionRepresentante(e)}" />
+                                            </p:selectOneMenu>
+                                            <p:inputText id="datoRepresentante" value="#{identificacionRepresentanteRegistroPI100Bean.datoRepresentante}" size="70" style="#{identificacionRepresentanteRegistroPI100Bean.cambiaBordeCampoDatoRepresentante==true?'border-color: #C00':''}"/>
+                                            <p:watermark for="datoRepresentante" value="Introduzca dato de contacto" id="watermarkRepresentante" />
+                                            <p:selectBooleanCheckbox id="notificarRepresentante" value="#{identificacionRepresentanteRegistroPI100Bean.notificarRepresentante}" disabled="#{identificacionRepresentanteRegistroPI100Bean.habilitaNotificacionCheckRepresentante}"/>
+                                            <h:outputText value="¿Notificar con este correo?" />
+                                            <p:commandButton
+                                                value="Adicionar"
+                                                update="listaDatosDeContactoRepresentante,datoRepresentante"
+                                                process="@this,datoRepresentante"
+                                                action="#{identificacionRepresentanteRegistroPI100Bean.adicionaDatoDeContactoDeRepresentante()}"
+                                                image="ui-icon ui-icon-disk"/>
+                                        </h:panelGrid>
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <p:dataTable var="itemRepresentante"
+                                                         id="listaDatosDeContactoRepresentante"
+                                                         rowKey="#{itemRepresentante.tipoContacto}"
+                                                         value="#{identificacionRepresentanteRegistroPI100Bean.listaDatosDeContactoRepresentante}"
+                                                         widgetVar="listaDatosDeContactoRepresentante"
+                                                         selectionMode="single"
+                                                         editable="true"
+                                                         selection="#{identificacionRepresentanteRegistroPI100Bean.datoscontactoRepresentanteSelect}"
+                                                         style="width: 60%;height: 10%"
+                                                         scrollable="true" scrollHeight="90" resizableColumns="true"
+                                                         emptyMessage="Lista de datos de contacto esta vacia.">
+                                                <f:facet name="header">
+                                                    <p:outputPanel>
+                                                        <h:outputText value="Lista de Datos de Contacto" />
+                                                    </p:outputPanel>
+                                                </f:facet>
+                                                <p:ajax event="rowEdit" listener="#{identificacionRepresentanteRegistroPI100Bean.onEdit}"/>
+                                                <p:ajax event="rowEditCancel" listener="#{identificacionRepresentanteRegistroPI100Bean.onCancel}"/>
+                                                <p:column filterBy="#{itemRepresentante.tipoContacto.codigo}" sortBy="#{itemRepresentante.tipoContacto.codigo}" headerText="Tipo de Contacto" footerText="" filterMatchMode="contains" width="20%">
+                                                    <f:facet name="filter">
+                                                        <p:selectOneMenu onchange="PF('listaDatosDeContactoRepresentante').filter()" >
+                                                            <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+                                                            <f:selectItems value="#{identificacionRepresentanteRegistroPI100Bean.listadoDatosContactoSD}" var="rRepr" itemLabel="#{rRepr.nombre}" itemValue="#{rRepr.codigo}"/>
+                                                        </p:selectOneMenu>
+                                                    </f:facet>
+                                                    <h:outputText value="#{itemRepresentante.tipoContacto.descripcion}"/>
+                                                </p:column>
+                                                <p:column filterBy="#{itemRepresentante.dato}" sortBy="#{itemRepresentante.dato}" headerText="Dato" footerText="" filterMatchMode="contains" width="60%">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output">
+                                                            <h:outputText value="#{itemRepresentante.dato}"/>
+                                                        </f:facet>
+                                                        <f:facet name="input">
+                                                            <p:inputText value="#{itemRepresentante.dato}" style="width:95%"/>
+                                                        </f:facet>
+                                                    </p:cellEditor>
+                                                </p:column>
+                                                <p:column headerText="Eliminar" style="text-align: center" width="10%">
+                                                    <p:commandButton update="listaDatosDeContactoRepresentante" icon="ui-icon-trash" action="#{identificacionRepresentanteRegistroPI100Bean.eliminaDatoDeContactoRepresentante()}" process="listaDatosDeContactoRepresentante">
+                                                        <f:setPropertyActionListener value="#{itemRepresentante}" target="#{identificacionRepresentanteRegistroPI100Bean.datoscontactoRepresentanteSelect}" />
+                                                        <p:confirm header="Confirmaci&oacute;n Eliminar" message="Esta seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Modificar" style="text-align: center" width="10%">
+                                                    <p:rowEditor />
+                                                </p:column>
+                                            </p:dataTable>
+                                            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </p:confirmDialog>
+                                        </div>
+                                    </p:panel>
+                                </h:panelGrid>
+                                <si.componentes:informacion id="informacionPersonaApoderado"
+                                                            dimension="70%"
+                                                            mensaje="Presione el boton Carga Datos para obtener los datos de manera automatica."
+                                                            rendered="#{identificacionRepresentanteRegistroPI100Bean.activaDialogoCargaDatosRepresentante}"/>
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:commandButton
+                                        id="botonRepresentanteVerificaGuarda"
+                                        value="Verificar y Guardar"
+                                        action="#{identificacionRepresentanteRegistroPI100Bean.guardaSegundaParte()}"
+                                        rendered="#{identificacionRepresentanteRegistroPI100Bean.esTramiteUnipersonal}"
+                                        update="botonCargaDatosPersonaApoderado,informacionPersonaApoderado,wizardSolicitud"
+                                        ajax="false"
+                                        image="ui-icon ui-icon-disk"/>
+                                    <p:commandButton
+                                        id="botonRepresentanteVerificaGuardaRadioButton"
+                                        value="Verificar y Guardar"
+                                        action="#{identificacionRepresentanteRegistroPI100Bean.guardaSegundaParteRadioButton()}"
+                                        rendered="#{!identificacionRepresentanteRegistroPI100Bean.esTramiteUnipersonal}"
+                                        update="botonCargaDatosPersonaApoderado,informacionPersonaApoderado,wizardSolicitud"
+                                        ajax="false"
+                                        image="ui-icon ui-icon-disk"/>
+                                    <p:commandButton
+                                        id="botonCargaDatosPersonaApoderado"
+                                        value="Cargar Datos"
+                                        rendered="#{identificacionRepresentanteRegistroPI100Bean.activaDialogoCargaDatosRepresentante}"
+                                        action="#{identificacionRepresentanteRegistroPI100Bean.cargaPersonaApoderado()}"
+                                        ajax="false"
+                                        update="idNombre,idApellidoPaterno,idApellidoMaterno,nroDocumentoApoderado,idTipoDocumento,generoRepresentante,listaDatosDeContactoRepresentante"
+                                        image="ui-icon ui-icon-disk"/>
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="datosSignoDistintivo" title="Datos del Signo Distintivo">
+                            <p:panel header="Datos del Signo Distintivo">
+                                <h:panelGrid columns="1">
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="*Signo Distintivo:"/>
+                                        <p:inputText id="marca" value="#{datosSignoDistintivoRegistroPI100Bean.smsignomarca.marca}" size="100" style="#{datosSignoDistintivoRegistroPI100Bean.cambiaBordeMarca==false?'border-color: #C00':''}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:panel>
+                                            <p:outputLabel value="*Tipo de Signo:"/>
+                                            <p:outputLabel  id="validaTipoSigno" value="Es necesario seleccionar un tipo de signo'" rendered="#{datosSignoDistintivoRegistroPI100Bean.activaValidaClasificarCambiaColor}" style="color: #C00"/>
+                                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                                <p:selectBooleanCheckbox id="denominativo" value="#{datosSignoDistintivoRegistroPI100Bean.denominativo}" />
+                                                <p:outputLabel value="Denominativo" />
+                                                <p:selectBooleanCheckbox id="denominativoGrafia" value="#{datosSignoDistintivoRegistroPI100Bean.denominativoConGrafia}" />
+                                                <p:outputLabel value="Denominativo Grafia" />
+                                                <p:selectBooleanCheckbox id="figurativa" value="#{datosSignoDistintivoRegistroPI100Bean.figurativa}" />
+                                                <p:outputLabel value="Figurativa" />
+                                                <p:selectBooleanCheckbox id="tridimensional" value="#{datosSignoDistintivoRegistroPI100Bean.tridimensional}" />
+                                                <p:outputLabel value="Tridimensional" />
+                                                <p:selectBooleanCheckbox id="auditivo" value="#{datosSignoDistintivoRegistroPI100Bean.auditivo}" />
+                                                <p:outputLabel value="Auditivo" />
+                                                <p:selectBooleanCheckbox id="otro" value="#{datosSignoDistintivoRegistroPI100Bean.otro}" >
+                                                    <p:ajax event="change" update="tipoSignoOtrosDato" listener="#{datosSignoDistintivoRegistroPI100Bean.activaCampoTipoSignoOtrosDatoAction(e)}"/>
+                                                </p:selectBooleanCheckbox>
+                                                <p:outputLabel value="Otro" />
+                                            </h:panelGrid>
+                                            <p:inputText id="tipoSignoOtrosDato" value="#{datosSignoDistintivoRegistroPI100Bean.tipoSignoOtros}" size="70" style="#{datosSignoDistintivoRegistroPI100Bean.cambiaBordeCampoOtro==true?'border-color: #C00':''}" disabled="#{datosSignoDistintivoRegistroPI100Bean.habilitaTipoSignoOtros}"/>
+                                            <p:watermark for="tipoSignoOtrosDato" value="Introduzca un valor si selecciono Otro." id="watermarkOtro" />
+                                            <h:panelGrid columns="2">
+                                                <h:outputLabel value="(*)Genero " />
+                                                <p:selectOneMenu id="generoTramite" value="#{datosSignoDistintivoRegistroPI100Bean.generoTramite}">
+                                                    <f:selectItems value="#{datosSignoDistintivoRegistroPI100Bean.listadoTipoGeneroTramite}" var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        <p:panel>
+                                            <div align="center" style="padding:1em 2.2em;">
+                                                <div align="center" style="padding:1em 2.2em;">
+                                                    <p:fileUpload fileUploadListener="#{datosSignoDistintivoRegistroPI100Bean.cargaImagen}"
+                                                                  mode="advanced"
+                                                                  dragDropSupport="false"
+                                                                  update="messages"
+                                                                  auto="true"
+                                                                  sizeLimit="100000"
+                                                                  fileLimit="3"
+                                                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                                  label="elegir"
+                                                                  uploadLabel="cargar"
+                                                                  cancelLabel="cancelar"/>
+                                                    <p:growl id="messages" showDetail="true" />
+                                                </div>
+                                                <p:galleria value="#{datosSignoDistintivoRegistroPI100Bean.images}" var="image" panelWidth="200" panelHeight="150" showCaption="true" >
+                                                    <p:graphicImage value="/resources/images/#{image}" title="#{image}" width="100%"/>
+                                                    <!--<p:graphicImage value="/resources/images/# {image}" alt="Descripcion de la imagen # {image}" title="# {image}" style="width:210px;"/>-->
+                                                </p:galleria>
+                                            </div>
+                                            <h:panelGrid columns="1">
+                                                <h:panelGrid columns="2">
+                                                    <p:outputLabel for="proteccion" value="Desea proteger el color o colores como parte de la marca" />
+                                                    <p:selectOneRadio id="proteccion" value="#{datosSignoDistintivoRegistroPI100Bean.proteccionColor}">
+                                                        <f:selectItem itemLabel="Si" itemValue="true" />
+                                                        <f:selectItem itemLabel="No" itemValue="false" />
+                                                    </p:selectOneRadio>
+                                                </h:panelGrid>
+                                                <h:panelGrid columns="2">
+                                                    <p:outputLabel value="(*)Descripcion del Logotipo:" />
+                                                    <h:panelGrid columns="1">
+
+                                                        <p:outputLabel value="(llenar solo cuando la solicitud del registro" />
+                                                        <p:outputLabel value="(es mixta, figurativa o tridimensional)" />
+                                                    </h:panelGrid>
+                                                </h:panelGrid>
+                                                <p:inputTextarea id="descripcion" value="#{datosSignoDistintivoRegistroPI100Bean.smslogotipo.descripcion}" rows="5" cols="60"/>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </h:panelGrid>
+                                    <p:panel>
+                                        <h:panelGrid columns="3">
+                                            <p:outputLabel value="(*)Clase internacional Niza: "/>
+                                            <p:selectOneMenu id="numeroNiza" value="#{datosSignoDistintivoRegistroPI100Bean.numeroInternacional}" >
+                                                <f:selectItems value="#{datosSignoDistintivoRegistroPI100Bean.listaNumerosClaseNizaProductosServicios}" var="h" itemLabel="#{h}" itemValue="#{h}"/>
+                                            </p:selectOneMenu>
+
+                                            <p:commandButton id="buscaNiza" type="button" value="Abrir Clasificador Niza" onclick="PF('BuscaClaseniza').show()" />
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="Lista de Productos y/o Servicios "/>
+                                            <p:inputTextarea id="areaProductos" rows="5" cols="60" value="#{datosSignoDistintivoRegistroPI100Bean.listaProductosTextArea}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            <p:selectBooleanCheckbox value="#{datosSignoDistintivoRegistroPI100Bean.activaCargaDocumento}" >
+                                                <p:ajax event="change" update="cargaArchivos" listener="#{datosSignoDistintivoRegistroPI100Bean.activaCargaArchivosAction(e)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="Marcar este recuadro si el espacio anterior no es suficiente. En tal caso, indique los productos  y/o servicios adicionales adjuntando el documento correspondiente." />
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="4">
+                                            <p:fileUpload id="cargaArchivos" fileUploadListener="#{datosSignoDistintivoRegistroPI100Bean.cargaArchivoNiza}"
+                                                          mode="advanced"
+                                                          dragDropSupport="false"
+                                                          auto="true"
+                                                          update="messages"
+                                                          sizeLimit="100000"
+                                                          fileLimit="3"
+                                                          allowTypes="/(\.|\/)(txt|doc|docx|pdf)$/" label="Examinar" uploadLabel="Subir" cancelLabel="Cancelar" disabled="#{datosSignoDistintivoRegistroPI100Bean.habilitaCargaDeArchivos}"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </h:panelGrid>
+                                <p:commandButton
+                                    value="Adicionar"
+                                    process="@this,areaProductos,numeroNiza"
+                                    update="multipleDT,areaProductos"
+                                    action="#{datosSignoDistintivoRegistroPI100Bean.adicionaProductos()}"
+                                    image="ui-icon ui-icon-disk"/>
+
+                                <div align="center" style="padding:1em 2.2em;">
+                                    <p:dataTable id="multipleDT"
+                                                 var="val"
+                                                 value="#{datosSignoDistintivoRegistroPI100Bean.listaSignoClaseNiza}"
+                                                 selectionMode="single"
+                                                 selection="#{datosSignoDistintivoRegistroPI100Bean.smsignoclasenizaSelect}"
+                                                 rowKey="#{val.numeroClaseNiza}">
+                                        <f:facet name="header">
+                                            Multiple with Meta and Shift keys
+                                        </f:facet>
+                                        <p:column headerText="Numero Niza">
+                                            <h:outputText value="#{val.numeroClaseNiza}" />
+                                        </p:column>
+                                        <p:column headerText="Productos">
+                                            <h:outputText value="#{val.listaProducto}" />
+                                        </p:column>
+                                        <p:column headerText="URL Archivo">
+                                            <h:outputText value="#{val.archivoProducto}" />
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            
+                                        </f:facet>
+                                    </p:dataTable>
+                                    <p:commandButton
+                                        id="botonSignoDistintivoVerificaGuarda"
+                                        value="Verificar y Guardar"
+                                        process="@this,marca,denominativo,denominativoGrafia,figurativa,tridimensional,auditivo,otro,tipoSignoOtrosDato,generoTramite,proteccion,descripcion"
+                                        action="#{datosSignoDistintivoRegistroPI100Bean.guardaTerceraParte()}"
+                                        update="tipoSignoOtrosDato,watermarkOtro,marca,validaTipoSigno,wizardSolicitud"
+                                        image="ui-icon ui-icon-disk">
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" width="30%" height="50%" closable="false" >
+                                        <div align="center" style="padding:1em 2.2em;">
+                                            <h:panelGrid columns="2">
+                                                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </h:panelGrid>
+                                        </div>
+                                    </p:confirmDialog>
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="identificacionPrioridades" title="Prioridades">
+                            <p:panel header="PRIORIDADES">
+                                <h:panelGrid columns="1" id="panelPrimeraPrioridad">
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="¿Tiene Prioridad?"/>
+                                        <p:selectOneRadio id="tienePrioridad" value="#{prioridadesRegistroPI100Bean.activaPrioridad}">
+                                            <f:selectItem itemLabel="Si" itemValue="true" />
+                                            <f:selectItem itemLabel="No" itemValue="false" />
+                                            <p:ajax event="change" update="panelPrimeraPrioridad,botonSolicitudPrioridadVerificaGuarda" listener="#{prioridadesRegistroPI100Bean.limpiaDatosPrioridad(e)}"/>
+                                        </p:selectOneRadio>
+                                    </h:panelGrid>
+                                    <p:panel id="panelPrioridad" rendered="#{prioridadesRegistroPI100Bean.activaPrioridad}">
+                                        <h:panelGrid columns="2" id="panelPrioridadCampos">
+                                            <h:outputLabel value="Tipo de  Prioridad:"/>
+                                            <p:selectOneMenu value="#{prioridadesRegistroPI100Bean.datosPrimerComboPrioridad}"  style="width:150px">
+                                                <f:selectItem itemLabel="-- Seleccione Prioridad --" itemValue="" noSelectionOption="true" />
+                                                <f:selectItems value="#{prioridadesRegistroPI100Bean.listaTipoProteccionPrioridad()}" var="r" itemLabel="#{r.descripcion}" itemValue="#{r.codigo}"/>
+                                            </p:selectOneMenu>
+                                            <h:outputLabel value="N&uacute;mero / C&oacute;digo:"/>
+                                            <h:inputText value="#{prioridadesRegistroPI100Bean.smsolicitadoprioridad.numeroPrioridad}" size="20">
+                                                <!--<f:validator validatorId="validaEsVacio"/>-->
+                                            </h:inputText>
+                                            <h:outputLabel value="Entidad/Oficina Otorga:"/>
+                                            <h:inputText value="#{prioridadesRegistroPI100Bean.smsolicitadoprioridad.oficinaPrioridad}" size="100">
+                                                <!--<f:validator validatorId="validaEsVacio"/>-->
+                                            </h:inputText>
+                                            <h:outputLabel id="fecha" value="Fecha de Emisi&oacute;n:" />
+                                            <p:calendar id="mask" value="#{prioridadesRegistroPI100Bean.smsolicitadoprioridad.fechaEmision}" locale="es" navigator="true" pattern="dd/MM/yyyy" size="12" style="border-color: #C00" />
+                                            <h:outputLabel value="Lugar:"/>
+                                            <h:inputText value="#{prioridadesRegistroPI100Bean.smsolicitadoprioridad.lugar}" size="50">
+                                                <!--<f:validator validatorId="validaEsVacio"/>-->
+                                            </h:inputText>
+                                            <h:outputLabel value="Observaci&oacute;n:"/>
+                                            <p:inputTextarea value="#{prioridadesRegistroPI100Bean.smsolicitadoprioridad.observacion}" rows="3" cols="50" />
+                                        </h:panelGrid>
+                                        <p:commandButton
+                                            value="#{prioridadesRegistroPI100Bean.nombreAccion}"
+                                            id="btnAdicinoPrioridad"
+                                            update="listadoSolicitadoPrioridad,panelPrioridad,panelPrioridadCampos,botonSolicitudPrioridadVerificaGuarda"
+                                            action="#{prioridadesRegistroPI100Bean.adicionaDatosPrioridad()}"
+                                            image="ui-icon ui-icon-disk"/>
+                                        <p:dataTable id="listadoSolicitadoPrioridad"
+                                                     var="itemPrioridad" 
+                                                     value="#{prioridadesRegistroPI100Bean.listadoSolicitadoPrioridad}"
+                                                     rowKey="#{itemPrioridad.tipoProteccionPrioridad}"
+                                                     selectionMode="single"
+                                                     selection="#{prioridadesRegistroPI100Bean.seleccionadoPrioridad}"
+                                                     widgetVar="listaDatosDeContactoRepresentante"
+                                                     scrollable="true" scrollHeight="90" 
+                                                     resizableColumns="true"
+                                                     editable="true" 
+                                                     style="margin-bottom:20px"
+                                                     emptyMessage="Lista de Prioridades Adicionales esta vacia.">
+                                            <f:facet name="header">
+                                                LISTA DE PRIORIDADES
+                                            </f:facet>
+
+                                            <p:ajax event="rowEdit" listener="#{prioridadesRegistroPI100Bean.onRowEdit}" />
+                                            <p:ajax event="rowEditCancel" listener="#{prioridadesRegistroPI100Bean.onRowCancel}" />
+
+                                            <p:column headerText="Tipo de Prioridad">
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{itemPrioridad.tipoProteccionPrioridad.descripcion}" style="width:8%" />
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <h:selectOneMenu value="#{prioridadesRegistroPI100Bean.datoSegundoCombo}" style="width:8%">
+                                                            <f:selectItems value="#{prioridadesRegistroPI100Bean.listaTipoProteccionPrioridad()}" var="pri" itemLabel="#{pri.descripcion}" itemValue="#{pri.codigo}" />
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="N&uacute;mero de Prioridad" style="width:8%">
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{itemPrioridad.numeroPrioridad}" />
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText id="numeroPrioridad" value="#{itemPrioridad.numeroPrioridad}" style="width:8%"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Entidad/Oficina">
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{itemPrioridad.oficinaPrioridad}" />
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText id="oficinaPrioridad" value="#{itemPrioridad.oficinaPrioridad}" style="width:30%"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Fecha de Emisi&oacute;n" style="width:10%">
+                                                <h:outputText value="#{itemPrioridad.fechaEmision}" >
+                                                    <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Lugar de Emisi&oacute;n">
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{itemPrioridad.lugar}"  style="width:30%"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText id="lugarPrioridad" value="#{itemPrioridad.lugar}" style="width:30%"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Observaciones">
+                                                <p:cellEditor>
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{itemPrioridad.observacion}"   style="width:60%"/>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText id="obsPrioridad" value="#{itemPrioridad.observacion}" style="width:60%"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column  headerText="Modificar" style="text-align: center" width="5%">
+                                                <p:commandButton update=":form:panelPrimeraPrioridad" icon="ui-icon-pencil" title="Editar" action="#{prioridadesRegistroPI100Bean.modificaPrioridadAdicional()}" disabled="#{prioridadesRegistroPI100Bean.desactivaBotonModificarYEliminar}">
+                                                    <f:setPropertyActionListener value="#{itemPrioridad}" target="#{prioridadesRegistroPI100Bean.seleccionadoPrioridad}" />
+                                                </p:commandButton>
+                                            </p:column>
+                                            <p:column headerText="Eliminar" style="text-align: center" width="5%">
+                                                <p:commandButton update=":form:listadoSolicitadoPrioridad" icon="ui-icon-trash" action="#{prioridadesRegistroPI100Bean.eliminaSeleccionadoPrioridad()}" disabled="#{prioridadesRegistroPI100Bean.desactivaBotonModificarYEliminar}">
+                                                    <f:setPropertyActionListener value="#{itemPrioridad}" target="#{prioridadesRegistroPI100Bean.seleccionadoPrioridad}" />
+                                                    <p:confirm header="Confirmaci&oacute;n Eliminar" message="Esta seguro que quiere eliminar el registro?" icon="ui-icon-alert" />
+                                                </p:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode">
+                                            <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                    </p:panel>
+                                    <div align="center" style="padding:1em 2.2em;">
+                                        <p:commandButton
+                                            id="botonSolicitudPrioridadVerificaGuarda"
+                                            value="Verificar y Guardar"
+                                            action="#{prioridadesRegistroPI100Bean.guardaCuartaParte()}"
+                                            rendered="#{!prioridadesRegistroPI100Bean.activaPanelPrioridad}"
+                                            disabled="#{prioridadesRegistroPI100Bean.desactivaBotonModificarYEliminar}"
+                                            update="botoncargaDatosApoderado,informacionPersonaApoderado"
+                                            ajax="false"
+                                            image="ui-icon ui-icon-disk"/>
+                                        <p:commandButton
+                                            id="botonSolicitudPrioridadVerificaGuardaRadioButton"
+                                            value="Verificar y Guardar"
+                                            action="#{prioridadesRegistroPI100Bean.guardaCuartaParteRadioButton()}"
+                                            rendered="#{prioridadesRegistroPI100Bean.activaPanelPrioridad}"
+                                            update="botoncargaDatosApoderado,informacionPersonaApoderado"
+                                            ajax="false"
+                                            image="ui-icon ui-icon-disk"/>
+                                    </div>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+
+                        <p:tab id="direccionNotificacion" title="Direcci&oacute;n de Notificaci&oacute;n">
+                            <p:panel header="Direcci&oacute;n de Notificaci&oacute;n">
+
+
+                                <h:panelGrid id="botonDireccion" columns="5" cellpadding="5">
+                                    <p:outputLabel for="FechaUltima" value="Fecha Ultima Modificacion:" />
+                                    <p:inputText id="FechaUltima" required="false" label="FechaUltima" disabled="true" value="#{direccionNotificacionPI100Bean.direccion.ultimaModificacion}">
+                                        <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                    </p:inputText>
+                                    <p:message for="FechaUltima" display="icon" />
+
+                                    <p:commandButton id="BuscaDireccion" type="button" value="Obtener Direccion" onclick="PF('buscaDireccion').show()" ajax="false" update="listaDireccion"/>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="1" id="panelDireccionNotificacion">
+
+                                    <h:outputLabel value="(*) Direccion de notificacion" style="color: #{direccionNotificacionPI100Bean.colorLabel}"/>
+                                    <h:panelGrid columns="4">
+
+                                        <h:outputLabel value="Zona : " />  
+                                        <p:inputText id="txt_zona" value="#{direccionNotificacionPI100Bean.direccion.zona}" size="50"  autocomplete="off">
+
+                                        </p:inputText>
+
+                                        <h:outputLabel value="Barrio : " />  
+                                        <p:inputText id="txt_barrio" value="#{direccionNotificacionPI100Bean.direccion.barrio}" size="50" autocomplete="off">
+
+                                        </p:inputText>
+
+                                        <h:outputLabel value="Calle : " />  
+                                        <p:inputText id="txt_calle" value="#{direccionNotificacionPI100Bean.direccion.calle}" size="50"  autocomplete="off">
+
+                                        </p:inputText>
+
+                                        <h:outputLabel value="Numero : " />  
+                                        <p:inputText id="txt_numero" value="#{direccionNotificacionPI100Bean.direccion.numero}" size="50" autocomplete="off">
+
+                                        </p:inputText>
+
+                                        <h:outputLabel value="Edificio : " />  
+                                        <p:inputText id="txt_edificio" value="#{direccionNotificacionPI100Bean.direccion.edificio}" size="50" autocomplete="off">
+                                        </p:inputText>
+                                        <h:outputLabel value="Piso : " /> 
+
+                                        <h:panelGrid columns="6">
+                                            <p:inputText id="txt_piso" value="#{direccionNotificacionPI100Bean.direccion.piso}" size="10" autocomplete="off" onkeyup="return ValNumero(this);">
+
+                                            </p:inputText>
+
+                                            <h:outputLabel value="N°Depto : " />  
+                                            <p:inputText id="txt_depto" value="#{direccionNotificacionPI100Bean.direccion.dpto}" size="10" autocomplete="off">
+
+                                            </p:inputText>
+
+                                            <h:panelGrid columns="2">
+                                                <h:outputLabel value="Ciudad : " /> 
+                                                <p:selectOneMenu id="listadoCiudades" value="#{direccionNotificacionPI100Bean.tipoCiudad}" style="width:150px">
+                                                    <f:selectItems value="#{direccionNotificacionPI100Bean.listaCiudades}"
+                                                                   var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}"/>
+                                                </p:selectOneMenu>
+
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+
+
+                                    </h:panelGrid>
+
+                                    <p:commandButton value="#{direccionNotificacionPI100Bean.etiqueta}"
+                                                     action="#{direccionNotificacionPI100Bean.adicionaDatoDeDireccion()}"
+                                                     update="listaDatosDeDireccion"
+                                                     image = "ui-icon-disk"
+                                                     ajax="false"
+                                                     id="botonadicionamodifica">
+                                    </p:commandButton>
+
+                                    <div align="center" style="padding:1em 2.2em;"> 
+
+                                        <p:dataTable value="#{direccionNotificacionPI100Bean.listaDatosDeDirecciones}"
+                                                     var="direccion"
+                                                     id="listaDatosDeDireccion">
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Zona"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.zona}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Barrio"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.barrio}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Calle"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.calle}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Nro"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.numero}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Edificio"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.edificio}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Piso"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.piso}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Dpto"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.dpto}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Ciudad"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.tipoCiudad.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel value="Fecha de Modificación"/>
+                                                </f:facet>
+                                                <h:outputText value="#{direccion.ultimaModificacion}">
+                                                    <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                                                </h:outputText>
+                                            </p:column>
+
+
+                                            <p:column headerText="Modificar" style="text-align: center" width="5%">
+                                                <p:commandButton  icon="ui-icon-pencil" title="Editar" action="#{direccionNotificacionPI100Bean.modificaDatoDeDireccion()}"
+                                                                  update="listaDatosDeDireccion :form:FechaUltima :form:txt_zona :form:txt_barrio  :form:txt_calle :form:txt_numero :form:txt_edificio 
+                                                                  :form:txt_piso :form:txt_depto :form:listadoCiudades :form:botonadicionamodifica"
+                                                                  disabled="#{direccionNotificacionPI100Bean.validaBoton}">
+                                                    <f:setPropertyActionListener value="#{direccion}" target="#{direccionNotificacionPI100Bean.direccionSeleccionada}" />
+                                                </p:commandButton>
+                                            </p:column>
+
+                                            <p:column headerText="Eliminar" style="text-align: center" width="5%">
+                                                <p:commandButton action="#{direccionNotificacionPI100Bean.borrarDireccionDeLaLista()}"
+                                                                 image="ui-icon-trash"
+                                                                 update="listaDatosDeDireccion"
+                                                                 disabled="#{direccionNotificacionPI100Bean.validaBoton}"
+                                                                 >
+                                                    <f:setPropertyActionListener value="#{direccion}" target="#{direccionNotificacionPI100Bean.direccionSeleccionada}" />
+                                                    <p:confirm header="Confirmaci&oacute;n Eliminar" message="Esta seguro que quiere eliminar el registro?  " icon="ui-icon-alert" />
+                                                </p:commandButton>
+
+                                                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode">
+                                                    <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                    <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                </p:confirmDialog>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div> 
+                                    <p:commandButton
+                                        value="Verificar y Guardar"
+                                        ajax="false"
+                                        action="#{direccionNotificacionPI100Bean.guardarDatosPestaniaDireccion()}"
+                                        process="@this, listaDatosDeDireccion"
+                                        disabled="#{direccionNotificacionPI100Bean.validaBoton}"
+                                        image="ui-icon ui-icon-disk"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+
+
+                    </p:wizard>
+
+                </div>
+            </p:panel>
+        </h:form>
+
+
+
+
+        <h:form id="form2" enctype="multipart/form-data">
+            
+            <p:dialog header="Personas" widgetVar="Busca" resizable="false" closable="false"  
+                      width="950" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:dataTable var="item" 
+                                 id="listaPersona"
+                                 rowKey="#{item.idPersona}"
+                                 value="#{identificacionSolicitanteRegistroPI100Bean.listadoDePersonaSegunUsuario()}" 
+                                 widgetVar="listaPersona"
+                                 selectionMode="single" 
+                                 scrollable="true" scrollHeight="250" 
+                                 resizableColumns="true"
+                                 selection="#{identificacionSolicitanteRegistroPI100Bean.personaSeleccionada}"
+                                 style="width: 100%">
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="LISTA DE PERSONAS NATURALES" />
+                            </p:outputPanel>
+                        </f:facet> 
+                        <p:column  filterBy="#{item.nombres}" sortBy="#{item.nombres}" headerText="NOMBRES" width="15%">  
+                            <h:outputText value="#{item.nombres}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.apellidoPaterno}" sortBy="#{item.apellidoPaterno}" headerText="APELLIDO PATERNO" width="10%">  
+                            <h:outputText value="#{item.apellidoPaterno}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.apellidoMaterno}" sortBy="#{item.apellidoMaterno}" headerText="APELLIDO MATERNO" width="10%">  
+                            <h:outputText value="#{item.apellidoMaterno}" />
+                        </p:column>
+
+                        <p:column headerText="SELECCIONE" width="5%" style="width:32px;text-align: center">
+                            <p:commandButton update="nombre,nroDocumento,apellidoPaterno,apellidoMaterno" icon="ui-icon-search" title="View" action="#{identificacionSolicitanteRegistroPI100Bean.cargaDatosPersona()}" ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{identificacionSolicitanteRegistroPI100Bean.personaSeleccionada}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="CANCELAR"
+                            onclick="PF('Busca').hide();"
+
+                            icon="ui-icon-disk"/>
+                    </div>
+                </div>
+            </p:dialog>  
+            <p:dialog header="Empresa" widgetVar="BuscaEmpresa" resizable="false" closable="false"  
+                      width="950" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:panel>
+                        <p:dataTable var="itemEmpresa" 
+                                     id="listaEmpresa"
+                                     rowKey="#{itemEmpresa.idEmpresa}"
+                                     value="#{identificacionSolicitanteRegistroPI100Bean.listadoDeEmpresaSegunUsuario()}" 
+                                     widgetVar="listaEmpresa"
+                                     selectionMode="single" 
+                                     scrollable="true" scrollHeight="250" 
+                                     resizableColumns="true"
+                                     selection="#{identificacionSolicitanteRegistroPI100Bean.empresaSeleccionada}"
+                                     style="width: 100%">
+                            <f:facet name="header">  
+                                <p:outputPanel>
+                                    <h:outputText value="LISTA DE EMPRESAS" />
+                                </p:outputPanel>
+                            </f:facet> 
+                            <p:column  filterBy="#{itemEmpresa.nombreRepresentante}" sortBy="#{itemEmpresa.nombreRepresentante}" headerText="Raz&oacuten; Social" width="8%">  
+                                <h:outputText value="#{itemEmpresa.nombreRepresentante}" />
+                            </p:column>
+
+                            <p:column  filterBy="#{itemEmpresa.numeroDocumento}" sortBy="#{itemEmpresa.numeroDocumento}" headerText="N&uacute;mero de Documento" width="10%">  
+                                <h:outputText value="#{itemEmpresa.numeroDocumento}" />
+                            </p:column>                            
+
+                            <p:column  filterBy="#{itemEmpresa.fechaModificacion}"   sortBy="#{itemEmpresa.fechaModificacion}" headerText="LUGAR" width="10%">  
+                                <h:outputText value="#{itemEmpresa.fechaModificacion}" />
+                            </p:column>
+
+                            <p:column headerText="SELECCIONE" width="10%" style="width:32px;text-align: center">
+                                <p:commandButton update="razonSocial,nroDocumento" icon="ui-icon-search" title="View" action="#{identificacionSolicitanteRegistroPI100Bean.cargaDatosEmpresa()}" ajax="false">
+                                    <f:setPropertyActionListener value="#{itemEmpresa}" target="#{identificacionSolicitanteRegistroPI100Bean.empresaSeleccionada}" />
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                        <div align="center" style="padding:1em 2.2em;">
+                            <p:commandButton
+                                value="CANCELAR"
+                                onclick="PF('BuscaEmpresa').hide();"
+
+                                icon="ui-icon-disk"/>
+                        </div>
+                    </p:panel>
+                </div>
+            </p:dialog>
+            <p:dialog header="Apoderado" widgetVar="BuscaApoderado" resizable="false" closable="false"  
+                      width="80%" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+                    <p:dataTable var="item" 
+                                 id="listaApoderado"
+                                 rowKey="#{item.idApoderado}"
+                                 value="#{identificacionRepresentanteRegistroPI100Bean.listadoDeApoderadoSegunUsuario()}" 
+                                 widgetVar="listaApoderado"
+                                 selectionMode="single" 
+                                 scrollable="true" scrollHeight="150" 
+                                 resizableColumns="true"
+                                 selection="#{identificacionRepresentanteRegistroPI100Bean.apoderadoSeleccionado}"
+                                 style="width: 100%">
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="LISTA DE APODERADOS" />
+                            </p:outputPanel>
+                        </f:facet> 
+
+                        <p:column  filterBy="#{item.numeroPoder}" sortBy="#{item.numeroPoder}" headerText="No. PODER" width="5%">  
+                            <h:outputText value="#{item.numeroPoder}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.lugar}" sortBy="#{item.lugar}" headerText="LUGAR" width="5%">  
+                            <h:outputText value="#{item.lugar}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.representante}" sortBy="#{item.representante}" headerText="REPRESENTANTE" width="5%">  
+                            <h:outputText value="#{item.representante}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.persona.nombres}" sortBy="#{item.persona.nombres}" headerText="NOMBRES" width="5%">  
+                            <h:outputText value="#{item.persona.nombres}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.persona.apellidoPaterno}" sortBy="#{item.persona.apellidoPaterno}" headerText="PATERNO" width="5%">  
+                            <h:outputText value="#{item.persona.apellidoPaterno}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.persona.numeroDocumento}" sortBy="#{item.persona.numeroDocumento}" headerText="No. DOC." width="5%">  
+                            <h:outputText value="#{item.persona.numeroDocumento}" />
+                        </p:column>
+                        <p:column  filterBy="#{item.persona.tipoDocumento.descripcion}" sortBy="#{item.persona.tipoDocumento.descripcion}" headerText="No. DOC." width="5%">  
+                            <h:outputText value="#{item.persona.tipoDocumento.descripcion}" />
+                        </p:column>
+
+                        <p:column  filterBy="#{item.ultimaModificacion}" sortBy="#{item.ultimaModificacion}" headerText="ULTIMA MODIFICACI&Oacute;N" width="5%">  
+                            <h:outputText value="#{item.ultimaModificacion}" >
+                                <f:convertDateTime pattern="#{sessionState.formatoFecha}"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="SELECCIONE" width="5%" style="width:32px;text-align: center">
+                            <p:commandButton update="nombre,nroDocumento,apellidoPaterno,apellidoMaterno" icon="ui-icon-search" title="View" action="#{identificacionRepresentanteRegistroPI100Bean.cargaDatosApoderado()}" ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{identificacionRepresentanteRegistroPI100Bean.apoderadoSeleccionado}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="CANCELAR"
+                            onclick="PF('BuscaApoderado').hide();"
+                            ajax="false"
+                            icon="ui-icon-disk"/>
+                    </div>
+                </div>
+            </p:dialog> 
+
+
+            <p:dialog header="Lista direcciones Usuario" widgetVar="buscaDireccion" resizable="false" closable="false"  
+                      width="100%" height="400" showEffect="clip" hideEffect="fold" style="text-align: center">
+                <div align="center" style="padding:1em 2.2em;">
+
+                    <p:dataTable var="item" 
+                                 id="listaDireccion"
+                                 rowKey="#{item.idDireccion}"
+                                 value="#{direccionNotificacionPI100Bean.listadoDeDireccionPorUsuario()}" 
+                                 widgetVar="listaDireccion"
+                                 selectionMode="single" 
+                                 selection="#{direccionNotificacionPI100Bean.direccionSeleccionadaPopup}"
+                                 style="width: 100%">
+
+                        <f:facet name="header">  
+                            <p:outputPanel>
+                                <h:outputText value="Lista de Direcciones" />
+                            </p:outputPanel>
+                        </f:facet> 
+
+
+                        <p:column  filterBy="" sortBy="" headerText="ZONA" width="5%">  
+                            <h:outputText value="#{item.zona}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="BARRIO" width="5%">  
+                            <h:outputText value="#{item.barrio}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="CALLE" width="5%">  
+                            <h:outputText value="#{item.calle}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="N°" width="5%">  
+                            <h:outputText value="#{item.numero}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="EDIFICIO" width="5%">  
+                            <h:outputText value="#{item.edificio}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="PISO" width="5%">  
+                            <h:outputText value="#{item.piso}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="PAIS" width="5%">  
+                            <h:outputText value="#{item.pais}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="DEPARTAMENTO" width="5%">  
+                            <h:outputText value="#{item.dpto}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="CIUDAD" width="5%">  
+                            <h:outputText value="#{item.dpto}" />
+                        </p:column>
+
+                        <p:column  filterBy="" sortBy="" headerText="FECHA CREACION" width="5%">  
+                            <h:outputText value="#{item.fechaCreacion}" />
+                        </p:column>
+
+
+                        <p:column headerText="SELECCIONE" width="5%" style="width:32px;text-align: center">
+                            <p:commandButton update="txt_zona,txt_barrio,txt_calle,txt_numero,txt_edificio,txt_piso,txt_depto, listadoCiudades" icon="ui-icon-search" title="View" action="#{direccionNotificacionPI100Bean.cargaDatosDireccion()}" ajax="false">
+                                <f:setPropertyActionListener value="#{item}" target="#{direccionNotificacionPI100Bean.direccionSeleccionadaPopup}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <div align="center" style="padding:1em 2.2em;">
+                        <p:commandButton
+                            value="CANCELAR"
+                            onclick="PF('Busca').hide();"
+                            action="#{direccionNotificacionPI100Bean.limpiaListadosSeleccionados()}"
+                            ajax="false"
+                            icon="ui-icon-disk"/>
+                    </div>
+
+                </div>
+
+            </p:dialog>
+
+
+
+
+
+
+
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>
